@@ -7,6 +7,8 @@ import mjc.capstone.joinus.domain.tags.UserTag;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -14,7 +16,7 @@ public class User {
 
     @Id
     @Column(name = "USER_ID")
-    private Long id;
+    private String id;
 
     private String password;
 
@@ -43,7 +45,7 @@ public class User {
     List<Post> posts = new ArrayList<>();
 
     @Builder
-    public User(Long id, String password, String nickname, String phone, String mail, Gender gender, Address address, UserTag userTag) {
+    public User(String id, String password, String nickname, String phone, String mail, Gender gender, Address address, UserTag userTag) {
         this.id = id;
         this.password = password;
         this.nickname = nickname;
@@ -53,4 +55,6 @@ public class User {
         this.address = address;
         this.userTag = userTag;
     }
+
+
 }
