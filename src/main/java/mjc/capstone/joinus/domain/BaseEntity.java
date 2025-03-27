@@ -1,5 +1,6 @@
 package mjc.capstone.joinus.domain;
 
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MappedSuperclass;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -10,14 +11,15 @@ import java.time.LocalDateTime;
 
 @MappedSuperclass
 public class BaseEntity {
+
     @CreatedBy
-    private User createdBy;
+    private String createdBy;
 
     @CreatedDate
     private LocalDateTime createdDate;
 
     @LastModifiedBy
-    private User lastModifiedBy;
+    private String lastModifiedBy;
 
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
