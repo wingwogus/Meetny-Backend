@@ -11,13 +11,13 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public class BaseEntity {
     @CreatedBy
-    private User createdBy;
+    private String createdBy;
 
     @CreatedDate
     private LocalDateTime createdDate;
 
     @LastModifiedBy
-    private User lastModifiedBy;
+    private String lastModifiedBy;
 
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
