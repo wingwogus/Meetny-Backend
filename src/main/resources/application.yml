@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/querydsl
+    url: jdbc:h2:tcp://localhost/~/joinus
     username: sa
     password:
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: org.h2.Driver
   jpa:
     hibernate:
       ddl-auto: create
@@ -13,3 +13,6 @@ spring:
         format_sql: true
   logging.level:
     org.hibernate.SQL: debug
+
+jwt:
+  secret: 119b89085ac0c1cf8b98c3704a46add5de7b7c36204c98087513147d8615e602

@@ -14,7 +14,7 @@ public class User {
 
     @Id
     @Column(name = "USER_ID")
-    private Long id;
+    private String id;
 
     private String password;
 
@@ -43,7 +43,7 @@ public class User {
     List<Post> posts = new ArrayList<>();
 
     @Builder
-    public User(Long id, String password, String nickname, String phone, String mail, Gender gender, Address address, UserTag userTag) {
+    public User(String id, String password, String nickname, String phone, String mail, Gender gender, Address address, UserTag userTag) {
         this.id = id;
         this.password = password;
         this.nickname = nickname;
