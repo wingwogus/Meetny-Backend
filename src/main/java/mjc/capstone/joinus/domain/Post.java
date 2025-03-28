@@ -2,24 +2,20 @@ package mjc.capstone.joinus.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.NoArgsConstructor;
 import mjc.capstone.joinus.domain.tags.PostTag;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post extends BaseEntity {
     @Id
-    @GeneratedValue
-    @Column(name = "POST_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "post_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MEMBER_ID")
-    private User user;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     private String title;
 
@@ -33,8 +29,8 @@ public class Post extends BaseEntity {
     @OneToOne(mappedBy = "post")
     private PostTag postTag;
 
-    public Post(User user, String title, String content, String photo, Address address, PostTag postTag) {
-        this.user = user;
+    public Post(Member member, String title, String content, String photo, Address address, PostTag postTag) {
+        this.member = member;
         this.title = title;
         this.content = content;
         this.photo = photo;

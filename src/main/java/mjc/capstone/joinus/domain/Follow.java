@@ -6,14 +6,14 @@ import jakarta.persistence.*;
 public class Follow {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "FROM_USER_ID")
-    private User fromUser;
+    @JoinColumn(name = "from_user_id")
+    private Member fromMember;
 
     @ManyToOne
-    @JoinColumn(name = "TO_USER_ID")
-    private User toUser;
+    @JoinColumn(name = "to_user_id")
+    private Member toMember;
 }
