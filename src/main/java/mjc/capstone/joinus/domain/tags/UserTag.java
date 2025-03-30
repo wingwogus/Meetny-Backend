@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import mjc.capstone.joinus.domain.User;
+import mjc.capstone.joinus.domain.Member;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class UserTag {
 
     @OneToOne
     @JoinColumn(name = "USER_ID")
-    private User user;
+    private Member member;
 
     @OneToMany
     @JoinColumn(name = "TAG_ID")

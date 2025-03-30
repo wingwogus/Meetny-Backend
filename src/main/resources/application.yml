@@ -14,7 +14,7 @@ spring:
 
   # src/main/resources/application.yml
   jwt:
-    secret: ${JWT_SECRET}
+    secret: 119b89085ac0c1cf8b98c3704a46add5de7b7c36204c98087513147d8615e602
 
   logging.level:
     org.hibernate.SQL: debug

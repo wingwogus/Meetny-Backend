@@ -1,0 +1,14 @@
+package mjc.capstone.joinus.repository;
+
+import mjc.capstone.joinus.domain.Member;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+@Repository
+public interface MemberRepository extends JpaRepository<Member, String> {
+
+    Optional<Member> findUserById(Long id);
+    Optional<Member> findByUsername(String username);
+}
