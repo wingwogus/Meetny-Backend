@@ -10,10 +10,10 @@ public class Follow {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "FROM_USER_ID")
-    private User fromUser;
+    @JoinColumn(name = "FROM_Member_ID")
+    private Member fromMember;
 
     @ManyToOne
-    @JoinColumn(name = "TO_USER_ID")
-    private User toUser;
+    @JoinColumn(name = "TO_Member_ID")
+    private Member toMember;
 }

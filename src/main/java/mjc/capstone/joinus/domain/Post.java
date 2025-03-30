@@ -19,7 +19,7 @@ public class Post extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
-    private User user;
+    private Member member;
 
     private String title;
 
@@ -33,8 +33,8 @@ public class Post extends BaseEntity {
     @OneToOne(mappedBy = "post")
     private PostTag postTag;
 
-    public Post(User user, String title, String content, String photo, Address address, PostTag postTag) {
-        this.user = user;
+    public Post(Member member, String title, String content, String photo, Address address, PostTag postTag) {
+        this.member = member;
         this.title = title;
         this.content = content;
         this.photo = photo;

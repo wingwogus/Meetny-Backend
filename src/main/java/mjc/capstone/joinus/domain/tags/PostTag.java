@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import mjc.capstone.joinus.domain.Post;
-import mjc.capstone.joinus.domain.User;
+
 
 import java.util.ArrayList;
 import java.util.List;
