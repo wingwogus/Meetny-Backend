@@ -42,11 +42,11 @@ public class JwtTokenProvider {
         // Access Token 생성
         Date accessTokenExpiresIn = new Date(now + 86400000);
         String accessToken = Jwts.builder()
-                .setSubject(authentication.getName())
-                .claim("auth", authorities)
-                .setExpiration(accessTokenExpiresIn)
-                .signWith(key, SignatureAlgorithm.HS256)
-                .compact();
+                .setSubject(authentication.getName())         // 토큰의 주체 (보통 username)
+                .claim("auth", authorities)                // 유저 권한 추가
+                .setExpiration(accessTokenExpiresIn)          // 만료 시간 설정
+                .signWith(key, SignatureAlgorithm.HS256)      // 서명 (key는 비밀키)
+                .compact();                                   // 최종적으로 문자열로 변환
 
         // Refresh Token 생성
         String refreshToken = Jwts.builder()

@@ -34,6 +34,8 @@ public class Member implements UserDetails {
 
     private String mail;
 
+    private String profileImg;
+
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
