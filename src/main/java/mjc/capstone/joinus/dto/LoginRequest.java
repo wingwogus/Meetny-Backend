@@ -1,13 +1,14 @@
-package mjc.capstone.joinus.jwt;
+package mjc.capstone.joinus.dto;
 
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Data
-@ToString
+@AllArgsConstructor
 @NoArgsConstructor
-public class MemberLoginRequestDto {
+public class LoginRequest {
     private String username;
     private String password;
 }

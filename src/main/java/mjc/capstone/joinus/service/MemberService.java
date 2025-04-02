@@ -1,17 +1,44 @@
 package mjc.capstone.joinus.service;
 
-import mjc.capstone.joinus.dto.MemberDto;
-import mjc.capstone.joinus.jwt.JwtToken;
-import mjc.capstone.joinus.jwt.MemberLoginRequestDto;
-import mjc.capstone.joinus.jwt.RegisterDto;
-import org.springframework.transaction.annotation.Transactional;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
+import mjc.capstone.joinus.domain.Member;
+import mjc.capstone.joinus.domain.tags.Role;
+import mjc.capstone.joinus.dto.LoginRequest;
+import mjc.capstone.joinus.dto.SignupRequest;
+import mjc.capstone.joinus.repository.MemberRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
-public interface MemberService {
+import java.util.List;
 
-    @Transactional
-    JwtToken login(MemberLoginRequestDto memberLoginRequestDto);
+@Service
+@RequiredArgsConstructor
+public class MemberService {
 
+    private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    @Transactional
-    MemberDto register(RegisterDto registerDto);
+    public void signup(SignupRequest request) {
+        if (memberRepository.findByUsername(request.getUsername()).isPresent()) {
+            throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
+        }
+        Member member = Member.builder()
+                .username(request.getUsername())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(Role.USER)
+                .build();
+        memberRepository.save(member);
+    }
+
+    @PostConstruct
+    public void init() {
+        Member member = Member.builder()
+                .username("wingwogus")
+                .password(passwordEncoder.encode("1234"))
+                .role(Role.USER)
+                .build();
+
+        memberRepository.save(member);
+    }
 }
