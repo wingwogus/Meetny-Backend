@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import mjc.capstone.joinus.domain.Member;
+import mjc.capstone.joinus.domain.Role;
 import mjc.capstone.joinus.repository.MemberRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -19,8 +20,9 @@ public class InitDataService {
     @PostConstruct
     public void init() {
         Member member = Member.builder()
-                .username("wingwogus")
+                .username("customuserid")
                 .password(passwordEncoder.encode("1234"))
+                .role(Role.USER)
                 .build();
 
         memberRepository.save(member);
