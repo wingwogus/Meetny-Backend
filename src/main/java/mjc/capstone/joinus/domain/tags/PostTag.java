@@ -19,10 +19,10 @@ public class PostTag {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "POST_ID")
+    @JoinColumn(name = "post_id")
     private Post post;
 
     @OneToMany
-    @JoinColumn(name = "TAG_ID")
+    @JoinColumn(name = "tag_id")
     private List<Tag> tags = new ArrayList<>();
 }

@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 public abstract class Tag {
 
     @Id @GeneratedValue
-    @Column(name = "TAG_ID")
+    @Column(name = "tag_id")
     private Long id;
 
     private String tagName;

@@ -1,8 +1,11 @@
 package mjc.capstone.joinus.service;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import mjc.capstone.joinus.domain.Member;
+import mjc.capstone.joinus.repository.MemberRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,16 +13,16 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class InitDataService {
 
-    private final EntityManager em;
+    private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    @Transactional
+    @PostConstruct
     public void init() {
-        Member member = new Member();
-        member.setNickname("홍길동");
-        member.setMail("hong@test.com");
-        member.setPassword("123456");
-        member.setUsername("Hong");
+        Member member = Member.builder()
+                .username("wingwogus")
+                .password(passwordEncoder.encode("1234"))
+                .build();
 
-        em.persist(member);
+        memberRepository.save(member);
     }
 }
