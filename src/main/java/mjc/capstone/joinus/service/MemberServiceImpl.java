@@ -5,14 +5,9 @@ package mjc.capstone.joinus.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mjc.capstone.joinus.domain.Member;
-import mjc.capstone.joinus.dto.JwtToken;
 import mjc.capstone.joinus.exception.IdValidationException;
-import mjc.capstone.joinus.provider.JwtTokenProvider;
 import mjc.capstone.joinus.repository.MemberRepository;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,15 +23,6 @@ public class MemberServiceImpl implements MemberService{
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
 
-    @Transactional
-    public JwtToken signIn(String username, String password) {
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(username, password);
-
-        Authentication authentication = authenticationManager.authenticate(authenticationToken);
-
-        return jwtTokenProvider.generateToken(authentication);
-    }
 
     @Override
     @Transactional
