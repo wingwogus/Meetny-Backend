@@ -17,10 +17,10 @@ public class UserTag {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "member_id")
     private Member member;
 
     @OneToMany
-    @JoinColumn(name = "TAG_ID")
+    @JoinColumn(name = "tag_id")
     private List<Tag> tags = new ArrayList<>();
 }

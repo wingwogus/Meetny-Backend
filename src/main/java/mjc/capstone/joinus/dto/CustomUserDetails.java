@@ -1,6 +1,7 @@
 package mjc.capstone.joinus.dto;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import mjc.capstone.joinus.domain.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,13 +11,10 @@ import java.util.Collection;
 import java.util.List;
 
 @Getter
+@RequiredArgsConstructor
 public class CustomUserDetails implements UserDetails {
 
     private final Member member;
-
-    public CustomUserDetails(Member member) {
-        this.member = member;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
