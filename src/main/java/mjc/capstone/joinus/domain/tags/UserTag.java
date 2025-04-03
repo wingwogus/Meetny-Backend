@@ -3,7 +3,6 @@ package mjc.capstone.joinus.domain.tags;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import mjc.capstone.joinus.domain.Member;
 
 import java.util.List;
