@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 class MemberServiceImplTest {
 
-    @Autowired
-    MemberServiceImpl memberService;
+//    @Autowired
+//    MemberServiceImpl memberService;
 
     @Autowired
     MemberRepository memberRepository;

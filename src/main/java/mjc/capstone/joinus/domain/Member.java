@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Builder
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
 @Getter
 @Setter

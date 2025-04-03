@@ -13,16 +13,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @RequiredArgsConstructor
-public class JoinusApplication implements CommandLineRunner {
-
-	private final InitDataService initDataService;
-
+public class JoinusApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(JoinusApplication.class, args);
 	}
 
-	@Override
-	public void run(String... args) throws Exception {
-		initDataService.init();
-	}
 }
