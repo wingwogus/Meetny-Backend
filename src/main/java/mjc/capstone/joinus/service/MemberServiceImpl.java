@@ -1,3 +1,4 @@
+/*
 package mjc.capstone.joinus.service;
 
 
@@ -21,7 +22,6 @@ import java.util.Optional;
 public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
     private final AuthenticationManager authenticationManager;
-    private final JwtTokenProvider jwtTokenProvider;
 
 
     @Override
@@ -47,3 +47,4 @@ public class MemberServiceImpl implements MemberService{
     }
 }
 
+*/
