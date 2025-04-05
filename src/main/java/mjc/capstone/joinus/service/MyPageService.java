@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface MyPageService {
+    //프로필 이미지 수정
+    String profileEdit(String url, Member member);
     // 태그 추가
     void tagAdd(Tag tag, Member member);
     // 태그 삭제
