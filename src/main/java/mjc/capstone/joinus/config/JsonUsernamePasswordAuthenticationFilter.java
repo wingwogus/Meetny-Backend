@@ -25,6 +25,7 @@ public class JsonUsernamePasswordAuthenticationFilter extends UsernamePasswordAu
         setFilterProcessesUrl("/api/login"); // API 경로 지정
     }
 
+    // /api/login에 사용자 로그인 요청시 AuthenticationFilter가 캐치
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
