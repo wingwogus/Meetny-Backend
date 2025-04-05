@@ -11,10 +11,12 @@ import mjc.capstone.joinus.repository.MemberRepository;
 import mjc.capstone.joinus.repository.TagRepository;
 import mjc.capstone.joinus.repository.UserTagRepository;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service
 @Transactional
 @Slf4j
 @RequiredArgsConstructor
@@ -22,6 +24,13 @@ public class MyPageServiceIml implements MyPageService{
     private final MemberRepository memberRepository;
     private final UserTagRepository userTagRepository;
     private final FollowRepository followRepository;
+
+    @Override
+    public String profileEdit(String url, Member member) {
+        member.setProfileImg(url);
+        memberRepository.save(member);
+        return url;
+    }
 
     @Override
     public void tagAdd(Tag tag, Member member) {
