@@ -46,7 +46,7 @@ public class Member {
     @OneToMany(mappedBy = "toMember", fetch = FetchType.LAZY)
     List<Follow> followers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     List<Post> posts = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)

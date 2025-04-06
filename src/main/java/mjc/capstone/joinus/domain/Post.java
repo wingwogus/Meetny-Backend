@@ -36,5 +36,4 @@ public class Post extends BaseTimeEntity {
 
     @OneToOne(mappedBy = "post")
     private PostTag postTag;
-
 }
