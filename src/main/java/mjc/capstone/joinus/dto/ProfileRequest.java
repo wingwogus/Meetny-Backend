@@ -11,4 +11,5 @@ import lombok.ToString;
 @RequiredArgsConstructor
 public class ProfileRequest {
     private String imageUrl;
+    private String password;
 }
