@@ -13,7 +13,8 @@ import java.util.List;
 @Service
 public interface PostService {
     void createPost(PostRequestDto post, Member member);
-    void updatePost(PostRequestDto post, Member member);
+    void updatePost(Post post, PostRequestDto requestDto, Member member);
+
     void deletePost(PostRequestDto post, Member member);
     List<PostResponseDto> findPostByTag(Tag tag);
     List<PostResponseDto> getAllPosts();
