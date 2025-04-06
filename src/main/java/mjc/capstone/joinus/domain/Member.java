@@ -12,7 +12,6 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
-@Setter
 public class Member {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
