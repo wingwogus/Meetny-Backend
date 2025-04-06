@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import mjc.capstone.joinus.domain.Address;
 import mjc.capstone.joinus.domain.Post;
-import mjc.capstone.joinus.domain.tags.PostTag;
+import mjc.capstone.joinus.domain.tags.Tag;
 
 import java.time.LocalDateTime;
 
@@ -29,7 +29,7 @@ public class PostResponseDto {
 
     private Address address;
 
-    private PostTag postTag;
+    private Tag postTag;
 
     private LocalDateTime createdAt;
 

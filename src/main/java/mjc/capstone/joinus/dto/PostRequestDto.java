@@ -1,12 +1,11 @@
 package mjc.capstone.joinus.dto;
 
-import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import mjc.capstone.joinus.domain.Address;
 import mjc.capstone.joinus.domain.Member;
 import mjc.capstone.joinus.domain.Post;
-import mjc.capstone.joinus.domain.tags.PostTag;
+import mjc.capstone.joinus.domain.tags.Tag;
 
 import java.time.LocalDateTime;
 
@@ -23,7 +22,7 @@ public class PostRequestDto {
 
     private Address address;
 
-    private PostTag postTag;
+    private Tag postTag;
 
     public Post toEntity(Member member) {
         return Post.builder()
@@ -35,5 +34,14 @@ public class PostRequestDto {
                 .postTag(this.postTag)
                 .author(member)
                 .build();
+    }
+
+    public void updatePost(Post post) {
+        post.setTitle(this.title);
+        post.setContent(this.content);
+        post.setAddress(this.address);
+        post.setMeetingTime(this.meetingTime);
+        post.setPhoto(this.photo);
+        post.setPostTag(this.postTag);
     }
 }

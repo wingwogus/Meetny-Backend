@@ -2,11 +2,9 @@ package mjc.capstone.joinus.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import mjc.capstone.joinus.domain.tags.PostTag;
+import mjc.capstone.joinus.domain.tags.Tag;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -34,6 +32,7 @@ public class Post extends BaseTimeEntity {
     @Embedded
     private Address address;
 
-    @OneToOne(mappedBy = "post")
-    private PostTag postTag;
+    @OneToOne
+    @JoinColumn(name = "tag_id")
+    private Tag postTag;
 }
