@@ -1,6 +1,5 @@
 package mjc.capstone.joinus.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import mjc.capstone.joinus.domain.Member;
 import mjc.capstone.joinus.domain.Post;
@@ -10,12 +9,13 @@ import mjc.capstone.joinus.dto.PostResponseDto;
 import mjc.capstone.joinus.repository.PostRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
@@ -26,8 +26,9 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void updatePost(PostRequestDto post, Member member) {
-
+    public void updatePost(Post post, PostRequestDto requestDto, Member member) {
+        validateAuth(post, member);
+        requestDto.updatePost(post);
     }
 
     @Override
@@ -49,7 +50,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void validateAuth(Post post, Member member) {
-        if (!post.getAuthor().equals(member)) {
+        if (!(post.getAuthor().equals(member))) {
             throw new AccessDeniedException("작성자만 수정/삭제할 수 있습니다.");
         }
     }
