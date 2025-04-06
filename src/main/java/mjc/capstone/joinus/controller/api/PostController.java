@@ -2,6 +2,7 @@ package mjc.capstone.joinus.controller.api;
 
 import lombok.RequiredArgsConstructor;
 import mjc.capstone.joinus.domain.Member;
+import mjc.capstone.joinus.domain.Post;
 import mjc.capstone.joinus.dto.CustomUserDetails;
 import mjc.capstone.joinus.dto.PostRequestDto;
 import mjc.capstone.joinus.dto.PostResponseDto;
@@ -35,10 +36,10 @@ public class PostController {
         return ResponseEntity.ok("Post created");
     }
 //
-//    @PutMapping("/{id}")
-//    public void updatePost(@PathVariable Long id, @RequestBody PostRequestDto dto) {
-//        postService.updatePost(id, dto);
-//    }
+    @PutMapping("/{id}")
+    public void updatePost(@PathVariable("id") Post post, @RequestBody PostRequestDto dto, @AuthenticationPrincipal CustomUserDetails userDetails) {
+        postService.updatePost(post, dto, userDetails.getMember());
+    }
 //
 //    @DeleteMapping("/{id}")
 //    public void deletePost(@PathVariable Long id) {
