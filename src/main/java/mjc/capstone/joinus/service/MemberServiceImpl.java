@@ -28,6 +28,12 @@ public class MemberServiceImpl implements MemberService{
         Member member = Member.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .nickname(request.getNickname())
+                .phone(request.getPhone())
+                .mail(request.getMail())
+                .profileImg(request.getProfileImg())
+                .gender(request.getGender())
+                .address(request.getAddress())
                 .role(Role.USER)
                 .build();
         memberRepository.save(member);
