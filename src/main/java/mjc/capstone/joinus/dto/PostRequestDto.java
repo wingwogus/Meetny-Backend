@@ -22,7 +22,7 @@ public class PostRequestDto {
 
     private Address address;
 
-    private Tag postTag;
+    private Tag tag;
 
     public Post toEntity(Member member) {
         return Post.builder()
@@ -31,7 +31,7 @@ public class PostRequestDto {
                 .photo(this.photo)
                 .meetingTime(this.meetingTime)
                 .address(this.address)
-                .postTag(this.postTag)
+                .tag(this.tag)
                 .author(member)
                 .build();
     }
@@ -42,6 +42,6 @@ public class PostRequestDto {
         post.setAddress(this.address);
         post.setMeetingTime(this.meetingTime);
         post.setPhoto(this.photo);
-        post.setPostTag(this.postTag);
+        post.setTag(this.tag);
     }
 }

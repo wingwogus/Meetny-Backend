@@ -32,12 +32,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void deletePost(PostRequestDto post, Member member) {
-
+    public void deletePost(Post post, Member member) {
+        validateAuth(post, member);
+        postRepository.delete(post);
     }
 
     @Override
-    public List<PostResponseDto> findPostByTag(Tag tag) {
+    public List<PostResponseDto> getPostByTag(Tag tag) {
         return List.of();
     }
 

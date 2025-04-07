@@ -12,7 +12,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -37,12 +36,14 @@ public class PostController {
     }
 //
     @PutMapping("/{id}")
-    public void updatePost(@PathVariable("id") Post post, @RequestBody PostRequestDto dto, @AuthenticationPrincipal CustomUserDetails userDetails) {
+    public ResponseEntity<String> updatePost(@PathVariable("id") Post post, @RequestBody PostRequestDto dto, @AuthenticationPrincipal CustomUserDetails userDetails) {
         postService.updatePost(post, dto, userDetails.getMember());
+        return ResponseEntity.ok("Post updated");
     }
-//
-//    @DeleteMapping("/{id}")
-//    public void deletePost(@PathVariable Long id) {
-//        postService.deletePost(id);
-//    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletePost(@PathVariable("id") Post post, @AuthenticationPrincipal CustomUserDetails userDetails) {
+        postService.deletePost(post, userDetails.getMember());
+        return ResponseEntity.ok("Post deleted");
+    }
 }
