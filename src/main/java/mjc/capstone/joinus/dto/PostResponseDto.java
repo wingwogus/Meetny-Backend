@@ -44,7 +44,7 @@ public class PostResponseDto {
                 .author(post.getAuthor().getNickname())
                 .meetingTime(post.getMeetingTime())
                 .address(post.getAddress())
-                .postTag(post.getPostTag())
+                .postTag(post.getTag())
                 .createdAt(post.getCreatedAt())
                 .lastModifiedAt(post.getLastModifiedAt())
                 .build();
