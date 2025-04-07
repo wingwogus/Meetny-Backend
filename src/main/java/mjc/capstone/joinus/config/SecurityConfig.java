@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import mjc.capstone.joinus.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -33,11 +34,13 @@ public class SecurityConfig {
 
                 // 세션 관리 정책 설정: 필요할 때만 세션 생성
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                        .maximumSessions(1))
 
                 // 인가 규칙 설정: 로그인/회원가입 API는 인증 없이 접근 허용
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/login", "/api/signup").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/posts").permitAll()
                         .anyRequest().authenticated()) // 그 외 모든 요청은 인증 필요
 
                 // 사용자 정의 로그인 필터 추가
