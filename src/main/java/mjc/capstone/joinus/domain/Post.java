@@ -34,5 +34,5 @@ public class Post extends BaseTimeEntity {
 
     @OneToOne
     @JoinColumn(name = "tag_id")
-    private Tag postTag;
+    private Tag tag;
 }
