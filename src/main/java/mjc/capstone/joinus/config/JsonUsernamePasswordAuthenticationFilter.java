@@ -58,7 +58,18 @@ public class JsonUsernamePasswordAuthenticationFilter extends UsernamePasswordAu
         session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
 
         // 응답 처리 (원하면 수정 가능)
+        response.setContentType("text/plain;charset=UTF-8");
         response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().write("{\"message\": \"Login successful\"}");
+        response.getWriter().write("로그인 성공");
     }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+                                              AuthenticationException failed) throws IOException {
+        response.setContentType("text/plain;charset=UTF-8");
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.getWriter().write("로그인 실패: " + failed.getMessage());
+    }
+
+
 }
