@@ -7,6 +7,7 @@ import mjc.capstone.joinus.dto.PostRequestDto;
 import mjc.capstone.joinus.dto.PostResponseDto;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -22,5 +23,10 @@ public interface PostService {
     List<PostResponseDto> getAllPosts();
 
     void validateAuth(Post post, Member member);
+
+    List<PostResponseDto> getPostsByDateRange(LocalDateTime from, LocalDateTime to);
+
+    List<PostResponseDto> searchPosts(String keyword);
+
 
 }

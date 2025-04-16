@@ -10,8 +10,11 @@ import mjc.capstone.joinus.repository.PostRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.transaction.annotation.Transactional;
+import java.time.LocalDate;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +42,9 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostResponseDto> getPostByTag(Tag tag) {
-        return List.of();
+        return postRepository.findByTag(tag).stream()
+                .map(PostResponseDto::from)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -54,5 +59,19 @@ public class PostServiceImpl implements PostService {
         if (!(post.getAuthor().equals(member))) {
             throw new AccessDeniedException("작성자만 수정/삭제할 수 있습니다.");
         }
+    }
+
+    @Override
+    public List<PostResponseDto> getPostsByDateRange(LocalDateTime from, LocalDateTime to) {
+        return postRepository.findAllByCreatedAtBetween(from, to.plusDays(1)).stream()
+                .map(PostResponseDto::from)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PostResponseDto> searchPosts(String keyword) {
+        return postRepository.findByTitleOrContentContaining(keyword).stream()
+                .map(PostResponseDto::from)
+                .collect(Collectors.toList());
     }
 }
