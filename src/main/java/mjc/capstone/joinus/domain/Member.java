@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Getter
+@Getter @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Member {
 
