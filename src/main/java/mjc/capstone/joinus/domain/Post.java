@@ -1,28 +1,25 @@
 package mjc.capstone.joinus.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import mjc.capstone.joinus.domain.tags.PostTag;
+import lombok.*;
+import mjc.capstone.joinus.domain.tags.Tag;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @AllArgsConstructor
-public class Post extends BaseEntity {
+@Getter @Setter
+public class Post extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id")
-    private Member member;
+    private Member author;
 
     private String title;
 
@@ -30,10 +27,12 @@ public class Post extends BaseEntity {
 
     private String photo;
 
+    private LocalDateTime meetingTime;
+
     @Embedded
     private Address address;
 
-    @OneToOne(mappedBy = "post")
-    private PostTag postTag;
-
+    @OneToOne
+    @JoinColumn(name = "tag_id")
+    private Tag tag;
 }
