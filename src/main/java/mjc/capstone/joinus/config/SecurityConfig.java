@@ -40,7 +40,8 @@ public class SecurityConfig {
                 // 인가 규칙 설정: 로그인/회원가입 API는 인증 없이 접근 허용
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/login", "/api/signup", "/api/test").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/posts").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
                         .anyRequest().authenticated()) // 그 외 모든 요청은 인증 필요
 
                 // 사용자 정의 로그인 필터 추가

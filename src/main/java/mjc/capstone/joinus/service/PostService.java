@@ -26,7 +26,7 @@ public interface PostService {
 
     List<PostResponseDto> getPostsByDateRange(LocalDateTime from, LocalDateTime to);
 
-    List<PostResponseDto> searchPosts(String keyword);
+//    List<PostResponseDto> searchPosts(String keyword);
 
 
 }
