@@ -14,7 +14,5 @@ import java.util.Optional;
 public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findAllByCreatedAtBetween(LocalDateTime from, LocalDateTime to);
 
-    List<Post> findByTitleOrContentContaining(String keyword);
-
     List<Post> findByTag(Tag tag);
 }

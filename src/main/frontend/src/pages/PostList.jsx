@@ -8,7 +8,10 @@ function PostList() {
 
     useEffect(() => {
         axios.get('/api/posts') // proxy 설정 되어 있다면 이대로
-            .then((res) => setPosts(res.data))
+            .then((res) => {
+                console.log("받은 게시글:", res.data);
+                setPosts(res.data)
+            })
             .catch((err) => console.error(err));
     }, []);
 

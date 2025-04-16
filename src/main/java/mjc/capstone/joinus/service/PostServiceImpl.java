@@ -68,10 +68,10 @@ public class PostServiceImpl implements PostService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<PostResponseDto> searchPosts(String keyword) {
-        return postRepository.findByTitleOrContentContaining(keyword).stream()
-                .map(PostResponseDto::from)
-                .collect(Collectors.toList());
-    }
+//    @Override
+//    public List<PostResponseDto> searchPosts(String keyword) {
+//        return postRepository.findByTitleOrContentContaining(keyword).stream()
+//                .map(PostResponseDto::from)
+//                .collect(Collectors.toList());
+//    }
 }

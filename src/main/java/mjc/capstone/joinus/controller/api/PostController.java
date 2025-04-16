@@ -65,11 +65,11 @@ public class PostController {
         return postService.getPostsByDateRange(searchRequest.getFrom(), searchRequest.getTo());
     }
 
-    // 게시글 키워드 검색
-    @GetMapping("/search")
-    public List<PostResponseDto> searchPosts(@RequestParam("keyword") String keyword) {
-        return postService.searchPosts(keyword);
-    }
+//    // 게시글 키워드 검색
+//    @GetMapping("/search")
+//    public List<PostResponseDto> searchPosts(@RequestParam("keyword") String keyword) {
+//        return postService.searchPosts(keyword);
+//    }
 
 
 
