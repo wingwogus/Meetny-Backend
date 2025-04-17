@@ -16,6 +16,7 @@ public class FollowServiceImpl implements FollowService {
 
     private final FollowRepository followRepository;
 
+
     @Override
     public void follow(Member fromUser, Member toUser) {
         if (fromUser.equals(toUser)) {
