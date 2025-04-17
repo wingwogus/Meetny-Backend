@@ -1,16 +1,16 @@
-package mjc.capstone.joinus.controllers;
+package mjc.capstone.joinus.controller.api;
 
 import lombok.RequiredArgsConstructor;
 import mjc.capstone.joinus.domain.Member;
+import mjc.capstone.joinus.dto.FollowDto;
 import mjc.capstone.joinus.repository.MemberRepository;
 import mjc.capstone.joinus.service.FollowService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
-@RequestMapping("/follows")
+@RequestMapping("/api/follows")
 @RequiredArgsConstructor
 public class FollowController {
 
@@ -18,34 +18,56 @@ public class FollowController {
     private final MemberRepository memberRepository;
 
     @PostMapping("/{fromId}/follow/{toId}")
-    public ResponseEntity<String> follow(@PathVariable("fromId") Member fromMember, @PathVariable("toId") Member toMember) {
+    public ResponseEntity<String> follow(@PathVariable("fromId") Long fromId,
+                                         @PathVariable("toId") Long toId) {
+        Member fromMember = memberRepository.findById(fromId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid fromUser ID"));
+        Member toMember = memberRepository.findById(toId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid toUser ID"));
         followService.follow(fromMember, toMember);
         return ResponseEntity.ok("팔로우 성공");
     }
 
     @DeleteMapping("/{fromId}/unfollow/{toId}")
-    public ResponseEntity<String> unfollow(@PathVariable("fromId") Member fromMember, @PathVariable("toId") Member toMember) {
+    public ResponseEntity<String> unfollow(@PathVariable("fromId") Long fromId,
+                                           @PathVariable("toId") Long toId) {
+        Member fromMember = memberRepository.findById(fromId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid fromUser ID"));
+        Member toMember = memberRepository.findById(toId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid toUser ID"));
         followService.unfollow(fromMember, toMember);
         return ResponseEntity.ok("언팔로우 성공");
     }
 
     @GetMapping("/{userId}/followings")
-    public List<Member> getFollowings(@PathVariable("memberId") Member member) {
-        return followService.getFollowings(member);
+    public List<FollowDto> getFollowings(@PathVariable("userId") Long userId) {
+        Member member = memberRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
+        return followService.getFollowings(member).stream()
+                .map(FollowDto::from)
+                .toList();
     }
 
     @GetMapping("/{userId}/followers")
-    public List<Member> getFollowers(@PathVariable("memberId") Member member) {
-        return followService.getFollowers(member);
+    public List<FollowDto> getFollowers(@PathVariable("userId") Long userId) {
+        Member member = memberRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
+        return followService.getFollowers(member).stream()
+                .map(FollowDto::from)
+                .toList();
     }
 
     @GetMapping("/{userId}/followings/count")
-    public int countFollowings(@PathVariable("memberId") Member member) {
-        return (int) followService.countFollowings(member);
+    public ResponseEntity<Long> countFollowings(@PathVariable("userId") Long userId) {
+        Member member = memberRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
+        return ResponseEntity.ok(followService.countFollowings(member));
     }
 
     @GetMapping("/{userId}/followers/count")
-    public int countFollowers(@PathVariable("memberId") Member member) {
-        return (int) followService.countFollowers(member);
+    public ResponseEntity<Long> countFollowers(@PathVariable("userId") Long userId) {
+        Member member = memberRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
+        return ResponseEntity.ok(followService.countFollowers(member));
     }
 }

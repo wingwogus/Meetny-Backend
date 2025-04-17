@@ -47,8 +47,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/login", "/api/signup", "/api/test").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/posts").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
-                        .requestMatchers("/follows/**").authenticated()
-                        .anyRequest().authenticated()) // 그 외 모든 요청은 인증 필요
+                        .requestMatchers("/follows/**").permitAll()
+                        .anyRequest().permitAll()) // 그 외 모든 요청은 인증 필요
 
                 // 사용자 정의 로그인 필터 추가
                 .addFilterAt(jsonLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class)
