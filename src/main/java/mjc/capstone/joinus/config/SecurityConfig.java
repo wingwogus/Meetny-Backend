@@ -80,18 +80,6 @@ public class SecurityConfig {
         return filter;
     }
 
-    public String getLoginUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication == null || !authentication.isAuthenticated()) {
-            return null;
-        }
-
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-
-        return userDetails.getUsername();
-    }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         // 비밀번호 암호화 방식: BCrypt 사용
