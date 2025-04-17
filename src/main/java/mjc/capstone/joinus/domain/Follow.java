@@ -1,14 +1,13 @@
 package mjc.capstone.joinus.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Entity
-@Builder
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Entity
 public class Follow {
 
     @Id
@@ -16,10 +15,10 @@ public class Follow {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "from_member_id")
+    @JoinColumn(name = "from_user_member_id")
     private Member fromMember;
 
     @ManyToOne
-    @JoinColumn(name = "to_member_id")
+    @JoinColumn(name = "to_user_member_id")
     private Member toMember;
 }
