@@ -11,10 +11,11 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Getter
-@Setter
+@Getter @Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Member {
 
+    @EqualsAndHashCode.Include
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id", unique = true, nullable = false, updatable = false)
     private Long id;
@@ -47,7 +48,7 @@ public class Member {
     @OneToMany(mappedBy = "toMember", fetch = FetchType.LAZY)
     List<Follow> followers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     List<Post> posts = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)

@@ -2,19 +2,19 @@ package mjc.capstone.joinus.controller.api;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import mjc.capstone.joinus.dto.SignupRequest;
 import mjc.capstone.joinus.service.MemberService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
+@Slf4j
 public class MemberController {
 
     private final MemberService memberService;
@@ -34,6 +34,12 @@ public class MemberController {
         HttpSession session = request.getSession(false);
         if (session != null) session.invalidate();
         return ResponseEntity.ok("로그아웃 성공");
+    }
+
+    @GetMapping("/test")
+    public String hello(HttpServletRequest request) {
+        log.info(request.getRemoteAddr());
+        return "hello";
     }
 }
 
