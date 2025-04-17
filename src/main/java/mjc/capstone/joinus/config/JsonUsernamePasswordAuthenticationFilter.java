@@ -5,14 +5,18 @@ package mjc.capstone.joinus.config;
  * 이 필터는 사용자의 로그인 요청을 가로채고, 인증을 수행합니다.
  */
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import mjc.capstone.joinus.dto.LoginRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 
 import java.io.IOException;
 
@@ -42,4 +46,30 @@ public class JsonUsernamePasswordAuthenticationFilter extends UsernamePasswordAu
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+                                            FilterChain chain, Authentication authResult) throws IOException {
+        // 인증 정보를 SecurityContext에 저장
+        SecurityContextHolder.getContext().setAuthentication(authResult);
+
+        // 세션에도 SecurityContext 저장
+        HttpSession session = request.getSession(true);
+        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
+
+        // 응답 처리 (원하면 수정 가능)
+        response.setContentType("text/plain;charset=UTF-8");
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.getWriter().write("로그인 성공");
+    }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+                                              AuthenticationException failed) throws IOException {
+        response.setContentType("text/plain;charset=UTF-8");
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.getWriter().write("로그인 실패: " + failed.getMessage());
+    }
+
+
 }

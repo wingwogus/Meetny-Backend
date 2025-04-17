@@ -2,18 +2,23 @@ package mjc.capstone.joinus.config;
 
 // This configuration class sets up security settings for the application,
 // including authentication, authorization, and session management.
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import mjc.capstone.joinus.domain.Member;
+import mjc.capstone.joinus.dto.CustomUserDetails;
 import mjc.capstone.joinus.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -34,11 +39,14 @@ public class SecurityConfig {
 
                 // 세션 관리 정책 설정: 필요할 때만 세션 생성
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                        .maximumSessions(1))
 
                 // 인가 규칙 설정: 로그인/회원가입 API는 인증 없이 접근 허용
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/login", "/api/signup").permitAll()
+                        .requestMatchers("/api/login", "/api/signup", "/api/test").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/posts").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
                         .requestMatchers("/follows/**").authenticated()
                         .anyRequest().authenticated()) // 그 외 모든 요청은 인증 필요
 
