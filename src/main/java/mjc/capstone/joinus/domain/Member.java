@@ -51,6 +51,9 @@ public class Member {
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     List<Post> posts = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    List<PostLike> postLikes = new ArrayList<>();
+
     @Enumerated(EnumType.STRING)
     private Role role;
 

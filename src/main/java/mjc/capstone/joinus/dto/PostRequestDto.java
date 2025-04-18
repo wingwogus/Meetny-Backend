@@ -33,6 +33,7 @@ public class PostRequestDto {
                 .address(this.address)
                 .tag(this.tag)
                 .build();
+
         member.addPost(post);
         return post;
     }

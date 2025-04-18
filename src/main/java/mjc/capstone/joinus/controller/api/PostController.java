@@ -23,46 +23,46 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
+
     @GetMapping
-    public List<PostResponseDto> getAllPosts() {
-        return postService.getAllPosts();
+    public ResponseEntity<List<PostResponseDto>> getAllPosts() {
+        return ResponseEntity.ok(postService.getAllPosts());
     }
 
     @PostMapping
     public ResponseEntity<String> createPost(@RequestBody PostRequestDto dto, @AuthenticationPrincipal CustomUserDetails userDetails) {
-        postService.createPost(dto, userDetails.getMember());
+        postService.createPost(dto, userDetails.getMember().getId());
         return ResponseEntity.ok("Post created");
     }
-//
+
     @PutMapping("/{id}")
     public ResponseEntity<String> updatePost(@PathVariable("id") Post post, @RequestBody PostRequestDto dto, @AuthenticationPrincipal CustomUserDetails userDetails) {
-        postService.updatePost(post, dto, userDetails.getMember());
+        postService.updatePost(post, dto, userDetails.getMember().getId());
         return ResponseEntity.ok("Post updated");
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePost(@PathVariable("id") Post post, @AuthenticationPrincipal CustomUserDetails userDetails) {
-        postService.deletePost(post, userDetails.getMember());
+        postService.deletePost(post, userDetails.getMember().getId());
         return ResponseEntity.ok("Post deleted");
     }
 
     // 게시글 단건 조회
     @GetMapping("/{id}")
-    public PostResponseDto getPost(@PathVariable("id") Post post) {
-        return PostResponseDto.from(post);
+    public ResponseEntity<PostResponseDto> getPost(@PathVariable("id") Post post) {
+        return ResponseEntity.ok(PostResponseDto.from(post));
     }
 
     // 태그별 게시글 조회
     @GetMapping("/tag/{id}")
-    public List<PostResponseDto> getPostsByTag(@PathVariable("id") Tag tag) {
-        return postService.getPostByTag(tag);
+    public ResponseEntity<List<PostResponseDto>> getPostsByTag(@PathVariable("id") Tag tag) {
+        return ResponseEntity.ok(postService.getPostByTag(tag));
     }
 
     // 날짜별 게시글 조회
     @GetMapping("/date")
-    public List<PostResponseDto> getPostsByDate(
-            @RequestBody SearchRequest searchRequest) {
-        return postService.getPostsByDateRange(searchRequest.getFrom(), searchRequest.getTo());
+    public ResponseEntity<List<PostResponseDto>> getPostsByDate(@RequestBody SearchRequest searchRequest) {
+        return ResponseEntity.ok(postService.getPostsByDateRange(searchRequest.getFrom(), searchRequest.getTo()));
     }
 
 //    // 게시글 키워드 검색

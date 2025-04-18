@@ -12,11 +12,11 @@ import java.util.List;
 
 @Service
 public interface PostService {
-    void createPost(PostRequestDto post, Member member);
+    void createPost(PostRequestDto post, Long memberId);
 
-    void updatePost(Post post, PostRequestDto requestDto, Member member);
+    void updatePost(Post post, PostRequestDto requestDto, Long memberId);
 
-    void deletePost(Post post, Member member);
+    void deletePost(Post post, Long memberId);
 
     List<PostResponseDto> getPostByTag(Tag tag);
 
