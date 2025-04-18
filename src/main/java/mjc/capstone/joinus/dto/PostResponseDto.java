@@ -35,7 +35,11 @@ public class PostResponseDto {
 
     private LocalDateTime lastModifiedAt;
 
-    public static PostResponseDto from(Post post) {
+    private boolean liked;
+
+    private int likesCount;
+
+    public static PostResponseDto from(Post post, boolean liked) {
         return PostResponseDto.builder()
                 .id(post.getId())
                 .title(post.getTitle())
@@ -47,6 +51,8 @@ public class PostResponseDto {
                 .postTag(post.getTag())
                 .createdAt(post.getCreatedAt())
                 .lastModifiedAt(post.getLastModifiedAt())
+                .liked(liked)
+                .likesCount(post.getPostLikes().size())
                 .build();
     }
 }

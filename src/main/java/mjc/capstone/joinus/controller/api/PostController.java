@@ -1,20 +1,14 @@
 package mjc.capstone.joinus.controller.api;
 
 import lombok.RequiredArgsConstructor;
-import mjc.capstone.joinus.domain.Member;
 import mjc.capstone.joinus.domain.Post;
 import mjc.capstone.joinus.domain.tags.Tag;
-import mjc.capstone.joinus.dto.CustomUserDetails;
-import mjc.capstone.joinus.dto.PostRequestDto;
-import mjc.capstone.joinus.dto.PostResponseDto;
-import mjc.capstone.joinus.dto.SearchRequest;
+import mjc.capstone.joinus.dto.*;
 import mjc.capstone.joinus.service.PostService;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -25,8 +19,10 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping
-    public ResponseEntity<List<PostResponseDto>> getAllPosts() {
-        return ResponseEntity.ok(postService.getAllPosts());
+    public ResponseEntity<List<PostResponseDto>> getAllPosts(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        Long memberId = userDetails != null ? userDetails.getMember().getId() : null;
+
+        return ResponseEntity.ok(postService.getAllPosts(memberId));
     }
 
     @PostMapping
@@ -49,20 +45,35 @@ public class PostController {
 
     // 게시글 단건 조회
     @GetMapping("/{id}")
-    public ResponseEntity<PostResponseDto> getPost(@PathVariable("id") Post post) {
-        return ResponseEntity.ok(PostResponseDto.from(post));
+    public ResponseEntity<PostResponseDto> getPostDetail(@PathVariable("id") Post post, @AuthenticationPrincipal CustomUserDetails userDetails) {
+        Long memberId = userDetails != null ? userDetails.getMember().getId() : null;
+
+        return ResponseEntity.ok(postService.getPostDetail(post, memberId));
     }
 
     // 태그별 게시글 조회
     @GetMapping("/tag/{id}")
-    public ResponseEntity<List<PostResponseDto>> getPostsByTag(@PathVariable("id") Tag tag) {
-        return ResponseEntity.ok(postService.getPostByTag(tag));
+    public ResponseEntity<List<PostResponseDto>> getPostsByTag(@PathVariable("id") Tag tag, @AuthenticationPrincipal CustomUserDetails userDetails) {
+        Long memberId = userDetails != null ? userDetails.getMember().getId() : null;
+
+        return ResponseEntity.ok(postService.getPostByTag(tag, memberId));
     }
 
     // 날짜별 게시글 조회
     @GetMapping("/date")
-    public ResponseEntity<List<PostResponseDto>> getPostsByDate(@RequestBody SearchRequest searchRequest) {
-        return ResponseEntity.ok(postService.getPostsByDateRange(searchRequest.getFrom(), searchRequest.getTo()));
+    public ResponseEntity<List<PostResponseDto>> getPostsByDate(@RequestBody SearchRequest searchRequest, @AuthenticationPrincipal CustomUserDetails userDetails) {
+        Long memberId = userDetails != null ? userDetails.getMember().getId() : null;
+
+        return ResponseEntity.ok(postService.getPostsByDateRange(searchRequest.getFrom(), searchRequest.getTo(), memberId));
+    }
+
+    // 포스트 좋아요
+    @PostMapping("/{id}/like")
+    public ResponseEntity<PostLikeResponseDto> togglePostLike(@PathVariable("id") Post post,
+                                                              @AuthenticationPrincipal CustomUserDetails userDetails) {
+        PostLikeResponseDto response =
+                postService.togglePostLike(post, userDetails.getMember().getId());
+        return ResponseEntity.ok(response);
     }
 
 //    // 게시글 키워드 검색
