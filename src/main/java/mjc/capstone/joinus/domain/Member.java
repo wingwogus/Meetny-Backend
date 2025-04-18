@@ -56,10 +56,4 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    /* 연관관계 편의 메소드 */
-    public void addPost(Post post) {
-        posts.add(post);
-        post.setAuthor(this);
-    }
 }

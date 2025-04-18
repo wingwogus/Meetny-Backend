@@ -40,4 +40,10 @@ public class Post extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "post")
     private List<PostLike> postLikes = new ArrayList<>();
+
+    /* 연관관계 편의 메소드 */
+    public void setAuthor(Member member) {
+        this.author = member;
+        member.getPosts().add(this); // 여기서도 양방향 유지
+    }
 }
