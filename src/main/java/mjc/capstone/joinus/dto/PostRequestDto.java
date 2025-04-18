@@ -34,7 +34,8 @@ public class PostRequestDto {
                 .tag(this.tag)
                 .build();
 
-        member.addPost(post);
+        // 연관관계 설정
+        post.setAuthor(member);
         return post;
     }
 
