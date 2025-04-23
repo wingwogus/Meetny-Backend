@@ -6,6 +6,8 @@ import mjc.capstone.joinus.dto.FollowDto;
 import mjc.capstone.joinus.repository.MemberRepository;
 import mjc.capstone.joinus.service.FollowService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -17,22 +19,22 @@ public class FollowController {
     private final FollowService followService;
     private final MemberRepository memberRepository;
 
-    @PostMapping("/{fromId}/follow/{toId}")
-    public ResponseEntity<String> follow(@PathVariable("fromId") Long fromId,
-                                         @PathVariable("toId") Long toId) {
-        Member fromMember = memberRepository.findById(fromId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid fromUser ID"));
+    @PostMapping("/follow/{toId}")
+    public ResponseEntity<String> follow(@PathVariable("toId") Long toId,
+                                         @AuthenticationPrincipal UserDetails userDetails) {
+        Member fromMember = memberRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid logged-in user"));
         Member toMember = memberRepository.findById(toId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid toUser ID"));
         followService.follow(fromMember, toMember);
         return ResponseEntity.ok("팔로우 성공");
     }
 
-    @DeleteMapping("/{fromId}/unfollow/{toId}")
-    public ResponseEntity<String> unfollow(@PathVariable("fromId") Long fromId,
-                                           @PathVariable("toId") Long toId) {
-        Member fromMember = memberRepository.findById(fromId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid fromUser ID"));
+    @DeleteMapping("/unfollow/{toId}")
+    public ResponseEntity<String> unfollow(@PathVariable("toId") Long toId,
+                                           @AuthenticationPrincipal UserDetails userDetails) {
+        Member fromMember = memberRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid logged-in user"));
         Member toMember = memberRepository.findById(toId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid toUser ID"));
         followService.unfollow(fromMember, toMember);
