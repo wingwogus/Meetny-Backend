@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import mjc.capstone.joinus.domain.tags.Tag;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 public class UserTagDto {
-    private String nickname;
-    private List<String> tags;
+    private String action;
+    private String username;
+    private List<TagDto> tags;
 }

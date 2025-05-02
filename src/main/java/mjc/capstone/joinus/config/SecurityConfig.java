@@ -2,12 +2,10 @@ package mjc.capstone.joinus.config;
 
 // This configuration class sets up security settings for the application,
 // including authentication, authorization, and session management.
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import mjc.capstone.joinus.domain.Member;
 import mjc.capstone.joinus.dto.CustomUserDetails;
-import mjc.capstone.joinus.service.CustomUserDetailsService;
+import mjc.capstone.joinus.service.implementation.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -47,6 +45,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/login", "/api/signup", "/api/test").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/posts").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
+                        .requestMatchers("/information/tag/edit").authenticated()
                         .anyRequest().authenticated()) // 그 외 모든 요청은 인증 필요
 
                 // 사용자 정의 로그인 필터 추가

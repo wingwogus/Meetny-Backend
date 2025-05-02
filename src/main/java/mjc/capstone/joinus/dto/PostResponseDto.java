@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import mjc.capstone.joinus.domain.Address;
-import mjc.capstone.joinus.domain.Post;
+import mjc.capstone.joinus.domain.entity.Address;
+import mjc.capstone.joinus.domain.entity.Post;
 import mjc.capstone.joinus.domain.tags.Tag;
 
 import java.time.LocalDateTime;

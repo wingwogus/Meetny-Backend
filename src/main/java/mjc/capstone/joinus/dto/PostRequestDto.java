@@ -2,9 +2,9 @@ package mjc.capstone.joinus.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import mjc.capstone.joinus.domain.Address;
-import mjc.capstone.joinus.domain.Member;
-import mjc.capstone.joinus.domain.Post;
+import mjc.capstone.joinus.domain.entity.Address;
+import mjc.capstone.joinus.domain.entity.Member;
+import mjc.capstone.joinus.domain.entity.Post;
 import mjc.capstone.joinus.domain.tags.Tag;
 
 import java.time.LocalDateTime;

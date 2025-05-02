@@ -1,7 +1,7 @@
-package mjc.capstone.joinus.service;
+package mjc.capstone.joinus.service.inf;
 
-import mjc.capstone.joinus.domain.Member;
-import mjc.capstone.joinus.domain.Post;
+import mjc.capstone.joinus.domain.entity.Member;
+import mjc.capstone.joinus.domain.entity.Post;
 import mjc.capstone.joinus.domain.tags.Tag;
 import mjc.capstone.joinus.dto.PostRequestDto;
 import mjc.capstone.joinus.dto.PostResponseDto;

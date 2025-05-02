@@ -2,7 +2,7 @@ package mjc.capstone.joinus.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import mjc.capstone.joinus.domain.Member;
+import mjc.capstone.joinus.domain.entity.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,16 +1,14 @@
 package mjc.capstone.joinus.controller.api;
 
 import lombok.RequiredArgsConstructor;
-import mjc.capstone.joinus.config.SecurityConfig;
-import mjc.capstone.joinus.domain.Member;
-import mjc.capstone.joinus.dto.ProfileRequest;
-import mjc.capstone.joinus.dto.UserDetailDto;
-import mjc.capstone.joinus.dto.UserTagDto;
-import mjc.capstone.joinus.service.MyPageServiceIml;
+import mjc.capstone.joinus.dto.*;
+import mjc.capstone.joinus.service.implementation.MyPageServiceIml;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -28,16 +26,15 @@ public class MyPageController {
 
     // 계정 정보 페이지
     @GetMapping("/information")
-    public ResponseEntity<UserDetailDto> getInformation(@AuthenticationPrincipal UserDetails userDetails) {
-        UserDetailDto userDetailDto = myPageService.findMemberDto(userDetails.getUsername());
+    public ResponseEntity<MyPageDto> getInformation(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        MyPageDto userDetailDto = myPageService.findMemberDto(userDetails.getMember());
         return ResponseEntity.ok(userDetailDto);
     }
     // 비밀번호 수정
-    @PutMapping("/informaion/password")
-    public ResponseEntity<String> updatePassword(@AuthenticationPrincipal UserDetails userDetails,@RequestBody ProfileRequest profileRequest) {
-        Member member = myPageService.findMemberByUsername(userDetails.getUsername());
+    @PutMapping("/information/password")
+    public ResponseEntity<String> updatePassword(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody ProfileRequest profileRequest) {
         if(profileRequest.getPassword().length()<20 && profileRequest.getPassword().length()>8) {
-            myPageService.editPassword(member, member.getPassword(), profileRequest.getPassword());
+            myPageService.editPassword(userDetails.getMember(), userDetails.getMember().getPassword(), profileRequest.getPassword());
             return ResponseEntity.ok("비밀번호가 변경되었습니다!");
         }
         else {
@@ -45,10 +42,21 @@ public class MyPageController {
         }
 
     }
+    // 태그 정보 뿌리기
+    @GetMapping("/information/tag")
+    public ResponseEntity<List<TagDto>> getTags(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        return ResponseEntity.ok(myPageService.findAlltags(userDetails.getMember()));
+    }
     // 태그 수정
-    @PutMapping("/tag/edit")
-    public ResponseEntity<String> updateTag(@AuthenticationPrincipal UserDetails userDetails) {
-        UserDetailDto userDetailDto = myPageService.findMemberDto(userDetails.getUsername());
-        return ResponseEntity.ok("");
+    @PutMapping("/information/tag/edit")
+    public ResponseEntity<String> updateTag(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody UserTagDto userTagDto) {
+        if(userTagDto.getAction().equals("add")) {
+            myPageService.tagAdd(userTagDto.getTags(), userDetails.getMember());
+        }
+        else if(userTagDto.getAction().equals("remove")) {
+            myPageService.tagRemove(userTagDto.getTags(), userDetails.getMember());
+        }
+        return ResponseEntity.ok("수정 되었습니다.");
     }
 }
+

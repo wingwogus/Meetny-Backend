@@ -1,23 +1,24 @@
 
-package mjc.capstone.joinus.service;
+package mjc.capstone.joinus.service.implementation;
 
 
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mjc.capstone.joinus.domain.Member;
-import mjc.capstone.joinus.domain.Role;
+import mjc.capstone.joinus.domain.entity.Member;
+import mjc.capstone.joinus.domain.entity.Role;
 import mjc.capstone.joinus.dto.SignupRequest;
 import mjc.capstone.joinus.repository.MemberRepository;
+import mjc.capstone.joinus.service.inf.MemberService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(readOnly=true)
+@Transactional(readOnly=false)
 @Slf4j
 @RequiredArgsConstructor
-public class MemberServiceImpl implements MemberService{
+public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 

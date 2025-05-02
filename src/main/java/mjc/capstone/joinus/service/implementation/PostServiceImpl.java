@@ -1,16 +1,16 @@
-package mjc.capstone.joinus.service;
+package mjc.capstone.joinus.service.implementation;
 
 import lombok.RequiredArgsConstructor;
-import mjc.capstone.joinus.domain.Member;
-import mjc.capstone.joinus.domain.Post;
+import mjc.capstone.joinus.domain.entity.Member;
+import mjc.capstone.joinus.domain.entity.Post;
 import mjc.capstone.joinus.domain.tags.Tag;
 import mjc.capstone.joinus.dto.PostRequestDto;
 import mjc.capstone.joinus.dto.PostResponseDto;
 import mjc.capstone.joinus.repository.PostRepository;
+import mjc.capstone.joinus.service.inf.PostService;
 import org.springframework.stereotype.Service;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.transaction.annotation.Transactional;
-import java.time.LocalDate;
 
 import java.time.LocalDateTime;
 import java.util.List;

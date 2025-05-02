@@ -1,20 +1,17 @@
 package mjc.capstone.joinus.controller.api;
 
 import lombok.RequiredArgsConstructor;
-import mjc.capstone.joinus.domain.Member;
-import mjc.capstone.joinus.domain.Post;
+import mjc.capstone.joinus.domain.entity.Post;
 import mjc.capstone.joinus.domain.tags.Tag;
 import mjc.capstone.joinus.dto.CustomUserDetails;
 import mjc.capstone.joinus.dto.PostRequestDto;
 import mjc.capstone.joinus.dto.PostResponseDto;
 import mjc.capstone.joinus.dto.SearchRequest;
-import mjc.capstone.joinus.service.PostService;
-import org.springframework.format.annotation.DateTimeFormat;
+import mjc.capstone.joinus.service.inf.PostService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController

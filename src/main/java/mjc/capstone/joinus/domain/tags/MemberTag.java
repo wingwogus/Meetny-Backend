@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import mjc.capstone.joinus.domain.Member;
+import mjc.capstone.joinus.domain.entity.Member;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -13,18 +13,20 @@ import java.util.ArrayList;
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserTag {
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
+public class MemberTag {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tag_id")
-    private List<Tag> tags = new ArrayList<>();
+    private Tag tags;
+
+
 }
