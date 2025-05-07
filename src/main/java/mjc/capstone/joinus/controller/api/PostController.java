@@ -76,6 +76,8 @@ public class PostController {
         return ResponseEntity.ok(response);
     }
 
+
+
 //    // 게시글 키워드 검색
 //    @GetMapping("/search")
 //    public List<PostResponseDto> searchPosts(@RequestParam("keyword") String keyword) {

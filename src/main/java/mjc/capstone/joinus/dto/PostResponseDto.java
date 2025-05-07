@@ -39,6 +39,8 @@ public class PostResponseDto {
 
     private int likesCount;
 
+    private int viewCount;
+
     public static PostResponseDto from(Post post, boolean liked) {
         return PostResponseDto.builder()
                 .id(post.getId())
@@ -53,6 +55,7 @@ public class PostResponseDto {
                 .lastModifiedAt(post.getLastModifiedAt())
                 .liked(liked)
                 .likesCount(post.getPostLikes().size())
+                .viewCount(post.getViewCount())
                 .build();
     }
 }

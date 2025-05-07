@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import mjc.capstone.joinus.domain.Member;
 import mjc.capstone.joinus.domain.Post;
 import mjc.capstone.joinus.domain.PostLike;
+import mjc.capstone.joinus.domain.PostView;
 import mjc.capstone.joinus.domain.tags.Tag;
 import mjc.capstone.joinus.dto.PostLikeResponseDto;
 import mjc.capstone.joinus.dto.PostRequestDto;
@@ -12,6 +13,7 @@ import mjc.capstone.joinus.dto.PostResponseDto;
 import mjc.capstone.joinus.repository.MemberRepository;
 import mjc.capstone.joinus.repository.PostLikeRepository;
 import mjc.capstone.joinus.repository.PostRepository;
+import mjc.capstone.joinus.repository.PostViewRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +31,7 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
     private final PostLikeRepository postLikeRepository;
+    private final PostViewRepository postViewRepository;
 
     @Override
     public void createPost(PostRequestDto dto, Long memberId) {
@@ -58,8 +61,21 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostResponseDto getPostDetail(Post post, Long memberId) {
+        if (memberId != null) {
+            Member member = memberRepository.findById(memberId)
+                    .orElseThrow(() -> new EntityNotFoundException("Member with id " + memberId + " not found"));
+
+            boolean alreadyViewed = postViewRepository.existsByPostAndMember(post, member);
+
+            if (!alreadyViewed) {
+                post.increaseViewCount(); // Post에 정의한 조회수 증가 메서드
+                postViewRepository.save(new PostView(post, member));
+            }
         return PostResponseDto.from(post, isPostLikedByMember(post, memberId));
-    }
+    } else {
+            return PostResponseDto.from(post, false);
+        }
+        }
 
     @Override
     public List<PostResponseDto> getPostByTag(Tag tag, Long memberId) {
@@ -117,6 +133,8 @@ public class PostServiceImpl implements PostService {
 
         return postLikeRepository.existsByMemberAndPost(member, post);
     }
+
+
 
 
 //    @Override

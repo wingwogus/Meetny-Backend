@@ -31,6 +31,8 @@ public class Post extends BaseTimeEntity {
 
     private LocalDateTime meetingTime;
 
+    private int viewCount = 0;
+
     @Embedded
     private Address address;
 
@@ -45,5 +47,9 @@ public class Post extends BaseTimeEntity {
     public void setAuthor(Member member) {
         this.author = member;
         member.getPosts().add(this); // 여기서도 양방향 유지
+    }
+
+    public void increaseViewCount() {
+        this.viewCount++;
     }
 }
