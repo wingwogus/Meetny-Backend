@@ -71,11 +71,12 @@ public class PostServiceImpl implements PostService {
                 post.increaseViewCount(); // Post에 정의한 조회수 증가 메서드
                 postViewRepository.save(new PostView(post, member));
             }
-        return PostResponseDto.from(post, isPostLikedByMember(post, memberId));
-    } else {
-            return PostResponseDto.from(post, false);
+
+            return PostResponseDto.from(post, isPostLikedByMember(post, memberId));
         }
-        }
+
+        return PostResponseDto.from(post, false);
+    }
 
     @Override
     public List<PostResponseDto> getPostByTag(Tag tag, Long memberId) {

@@ -21,7 +21,7 @@ public class PostView {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    private LocalDateTime viewedAt = LocalDateTime.now();
+    private LocalDateTime viewedAt;
 
     protected PostView() {}
 
