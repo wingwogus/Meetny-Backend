@@ -5,6 +5,8 @@ import lombok.*;
 import mjc.capstone.joinus.domain.tags.Tag;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -29,10 +31,25 @@ public class Post extends BaseTimeEntity {
 
     private LocalDateTime meetingTime;
 
+    private int viewCount = 0;
+
     @Embedded
     private Address address;
 
     @OneToOne
     @JoinColumn(name = "tag_id")
     private Tag tag;
+
+    @OneToMany(mappedBy = "post")
+    private List<PostLike> postLikes = new ArrayList<>();
+
+    /* 연관관계 편의 메소드 */
+    public void setAuthor(Member member) {
+        this.author = member;
+        member.getPosts().add(this); // 여기서도 양방향 유지
+    }
+
+    public void increaseViewCount() {
+        this.viewCount++;
+    }
 }
