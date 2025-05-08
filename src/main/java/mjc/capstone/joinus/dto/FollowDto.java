@@ -1,6 +1,5 @@
 package mjc.capstone.joinus.dto;
 
-
 import mjc.capstone.joinus.domain.entity.Member;
 
 
