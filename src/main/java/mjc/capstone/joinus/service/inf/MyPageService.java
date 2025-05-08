@@ -1,9 +1,9 @@
-package mjc.capstone.joinus.service;
+package mjc.capstone.joinus.service.inf;
 
-import mjc.capstone.joinus.domain.Member;
-import mjc.capstone.joinus.domain.tags.Tag;
-import mjc.capstone.joinus.dto.UserDetailDto;
-import org.springframework.security.core.userdetails.User;
+import mjc.capstone.joinus.domain.entity.Member;
+import mjc.capstone.joinus.domain.entity.Post;
+import mjc.capstone.joinus.dto.TagDto;
+import mjc.capstone.joinus.dto.MyPageDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,23 +14,25 @@ public interface MyPageService {
     String profileEdit(String url, String username);
     // 유저 불러오기
     Member findMemberByUsername(String username);
+    // 전체 태그 불러오기
+    List<TagDto> findAlltags(Member member);
     // 태그 불러오기
-    List<Tag> findusertag(Member member);
+    List<TagDto> findusertags(Member member);
     // 태그 추가
-    void tagAdd(Tag tag, Member member);
+    void tagAdd(List<TagDto> tags,Member member);
     // 태그 삭제
-    void tagRemove(Tag tag, Member member);
+    void tagRemove(List<TagDto> tags, Member member);
     // 유저 정보 가져오기
-    UserDetailDto findMemberDto(String username);
+    MyPageDto findMemberDto(Member Member);
     // 팔로워 조회
-    void findFollowers(User user);
+    Long findFollowers(Member member);
     // 팔로잉 조회
-    void findFollowing(User user);
+    Long findFollowing(Member member);
     // 비밀번호 수정
     void editPassword(Member member, String oldPassword, String newPassword);
     // 동행 횟수 조회
 
     // 동행 후기 조회
 
-    //
+    // 포스트 조회
 }

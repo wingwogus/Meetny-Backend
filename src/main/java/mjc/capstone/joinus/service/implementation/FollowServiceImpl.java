@@ -1,9 +1,10 @@
-package mjc.capstone.joinus.service;
+package mjc.capstone.joinus.service.implementation;
 
 import lombok.RequiredArgsConstructor;
-import mjc.capstone.joinus.domain.Follow;
-import mjc.capstone.joinus.domain.Member;
+import mjc.capstone.joinus.domain.entity.Follow;
+import mjc.capstone.joinus.domain.entity.Member;
 import mjc.capstone.joinus.repository.FollowRepository;
+import mjc.capstone.joinus.service.inf.FollowService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

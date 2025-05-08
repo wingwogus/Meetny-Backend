@@ -1,4 +1,4 @@
-package mjc.capstone.joinus.domain;
+package mjc.capstone.joinus.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,4 +1,4 @@
-package mjc.capstone.joinus.domain;
+package mjc.capstone.joinus.domain.entity;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

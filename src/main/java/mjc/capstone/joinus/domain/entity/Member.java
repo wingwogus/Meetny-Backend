@@ -1,8 +1,8 @@
-package mjc.capstone.joinus.domain;
+package mjc.capstone.joinus.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import mjc.capstone.joinus.domain.tags.UserTag;
+import mjc.capstone.joinus.domain.tags.MemberTag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +39,9 @@ public class Member {
     @Embedded
     private Address address;
 
-    @OneToOne(mappedBy = "member")
-    private UserTag userTag;
+    @Setter
+    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<MemberTag> memberTag;
 
     @OneToMany(mappedBy = "fromMember", fetch = FetchType.LAZY)
     List<Follow> followings = new ArrayList<>();
@@ -56,4 +57,14 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    public void addMemberTag(MemberTag memberTag) {
+        if (memberTag != null) {
+            if (this.memberTag == null) {
+                this.memberTag = new ArrayList<>();
+            }
+            this.memberTag.add(memberTag);
+            memberTag.setMember(this); // 양방향 설정
+        }
+    }
 }

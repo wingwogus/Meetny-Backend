@@ -1,7 +1,7 @@
-package mjc.capstone.joinus.service;
+package mjc.capstone.joinus.service.inf;
 
-import mjc.capstone.joinus.domain.Member;
-import mjc.capstone.joinus.domain.Post;
+import mjc.capstone.joinus.domain.entity.Member;
+import mjc.capstone.joinus.domain.entity.Post;
 import mjc.capstone.joinus.domain.tags.Tag;
 import mjc.capstone.joinus.dto.PostLikeResponseDto;
 import mjc.capstone.joinus.dto.PostRequestDto;
@@ -27,6 +27,8 @@ public interface PostService {
     List<PostResponseDto> getPostsByDateRange(LocalDateTime from, LocalDateTime to, Long memberId);
     // 포스트 좋아요 토글 기능
     PostLikeResponseDto togglePostLike(Post post, Long memberId);
+    // 유저별 포스트 불러오기
+    List<PostResponseDto> getPostsByMember(Long memberId);
     //List<PostResponseDto> searchPosts(String keyword);
     // 포스트 유효성 검증
     void validateAuth(Post post, Member member);

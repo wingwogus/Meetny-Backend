@@ -5,9 +5,8 @@ package mjc.capstone.joinus.config;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import mjc.capstone.joinus.domain.Member;
 import mjc.capstone.joinus.dto.CustomUserDetails;
-import mjc.capstone.joinus.service.CustomUserDetailsService;
+import mjc.capstone.joinus.service.implementation.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -48,7 +47,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/posts").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
                         .requestMatchers("/follows/**").permitAll()
-                        .anyRequest().permitAll()) // 그 외 모든 요청은 인증 필요
+                        .requestMatchers("/information/tag/edit").authenticated()
+                        .anyRequest().authenticated()) // 그 외 모든 요청은 인증 필요
 
                 // 사용자 정의 로그인 필터 추가
                 .addFilterAt(jsonLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class)
@@ -79,6 +79,18 @@ public class SecurityConfig {
         });
 
         return filter;
+    }
+
+    public String getLoginUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return null;
+        }
+
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        return userDetails.getUsername();
     }
 
     @Bean

@@ -1,6 +1,6 @@
-package mjc.capstone.joinus.service;
+package mjc.capstone.joinus.service.inf;
 
-import mjc.capstone.joinus.domain.Member;
+import mjc.capstone.joinus.domain.entity.Member;
 
 import java.util.List;
 
