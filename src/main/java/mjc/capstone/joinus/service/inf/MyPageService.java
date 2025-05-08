@@ -35,5 +35,4 @@ public interface MyPageService {
     // 동행 후기 조회
 
     // 포스트 조회
-    List<Post> findPosts(Member member);
 }

@@ -1,11 +1,11 @@
-package mjc.capstone.joinus.service;
+package mjc.capstone.joinus.service.implementation;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import mjc.capstone.joinus.domain.Member;
-import mjc.capstone.joinus.domain.Post;
-import mjc.capstone.joinus.domain.PostLike;
-import mjc.capstone.joinus.domain.PostView;
+import mjc.capstone.joinus.domain.entity.Member;
+import mjc.capstone.joinus.domain.entity.Post;
+import mjc.capstone.joinus.domain.entity.PostLike;
+import mjc.capstone.joinus.domain.entity.PostView;
 import mjc.capstone.joinus.domain.tags.Tag;
 import mjc.capstone.joinus.dto.PostLikeResponseDto;
 import mjc.capstone.joinus.dto.PostRequestDto;
@@ -14,10 +14,10 @@ import mjc.capstone.joinus.repository.MemberRepository;
 import mjc.capstone.joinus.repository.PostLikeRepository;
 import mjc.capstone.joinus.repository.PostRepository;
 import mjc.capstone.joinus.repository.PostViewRepository;
+import mjc.capstone.joinus.service.inf.PostService;
 import org.springframework.stereotype.Service;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.transaction.annotation.Transactional;
-import java.time.LocalDate;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -92,6 +92,8 @@ public class PostServiceImpl implements PostService {
                 .toList();
     }
 
+
+
     @Override
     public List<PostResponseDto> getPostsByDateRange(LocalDateTime from, LocalDateTime to, Long memberId) {
         return postRepository.findAllByCreatedAtBetween(from, to.plusDays(1)).stream()
@@ -117,6 +119,16 @@ public class PostServiceImpl implements PostService {
         int likeCount = postLikeRepository.countByPost(post);
 
         return new PostLikeResponseDto(liked, likeCount);
+    }
+
+    @Override
+    public List<PostResponseDto> getPostsByMember(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new EntityNotFoundException("Member with id " + memberId + " not found"));
+
+        return postRepository.findByAuthor(member).stream()
+                .map(post -> PostResponseDto.from(post, isPostLikedByMember(post, memberId)))
+                .toList();
     }
 
     @Override

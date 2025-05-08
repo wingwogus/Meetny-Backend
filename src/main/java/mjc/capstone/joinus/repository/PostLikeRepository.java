@@ -1,8 +1,8 @@
 package mjc.capstone.joinus.repository;
 
-import mjc.capstone.joinus.domain.Member;
-import mjc.capstone.joinus.domain.Post;
-import mjc.capstone.joinus.domain.PostLike;
+import mjc.capstone.joinus.domain.entity.Member;
+import mjc.capstone.joinus.domain.entity.Post;
+import mjc.capstone.joinus.domain.entity.PostLike;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

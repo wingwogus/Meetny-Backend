@@ -1,9 +1,6 @@
 package mjc.capstone.joinus.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import mjc.capstone.joinus.domain.entity.Post;
 
 import java.util.List;
@@ -12,6 +9,7 @@ import java.util.List;
 @Setter
 @ToString
 @AllArgsConstructor
+@Builder
 public class MyPageDto {
     private String nickname;
     private String email;
@@ -23,6 +21,6 @@ public class MyPageDto {
     private Long followerCount = 0L;
     private Long followingCount = 0L;
 
-    private List<Post> posts;
+    private List<PostResponseDto> posts;
 
 }

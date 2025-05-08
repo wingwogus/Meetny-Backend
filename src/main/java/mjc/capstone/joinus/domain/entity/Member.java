@@ -40,7 +40,7 @@ public class Member {
     private Address address;
 
     @Setter
-    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<MemberTag> memberTag;
 
     @OneToMany(mappedBy = "fromMember", fetch = FetchType.LAZY)

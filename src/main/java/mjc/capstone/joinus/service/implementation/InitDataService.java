@@ -36,7 +36,7 @@ public class InitDataService {
                         .street("송파구")
                         .town("방이동")
                         .build())
-                .gender(Gender.Male)
+                .gender(Gender.MALE)
                 .role(Role.USER)
                 .profileImg("https://ui-avatars.com/api/?name=Jae+Hyun&background=random")
                 .password(passwordEncoder.encode("1234"))
