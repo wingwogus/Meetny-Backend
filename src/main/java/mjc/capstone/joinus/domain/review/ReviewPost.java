@@ -1,0 +1,36 @@
+package mjc.capstone.joinus.domain.review;
+
+import jakarta.persistence.*;
+import lombok.*;
+import mjc.capstone.joinus.domain.entity.Member;
+import mjc.capstone.joinus.domain.entity.Post;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@AllArgsConstructor
+@Getter
+public class ReviewPost {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "review_post_id")
+    private Long id;
+
+    @Column(nullable = false, length = 100)
+    private String comment;
+
+    @ManyToOne
+    @JoinColumn(name = "reviewer_id", nullable = false)
+    private Member member;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id", nullable = false)
+    private Post post;
+
+    @OneToMany(mappedBy = "memberReview", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReviewPostTag> mannerTags = new ArrayList<>();
+
+}
