@@ -76,6 +76,13 @@ public class PostController {
         return ResponseEntity.ok(response);
     }
 
+    // 동행 참여
+    @PostMapping("/{postId}/participant")
+    public ResponseEntity<String> addParticipant(@PathVariable Long postId, @RequestParam Long memberId){
+        postService.addParticipant(postId, memberId);
+        return ResponseEntity.ok("Participant added");
+    }
+
 
 
 //    // 게시글 키워드 검색
