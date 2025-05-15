@@ -35,4 +35,7 @@ public interface PostService {
 
     // 포스트 조회 기능
     PostResponseDto getPostDetail(Post post, Long memberId);
+
+    // 포스트 참가 기능
+    void addParticipant(Long postId, Long memberId);
 }
