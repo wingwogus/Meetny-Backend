@@ -15,5 +15,5 @@ public class ReviewTag {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String tag;
+    private String tagName;
 }
