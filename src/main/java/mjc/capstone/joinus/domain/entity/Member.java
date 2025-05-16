@@ -44,16 +44,16 @@ public class Member {
     private List<MemberTag> memberTag;
 
     @OneToMany(mappedBy = "fromMember", fetch = FetchType.LAZY)
-    List<Follow> followings = new ArrayList<>();
+    private List<Follow> followings = new ArrayList<>();
 
     @OneToMany(mappedBy = "toMember", fetch = FetchType.LAZY)
-    List<Follow> followers = new ArrayList<>();
+    private List<Follow> followers = new ArrayList<>();
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
-    List<Post> posts = new ArrayList<>();
+    private List<Post> posts = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    List<PostLike> postLikes = new ArrayList<>();
+    private List<PostLike> postLikes = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Role role;
