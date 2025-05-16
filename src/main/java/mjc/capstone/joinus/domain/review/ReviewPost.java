@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @AllArgsConstructor
-@Getter
+@Getter @Setter
 public class ReviewPost {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,13 +24,13 @@ public class ReviewPost {
 
     @ManyToOne
     @JoinColumn(name = "reviewer_id", nullable = false)
-    private Member member;
+    private Member reviewer;
 
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
-    @OneToMany(mappedBy = "memberReview", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "reviewPost", cascade = CascadeType.ALL)
     private List<ReviewPostTag> mannerTags = new ArrayList<>();
 
 }
