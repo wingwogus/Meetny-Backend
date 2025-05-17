@@ -47,6 +47,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/posts").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
                         .requestMatchers("/follows/**").permitAll()
+                        .requestMatchers("/ws/**").permitAll()
+                        .requestMatchers("/api/chatroom/**").permitAll()
                         .requestMatchers("/information/tag/edit").authenticated()
                         .anyRequest().authenticated()) // 그 외 모든 요청은 인증 필요
 
