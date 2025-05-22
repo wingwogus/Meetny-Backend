@@ -1,13 +1,11 @@
 package mjc.capstone.joinus.dto;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import mjc.capstone.joinus.domain.Address;
-import mjc.capstone.joinus.domain.Gender;
-import mjc.capstone.joinus.domain.tags.UserTag;
+import mjc.capstone.joinus.domain.entity.Address;
+import mjc.capstone.joinus.domain.entity.Gender;
+import mjc.capstone.joinus.domain.tags.MemberTag;
 
 @Data
 @AllArgsConstructor
@@ -21,5 +19,5 @@ public class SignupRequest {
     private String profileImg;
     private Gender gender;
     private Address address;
-    private UserTag userTag;
+    private MemberTag memberTag;
 }

@@ -2,11 +2,10 @@ package mjc.capstone.joinus.controller.api;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mjc.capstone.joinus.dto.SignupRequest;
-import mjc.capstone.joinus.service.MemberService;
+import mjc.capstone.joinus.service.inf.MemberService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

@@ -2,9 +2,9 @@ package mjc.capstone.joinus.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import mjc.capstone.joinus.domain.Address;
-import mjc.capstone.joinus.domain.Member;
-import mjc.capstone.joinus.domain.Post;
+import mjc.capstone.joinus.domain.entity.Address;
+import mjc.capstone.joinus.domain.entity.Member;
+import mjc.capstone.joinus.domain.entity.Post;
 import mjc.capstone.joinus.domain.tags.Tag;
 
 import java.time.LocalDateTime;
@@ -25,15 +25,18 @@ public class PostRequestDto {
     private Tag tag;
 
     public Post toEntity(Member member) {
-        return Post.builder()
+        Post post = Post.builder()
                 .title(this.title)
                 .content(this.content)
                 .photo(this.photo)
                 .meetingTime(this.meetingTime)
                 .address(this.address)
                 .tag(this.tag)
-                .author(member)
                 .build();
+
+        // 연관관계 설정
+        post.setAuthor(member);
+        return post;
     }
 
     public void updatePost(Post post) {

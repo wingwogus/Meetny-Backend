@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import mjc.capstone.joinus.domain.Address;
-import mjc.capstone.joinus.domain.Post;
+import mjc.capstone.joinus.domain.entity.Address;
+import mjc.capstone.joinus.domain.entity.Post;
 import mjc.capstone.joinus.domain.tags.Tag;
 
 import java.time.LocalDateTime;
@@ -35,7 +35,13 @@ public class PostResponseDto {
 
     private LocalDateTime lastModifiedAt;
 
-    public static PostResponseDto from(Post post) {
+    private boolean liked;
+
+    private int likesCount;
+
+    private int viewCount;
+
+    public static PostResponseDto from(Post post, boolean liked) {
         return PostResponseDto.builder()
                 .id(post.getId())
                 .title(post.getTitle())
@@ -47,6 +53,9 @@ public class PostResponseDto {
                 .postTag(post.getTag())
                 .createdAt(post.getCreatedAt())
                 .lastModifiedAt(post.getLastModifiedAt())
+                .liked(liked)
+                .likesCount(post.getPostLikes().size())
+                .viewCount(post.getViewCount())
                 .build();
     }
 }

@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 
 @Entity
 @DiscriminatorValue("C")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class Concert extends Tag {
+    public Concert(String tagName, String color) {
+        super(tagName, color);
+    }
 }

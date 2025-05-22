@@ -1,10 +1,10 @@
 package mjc.capstone.joinus.controller.api;
 
 import lombok.RequiredArgsConstructor;
-import mjc.capstone.joinus.domain.Member;
+import mjc.capstone.joinus.domain.entity.Member;
 import mjc.capstone.joinus.dto.FollowDto;
 import mjc.capstone.joinus.repository.MemberRepository;
-import mjc.capstone.joinus.service.FollowService;
+import mjc.capstone.joinus.service.inf.FollowService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;

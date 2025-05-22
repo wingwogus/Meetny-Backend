@@ -7,6 +7,10 @@ import lombok.RequiredArgsConstructor;
 
 @Entity
 @DiscriminatorValue("E")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class Exhibition extends Tag {
+
+    public Exhibition(String tagName, String color) {
+        super(tagName, color);
+    }
 }
