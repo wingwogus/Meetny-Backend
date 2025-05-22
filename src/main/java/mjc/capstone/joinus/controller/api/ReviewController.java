@@ -1,14 +1,12 @@
 package mjc.capstone.joinus.controller.api;
 
 import lombok.RequiredArgsConstructor;
-import mjc.capstone.joinus.domain.entity.Member;
+import mjc.capstone.joinus.dto.CustomUserDetails;
 import mjc.capstone.joinus.dto.ReviewRequestDto;
 import mjc.capstone.joinus.dto.ReviewResponseDto;
-import mjc.capstone.joinus.repository.MemberRepository;
 import mjc.capstone.joinus.service.inf.ReviewService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,18 +17,14 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ReviewController {
     private final ReviewService reviewService;
-    private final MemberRepository memberRepository;
 
     @PostMapping("/{postId}")
     public ResponseEntity<ReviewResponseDto> createReview(
             @PathVariable Long postId,
             @RequestBody ReviewRequestDto dto,
-            @AuthenticationPrincipal UserDetails userDetails) {
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-        Member fromMember = memberRepository.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid logged-in user"));
-
-        ReviewResponseDto review = reviewService.createReview(fromMember.getId(), postId, dto);
+        ReviewResponseDto review = reviewService.createReview(userDetails.getMember().getId(), postId, dto);
         return ResponseEntity.ok(review);
     }
 
@@ -44,13 +38,10 @@ public class ReviewController {
     public ResponseEntity<ReviewResponseDto> updateReview(
             @PathVariable Long reviewId,
             @RequestBody ReviewRequestDto dto,
-            @AuthenticationPrincipal UserDetails userDetails) {
-
-        Member fromMember = memberRepository.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid logged-in user"));
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
 
         ReviewResponseDto review = reviewService.getReview(reviewId);
-        if (!review.getReviewerNickname().equals(fromMember.getNickname())) {
+        if (!review.getReviewerNickname().equals(userDetails.getMember().getNickname())) {
             return ResponseEntity.status(403).body(null);
         }
 
@@ -61,13 +52,10 @@ public class ReviewController {
     @DeleteMapping("/{reviewId}")
     public ResponseEntity<Void> deleteReview(
             @PathVariable Long reviewId,
-            @AuthenticationPrincipal UserDetails userDetails) {
-
-        Member fromMember = memberRepository.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid logged-in user"));
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
 
         ReviewResponseDto review = reviewService.getReview(reviewId);
-        if (!review.getReviewerNickname().equals(fromMember.getNickname())) {
+        if (!review.getReviewerNickname().equals(userDetails.getMember().getNickname())) {
             return ResponseEntity.status(403).build();
         }
 
@@ -77,12 +65,9 @@ public class ReviewController {
 
     @GetMapping("/tags/count")
     public ResponseEntity<Map<String, Long>> getMannerTagCounts(
-            @AuthenticationPrincipal UserDetails userDetails) {
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-        Member fromMember = memberRepository.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid logged-in user"));
-
-        Map<String, Long> tagCounts = reviewService.getMannerTagCounts(fromMember.getId());
+        Map<String, Long> tagCounts = reviewService.getMannerTagCounts(userDetails.getMember().getId());
         return ResponseEntity.ok(tagCounts);
     }
 
@@ -91,5 +76,21 @@ public class ReviewController {
         // 서버에서 지정된 태그 목록
         List<String> tags = List.of("친절함", "시간 약속을 잘지킴", "소통이 원활함", "매너 좋음");
         return ResponseEntity.ok(tags);
+    }
+
+    @GetMapping("/post/{postId}")
+    public ResponseEntity<ReviewResponseDto> getReviewByPost(
+            @PathVariable Long postId) {
+
+        ReviewResponseDto review = reviewService.getPostReview(postId);
+        return ResponseEntity.ok(review);
+    }
+
+    @GetMapping("/member/{memberId}")
+    public ResponseEntity<List<ReviewResponseDto>> getReviewByMember(
+            @PathVariable Long memberId) {
+
+        List<ReviewResponseDto> reviews = reviewService.getMemberReviews(memberId);
+        return ResponseEntity.ok(reviews);
     }
 }
