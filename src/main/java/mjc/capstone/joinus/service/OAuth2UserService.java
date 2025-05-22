@@ -1,8 +1,8 @@
 package mjc.capstone.joinus.service;
 
 import lombok.RequiredArgsConstructor;
-import mjc.capstone.joinus.domain.Member;
-import mjc.capstone.joinus.domain.Role;
+import mjc.capstone.joinus.domain.entity.Member;
+import mjc.capstone.joinus.domain.entity.Role;
 import mjc.capstone.joinus.repository.MemberRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
