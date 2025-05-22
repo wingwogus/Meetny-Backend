@@ -4,6 +4,7 @@ import mjc.capstone.joinus.dto.ReviewRequestDto;
 import mjc.capstone.joinus.dto.ReviewResponseDto;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -22,4 +23,10 @@ public interface ReviewService {
 
     // 매너태그 개수 조회
     Map<String, Long> getMannerTagCounts(Long memberId);
+
+    //포스트 리뷰 보기
+    ReviewResponseDto getPostReview(Long postId);
+
+    //작성한 리뷰 보기
+    List<ReviewResponseDto> getMemberReviews(Long memberId);
 }
