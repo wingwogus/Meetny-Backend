@@ -3,9 +3,9 @@ package mjc.capstone.joinus.service.inf;
 import mjc.capstone.joinus.domain.entity.Member;
 import mjc.capstone.joinus.domain.entity.Post;
 import mjc.capstone.joinus.domain.tags.Tag;
-import mjc.capstone.joinus.dto.PostLikeResponseDto;
-import mjc.capstone.joinus.dto.PostRequestDto;
-import mjc.capstone.joinus.dto.PostResponseDto;
+import mjc.capstone.joinus.dto.post.PostLikeResponseDto;
+import mjc.capstone.joinus.dto.post.PostRequestDto;
+import mjc.capstone.joinus.dto.post.PostResponseDto;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

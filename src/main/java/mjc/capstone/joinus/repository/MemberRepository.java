@@ -15,4 +15,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Query("SELECT m FROM Member m LEFT JOIN FETCH m.memberTag WHERE m.username = :username")
     Optional<Member> findByUsername(@Param("username") String username);
+
+    Optional<Member> findByNickname(String nickname);
 }
