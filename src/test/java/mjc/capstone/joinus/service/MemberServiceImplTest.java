@@ -1,7 +1,7 @@
 package mjc.capstone.joinus.service;
 
-import mjc.capstone.joinus.domain.Address;
-import mjc.capstone.joinus.domain.Member;
+import mjc.capstone.joinus.domain.entity.Address;
+import mjc.capstone.joinus.domain.entity.Member;
 import mjc.capstone.joinus.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
