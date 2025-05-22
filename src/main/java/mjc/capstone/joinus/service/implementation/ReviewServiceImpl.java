@@ -111,4 +111,19 @@ public class ReviewServiceImpl implements ReviewService {
                         Collectors.counting()
                 ));
     }
+
+    @Override
+    public ReviewResponseDto getPostReview(Long postId) {
+        ReviewPost review = reviewPostRepository.findByPostId(postId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid post ID"));
+        return ReviewResponseDto.from(review);
+    }
+
+    @Override
+    public List<ReviewResponseDto> getMemberReviews(Long memberId) {
+        List<ReviewPost> reviews = reviewPostRepository.findAllByReviewerId(memberId);
+        return reviews.stream()
+                .map(ReviewResponseDto::from)
+                .toList();
+    }
 }
