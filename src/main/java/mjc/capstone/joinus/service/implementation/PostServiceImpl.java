@@ -147,6 +147,22 @@ public class PostServiceImpl implements PostService {
         return postLikeRepository.existsByMemberAndPost(member, post);
     }
 
+    @Override
+    public void addParticipant(Long postId, Long memberId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new EntityNotFoundException("Post not found"));
+
+        if (post.getParticipant() != null){
+            throw new IllegalArgumentException("This post already has a participant.");
+        }
+
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new EntityNotFoundException("Member not found"));
+
+        post.setParticipant(member);
+        postRepository.save(post);
+    }
+
 
 
 
