@@ -3,7 +3,6 @@ package mjc.capstone.joinus.service.implementation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mjc.capstone.joinus.domain.entity.Member;
-import mjc.capstone.joinus.domain.entity.Post;
 import mjc.capstone.joinus.domain.tags.Tag;
 import mjc.capstone.joinus.domain.tags.MemberTag;
 import mjc.capstone.joinus.dto.TagDto;
@@ -26,7 +25,6 @@ public class MyPageServiceIml implements MyPageService {
     private final UserTagRepository userTagRepository;
     private final FollowRepository followRepository;
     private final TagRepository tagRepository;
-    private final PostRepository postRepository;
 
     @Override
     public String profileEdit(String url, String username) {
@@ -101,19 +99,19 @@ public class MyPageServiceIml implements MyPageService {
     public MyPageDto findMemberDto(Member m) {
 
         return memberRepository.findByUsername(m.getUsername())
-                .map(member -> new MyPageDto(
-                        member.getNickname(),
-                        member.getMail(),
-                        member.getProfileImg(),
-                        member.getPassword(),
-                        member.getPhone(),
-                        this.findusertags(m).stream()
+                .map(member -> MyPageDto.builder()
+                        .nickname(member.getNickname())
+                        .email(member.getMail())
+                        .profilePic(member.getProfileImg())
+                        .password(member.getPassword())
+                        .phone(member.getPhone())
+                        .tags(findusertags(m).stream()
                                 .map(TagDto::getTagName)
-                                .toList(),
-                        this.findFollowers(m),
-                        this.findFollowing(m),
-                        this.findPosts(m)
-                ))
+                                .toList())
+                        .followerCount(findFollowers(m))
+                        .followingCount(findFollowing(m))
+                        .build()
+                )
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
     }
 
@@ -134,10 +132,5 @@ public class MyPageServiceIml implements MyPageService {
     @Override
     public Long findFollowing(Member member) {
         return followRepository.countByFromMember(member);
-    }
-
-    @Override
-    public List<Post> findPosts(Member member) {
-        return postRepository.findByAuthor(member);
     }
 }

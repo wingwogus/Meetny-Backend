@@ -40,17 +40,20 @@ public class Member {
     private Address address;
 
     @Setter
-    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<MemberTag> memberTag;
 
     @OneToMany(mappedBy = "fromMember", fetch = FetchType.LAZY)
-    List<Follow> followings = new ArrayList<>();
+    private List<Follow> followings = new ArrayList<>();
 
     @OneToMany(mappedBy = "toMember", fetch = FetchType.LAZY)
-    List<Follow> followers = new ArrayList<>();
+    private List<Follow> followers = new ArrayList<>();
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
-    List<Post> posts = new ArrayList<>();
+    private List<Post> posts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostLike> postLikes = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Role role;

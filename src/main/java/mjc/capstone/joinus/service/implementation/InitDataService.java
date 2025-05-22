@@ -7,7 +7,6 @@ import mjc.capstone.joinus.domain.entity.Gender;
 import mjc.capstone.joinus.domain.entity.Member;
 import mjc.capstone.joinus.domain.entity.Role;
 import mjc.capstone.joinus.domain.tags.*;
-import mjc.capstone.joinus.dto.SignupRequest;
 import mjc.capstone.joinus.repository.MemberRepository;
 import mjc.capstone.joinus.repository.TagRepository;
 import mjc.capstone.joinus.repository.UserTagRepository;
@@ -84,7 +83,7 @@ public class InitDataService {
                         .street("송파구")
                         .town("방이동")
                         .build())
-                .gender(Gender.Male)
+                .gender(Gender.MALE)
                 .role(Role.USER)
                 .profileImg("https://ui-avatars.com/api/?name=Jae+Hyun&background=random")
                 .password(passwordEncoder.encode("1234"))
@@ -118,7 +117,7 @@ public class InitDataService {
                         .street("송파구")
                         .town("방이동")
                         .build())
-                .gender(Gender.Male)
+                .gender(Gender.MALE)
                 .role(Role.USER)
                 .profileImg("https://ui-avatars.com/api/?name=Jae+Hyun&background=random")
                 .password(passwordEncoder.encode("1234"))
@@ -134,7 +133,7 @@ public class InitDataService {
                         .street("은평구")
                         .town("응암동")
                         .build())
-                .gender(Gender.Male)
+                .gender(Gender.MALE)
                 .role(Role.USER)
                 .profileImg("https://ui-avatars.com/api/?name=Jae+Hyun&background=random")
                 .password(passwordEncoder.encode("1234"))
@@ -150,7 +149,7 @@ public class InitDataService {
                         .street("서대문구")
                         .town("홍제동")
                         .build())
-                .gender(Gender.Male)
+                .gender(Gender.MALE)
                 .role(Role.USER)
                 .profileImg("https://ui-avatars.com/api/?name=Jae+Hyun&background=random")
                 .password(passwordEncoder.encode("1234"))
@@ -200,6 +199,15 @@ public class InitDataService {
             userTagRepository.save(memberTag);
         }
 
+// Sample Tag
+
+
+        for (Tag tag : selectedTags) {
+            MemberTag memberTag = new MemberTag();
+            memberTag.setMember(member);
+            memberTag.setTags(tag);
+            userTagRepository.save(memberTag);
+        }
 
     }
 

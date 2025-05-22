@@ -1,10 +1,7 @@
 package mjc.capstone.joinus.domain.tags;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import mjc.capstone.joinus.domain.entity.Member;
 
 import java.util.List;
@@ -14,6 +11,7 @@ import java.util.ArrayList;
 @Setter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
+@AllArgsConstructor
 public class MemberTag {
 
     @Id

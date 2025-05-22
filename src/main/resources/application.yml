@@ -1,9 +1,7 @@
 spring:
-  datasource:
-    url: jdbc:h2:tcp://localhost/~/joinus
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+  config:
+    import: classpath:application-secret.yml
+
   jpa:
     hibernate:
       ddl-auto: create
@@ -12,5 +10,7 @@ spring:
         show_sql: true
         format_sql: true
 
+
   logging.level:
     org.hibernate.SQL: debug
+
