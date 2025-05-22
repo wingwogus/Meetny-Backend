@@ -43,6 +43,10 @@ public class Post extends BaseTimeEntity {
     @OneToMany(mappedBy = "post")
     private List<PostLike> postLikes = new ArrayList<>();
 
+    @OneToOne
+    @JoinColumn(name = "participant_id", unique = true)
+    private Member participant; // 참여자 한명만
+
     /* 연관관계 편의 메소드 */
     public void setAuthor(Member member) {
         this.author = member;
