@@ -1,13 +1,11 @@
-package mjc.capstone.joinus.dto;
+package mjc.capstone.joinus.dto.chat;
 
 import lombok.Data;
 import mjc.capstone.joinus.domain.entity.ChatRoom;
 import mjc.capstone.joinus.domain.entity.Member;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Data

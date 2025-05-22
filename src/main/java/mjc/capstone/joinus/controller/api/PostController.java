@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import mjc.capstone.joinus.domain.entity.Post;
 import mjc.capstone.joinus.domain.tags.Tag;
 import mjc.capstone.joinus.dto.*;
+import mjc.capstone.joinus.dto.post.PostLikeResponseDto;
+import mjc.capstone.joinus.dto.post.PostRequestDto;
+import mjc.capstone.joinus.dto.post.PostResponseDto;
 import mjc.capstone.joinus.service.inf.PostService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,14 +21,14 @@ public class PostController {
 
     private final PostService postService;
 
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<List<PostResponseDto>> getAllPosts(@AuthenticationPrincipal CustomUserDetails userDetails) {
         Long memberId = userDetails != null ? userDetails.getMember().getId() : null;
 
         return ResponseEntity.ok(postService.getAllPosts(memberId));
     }
 
-    @PostMapping
+    @PostMapping("/")
     public ResponseEntity<String> createPost(@RequestBody PostRequestDto dto, @AuthenticationPrincipal CustomUserDetails userDetails) {
         postService.createPost(dto, userDetails.getMember().getId());
         return ResponseEntity.ok("Post created");

@@ -25,6 +25,40 @@ public class InitDataService {
 
     @PostConstruct
     public void init() {
+        Member member = Member.builder()
+                .username("mih2001103")
+                .nickname("monikhyun")
+                .phone("010-0000-0000")
+                .mail("mih2001103@gmail.com")
+                .address(Address.builder()
+                        .city("서울특별시")
+                        .street("송파구")
+                        .town("방이동")
+                        .build())
+                .gender(Gender.MALE)
+                .role(Role.USER)
+                .profileImg("https://ui-avatars.com/api/?name=Jae+Hyun&background=random")
+                .password(passwordEncoder.encode("1234"))
+                .build();
+
+        memberRepository.save(member);
+
+        List<Tag> selectedTags = List.of(new Concert("락", "#FF5733"),
+                new Concert("발라드", "#33C1FF"),
+                new Exhibition("전시회", "#9D33FF"),
+                new Exhibition("박람회", "#33FFBD"),
+                new Movie("공포", "#FF3333"),
+                new Sports("농구", "#FF8C33")); // 락, 발라드, 전시회, 공포, 야구
+
+        tagRepository.saveAll(selectedTags);
+
+        for (Tag tag : selectedTags) {
+            MemberTag memberTag = new MemberTag();
+            memberTag.setMember(member);
+            memberTag.setTags(tag);
+            userTagRepository.save(memberTag);
+        }
+
         Member member1 = Member.builder()
                 .username("user1")
                 .nickname("user1")
@@ -99,7 +133,7 @@ public class InitDataService {
 
         for (Tag tag : tag2) {
             MemberTag memberTag = new MemberTag();
-            memberTag.setMember(member1);
+            memberTag.setMember(member2);
             memberTag.setTags(tag);
             userTagRepository.save(memberTag);
         }
@@ -112,13 +146,27 @@ public class InitDataService {
 
         for (Tag tag : tag3) {
             MemberTag memberTag = new MemberTag();
-            memberTag.setMember(member1);
+            memberTag.setMember(member3);
             memberTag.setTags(tag);
             userTagRepository.save(memberTag);
         }
 
-
+// Sample Tag
+/*
+        List<Tag> tags = List.of(
+                new Concert("락", "#FF5733"),
+                new Concert("발라드", "#33C1FF"),
+                new Concert("랩", "#FF33A8"),
+                new Exhibition("전시회", "#9D33FF"),
+                new Exhibition("박람회", "#33FFBD"),
+                new Movie("공포", "#FF3333"),
+                new Movie("사극", "#FFBD33"),
+                new Sports("야구", "#33FF57"),
+                new Sports("축구", "#335BFF"),
+                new Sports("농구", "#FF8C33")
+        );
+        tagRepository.saveAll(tags);
+    } */
     }
-
 }
 

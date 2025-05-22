@@ -1,6 +1,6 @@
 package mjc.capstone.joinus.service.inf;
 
-import mjc.capstone.joinus.dto.ChatRoomDto;
+import mjc.capstone.joinus.dto.chat.ChatRoomDto;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

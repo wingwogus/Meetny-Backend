@@ -1,7 +1,7 @@
 package mjc.capstone.joinus.dto;
 
 import lombok.*;
-import mjc.capstone.joinus.domain.entity.Post;
+import mjc.capstone.joinus.dto.post.PostResponseDto;
 
 import java.util.List;
 

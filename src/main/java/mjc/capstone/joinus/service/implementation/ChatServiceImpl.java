@@ -1,11 +1,10 @@
 package mjc.capstone.joinus.service.implementation;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import mjc.capstone.joinus.domain.entity.ChatRoom;
 import mjc.capstone.joinus.domain.entity.Member;
-import mjc.capstone.joinus.dto.ChatRoomDto;
+import mjc.capstone.joinus.dto.chat.ChatRoomDto;
 import mjc.capstone.joinus.repository.ChatRoomRepository;
 import mjc.capstone.joinus.repository.MemberRepository;
 import mjc.capstone.joinus.service.inf.ChatService;

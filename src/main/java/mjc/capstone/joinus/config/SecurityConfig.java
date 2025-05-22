@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import mjc.capstone.joinus.dto.CustomUserDetails;
+import mjc.capstone.joinus.jwt.JwtAuthenticationFilter;
 import mjc.capstone.joinus.service.implementation.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +29,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final CustomUserDetailsService userDetailsService;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -38,61 +39,23 @@ public class SecurityConfig {
 
                 // 세션 관리 정책 설정: 필요할 때만 세션 생성
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                        .maximumSessions(1))
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 // 인가 규칙 설정: 로그인/회원가입 API는 인증 없이 접근 허용
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/login", "/api/signup", "/api/test").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/posts").permitAll()
+                        .requestMatchers(
+                                "/api/auth/**",
+                                "/follows/**",
+                                "/api/chatroom/**",
+                                "/ws",
+                                "/ws/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
-                        .requestMatchers("/follows/**").permitAll()
-                        .requestMatchers("/ws/**").permitAll()
-                        .requestMatchers("/api/chatroom/**").permitAll()
                         .requestMatchers("/information/tag/edit").authenticated()
                         .anyRequest().authenticated()) // 그 외 모든 요청은 인증 필요
 
                 // 사용자 정의 로그인 필터 추가
-                .addFilterAt(jsonLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAt(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(passwordEncoder());
-        // 인증을 관리할 ProviderManager 반환
-        return new ProviderManager(provider);
-    }
-
-    public JsonUsernamePasswordAuthenticationFilter jsonLoginFilter(AuthenticationManager authenticationManager) {
-        JsonUsernamePasswordAuthenticationFilter filter =
-                new JsonUsernamePasswordAuthenticationFilter(authenticationManager);
-
-        // 로그인 성공 시 200 OK 반환
-        filter.setAuthenticationSuccessHandler((request, response, authentication) -> {
-            response.setStatus(HttpServletResponse.SC_OK);
-        });
-
-        // 로그인 실패 시 401 Unauthorized 반환
-        filter.setAuthenticationFailureHandler((request, response, exception) -> {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        });
-
-        return filter;
-    }
-
-    public String getLoginUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication == null || !authentication.isAuthenticated()) {
-            return null;
-        }
-
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-
-        return userDetails.getUsername();
     }
 
     @Bean

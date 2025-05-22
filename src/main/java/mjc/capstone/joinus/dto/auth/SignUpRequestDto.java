@@ -1,4 +1,4 @@
-package mjc.capstone.joinus.dto;
+package mjc.capstone.joinus.dto.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,7 @@ import mjc.capstone.joinus.domain.tags.MemberTag;
 @Data
 @AllArgsConstructor
 @Builder
-public class SignupRequest {
+public class SignUpRequestDto {
     private String username;
     private String nickname;
     private String password;

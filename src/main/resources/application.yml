@@ -1,9 +1,7 @@
 spring:
-  datasource:
-    url: jdbc:h2:tcp://localhost/~/joinus
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+  config:
+    import: classpath:application-secret.yml
+
   jpa:
     hibernate:
       ddl-auto: create
@@ -11,6 +9,11 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+  rabbitmq:
+    host: localhost
+    port: 5672   # STOMP용 포트
+    username: guest
+    password: guest
 
   logging.level:
     org.hibernate.SQL: debug

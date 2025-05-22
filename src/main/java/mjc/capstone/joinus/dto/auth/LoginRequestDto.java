@@ -1,4 +1,4 @@
-package mjc.capstone.joinus.dto;
+package mjc.capstone.joinus.dto.auth;
 
 
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginRequest {
+public class LoginRequestDto {
     private String username;
     private String password;
 }

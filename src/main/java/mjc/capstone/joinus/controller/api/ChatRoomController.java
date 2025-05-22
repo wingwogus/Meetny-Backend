@@ -2,7 +2,7 @@ package mjc.capstone.joinus.controller.api;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mjc.capstone.joinus.dto.ChatRoomDto;
+import mjc.capstone.joinus.dto.chat.ChatRoomDto;
 import mjc.capstone.joinus.service.inf.ChatService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +24,8 @@ public class ChatRoomController {
     }
 
     // 채팅방 생성
-    @PostMapping("/room")
-    public ResponseEntity<ResultResponse> createRoom(@RequestParam String name) {
+    @PostMapping("/{roomName}")
+    public ResponseEntity<ResultResponse> createRoom(@PathVariable("roomName") String name) {
         ChatRoomDto room = chatService.createRoom(name);
         return ResponseEntity.ok(ResultResponse.of("CREATE_CHATROOM_SUCCESS",room.getRoomId()));
     }

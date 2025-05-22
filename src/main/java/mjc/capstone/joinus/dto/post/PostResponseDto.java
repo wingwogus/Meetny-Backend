@@ -1,4 +1,4 @@
-package mjc.capstone.joinus.dto;
+package mjc.capstone.joinus.dto.post;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
