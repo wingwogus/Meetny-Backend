@@ -10,7 +10,7 @@ public class ApiResponse<T> {
     @Schema(description = "요청 성공 여부", example = "true", required = true)
     private boolean success;
 
-    @Schema(description = "응답 메시지", example = "OK", required = true)
+    @Schema(description = "응답 메시지", example = "게시글 생성 성공", required = true)
     private String message;
 
     @Schema(description = "응답 데이터")

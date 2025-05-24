@@ -39,15 +39,6 @@ public class GlobalExceptionHandler {
                 .body(body);
     }
 
-    // 4) 닉네임 중복 확인 실패 → 409 Conflict
-    @ExceptionHandler(DuplicateNicknameException.class)
-    public ResponseEntity<ApiResponse<Void>> handleDuplicateNickname(DuplicateNicknameException ex) {
-        ApiResponse<Void> body = ApiResponse.error(ex.getMessage());
-        return ResponseEntity
-                .status(HttpStatus.CONFLICT)
-                .body(body);
-    }
-
     // 5) 나머지 비즈니스 예외 (fallback)
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<ApiResponse<Void>> handleBusiness(BusinessException ex) {
