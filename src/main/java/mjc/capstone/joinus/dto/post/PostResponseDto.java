@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import mjc.capstone.joinus.domain.entity.Address;
 import mjc.capstone.joinus.domain.entity.Post;
 import mjc.capstone.joinus.domain.tags.Tag;
+import mjc.capstone.joinus.dto.TagDto;
 
 import java.time.LocalDateTime;
 
@@ -29,7 +30,7 @@ public class PostResponseDto {
 
     private Address address;
 
-    private Tag postTag;
+    private TagDto postTag;
 
     private LocalDateTime createdAt;
 
@@ -50,7 +51,10 @@ public class PostResponseDto {
                 .author(post.getAuthor().getNickname())
                 .meetingTime(post.getMeetingTime())
                 .address(post.getAddress())
-                .postTag(post.getTag())
+                .postTag(TagDto.builder()
+                        .tagId(post.getTag().getId())
+                        .tagName(post.getTag().getTagName())
+                        .build())
                 .createdAt(post.getCreatedAt())
                 .lastModifiedAt(post.getLastModifiedAt())
                 .liked(liked)
