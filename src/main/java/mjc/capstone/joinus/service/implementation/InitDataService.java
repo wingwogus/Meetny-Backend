@@ -2,17 +2,16 @@ package mjc.capstone.joinus.service.implementation;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import mjc.capstone.joinus.domain.entity.Address;
-import mjc.capstone.joinus.domain.entity.Gender;
-import mjc.capstone.joinus.domain.entity.Member;
-import mjc.capstone.joinus.domain.entity.Role;
+import mjc.capstone.joinus.domain.entity.*;
 import mjc.capstone.joinus.domain.tags.*;
 import mjc.capstone.joinus.repository.MemberRepository;
+import mjc.capstone.joinus.repository.PostRepository;
 import mjc.capstone.joinus.repository.TagRepository;
 import mjc.capstone.joinus.repository.UserTagRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -23,6 +22,7 @@ public class InitDataService {
     private final MemberRepository memberRepository;
     private final UserTagRepository userTagRepository;
     private final PasswordEncoder passwordEncoder;
+    private final PostRepository postRepository;
     private final MemberServiceImpl memberService;
 
     /*@PostConstruct
@@ -73,6 +73,21 @@ public class InitDataService {
 
     @PostConstruct
     public void init() {
+
+        Tag rockTag = tagRepository.save(new Concert("락", "#FF5733"));
+        Tag balladeTag = tagRepository.save(new Concert("발라드", "#33C1FF"));
+        Tag exhibitionTag = tagRepository.save(new Exhibition("전시회", "#9D33FF"));
+        Tag fairTag = tagRepository.save(new Exhibition("박람회", "#33FFBD"));
+        Tag horribleTag = tagRepository.save(new Movie("공포", "#FF3333"));
+        Tag soccerTag = tagRepository.save(new Sports("축구", "#FF8C33"));
+
+        List<Tag> selectedTags = List.of(rockTag,
+                balladeTag,
+                exhibitionTag,
+                fairTag,
+                horribleTag,
+                soccerTag); // 락, 발라드, 전시회, 공포, 야구
+
         Member member = Member.builder()
                 .username("mih2001103")
                 .nickname("monikhyun")
@@ -91,14 +106,6 @@ public class InitDataService {
 
         memberRepository.save(member);
 
-        List<Tag> selectedTags = List.of(new Concert("락", "#FF5733"),
-                new Concert("발라드", "#33C1FF"),
-                new Exhibition("전시회", "#9D33FF"),
-                new Exhibition("박람회", "#33FFBD"),
-                new Movie("공포", "#FF3333"),
-                new Sports("농구", "#FF8C33")); // 락, 발라드, 전시회, 공포, 야구
-
-        tagRepository.saveAll(selectedTags);
 
         for (Tag tag : selectedTags) {
             MemberTag memberTag = new MemberTag();
@@ -198,16 +205,39 @@ public class InitDataService {
             memberTag.setTags(tag);
             userTagRepository.save(memberTag);
         }
+        Post post1 = Post.builder()
+                .author(member1)
+                .title("토트넘 내한 동행 구인")
+                .content("토트넘 내한 동행 구해용")
+                .tag(soccerTag)
+                .meetingTime(LocalDateTime.now().plusDays(3))
+                .photo("url/dummyImg")
+                .address(
+                        Address.builder()
+                                .city("서울시")
+                                .town("마포구")
+                                .street("월드컵로 240")
+                                .build())
+                .build();
 
-// Sample Tag
+        postRepository.save(post1);
 
+        Post post2 = Post.builder()
+                .author(member2)
+                .title("상상용 내한 동행 구함")
+                .content("여자만 받아요")
+                .tag(rockTag)
+                .meetingTime(LocalDateTime.now().plusDays(10))
+                .photo("url/dummyImg")
+                .address(
+                        Address.builder()
+                                .city("서울시")
+                                .town("마포구")
+                                .street("월드컵로 240")
+                                .build())
+                .build();
 
-        for (Tag tag : selectedTags) {
-            MemberTag memberTag = new MemberTag();
-            memberTag.setMember(member);
-            memberTag.setTags(tag);
-            userTagRepository.save(memberTag);
-        }
+        postRepository.save(post2);
 
     }
 
