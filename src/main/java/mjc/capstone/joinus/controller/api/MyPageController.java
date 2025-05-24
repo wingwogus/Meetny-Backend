@@ -22,44 +22,44 @@ public class MyPageController {
 
     // 프로필 이미지 수정
     @PutMapping("/profile/edit")
-    public ResponseEntity<String> updateProfile(@AuthenticationPrincipal UserDetails userDetails,@RequestBody ProfileRequest profileRequest) {
-        return ResponseEntity.ok(myPageService.profileEdit(profileRequest.getImageUrl(), userDetails.getUsername()));
+    public ResponseEntity<ApiResponse<String>> updateProfile(@AuthenticationPrincipal UserDetails userDetails,@RequestBody ProfileRequest profileRequest) {
+        return ResponseEntity.ok(ApiResponse.success("프로필 이미지 수정 완료",myPageService.profileEdit(profileRequest.getImageUrl(), userDetails.getUsername())));
     }
 
     // 계정 정보 페이지
     @GetMapping("/information")
-    public ResponseEntity<MyPageDto> getInformation(@AuthenticationPrincipal CustomUserDetails userDetails) {
+    public ResponseEntity<ApiResponse<MyPageDto>> getInformation(@AuthenticationPrincipal CustomUserDetails userDetails) {
         MyPageDto userDetailDto = myPageService.findMemberDto(userDetails.getMember());
         userDetailDto.setPosts(postService.getAllPosts(userDetails.getMember().getId()));
-        return ResponseEntity.ok(userDetailDto);
+        return ResponseEntity.ok(ApiResponse.success(userDetailDto));
     }
     // 비밀번호 수정
     @PutMapping("/information/password")
-    public ResponseEntity<String> updatePassword(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody ProfileRequest profileRequest) {
+    public ResponseEntity<ApiResponse<String>> updatePassword(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody ProfileRequest profileRequest) {
         if(profileRequest.getPassword().length()<20 && profileRequest.getPassword().length()>8) {
             myPageService.editPassword(userDetails.getMember(), userDetails.getMember().getPassword(), profileRequest.getPassword());
-            return ResponseEntity.ok("비밀번호가 변경되었습니다!");
+            return ResponseEntity.ok(ApiResponse.success("비밀번호가 변경되었습니다!", null));
         }
         else {
-            return ResponseEntity.ok("비밀번호는 8~20자 길이입니다.");
+            return ResponseEntity.ok(ApiResponse.success("비밀번호는 8~20자 길이입니다.", null));
         }
 
     }
     // 태그 정보 뿌리기
     @GetMapping("/information/tag")
-    public ResponseEntity<List<TagDto>> getTags(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        return ResponseEntity.ok(myPageService.findAlltags(userDetails.getMember()));
+    public ResponseEntity<ApiResponse<List<TagDto>>> getTags(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        return ResponseEntity.ok(ApiResponse.success("태그 정보",myPageService.findAlltags(userDetails.getMember())));
     }
     // 태그 수정
     @PutMapping("/information/tag/edit")
-    public ResponseEntity<String> updateTag(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody UserTagDto userTagDto) {
+    public ResponseEntity<ApiResponse<String>> updateTag(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody UserTagDto userTagDto) {
         if(userTagDto.getAction().equals("add")) {
             myPageService.tagAdd(userTagDto.getTags(), userDetails.getMember());
         }
         else if(userTagDto.getAction().equals("remove")) {
             myPageService.tagRemove(userTagDto.getTags(), userDetails.getMember());
         }
-        return ResponseEntity.ok("수정 되었습니다.");
+        return ResponseEntity.ok(ApiResponse.success("수정 되었습니다.", null));
     }
 }
 
