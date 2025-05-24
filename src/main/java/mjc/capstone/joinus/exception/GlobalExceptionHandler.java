@@ -4,6 +4,7 @@ import mjc.capstone.joinus.dto.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -90,5 +91,23 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(body);
+    }
+
+    // 8) 이미지 파일 확장자 예외처리
+    @ExceptionHandler(InvalidImageException.class)
+    public ResponseEntity<?> handleInvalidImage(InvalidImageException ex) {
+        return ResponseEntity.badRequest().body(ApiResponse.error("INVALID_IMAGE" + ex.getMessage()));
+    }
+
+    // 9) 이미지 DB 저장 예외처리
+    @ExceptionHandler(ImageSaveFailedException.class)
+    public ResponseEntity<?> handleSaveFail(ImageSaveFailedException ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ApiResponse.error("SAVE_FAILED" + ex.getMessage()));
+    }
+
+    // 10) DB내 유저 검색 실패 예외처리
+    @ExceptionHandler(NotFoundMemberException.class)
+    public ResponseEntity<?> handleUserNotFound(NotFoundMemberException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error("USER_NOT_FOUND" + ex.getMessage()));
     }
 }
