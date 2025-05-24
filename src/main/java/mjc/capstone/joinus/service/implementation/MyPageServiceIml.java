@@ -5,8 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import mjc.capstone.joinus.domain.entity.Member;
 import mjc.capstone.joinus.domain.tags.Tag;
 import mjc.capstone.joinus.domain.tags.MemberTag;
-import mjc.capstone.joinus.dto.TagDto;
-import mjc.capstone.joinus.dto.MyPageDto;
+import mjc.capstone.joinus.dto.tag.TagDto;
+import mjc.capstone.joinus.dto.mypage.MyPageDto;
 import mjc.capstone.joinus.repository.*;
 import mjc.capstone.joinus.service.inf.MyPageService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,7 +28,7 @@ public class MyPageServiceIml implements MyPageService {
 
     @Override
     public String profileEdit(String url, String username) {
-        Member member = memberRepository.findByUsername(username)
+        Member member = memberRepository.findByUsernameWithMemberTag(username)
                 .orElseThrow(() -> new UsernameNotFoundException("해당 유저를 찾을 수 없습니다."));
         member.setProfileImg(url);
         memberRepository.save(member);
@@ -37,7 +37,7 @@ public class MyPageServiceIml implements MyPageService {
 
     @Override
     public Member findMemberByUsername(String username) {
-        return memberRepository.findByUsername(username)
+        return memberRepository.findByUsernameWithMemberTag(username)
                 .orElseThrow(() -> new UsernameNotFoundException("해당 유저를 찾을 수 없습니다."));
     }
 
@@ -98,7 +98,7 @@ public class MyPageServiceIml implements MyPageService {
     @Override
     public MyPageDto findMemberDto(Member m) {
 
-        return memberRepository.findByUsername(m.getUsername())
+        return memberRepository.findByUsernameWithMemberTag(m.getUsername())
                 .map(member -> MyPageDto.builder()
                         .nickname(member.getNickname())
                         .email(member.getMail())

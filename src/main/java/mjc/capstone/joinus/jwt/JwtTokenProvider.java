@@ -4,7 +4,7 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
-import mjc.capstone.joinus.dto.CustomUserDetails;
+import mjc.capstone.joinus.dto.auth.CustomUserDetails;
 import mjc.capstone.joinus.exception.InvalidCredentialsException;
 import mjc.capstone.joinus.service.implementation.RedisService;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +12,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import mjc.capstone.joinus.service.implementation.CustomUserDetailsService;
 import org.springframework.stereotype.Component;
 

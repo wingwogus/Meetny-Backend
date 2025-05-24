@@ -1,9 +1,8 @@
 package mjc.capstone.joinus.service.inf;
 
 import mjc.capstone.joinus.domain.entity.Member;
-import mjc.capstone.joinus.domain.entity.Post;
-import mjc.capstone.joinus.dto.TagDto;
-import mjc.capstone.joinus.dto.MyPageDto;
+import mjc.capstone.joinus.dto.tag.TagDto;
+import mjc.capstone.joinus.dto.mypage.MyPageDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

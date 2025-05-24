@@ -1,9 +1,9 @@
 package mjc.capstone.joinus.controller.api;
 
 import lombok.RequiredArgsConstructor;
-import mjc.capstone.joinus.dto.CustomUserDetails;
-import mjc.capstone.joinus.dto.ReviewRequestDto;
-import mjc.capstone.joinus.dto.ReviewResponseDto;
+import mjc.capstone.joinus.dto.auth.CustomUserDetails;
+import mjc.capstone.joinus.dto.review.ReviewRequestDto;
+import mjc.capstone.joinus.dto.review.ReviewResponseDto;
 import mjc.capstone.joinus.service.inf.ReviewService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

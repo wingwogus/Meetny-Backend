@@ -11,8 +11,8 @@ public class SwaggerConfig {
     public OpenAPI openAPI() {
         Info info = new Info()
                 .version("1.0.0") //버전
-                .title("RamenLog API") //이름
-                .description("라멘로그 API"); //설명
+                .title("MEETNY API") //이름
+                .description("MEETNY API"); //설명
         return new OpenAPI()
                 .info(info);
     }

@@ -1,7 +1,7 @@
 package mjc.capstone.joinus.service.inf;
 
-import mjc.capstone.joinus.dto.ReviewRequestDto;
-import mjc.capstone.joinus.dto.ReviewResponseDto;
+import mjc.capstone.joinus.dto.review.ReviewRequestDto;
+import mjc.capstone.joinus.dto.review.ReviewResponseDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
