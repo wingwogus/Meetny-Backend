@@ -52,6 +52,7 @@ public class SecurityConfig {
                                 "/ws/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
                         .requestMatchers("/follows/**").permitAll()
+                        .requestMatchers("/api/my-page/**").authenticated()
                         .requestMatchers("/information/tag/edit").authenticated()
                         .anyRequest().authenticated()) // 그 외 모든 요청은 인증 필요
 
