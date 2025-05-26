@@ -14,6 +14,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class ReviewResponseDto {
+    private Long reviewerId;
     private String comment;
     private String reviewerNickname;
     private String postTitle;
@@ -21,6 +22,7 @@ public class ReviewResponseDto {
 
     public static ReviewResponseDto from(ReviewPost review){
         return ReviewResponseDto.builder()
+                .reviewerId(review.getReviewer().getId())
                 .comment(review.getComment())
                 .reviewerNickname(review.getReviewer().getNickname())
                 .postTitle(review.getPost().getTitle())
