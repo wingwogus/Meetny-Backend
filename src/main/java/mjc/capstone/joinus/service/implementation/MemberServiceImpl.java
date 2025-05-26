@@ -10,7 +10,7 @@ import mjc.capstone.joinus.domain.entity.Role;
 import mjc.capstone.joinus.dto.auth.LoginRequestDto;
 import mjc.capstone.joinus.dto.auth.ReissueRequestDto;
 import mjc.capstone.joinus.dto.auth.SignUpRequestDto;
-import mjc.capstone.joinus.exception.InvalidCredentialsException;
+import mjc.capstone.joinus.exception.InvalidTokenException;
 import mjc.capstone.joinus.jwt.JwtToken;
 import mjc.capstone.joinus.jwt.JwtTokenProvider;
 import mjc.capstone.joinus.repository.MemberRepository;
@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
-@Transactional(readOnly=false)
+@Transactional
 @Slf4j
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
@@ -90,7 +90,7 @@ public class MemberServiceImpl implements MemberService {
     public void logout(String email) {
         Optional<String> refreshToken = redisService.getValues("RT:" + email);
         if (refreshToken.isEmpty()) {
-            throw new InvalidCredentialsException("로그인되어 있지 않은 상태입니다");
+            throw new InvalidTokenException("로그인되어 있지 않은 상태입니다");
         }
 
         redisService.deleteValues("RT:" + email);
