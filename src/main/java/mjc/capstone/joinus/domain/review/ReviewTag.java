@@ -9,6 +9,11 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 public class ReviewTag {
+
+    public ReviewTag(String tagName) {
+        this.tagName = tagName;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_tag_id")
