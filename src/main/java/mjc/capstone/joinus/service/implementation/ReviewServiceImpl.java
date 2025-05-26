@@ -8,11 +8,11 @@ import mjc.capstone.joinus.domain.review.ReviewPostTag;
 import mjc.capstone.joinus.domain.review.ReviewTag;
 import mjc.capstone.joinus.dto.ReviewRequestDto;
 import mjc.capstone.joinus.dto.ReviewResponseDto;
+import mjc.capstone.joinus.exception.*;
 import mjc.capstone.joinus.repository.*;
 import mjc.capstone.joinus.service.inf.ReviewService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import java.util.List;
 import java.util.Map;
@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class ReviewServiceImpl implements ReviewService {
     private final ReviewPostRepository reviewPostRepository;
     private final ReviewTagRepository reviewTagRepository;
@@ -31,9 +30,17 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public ReviewResponseDto createReview(Long memberId, Long postId, ReviewRequestDto dto) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid member ID"));
+                .orElseThrow(MemberNotFoundException::new);
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid post ID"));
+                .orElseThrow(PostNotFoundException::new);
+
+        if (reviewPostRepository.existsByPostId(postId)) {
+            throw new DuplicateReviewException();
+        }
+
+        if (!post.getParticipant().equals(member)) {
+            throw new ReviewAccessDeniedException("참여하지 않은 동행에 리뷰를 작성할 수 없습니다");
+        }
 
         ReviewPost review = dto.toEntity(member);
         review.setPost(post);
@@ -42,7 +49,7 @@ public class ReviewServiceImpl implements ReviewService {
                 dto.getMannerTags().stream()
                         .map(tagId -> {
                             ReviewTag reviewTag = reviewTagRepository.findById(tagId)
-                                    .orElseThrow(() -> new IllegalArgumentException("Invalid tag ID: " + tagId));
+                                    .orElseThrow(ReviewTagNotFoundException::new);
                             return ReviewPostTag.builder()
                                     .reviewPost(review)
                                     .reviewTag(reviewTag)
@@ -59,15 +66,19 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public ReviewResponseDto getReview(Long reviewId) {
         ReviewPost review = reviewPostRepository.findById(reviewId)
-                .orElseThrow(() -> new IllegalArgumentException("Review not found"));
+                .orElseThrow(ReviewNotFoundException::new);
         return ReviewResponseDto.from(review);
     }
 
     @Override
     @Transactional
-    public ReviewResponseDto updateReview(Long reviewId, ReviewRequestDto dto) {
+    public ReviewResponseDto updateReview(Long reviewId, ReviewRequestDto dto, Member reviewer) {
         ReviewPost review = reviewPostRepository.findById(reviewId)
-                .orElseThrow(() -> new IllegalArgumentException("Review not found with ID: " + reviewId));
+                .orElseThrow(ReviewNotFoundException::new);
+
+        if (!review.getReviewer().equals(reviewer)) {
+            throw new ReviewAccessDeniedException("리뷰 수정 권한이 없습니다");
+        }
 
         reviewPostTagRepository.deleteByReviewPostId(review.getId());
         review.getMannerTags().clear();
@@ -75,7 +86,7 @@ public class ReviewServiceImpl implements ReviewService {
         List<ReviewPostTag> reviewTags = dto.getMannerTags().stream()
                 .map(tagId -> {
                     ReviewTag reviewTag = reviewTagRepository.findById(tagId)
-                            .orElseThrow(() -> new IllegalArgumentException("Invalid tag ID: " + tagId));
+                            .orElseThrow(ReviewTagNotFoundException::new);
                     return ReviewPostTag.builder()
                             .reviewPost(review)
                             .reviewTag(reviewTag)
@@ -91,14 +102,19 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void deleteReview(Long reviewId) {
-        reviewPostRepository.deleteById(reviewId);
+    public void deleteReview(Long reviewId, Member reviewer) {
+        ReviewPost review = reviewPostRepository.findById(reviewId)
+                .orElseThrow(ReviewNotFoundException::new);
+        if (!review.getReviewer().equals(reviewer)) {
+            throw new ReviewAccessDeniedException("리뷰 삭제 권한이 없습니다");
+        }
+        reviewPostRepository.delete(review);
     }
 
     @Override
     public Map<String, Long> getMannerTagCounts(Long memberId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid member ID"));
+                .orElseThrow(MemberNotFoundException::new);
 
         List<ReviewPostTag> allTags = reviewPostRepository.findAll().stream()
                 .filter(review -> review.getPost().getAuthor().equals(member))
@@ -115,12 +131,14 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public ReviewResponseDto getPostReview(Long postId) {
         ReviewPost review = reviewPostRepository.findByPostId(postId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid post ID"));
+                .orElseThrow(PostNotFoundException::new);
         return ReviewResponseDto.from(review);
     }
 
     @Override
     public List<ReviewResponseDto> getMemberReviews(Long memberId) {
+        memberRepository.findById(memberId)
+                .orElseThrow(MemberNotFoundException::new);
         List<ReviewPost> reviews = reviewPostRepository.findAllByReviewerId(memberId);
         return reviews.stream()
                 .map(ReviewResponseDto::from)
