@@ -1,6 +1,11 @@
 package mjc.capstone.joinus.controller.api;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import mjc.capstone.joinus.dto.ApiResponse;
 import mjc.capstone.joinus.dto.CustomUserDetails;
 import mjc.capstone.joinus.dto.ReviewRequestDto;
 import mjc.capstone.joinus.dto.ReviewResponseDto;
@@ -15,82 +20,117 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/reviews")
 @RequiredArgsConstructor
+@Tag(name = "Review API", description = "리뷰 작성, 조회, 수정, 삭제 기능을 제공합니다.")
 public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping("/{postId}")
-    public ResponseEntity<ReviewResponseDto> createReview(
-            @PathVariable Long postId,
+    @Operation(summary = "리뷰 작성", description = "게시글에 대해 리뷰를 작성합니다. (참여자만 가능)")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "리뷰 작성 성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "리뷰 작성 권한 없음"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "회원 또는 게시글을 찾을 수 없음"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "409", description = "리뷰가 이미 존재함")
+    })
+    public ResponseEntity<ApiResponse<ReviewResponseDto>> createReview(
+            @Parameter(description = "게시글 ID") @PathVariable Long postId,
             @RequestBody ReviewRequestDto dto,
             @AuthenticationPrincipal CustomUserDetails userDetails) {
 
         ReviewResponseDto review = reviewService.createReview(userDetails.getMember().getId(), postId, dto);
-        return ResponseEntity.ok(review);
+        return ResponseEntity.ok(ApiResponse.success("리뷰 작성 완료", review));
     }
 
     @GetMapping("/{reviewId}")
-    public ResponseEntity<ReviewResponseDto> getReview(@PathVariable Long reviewId) {
+    @Operation(summary = "리뷰 조회", description = "리뷰 ID를 통해 리뷰를 조회합니다.")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "리뷰 조회 성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "리뷰를 찾을 수 없음")
+    })
+    public ResponseEntity<ApiResponse<ReviewResponseDto>> getReview(
+            @Parameter(description = "리뷰 ID") @PathVariable Long reviewId) {
         ReviewResponseDto review = reviewService.getReview(reviewId);
-        return ResponseEntity.ok(review);
+        return ResponseEntity.ok(ApiResponse.success("리뷰 조회 성공", review));
     }
 
     @PutMapping("/{reviewId}")
-    public ResponseEntity<ReviewResponseDto> updateReview(
-            @PathVariable Long reviewId,
+    @Operation(summary = "리뷰 수정", description = "리뷰 ID를 바탕으로 리뷰를 수정합니다.")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "리뷰 수정 성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "리뷰 수정 권한 없음"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "리뷰 존재하지 않음")
+    })
+    public ResponseEntity<ApiResponse<ReviewResponseDto>> updateReview(
+            @Parameter(description = "리뷰 ID") @PathVariable Long reviewId,
             @RequestBody ReviewRequestDto dto,
             @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-        ReviewResponseDto review = reviewService.getReview(reviewId);
-        if (!review.getReviewerNickname().equals(userDetails.getMember().getNickname())) {
-            return ResponseEntity.status(403).body(null);
-        }
-
-        ReviewResponseDto updatedReview = reviewService.updateReview(reviewId, dto);
-        return ResponseEntity.ok(updatedReview);
+        ReviewResponseDto updatedReview = reviewService.updateReview(reviewId, dto, userDetails.getMember());
+        return ResponseEntity.ok(ApiResponse.success("리뷰 수정 성공", updatedReview));
     }
 
     @DeleteMapping("/{reviewId}")
-    public ResponseEntity<Void> deleteReview(
-            @PathVariable Long reviewId,
+    @Operation(summary = "리뷰 삭제", description = "리뷰 ID를 바탕으로 리뷰를 삭제합니다.")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "리뷰 삭제 성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "리뷰 삭제 권한 없음"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "리뷰 존재하지 않음")
+    })
+    public ResponseEntity<ApiResponse<Void>> deleteReview(
+            @Parameter(description = "리뷰 ID") @PathVariable Long reviewId,
             @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-        ReviewResponseDto review = reviewService.getReview(reviewId);
-        if (!review.getReviewerNickname().equals(userDetails.getMember().getNickname())) {
-            return ResponseEntity.status(403).build();
-        }
-
-        reviewService.deleteReview(reviewId);
-        return ResponseEntity.noContent().build();
+        reviewService.deleteReview(reviewId, userDetails.getMember());
+        return ResponseEntity.ok(ApiResponse.success("리뷰 삭제 성공", null));
     }
 
-    @GetMapping("/tags/count")
-    public ResponseEntity<Map<String, Long>> getMannerTagCounts(
-            @AuthenticationPrincipal CustomUserDetails userDetails) {
+    @GetMapping("/tags/count/{memberId}")
+    @Operation(summary = "회원의 매너 태그 개수 조회", description = "회원이 받은 매너 태그별 개수를 조회합니다.")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "태그 개수 조회 성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "회원을 찾을 수 없음")
+    })
+    public ResponseEntity<ApiResponse<Map<String, Long>>> getMannerTagCounts(
+            @Parameter(description = "회원 ID") @PathVariable Long memberId) {
 
-        Map<String, Long> tagCounts = reviewService.getMannerTagCounts(userDetails.getMember().getId());
-        return ResponseEntity.ok(tagCounts);
+        Map<String, Long> tagCounts = reviewService.getMannerTagCounts(memberId);
+        return ResponseEntity.ok(ApiResponse.success("매너 태그 개수 조회 성공", tagCounts));
     }
 
     @GetMapping("/tags")
-    public ResponseEntity<List<String>> getAvailableTags() {
-        // 서버에서 지정된 태그 목록
+    @Operation(summary = "매너 태그 목록 조회", description = "리뷰 작성 시 선택할 수 있는 고정된 매너 태그 목록을 조회합니다.")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "태그 목록 조회 성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "태그를 찾을 수 없음")
+    })
+    public ResponseEntity<ApiResponse<List<String>>> getAvailableTags() {
         List<String> tags = List.of("친절함", "시간 약속을 잘지킴", "소통이 원활함", "매너 좋음");
-        return ResponseEntity.ok(tags);
+        return ResponseEntity.ok(ApiResponse.success("태그 목록 조회 성공", tags));
     }
 
     @GetMapping("/post/{postId}")
-    public ResponseEntity<ReviewResponseDto> getReviewByPost(
-            @PathVariable Long postId) {
+    @Operation(summary = "게시글 기준 리뷰 조회", description = "게시글 ID를 기준으로 작성된 리뷰를 조회합니다.")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "리뷰 조회 성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "리뷰를 찾을 수 없음")
+    })
+    public ResponseEntity<ApiResponse<ReviewResponseDto>> getReviewByPost(
+            @Parameter(description = "게시글 ID") @PathVariable Long postId) {
 
         ReviewResponseDto review = reviewService.getPostReview(postId);
-        return ResponseEntity.ok(review);
+        return ResponseEntity.ok(ApiResponse.success("리뷰 조회 성공", review));
     }
 
     @GetMapping("/member/{memberId}")
-    public ResponseEntity<List<ReviewResponseDto>> getReviewByMember(
-            @PathVariable Long memberId) {
+    @Operation(summary = "회원이 작성한 리뷰 목록 조회", description = "특정 회원이 작성한 모든 리뷰를 조회합니다.")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "리뷰 조회 성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "리뷰를 찾을 수 없음")
+    })
+    public ResponseEntity<ApiResponse<List<ReviewResponseDto>>> getReviewByMember(
+            @Parameter(description = "회원 ID") @PathVariable Long memberId) {
 
         List<ReviewResponseDto> reviews = reviewService.getMemberReviews(memberId);
-        return ResponseEntity.ok(reviews);
+        return ResponseEntity.ok(ApiResponse.success("리뷰 목록 조회 성공", reviews));
     }
 }
