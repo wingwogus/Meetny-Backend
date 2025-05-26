@@ -1,5 +1,6 @@
 package mjc.capstone.joinus.service.inf;
 
+import mjc.capstone.joinus.domain.entity.Member;
 import mjc.capstone.joinus.dto.ReviewRequestDto;
 import mjc.capstone.joinus.dto.ReviewResponseDto;
 import org.springframework.stereotype.Service;
@@ -16,10 +17,10 @@ public interface ReviewService {
     ReviewResponseDto getReview(Long reviewId);
 
     // 리뷰 수정
-    ReviewResponseDto updateReview(Long reviewId, ReviewRequestDto dto);
+    ReviewResponseDto updateReview(Long reviewId, ReviewRequestDto dto, Member reviewer);
 
     // 리뷰 삭제
-    void deleteReview(Long reviewId);
+    void deleteReview(Long reviewId, Member reviewer);
 
     // 매너태그 개수 조회
     Map<String, Long> getMannerTagCounts(Long memberId);
