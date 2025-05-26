@@ -15,10 +15,10 @@ public class ReviewPostTag {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "review_post_id", nullable = false)
+    @JoinColumn(name = "review_post", nullable = false)
     private ReviewPost reviewPost;
 
     @ManyToOne
-    @JoinColumn(name = "review_tag_id", nullable = false)
+    @JoinColumn(name = "review_tag", nullable = false)
     private ReviewTag reviewTag;
 }
