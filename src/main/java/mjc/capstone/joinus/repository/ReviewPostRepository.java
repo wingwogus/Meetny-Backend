@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface ReviewPostRepository extends JpaRepository<ReviewPost, Long> {
     Optional<ReviewPost> findByPostId(Long postId);
     List<ReviewPost> findAllByReviewerId(Long reviewerId);
+    boolean existsByPostId(Long postId);
 }
