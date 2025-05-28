@@ -59,6 +59,7 @@ public class PostServiceImpl implements PostService {
         postRepository.delete(post);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public PostResponseDto getPostDetail(Post post, Long memberId) {
         if (memberId != null) {
@@ -78,6 +79,7 @@ public class PostServiceImpl implements PostService {
         return PostResponseDto.from(post, false);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<PostResponseDto> getPostByTag(Tag tag, Long memberId) {
         return postRepository.findByTag(tag).stream()
@@ -85,6 +87,7 @@ public class PostServiceImpl implements PostService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<PostResponseDto> getAllPosts(Long memberId) {
         return postRepository.findAll().stream()
@@ -94,6 +97,7 @@ public class PostServiceImpl implements PostService {
 
 
 
+    @Transactional(readOnly = true)
     @Override
     public List<PostResponseDto> getPostsByDateRange(LocalDateTime from, LocalDateTime to, Long memberId) {
         return postRepository.findAllByCreatedAtBetween(from, to.plusDays(1)).stream()
@@ -121,6 +125,7 @@ public class PostServiceImpl implements PostService {
         return new PostLikeResponseDto(liked, likeCount);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<PostResponseDto> getPostsByMember(Long memberId) {
         Member member = memberRepository.findById(memberId)
