@@ -2,11 +2,6 @@ package mjc.capstone.joinus.dto.chat;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import mjc.capstone.joinus.domain.entity.Chat;
-import mjc.capstone.joinus.domain.entity.ChatRoom;
-import mjc.capstone.joinus.domain.entity.Member;
-
-import java.time.LocalDateTime;
 
 @Data
 public class ChatRequestDto {

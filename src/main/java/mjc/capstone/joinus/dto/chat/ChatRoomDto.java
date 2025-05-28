@@ -3,11 +3,7 @@ package mjc.capstone.joinus.dto.chat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import mjc.capstone.joinus.domain.entity.ChatRoom;
-import mjc.capstone.joinus.domain.entity.Member;
 import mjc.capstone.joinus.domain.entity.Post;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 public class ChatRoomDto {

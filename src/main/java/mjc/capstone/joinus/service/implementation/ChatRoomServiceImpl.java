@@ -2,12 +2,9 @@ package mjc.capstone.joinus.service.implementation;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import mjc.capstone.joinus.domain.entity.Chat;
 import mjc.capstone.joinus.domain.entity.ChatRoom;
 import mjc.capstone.joinus.domain.entity.Member;
 import mjc.capstone.joinus.domain.entity.Post;
-import mjc.capstone.joinus.dto.chat.ChatRequestDto;
-import mjc.capstone.joinus.dto.chat.ChatResponseDto;
 import mjc.capstone.joinus.dto.chat.ChatRoomDto;
 import mjc.capstone.joinus.exception.*;
 import mjc.capstone.joinus.repository.ChatRepository;
@@ -30,7 +27,6 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
     private final PostServiceImpl postService;
-    private final ChatRepository chatRepository;
 
     @Transactional(readOnly = true)
     @Override
