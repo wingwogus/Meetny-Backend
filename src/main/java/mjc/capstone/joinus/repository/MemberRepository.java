@@ -10,11 +10,12 @@ import java.util.Optional;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
-
     Optional<Member> findByMail(String mail);
 
     @Query("SELECT m FROM Member m LEFT JOIN FETCH m.memberTag WHERE m.username = :username")
-    Optional<Member> findByUsername(@Param("username") String username);
+    Optional<Member> findByUsernameWithMemberTag(@Param("username") String username);
+
+    Optional<Member> findByUsername(String username);
 
     Optional<Member> findByNickname(String nickname);
 }

@@ -1,7 +1,11 @@
 package mjc.capstone.joinus.controller.api;
 
 import lombok.RequiredArgsConstructor;
-import mjc.capstone.joinus.dto.*;
+import mjc.capstone.joinus.dto.auth.CustomUserDetails;
+import mjc.capstone.joinus.dto.mypage.MyPageDto;
+import mjc.capstone.joinus.dto.mypage.ProfileRequest;
+import mjc.capstone.joinus.dto.tag.TagDto;
+import mjc.capstone.joinus.dto.tag.UserTagDto;
 import mjc.capstone.joinus.service.inf.MyPageService;
 import mjc.capstone.joinus.service.inf.PostService;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +37,7 @@ public class MyPageController {
         userDetailDto.setPosts(postService.getAllPosts(userDetails.getMember().getId()));
         return ResponseEntity.ok(userDetailDto);
     }
+
     // 비밀번호 수정
     @PutMapping("/information/password")
     public ResponseEntity<String> updatePassword(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody ProfileRequest profileRequest) {
@@ -43,13 +48,14 @@ public class MyPageController {
         else {
             return ResponseEntity.ok("비밀번호는 8~20자 길이입니다.");
         }
-
     }
+
     // 태그 정보 뿌리기
     @GetMapping("/information/tag")
     public ResponseEntity<List<TagDto>> getTags(@AuthenticationPrincipal CustomUserDetails userDetails) {
         return ResponseEntity.ok(myPageService.findAlltags(userDetails.getMember()));
     }
+
     // 태그 수정
     @PutMapping("/information/tag/edit")
     public ResponseEntity<String> updateTag(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody UserTagDto userTagDto) {

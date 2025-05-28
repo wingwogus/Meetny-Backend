@@ -8,5 +8,4 @@ import lombok.Data;
 public class PostLikeResponseDto {
     private boolean liked;
     private int likeCount;
-
 }
