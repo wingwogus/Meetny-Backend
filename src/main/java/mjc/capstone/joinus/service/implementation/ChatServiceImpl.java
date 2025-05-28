@@ -12,17 +12,20 @@ import mjc.capstone.joinus.repository.ChatRoomRepository;
 import mjc.capstone.joinus.repository.MemberRepository;
 import mjc.capstone.joinus.service.inf.ChatService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ChatServiceImpl implements ChatService {
 
     private final MemberRepository memberRepository;
     private final ChatRoomRepository chatRoomRepository;
     private final ChatRepository chatRepository;
 
+    @Transactional(readOnly = true)
     @Override
     public ChatResponseDto convertMessage(ChatRequestDto dto, String username, String roomId) {
         Member member = memberRepository.findByUsername(username)

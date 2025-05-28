@@ -1,5 +1,6 @@
 package mjc.capstone.joinus.controller.api;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ public class ChatRoomController {
 
     // 채팅 리스트 화면
     @GetMapping("/")
+    @Operation(summary = "채팅 리스트", description = "현재 로그인 된 계정의 채팅방 목록을 불러옵니다.")
     public ResponseEntity<ApiResponse<List<ChatRoomDto>>> chatRoomList(
             @AuthenticationPrincipal CustomUserDetails userDetails){
 
@@ -34,6 +36,7 @@ public class ChatRoomController {
 
     // 채팅방 입장
     @PostMapping("/{postId}")
+    @Operation(summary = "채팅방 생성 및 입장", description = "현재 로그인 된 계정으로 포스트를 기반으로 채팅방을 생성합니다.")
     public ResponseEntity<ApiResponse<ChatRoomDto>> findOrCreateRoom(
             @PathVariable Long postId,
             @AuthenticationPrincipal CustomUserDetails userDetails) {
@@ -45,6 +48,7 @@ public class ChatRoomController {
     }
 
     @PostMapping("/{roomId}/complete")
+    @Operation(summary = "동행 완료", description = "채팅방의 사람들끼리 동행을 완료합니다.")
     public ResponseEntity<ApiResponse<Void>> completeRoom(
             @PathVariable String roomId,
             @AuthenticationPrincipal CustomUserDetails userDetails) {

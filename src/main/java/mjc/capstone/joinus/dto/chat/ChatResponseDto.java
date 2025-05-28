@@ -1,5 +1,6 @@
 package mjc.capstone.joinus.dto.chat;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,8 +12,16 @@ import mjc.capstone.joinus.domain.entity.Chat;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChatResponseDto {
-    private String roomId; // 방 번호
-    private String sender; // 채팅을 보낸 사람
-    private String message; // 메시지
-    private String sendAt; // 채팅 발송 시간
+
+    @Schema(description = "방 번호", example = "락, 콘서트")
+    private String roomId;
+
+    @Schema(description = "채팅을 보낸 사람", example = "user1")
+    private String sender;
+
+    @Schema(description = "메시지", example = "안녕하세요")
+    private String message;
+
+    @Schema(description = "채팅 발송 시간", example = "2024.10.11")
+    private String sendAt;
 }

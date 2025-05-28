@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ChatRoomServiceImpl implements ChatRoomService {
     private final ChatRoomRepository chatRoomRepository;
     private final MemberRepository memberRepository;
@@ -45,7 +46,6 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                 collect(Collectors.toList());
     }
 
-    @Transactional
     @Override
     public ChatRoomDto findOrCreateRoom(Long postId, Long memberId) {
         Post post = postRepository.findById(postId)
