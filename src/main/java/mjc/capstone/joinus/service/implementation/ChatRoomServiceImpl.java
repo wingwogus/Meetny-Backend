@@ -7,7 +7,6 @@ import mjc.capstone.joinus.domain.entity.Member;
 import mjc.capstone.joinus.domain.entity.Post;
 import mjc.capstone.joinus.dto.chat.ChatRoomDto;
 import mjc.capstone.joinus.exception.*;
-import mjc.capstone.joinus.repository.ChatRepository;
 import mjc.capstone.joinus.repository.ChatRoomRepository;
 import mjc.capstone.joinus.repository.MemberRepository;
 import mjc.capstone.joinus.repository.PostRepository;
@@ -32,10 +31,10 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     @Override
     public List<ChatRoomDto> chatRoomList(Long memberId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new EntityNotFoundException("멤버를 찾을 수 없습니다"));
+                .orElseThrow(NotFoundMemberException::new);
 
         List<ChatRoom> chatRoomList = chatRoomRepository.findWithPostAndAuthorAndMember(member).
-                orElseThrow(() -> new BusinessException(ErrorCode.INVALID_INPUT, "채팅방이 존재하지 않습니다"));
+                orElseThrow(NotFoundChatRoomException::new);
 
         return chatRoomList.stream().
                 map(ChatRoomDto::new).
@@ -45,9 +44,9 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     @Override
     public ChatRoomDto findOrCreateRoom(Long postId, Long memberId) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new EntityNotFoundException("포스트를 찾을 수 없습니다."));
+                .orElseThrow(NotFoundPostException::new);
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new EntityNotFoundException("멤버를 찾을 수 없습니다"));
+                .orElseThrow(NotFoundMemberException::new);
 
         ChatRoom chatRoom = chatRoomRepository.findByPostAndMember(post, member)
                 .orElseGet(() -> {
@@ -66,10 +65,10 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     @Override
     public void completeRoom(String roomId, Long memberId) {
         ChatRoom chatRoom = chatRoomRepository.findById(roomId)
-                .orElseThrow(() -> new EntityNotFoundException("채팅방이 존재하지 않습니다."));
+                .orElseThrow(NotFoundChatRoomException::new);
 
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new EntityNotFoundException("멤버를 찾을 수 없습니다"));
+                .orElseThrow(NotFoundMemberException::new);
 
         postService.validateAuth(chatRoom.getPost(), member);
 
