@@ -23,4 +23,7 @@ public interface ReviewPostRepository extends JpaRepository<ReviewPost, Long> {
     GROUP BY t.reviewTag.tagName
     """)
     List<Object[]> countTagsByPostAuthorId(@Param("memberId") Long memberId);
+
+    @Query("SELECT r FROM ReviewPost r WHERE r.post.author.id = :memberId")
+    List<ReviewPost> findAllByToMemberId(@Param("memberId") Long memberId);
 }
