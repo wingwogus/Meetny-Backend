@@ -37,3 +37,4 @@ out/
 .vscode/
 
 /src/main/resources/application-secret.yml
+/src/main/java/mjc/capstone/joinus/service/implementation/InitDataService.java
