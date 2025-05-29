@@ -36,7 +36,7 @@ public class ReviewController {
     public ResponseEntity<ApiResponse<ReviewResponseDto>> getReview(
             @Parameter(description = "리뷰 ID") @PathVariable Long reviewId) {
         ReviewResponseDto review = reviewService.getReview(reviewId);
-        return ResponseEntity.ok(ApiResponse.success("리뷰 조회 성공", review));
+        return ResponseEntity.ok(ApiResponse.success("리뷰 단일 조회 성공", review));
     }
 
     @PutMapping("/{reviewId}")
@@ -81,16 +81,16 @@ public class ReviewController {
             @Parameter(description = "게시글 ID") @PathVariable Long postId) {
 
         ReviewResponseDto review = reviewService.getPostReview(postId);
-        return ResponseEntity.ok(ApiResponse.success("리뷰 조회 성공", review));
+        return ResponseEntity.ok(ApiResponse.success("게시글 별 리뷰 조회 성공", review));
     }
 
-    @GetMapping("/member/{memberId}")
+    @GetMapping("/write/{memberId}")
     @Operation(summary = "회원이 작성한 리뷰 목록 조회", description = "특정 회원이 작성한 모든 리뷰를 조회합니다.")
     public ResponseEntity<ApiResponse<List<ReviewResponseDto>>> getReviewByMember(
             @Parameter(description = "회원 ID") @PathVariable Long memberId) {
 
         List<ReviewResponseDto> reviews = reviewService.getMemberReviews(memberId);
-        return ResponseEntity.ok(ApiResponse.success("리뷰 목록 조회 성공", reviews));
+        return ResponseEntity.ok(ApiResponse.success("작성한 리뷰 목록 조회 성공", reviews));
     }
 
     @GetMapping("/credibility/{memberId}")
@@ -98,6 +98,13 @@ public class ReviewController {
     public ResponseEntity<ApiResponse<CredibilityResponseDto>> getCredibility(
             @Parameter(description = "회원 ID") @PathVariable Long memberId) {
         return ResponseEntity.ok(ApiResponse.success("신뢰도 조회 성공", reviewService.getCredibility(memberId)));
+    }
+
+    @GetMapping("/receive/{memberId}")
+    @Operation(summary = "회원이 받은 리뷰 목록 조회", description = "특정 회원이 받은 모든 리뷰를 조회합니다.")
+    public ResponseEntity<ApiResponse<List<ReviewResponseDto>>> getReceive(
+            @Parameter(description = "회원 ID") @PathVariable Long memberId) {
+        return ResponseEntity.ok(ApiResponse.success("받은 리뷰 목록 조회 성공", reviewService.getReviewsAboutMe(memberId)));
     }
 
 }
