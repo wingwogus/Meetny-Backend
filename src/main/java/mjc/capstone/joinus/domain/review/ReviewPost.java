@@ -27,7 +27,7 @@ public class ReviewPost {
     private Member reviewer;
 
     @OneToOne
-    @JoinColumn(name = "post", unique = true,nullable = false)
+    @JoinColumn(name = "post", unique = true, nullable = false)
     private Post post;
 
     @OneToMany(mappedBy = "reviewPost", cascade = CascadeType.ALL)
