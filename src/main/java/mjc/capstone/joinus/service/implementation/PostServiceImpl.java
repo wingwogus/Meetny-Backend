@@ -10,6 +10,9 @@ import mjc.capstone.joinus.domain.tags.Tag;
 import mjc.capstone.joinus.dto.post.PostLikeResponseDto;
 import mjc.capstone.joinus.dto.post.PostRequestDto;
 import mjc.capstone.joinus.dto.post.PostResponseDto;
+import mjc.capstone.joinus.exception.DuplicateParticipantException;
+import mjc.capstone.joinus.exception.MemberNotFoundException;
+import mjc.capstone.joinus.exception.PostNotFoundException;
 import mjc.capstone.joinus.repository.MemberRepository;
 import mjc.capstone.joinus.repository.PostLikeRepository;
 import mjc.capstone.joinus.repository.PostRepository;
@@ -146,25 +149,6 @@ public class PostServiceImpl implements PostService {
 
         return postLikeRepository.existsByMemberAndPost(member, post);
     }
-
-    @Override
-    public void addParticipant(Long postId, Long memberId) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new EntityNotFoundException("Post not found"));
-
-        if (post.getParticipant() != null){
-            throw new IllegalArgumentException("This post already has a participant.");
-        }
-
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new EntityNotFoundException("Member not found"));
-
-        post.setParticipant(member);
-        postRepository.save(post);
-    }
-
-
-
 
 //    @Override
 //    public List<PostResponseDto> searchPosts(String keyword) {
