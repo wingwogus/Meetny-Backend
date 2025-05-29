@@ -8,4 +8,5 @@ public class ImageSaveFailedException extends BusinessException {
     public ImageSaveFailedException(ErrorCode errorCode, String message) {
         super(errorCode, message);
     }
+
 }
