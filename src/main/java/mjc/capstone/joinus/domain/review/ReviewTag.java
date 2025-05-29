@@ -10,8 +10,9 @@ import lombok.*;
 @Getter
 public class ReviewTag {
 
-    public ReviewTag(String tagName) {
+    public ReviewTag(String tagName, ReviewTagType type) {
         this.tagName = tagName;
+        this.type = type;
     }
 
     @Id
@@ -21,4 +22,8 @@ public class ReviewTag {
 
     @Column(nullable = false, unique = true)
     private String tagName;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ReviewTagType type;
 }
