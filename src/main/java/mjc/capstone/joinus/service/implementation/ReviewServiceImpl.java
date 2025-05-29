@@ -201,4 +201,17 @@ public class ReviewServiceImpl implements ReviewService {
                 .map(tag -> new ReviewTagResponseDto(tag.getTagName(), tag.getType()))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ReviewResponseDto> getReviewsAboutMe(Long memberId) {
+        memberRepository.findById(memberId)
+                .orElseThrow(MemberNotFoundException::new);
+
+        List<ReviewPost> reviews = reviewPostRepository.findAllByToMemberId(memberId);
+
+        return reviews.stream()
+                .map(ReviewResponseDto::from)
+                .toList();
+    }
 }
