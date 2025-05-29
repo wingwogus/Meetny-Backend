@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Entity
-@DiscriminatorValue("S")
+@DiscriminatorValue("Sports")
 @RequiredArgsConstructor
 public class Sports extends Tag {
 

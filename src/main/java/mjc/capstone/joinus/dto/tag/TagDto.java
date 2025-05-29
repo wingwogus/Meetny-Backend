@@ -1,8 +1,10 @@
 package mjc.capstone.joinus.dto.tag;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
+@Builder
 @Getter
 @AllArgsConstructor
 public class TagDto {

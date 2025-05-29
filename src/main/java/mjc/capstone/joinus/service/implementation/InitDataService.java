@@ -2,6 +2,10 @@ package mjc.capstone.joinus.service.implementation;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import mjc.capstone.joinus.domain.entity.Address;
+import mjc.capstone.joinus.domain.entity.Gender;
+import mjc.capstone.joinus.domain.entity.Member;
+import mjc.capstone.joinus.domain.entity.Role;
 import mjc.capstone.joinus.domain.entity.*;
 import mjc.capstone.joinus.domain.tags.*;
 import mjc.capstone.joinus.repository.MemberRepository;
@@ -17,21 +21,25 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class InitDataService {
+
     private final TagRepository tagRepository;
     private final MemberRepository memberRepository;
     private final UserTagRepository userTagRepository;
     private final PasswordEncoder passwordEncoder;
     private final PostRepository postRepository;
+    private final MemberServiceImpl memberService;
+
+
 
     @PostConstruct
     public void init() {
 
-        Concert rockTag = new Concert("락", "#FF5733");
-        Concert balladeTag = new Concert("발라드", "#33C1FF");
-        Exhibition exhibitionTag = new Exhibition("전시회", "#9D33FF");
-        Exhibition fairTag = new Exhibition("박람회", "#33FFBD");
-        Movie horribleTag = new Movie("공포", "#FF3333");
-        Sports soccerTag = new Sports("축구", "#FF8C33");
+        Tag rockTag = tagRepository.save(new Concert("락", "#FF5733"));
+        Tag balladeTag = tagRepository.save(new Concert("발라드", "#33C1FF"));
+        Tag exhibitionTag = tagRepository.save(new Exhibition("전시회", "#9D33FF"));
+        Tag fairTag = tagRepository.save(new Exhibition("박람회", "#33FFBD"));
+        Tag horribleTag = tagRepository.save(new Movie("공포", "#FF3333"));
+        Tag soccerTag = tagRepository.save(new Sports("축구", "#FF8C33"));
 
         List<Tag> selectedTags = List.of(rockTag,
                 balladeTag,
@@ -40,7 +48,31 @@ public class InitDataService {
                 horribleTag,
                 soccerTag); // 락, 발라드, 전시회, 공포, 야구
 
-        tagRepository.saveAll(selectedTags);
+        Member member = Member.builder()
+                .username("mih2001103")
+                .nickname("monikhyun")
+                .phone("010-0000-0000")
+                .mail("mih2001103@gmail.com")
+                .address(Address.builder()
+                        .city("서울특별시")
+                        .street("송파구")
+                        .town("방이동")
+                        .build())
+                .gender(Gender.MALE)
+                .role(Role.USER)
+                .profileImg("https://ui-avatars.com/api/?name=Jae+Hyun&background=random")
+                .password(passwordEncoder.encode("1234"))
+                .build();
+
+        memberRepository.save(member);
+
+
+        for (Tag tag : selectedTags) {
+            MemberTag memberTag = new MemberTag();
+            memberTag.setMember(member);
+            memberTag.setTags(tag);
+            userTagRepository.save(memberTag);
+        }
 
         Member member1 = Member.builder()
                 .username("user1")
@@ -96,8 +128,10 @@ public class InitDataService {
 
 
         List<Tag> tag1 = List.of(
-                rockTag,
-                exhibitionTag);
+                new Concert("락", "#FF5733"),
+                new Exhibition("전시회", "#9D33FF"));
+
+        tagRepository.saveAll(tag1);
 
         for (Tag tag : tag1) {
             MemberTag memberTag = new MemberTag();
@@ -107,8 +141,10 @@ public class InitDataService {
         }
 
         List<Tag> tag2 = List.of(
-                horribleTag,
-                balladeTag);
+                new Movie("공포", "#FF3333"),
+                new Sports("야구", "#33FF57"));
+
+        tagRepository.saveAll(tag2);
 
         for (Tag tag : tag2) {
             MemberTag memberTag = new MemberTag();
@@ -118,8 +154,10 @@ public class InitDataService {
         }
 
         List<Tag> tag3 = List.of(
-                fairTag,
-                soccerTag);
+                new Concert("랩", "#FF33A8"),
+                new Sports("축구", "#335BFF"));
+
+        tagRepository.saveAll(tag3);
 
         for (Tag tag : tag3) {
             MemberTag memberTag = new MemberTag();
@@ -127,7 +165,6 @@ public class InitDataService {
             memberTag.setTags(tag);
             userTagRepository.save(memberTag);
         }
-
         Post post1 = Post.builder()
                 .author(member1)
                 .title("토트넘 내한 동행 구인")
@@ -162,23 +199,7 @@ public class InitDataService {
 
         postRepository.save(post2);
 
-
-// Sample Tag
-/*
-        List<Tag> tags = List.of(
-                new Concert("락", "#FF5733"),
-                new Concert("발라드", "#33C1FF"),
-                new Concert("랩", "#FF33A8"),
-                new Exhibition("전시회", "#9D33FF"),
-                new Exhibition("박람회", "#33FFBD"),
-                new Movie("공포", "#FF3333"),
-                new Movie("사극", "#FFBD33"),
-                new Sports("야구", "#33FF57"),
-                new Sports("축구", "#335BFF"),
-                new Sports("농구", "#FF8C33")
-        );
-        tagRepository.saveAll(tags);
-    } */
     }
+
 }
 
