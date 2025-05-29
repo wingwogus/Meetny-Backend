@@ -1,5 +1,8 @@
 package mjc.capstone.joinus.controller.api;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import mjc.capstone.joinus.domain.entity.Post;
 import mjc.capstone.joinus.domain.tags.Tag;
@@ -77,15 +80,6 @@ public class PostController {
         PostLikeResponseDto response =
                 postService.togglePostLike(post, userDetails.getMember().getId());
         return ResponseEntity.ok(response);
-    }
-
-    // 동행 참여
-    @PostMapping("/{postId}/participant")
-    public ResponseEntity<Void> addParticipant(
-            @PathVariable Long postId,
-            @AuthenticationPrincipal CustomUserDetails userDetails){
-        postService.addParticipant(postId, userDetails.getMember().getId());
-        return ResponseEntity.ok().build();
     }
 
 //    // 게시글 키워드 검색
