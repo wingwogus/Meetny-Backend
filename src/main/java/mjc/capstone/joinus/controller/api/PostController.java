@@ -109,7 +109,6 @@ public class PostController {
     }
 
 
-
 //    // 게시글 키워드 검색
 //    @GetMapping("/search")
 //    public List<PostResponseDto> searchPosts(@RequestParam("keyword") String keyword) {
