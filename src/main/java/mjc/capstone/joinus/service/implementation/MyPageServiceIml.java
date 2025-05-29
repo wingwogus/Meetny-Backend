@@ -33,15 +33,15 @@ public class MyPageServiceIml implements MyPageService {
     @Override
     public String profileEdit(String url, String username) {
         if (!(url.endsWith(".png") || url.endsWith(".jpg") || url.endsWith(".jpeg"))) {
-            throw new InvalidImageException(ErrorCode.INVALID_IMAGE,"지원하지 않는 이미지 형식입니다. (png, jpg, jpeg만 가능)");
+            throw new InvalidImageException();
         }
         Member member = memberRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("해당 유저를 찾을 수 없습니다."));
+                .orElseThrow(NotFoundMemberException::new);
         member.setProfileImg(url);
         Member saved = memberRepository.save(member);
 
         if (saved.getProfileImg() == null || saved.getProfileImg().isBlank()) {
-            throw new ImageSaveFailedException(ErrorCode.IMAGE_SAVE_ERROR,"프로필 이미지 저장에 실패했습니다.");
+            throw new ImageSaveFailedException();
         }
         return url;
     }
@@ -49,7 +49,7 @@ public class MyPageServiceIml implements MyPageService {
     @Override
     public Member findMemberByUsername(String username) {
         return memberRepository.findByUsername(username)
-                .orElseThrow(() -> new NotFoundMemberException(ErrorCode.NOT_MEMBER_FOUND,"해당 유저를 찾을 수 없습니다."));
+                .orElseThrow(NotFoundMemberException::new);
     }
 
 
@@ -123,7 +123,7 @@ public class MyPageServiceIml implements MyPageService {
                         .followingCount(findFollowing(m))
                         .build()
                 )
-                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(NotFoundMemberException::new);
     }
 
     @Override
