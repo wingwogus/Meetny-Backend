@@ -37,6 +37,9 @@ public interface ReviewService {
     //작성한 리뷰 보기
     List<ReviewResponseDto> getMemberReviews(Long memberId);
 
+    //받은 리뷰 보기
+    List<ReviewResponseDto> getReviewsAboutMe(Long memberId);
+
     //신뢰도보기
     CredibilityResponseDto getCredibility(Long memberId);
 
