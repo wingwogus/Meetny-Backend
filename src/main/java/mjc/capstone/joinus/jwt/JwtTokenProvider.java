@@ -4,15 +4,14 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
-import mjc.capstone.joinus.dto.CustomUserDetails;
-import mjc.capstone.joinus.exception.InvalidCredentialsException;
+import mjc.capstone.joinus.dto.auth.CustomUserDetails;
+import mjc.capstone.joinus.exception.InvalidTokenException;
 import mjc.capstone.joinus.service.implementation.RedisService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import mjc.capstone.joinus.service.implementation.CustomUserDetailsService;
 import org.springframework.stereotype.Component;
 
@@ -65,10 +64,10 @@ public class JwtTokenProvider {
 
         // Redis에 저장된 RefreshToken과 일치하는지 확인
         String storedRefreshToken = redisService.getValues("RT:" + authentication.getName())
-                .orElseThrow(() -> new InvalidCredentialsException("유효하지 않은 Refresh Token 입니다."));
+                .orElseThrow(() -> new InvalidTokenException("유효하지 않은 Refresh Token 입니다."));
 
         if (!storedRefreshToken.equals(refreshToken)) {
-            throw new InvalidCredentialsException("Refresh Token이 일치하지 않습니다.");
+            throw new InvalidTokenException("Refresh Token이 일치하지 않습니다.");
         }
 
         long now = (new Date()).getTime();
@@ -125,7 +124,7 @@ public class JwtTokenProvider {
         Claims claims = parseClaims(accessToken);
 
         if (claims.get("auth") == null) {
-            throw new InvalidCredentialsException("권한 정보가 없는 토큰입니다.");
+            throw new InvalidTokenException("권한 정보가 없는 토큰입니다.");
         }
 
         // 클레임에서 권한 정보 가져오기
@@ -148,13 +147,13 @@ public class JwtTokenProvider {
                     .build()
                     .parseClaimsJws(token);
         } catch (SecurityException | MalformedJwtException e) {
-            throw new InvalidCredentialsException("유효하지 않은 Token 입니다.");
+            throw new InvalidTokenException("유효하지 않은 Token 입니다.");
         } catch (ExpiredJwtException e) {
-            throw new InvalidCredentialsException("만료된 Token 입니다.");
+            throw new InvalidTokenException("만료된 Token 입니다.");
         } catch (UnsupportedJwtException e) {
-            throw new InvalidCredentialsException("지원하지 않는 Token 입니다.");
+            throw new InvalidTokenException("지원하지 않는 Token 입니다.");
         } catch (IllegalArgumentException e) {
-            throw new InvalidCredentialsException("Token의 내용이 없습니다.");
+            throw new InvalidTokenException("Token의 내용이 없습니다.");
         }
     }
 

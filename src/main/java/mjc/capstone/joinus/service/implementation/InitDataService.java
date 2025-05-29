@@ -2,6 +2,10 @@ package mjc.capstone.joinus.service.implementation;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import mjc.capstone.joinus.domain.entity.Address;
+import mjc.capstone.joinus.domain.entity.Gender;
+import mjc.capstone.joinus.domain.entity.Member;
+import mjc.capstone.joinus.domain.entity.Role;
 import mjc.capstone.joinus.domain.entity.*;
 import mjc.capstone.joinus.domain.tags.*;
 import mjc.capstone.joinus.repository.MemberRepository;
@@ -25,51 +29,7 @@ public class InitDataService {
     private final PostRepository postRepository;
     private final MemberServiceImpl memberService;
 
-    /*@PostConstruct
-    public void init() {
 
-        memberService.signup(
-                SignupRequest.builder()
-                        .username("userid1")
-                        .password("1234")
-                        .nickname("거인이재현")
-                        .gender(Gender.Male)
-                        .phone("01073382156")
-                        .build());
-        memberService.signup(
-                SignupRequest.builder()
-                        .username("userid2")
-                        .password("1234")
-                        .nickname("소인이재현")
-                        .gender(Gender.Male)
-                        .phone("01073382156")
-                        .build());
-        memberService.signup(
-                SignupRequest.builder()
-                        .username("userid3")
-                        .password("1234")
-                        .nickname("대인이재현")
-                        .gender(Gender.Male)
-                        .phone("01073382156")
-                        .build());
-
-
-        List<Tag> tags = List.of(
-                new Concert("락", "#FF5733"),
-                new Concert("발라드", "#33C1FF"),
-                new Concert("랩", "#FF33A8"),
-                new Exhibition("전시회", "#9D33FF"),
-                new Exhibition("박람회", "#33FFBD"),
-                new Movie("공포", "#FF3333"),
-                new Movie("사극", "#FFBD33"),
-                new Sports("야구", "#33FF57"),
-                new Sports("축구", "#335BFF"),
-                new Sports("농구", "#FF8C33")
-        );
-        tagRepository.saveAll(tags);
-
-
-    }*/
 
     @PostConstruct
     public void init() {

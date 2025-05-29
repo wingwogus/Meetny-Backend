@@ -13,42 +13,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // 1) 이메일 중복 예외 → 409 Conflict
-    @ExceptionHandler(DuplicateEmailException.class)
-    public ResponseEntity<ApiResponse<Void>> handleDuplicateEmail(DuplicateEmailException ex) {
-        ApiResponse<Void> body = ApiResponse.error(ex.getMessage());
-        return ResponseEntity
-                .status(HttpStatus.CONFLICT)
-                .body(body);
-    }
-
-    // 2) 인증 실패 예외 → 400 Bad Request
-    @ExceptionHandler(VerificationFailedException.class)
-    public ResponseEntity<ApiResponse<Void>> handleVerificationFailed(VerificationFailedException ex) {
-        ApiResponse<Void> body = ApiResponse.error(ex.getMessage());
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(body);
-    }
-
-    // 3) 로그인 자격 증명 불일치 → 401 Unauthorized
-    @ExceptionHandler(InvalidCredentialsException.class)
-    public ResponseEntity<ApiResponse<Void>> handleInvalidCredentials(InvalidCredentialsException ex) {
-        ApiResponse<Void> body = ApiResponse.error(ex.getMessage());
-        return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
-                .body(body);
-    }
-
-    // 4) 닉네임 중복 확인 실패 → 409 Conflict
-    @ExceptionHandler(DuplicateNicknameException.class)
-    public ResponseEntity<ApiResponse<Void>> handleDuplicateNickname(DuplicateNicknameException ex) {
-        ApiResponse<Void> body = ApiResponse.error(ex.getMessage());
-        return ResponseEntity
-                .status(HttpStatus.CONFLICT)
-                .body(body);
-    }
-
     // 5) 나머지 비즈니스 예외 (fallback)
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<ApiResponse<Void>> handleBusiness(BusinessException ex) {

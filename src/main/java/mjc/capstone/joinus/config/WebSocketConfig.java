@@ -3,6 +3,8 @@ package mjc.capstone.joinus.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import mjc.capstone.joinus.exception.BusinessException;
+import mjc.capstone.joinus.exception.ErrorCode;
 import mjc.capstone.joinus.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +16,7 @@ import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageHeaderAccessor;
+import org.springframework.security.core.Authentication;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.socket.config.annotation.*;
 
@@ -65,11 +68,16 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 // STOMP CONNECT 프레임일 때만 처리
                 if (StompCommand.CONNECT.equals(accessor.getCommand())) {
                     String authHeader = accessor.getFirstNativeHeader("Authorization");
-                    if (authHeader != null && authHeader.startsWith("Bearer ")) {
+
+                    // Authorization header가 존재하지 않을 시에는
+                    if(authHeader == null)
+                        throw new BusinessException(ErrorCode.INVALID_INPUT, "토큰이 입력되지 않았습니다");
+
+                    if (authHeader.startsWith("Bearer ")) {
                         String token = authHeader.substring(7);
                         jwtTokenProvider.validateToken(token);
                         // 유효성 검사 후 Authentication 생성
-                        var authentication = jwtTokenProvider.getAuthentication(token);
+                        Authentication authentication = jwtTokenProvider.getAuthentication(token);
                         // STOMP 세션의 Principal 로 설정
                         accessor.setUser(authentication);
                     }

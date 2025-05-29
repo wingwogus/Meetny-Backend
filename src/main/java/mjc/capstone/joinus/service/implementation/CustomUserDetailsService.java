@@ -2,7 +2,7 @@ package mjc.capstone.joinus.service.implementation;
 
 import lombok.RequiredArgsConstructor;
 import mjc.capstone.joinus.domain.entity.Member;
-import mjc.capstone.joinus.dto.CustomUserDetails;
+import mjc.capstone.joinus.dto.auth.CustomUserDetails;
 import mjc.capstone.joinus.repository.MemberRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,7 +17,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Member member = memberRepository.findByUsername(username)
+        Member member = memberRepository.findByUsernameWithMemberTag(username)
                 .orElseThrow(() -> new UsernameNotFoundException("사용자 없음"));
 
         return new CustomUserDetails(member);

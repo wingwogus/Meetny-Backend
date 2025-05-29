@@ -6,7 +6,12 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import mjc.capstone.joinus.dto.*;
+import mjc.capstone.joinus.dto.ApiResponse;
+import mjc.capstone.joinus.dto.auth.CustomUserDetails;
+import mjc.capstone.joinus.dto.mypage.MyPageDto;
+import mjc.capstone.joinus.dto.mypage.ProfileRequest;
+import mjc.capstone.joinus.dto.tag.TagDto;
+import mjc.capstone.joinus.dto.tag.UserTagDto;
 import mjc.capstone.joinus.service.inf.MyPageService;
 import mjc.capstone.joinus.service.inf.PostService;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +38,7 @@ public class MyPageController {
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "수정 성공",
             content = @Content(schema = @Schema(implementation = String.class)))
     @PutMapping("/profile/edit")
-    public ResponseEntity<ApiResponse<String>> updateProfile(@AuthenticationPrincipal UserDetails userDetails,@RequestBody ProfileRequest profileRequest) {
+    public ResponseEntity<ApiResponse<String>> updateProfile(@AuthenticationPrincipal UserDetails userDetails, @RequestBody ProfileRequest profileRequest) {
         return ResponseEntity.ok(ApiResponse.success("프로필 이미지 수정 완료",myPageService.profileEdit(profileRequest.getImageUrl(), userDetails.getUsername())));
     }
 
@@ -47,6 +52,7 @@ public class MyPageController {
         userDetailDto.setPosts(postService.getAllPosts(userDetails.getMember().getId()));
         return ResponseEntity.ok(ApiResponse.success(userDetailDto));
     }
+
     // 비밀번호 수정
     @Operation(summary = "비밀번호 수정", description = "비밀번호를 8~20자 내로 수정합니다.")
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "수정 성공 또는 실패 사유 메시지 반환",
@@ -60,8 +66,8 @@ public class MyPageController {
         else {
             return ResponseEntity.ok(ApiResponse.success("비밀번호는 8~20자 길이입니다.", null));
         }
-
     }
+
     // 태그 정보 뿌리기
     @Operation(summary = "사용자 태그 조회", description = "로그인한 사용자의 태그 정보를 조회합니다.")
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "조회 성공",
@@ -70,6 +76,7 @@ public class MyPageController {
     public ResponseEntity<ApiResponse<List<TagDto>>> getTags(@AuthenticationPrincipal CustomUserDetails userDetails) {
         return ResponseEntity.ok(ApiResponse.success("태그 정보",myPageService.findAlltags(userDetails.getMember())));
     }
+
     // 태그 수정
     @Operation(summary = "사용자 태그 수정", description = "`add` 또는 `remove` 명령에 따라 태그를 추가 또는 삭제합니다.")
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "수정 성공",
