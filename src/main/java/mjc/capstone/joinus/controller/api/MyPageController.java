@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import mjc.capstone.joinus.dto.*;
 import mjc.capstone.joinus.service.inf.MyPageService;
 import mjc.capstone.joinus.service.inf.PostService;
+import mjc.capstone.joinus.service.inf.ReviewService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +20,7 @@ public class MyPageController {
 
     private final MyPageService myPageService;
     private final PostService postService;
+    private final ReviewService reviewService;
 
     // 프로필 이미지 수정
     @PutMapping("/profile/edit")
@@ -31,6 +33,7 @@ public class MyPageController {
     public ResponseEntity<MyPageDto> getInformation(@AuthenticationPrincipal CustomUserDetails userDetails) {
         MyPageDto userDetailDto = myPageService.findMemberDto(userDetails.getMember());
         userDetailDto.setPosts(postService.getAllPosts(userDetails.getMember().getId()));
+        userDetailDto.setCredibility(reviewService.getCredibility(userDetails.getMember().getId()));
         return ResponseEntity.ok(userDetailDto);
     }
     // 비밀번호 수정
