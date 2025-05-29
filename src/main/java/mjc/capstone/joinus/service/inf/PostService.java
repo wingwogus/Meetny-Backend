@@ -32,10 +32,6 @@ public interface PostService {
     //List<PostResponseDto> searchPosts(String keyword);
     // 포스트 유효성 검증
     void validateAuth(Post post, Member member);
-
     // 포스트 조회 기능
     PostResponseDto getPostDetail(Post post, Long memberId);
-
-    // 포스트 참가 기능
-    void addParticipant(Long postId, Long memberId);
 }
