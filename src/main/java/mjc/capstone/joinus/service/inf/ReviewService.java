@@ -1,8 +1,11 @@
 package mjc.capstone.joinus.service.inf;
 
 import mjc.capstone.joinus.domain.entity.Member;
+import mjc.capstone.joinus.domain.review.ReviewTagType;
+import mjc.capstone.joinus.dto.CredibilityResponseDto;
 import mjc.capstone.joinus.dto.ReviewRequestDto;
 import mjc.capstone.joinus.dto.ReviewResponseDto;
+import mjc.capstone.joinus.dto.ReviewTagResponseDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +15,9 @@ import java.util.Map;
 public interface ReviewService {
     // 리뷰 생성
     ReviewResponseDto createReview(Long memberId, Long postId, ReviewRequestDto dto);
+
+    // 신뢰도 증감
+    void calculateCredibility(Member author, List<ReviewTagType> tagTypes);
 
     // 리뷰 조회
     ReviewResponseDto getReview(Long reviewId);
@@ -30,4 +36,10 @@ public interface ReviewService {
 
     //작성한 리뷰 보기
     List<ReviewResponseDto> getMemberReviews(Long memberId);
+
+    //신뢰도보기
+    CredibilityResponseDto getCredibility(Long memberId);
+
+    //태그목록
+    List<ReviewTagResponseDto> getTags();
 }
