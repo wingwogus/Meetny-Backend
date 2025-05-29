@@ -1,18 +1,29 @@
 package mjc.capstone.joinus.domain.entity;
 
-import jakarta.persistence.Id;
-import lombok.Data;
-import mjc.capstone.joinus.dto.chat.ChatDto;
+import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Data
-@Document(collection = "chat")
+import java.time.LocalDateTime;
+
+@Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
 public class Chat {
-    @Id
-    private String id;
-    private ChatDto.MessageType type; // 메시지 타입
-    private String roomId; // 방 번호
-    private String sender; // 채팅을 보낸 사람
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_id")
+    private ChatRoom room; // 방 번호
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sender_id")
+    private Member sender; // 채팅을 보낸 사람
+
     private String message; // 메시지
-    private String time; // 채팅 발송 시간간
+
+    private LocalDateTime time; // 채팅 발송 시간
 }

@@ -2,7 +2,7 @@ package mjc.capstone.joinus.controller.api;
 
 import lombok.RequiredArgsConstructor;
 import mjc.capstone.joinus.domain.entity.Member;
-import mjc.capstone.joinus.dto.FollowDto;
+import mjc.capstone.joinus.dto.mypage.FollowDto;
 import mjc.capstone.joinus.repository.MemberRepository;
 import mjc.capstone.joinus.service.inf.FollowService;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ public class FollowController {
     @PostMapping("/follow/{toId}")
     public ResponseEntity<String> follow(@PathVariable("toId") Long toId,
                                          @AuthenticationPrincipal UserDetails userDetails) {
-        Member fromMember = memberRepository.findByUsername(userDetails.getUsername())
+        Member fromMember = memberRepository.findByUsernameWithMemberTag(userDetails.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid logged-in user"));
         Member toMember = memberRepository.findById(toId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid toUser ID"));
@@ -33,7 +33,7 @@ public class FollowController {
     @DeleteMapping("/unfollow/{toId}")
     public ResponseEntity<String> unfollow(@PathVariable("toId") Long toId,
                                            @AuthenticationPrincipal UserDetails userDetails) {
-        Member fromMember = memberRepository.findByUsername(userDetails.getUsername())
+        Member fromMember = memberRepository.findByUsernameWithMemberTag(userDetails.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid logged-in user"));
         Member toMember = memberRepository.findById(toId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid toUser ID"));

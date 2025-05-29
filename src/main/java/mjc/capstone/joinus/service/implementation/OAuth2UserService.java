@@ -1,4 +1,4 @@
-package mjc.capstone.joinus.service;
+package mjc.capstone.joinus.service.implementation;
 
 import lombok.RequiredArgsConstructor;
 import mjc.capstone.joinus.domain.entity.Member;

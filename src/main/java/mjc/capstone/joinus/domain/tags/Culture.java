@@ -5,7 +5,7 @@ import jakarta.persistence.Entity;
 import lombok.RequiredArgsConstructor;
 
 @Entity
-@DiscriminatorValue("E")
+@DiscriminatorValue("Exhibition")
 @RequiredArgsConstructor
 public class Culture extends Tag {
 

@@ -1,10 +1,10 @@
 package mjc.capstone.joinus.service.inf;
 
+import mjc.capstone.joinus.dto.review.ReviewRequestDto;
+import mjc.capstone.joinus.dto.review.ReviewResponseDto;
 import mjc.capstone.joinus.domain.entity.Member;
 import mjc.capstone.joinus.domain.review.ReviewTagType;
 import mjc.capstone.joinus.dto.CredibilityResponseDto;
-import mjc.capstone.joinus.dto.ReviewRequestDto;
-import mjc.capstone.joinus.dto.ReviewResponseDto;
 import mjc.capstone.joinus.dto.ReviewTagResponseDto;
 import org.springframework.stereotype.Service;
 

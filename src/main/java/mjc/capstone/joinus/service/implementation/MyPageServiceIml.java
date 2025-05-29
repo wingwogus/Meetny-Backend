@@ -5,8 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import mjc.capstone.joinus.domain.entity.Member;
 import mjc.capstone.joinus.domain.tags.Tag;
 import mjc.capstone.joinus.domain.tags.MemberTag;
-import mjc.capstone.joinus.dto.TagDto;
-import mjc.capstone.joinus.dto.MyPageDto;
+import mjc.capstone.joinus.dto.tag.TagDto;
+import mjc.capstone.joinus.dto.mypage.MyPageDto;
+import mjc.capstone.joinus.exception.ErrorCode;
+import mjc.capstone.joinus.exception.ImageSaveFailedException;
+import mjc.capstone.joinus.exception.InvalidImageException;
+import mjc.capstone.joinus.exception.NotFoundMemberException;
 import mjc.capstone.joinus.repository.*;
 import mjc.capstone.joinus.service.inf.MyPageService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,17 +32,24 @@ public class MyPageServiceIml implements MyPageService {
 
     @Override
     public String profileEdit(String url, String username) {
+        if (!(url.endsWith(".png") || url.endsWith(".jpg") || url.endsWith(".jpeg"))) {
+            throw new InvalidImageException();
+        }
         Member member = memberRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("해당 유저를 찾을 수 없습니다."));
+                .orElseThrow(NotFoundMemberException::new);
         member.setProfileImg(url);
-        memberRepository.save(member);
+        Member saved = memberRepository.save(member);
+
+        if (saved.getProfileImg() == null || saved.getProfileImg().isBlank()) {
+            throw new ImageSaveFailedException();
+        }
         return url;
     }
 
     @Override
     public Member findMemberByUsername(String username) {
         return memberRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("해당 유저를 찾을 수 없습니다."));
+                .orElseThrow(NotFoundMemberException::new);
     }
 
 
@@ -112,7 +123,7 @@ public class MyPageServiceIml implements MyPageService {
                         .followingCount(findFollowing(m))
                         .build()
                 )
-                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(NotFoundMemberException::new);
     }
 
     @Override

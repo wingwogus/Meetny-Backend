@@ -10,7 +10,7 @@ import mjc.capstone.joinus.domain.entity.Role;
 import mjc.capstone.joinus.dto.auth.LoginRequestDto;
 import mjc.capstone.joinus.dto.auth.ReissueRequestDto;
 import mjc.capstone.joinus.dto.auth.SignUpRequestDto;
-import mjc.capstone.joinus.exception.InvalidCredentialsException;
+import mjc.capstone.joinus.exception.InvalidTokenException;
 import mjc.capstone.joinus.jwt.JwtToken;
 import mjc.capstone.joinus.jwt.JwtTokenProvider;
 import mjc.capstone.joinus.repository.MemberRepository;
@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
-@Transactional(readOnly=false)
+@Transactional
 @Slf4j
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
@@ -35,6 +35,7 @@ public class MemberServiceImpl implements MemberService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final RedisService redisService;
 
+    @Transactional(readOnly=true)
     @Override
     public JwtToken login(LoginRequestDto request) {
         /// 1. username + password 를 기반으로 Authentication 객체 생성
@@ -53,6 +54,7 @@ public class MemberServiceImpl implements MemberService {
         return jwtTokenProvider.generateToken(authentication);
     }
 
+    @Transactional(readOnly=true)
     @Override
     public JwtToken reissue(ReissueRequestDto request) {
         // 1. RefreshToken 유효성 검사
@@ -62,11 +64,13 @@ public class MemberServiceImpl implements MemberService {
         return jwtTokenProvider.reissueToken(request.getAccessToken(), request.getRefreshToken());
     }
 
+    @Transactional
     @Override
     public void signup(SignUpRequestDto request) {
-        if (memberRepository.findByUsername(request.getUsername()).isPresent()) {
-            throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
-        }
+        memberRepository.findByUsernameWithMemberTag(request.getUsername())
+                .ifPresent(a -> {
+                    throw new IllegalArgumentException("이미 존재하는 아이디입니다.");});
+
         Member member = Member.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -81,11 +85,12 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
     }
 
+    @Transactional
     @Override
     public void logout(String email) {
         Optional<String> refreshToken = redisService.getValues("RT:" + email);
         if (refreshToken.isEmpty()) {
-            throw new InvalidCredentialsException("로그인되어 있지 않은 상태입니다");
+            throw new InvalidTokenException("로그인되어 있지 않은 상태입니다");
         }
 
         redisService.deleteValues("RT:" + email);

@@ -1,4 +1,4 @@
-package mjc.capstone.joinus.dto;
+package mjc.capstone.joinus.dto.mypage;
 
 import lombok.*;
 import mjc.capstone.joinus.dto.post.PostResponseDto;
