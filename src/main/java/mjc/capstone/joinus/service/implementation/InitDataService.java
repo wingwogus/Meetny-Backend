@@ -68,6 +68,8 @@ public class InitDataService {
                 actionTag, romanceTag, comedyTag, thrillerTag, fantasyTag, documentaryTag, animationTag, musicalMovieTag, dramaTag
         );
 
+        tagRepository.saveAll(selectedTags);
+
         Member member = Member.builder()
                 .username("mih2001103")
                 .nickname("monikhyun")
