@@ -1,5 +1,6 @@
 package mjc.capstone.joinus.dto.review;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,12 +16,19 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class ReviewResponseDto {
+    @Schema(description = "리뷰어 ID")
     private Long reviewerId;
+    @Schema(description = "리뷰 코멘트")
     private String comment;
+    @Schema(description = "리뷰어 닉네임")
     private String reviewerNickname;
+    @Schema(description = "게시글 제목")
     private String postTitle;
+    @Schema(description = "게시글 사진")
     private String photo;
+    @Schema(description = "게시글 만남 시간")
     private LocalDateTime meetingTime;
+    @Schema(description = "매너 태그 목록")
     private List<String> mannerTag = new ArrayList<>();
 
     public static ReviewResponseDto from(ReviewPost review){
