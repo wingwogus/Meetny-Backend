@@ -2,6 +2,7 @@ package mjc.capstone.joinus.dto.mypage;
 
 import lombok.*;
 import mjc.capstone.joinus.dto.post.PostResponseDto;
+import mjc.capstone.joinus.dto.review.CredibilityResponseDto;
 
 import java.util.List;
 
@@ -17,6 +18,8 @@ public class MyPageDto {
     private String password;
     private String phone;
     private List<String> tags;
+
+    private CredibilityResponseDto credibility;
 
     private Long followerCount = 0L;
     private Long followingCount = 0L;

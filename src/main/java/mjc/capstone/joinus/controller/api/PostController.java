@@ -65,7 +65,6 @@ public class PostController {
                 postService.getPostDetail(post, memberId)));
     }
 
-
     // 태그별 게시글 조회
     @Operation(summary = "태그별 게시글 조회", description = "원하는 태그의 모든 게시글을 조회합니다")
     @GetMapping("/tag/{id}")
@@ -101,21 +100,10 @@ public class PostController {
         return ResponseEntity.ok(ApiResponse.success("좋아요/취소 성공", response));
     }
 
-    // 동행 참여
-    @PostMapping("/{postId}/participant")
-    public ResponseEntity<String> addParticipant(@PathVariable Long postId, @RequestParam Long memberId){
-        postService.addParticipant(postId, memberId);
-        return ResponseEntity.ok("Participant added");
-    }
-
-
-
 //    // 게시글 키워드 검색
 //    @GetMapping("/search")
 //    public List<PostResponseDto> searchPosts(@RequestParam("keyword") String keyword) {
 //        return postService.searchPosts(keyword);
 //    }
-
-
 
 }
