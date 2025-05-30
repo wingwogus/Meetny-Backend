@@ -9,8 +9,8 @@ import mjc.capstone.joinus.domain.review.ReviewTag;
 import mjc.capstone.joinus.dto.review.ReviewRequestDto;
 import mjc.capstone.joinus.dto.review.ReviewResponseDto;
 import mjc.capstone.joinus.domain.review.ReviewTagType;
-import mjc.capstone.joinus.dto.CredibilityResponseDto;
-import mjc.capstone.joinus.dto.ReviewTagResponseDto;
+import mjc.capstone.joinus.dto.review.CredibilityResponseDto;
+import mjc.capstone.joinus.dto.review.ReviewTagResponseDto;
 import mjc.capstone.joinus.exception.*;
 import mjc.capstone.joinus.repository.*;
 import mjc.capstone.joinus.service.inf.ReviewService;
@@ -35,9 +35,9 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public ReviewResponseDto createReview(Long memberId, Long postId, ReviewRequestDto dto) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(MemberNotFoundException::new);
+                .orElseThrow(NotFoundMemberException::new);
         Post post = postRepository.findById(postId)
-                .orElseThrow(PostNotFoundException::new);
+                .orElseThrow(NotFoundPostException::new);
 
         if (reviewPostRepository.existsByPostId(postId)) {
             throw new DuplicateReviewException();
@@ -120,6 +120,21 @@ public class ReviewServiceImpl implements ReviewService {
             throw new ReviewAccessDeniedException("리뷰 수정 권한이 없습니다");
         }
 
+        List<Long> tagIds = dto.getMannerTags();
+        if (tagIds == null || tagIds.isEmpty()) {
+            throw new MissingReviewTagException();
+        }
+
+        if (tagIds.stream().distinct().count() != tagIds.size()) {
+            throw new DuplicateReviewTagException();
+        }
+
+        List<ReviewTagType> originalTagTypes = review.getMannerTags().stream()
+                .map(tag -> tag.getReviewTag().getType())
+                .toList();
+
+        revertCredibility(review.getPost().getAuthor(), originalTagTypes);
+
         reviewPostTagRepository.deleteByReviewPostId(review.getId());
         review.getMannerTags().clear();
 
@@ -135,10 +150,28 @@ public class ReviewServiceImpl implements ReviewService {
                 .toList();
 
         dto.updateReviewPost(review, reviewTags);
-
         reviewPostRepository.save(review);
 
+        List<ReviewTagType> newTagTypes = reviewTags.stream()
+                .map(tag -> tag.getReviewTag().getType())
+                .toList();
+
+        calculateCredibility(review.getPost().getAuthor(), newTagTypes);
+
         return ReviewResponseDto.from(review);
+    }
+
+
+    @Override
+    public void revertCredibility(Member author, List<ReviewTagType> tagTypes) {
+        double value = tagTypes.stream()
+                .mapToDouble(ReviewTagType::getValue)
+                .sum();
+
+        double newCred = author.getCredibility() - value;
+        newCred = Math.clamp(newCred, 0.0, 100.0);
+
+        author.setCredibility(newCred);
     }
 
     @Override
@@ -155,7 +188,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional(readOnly = true)
     public Map<String, Long> getMannerTagCounts(Long memberId) {
         memberRepository.findById(memberId)
-                .orElseThrow(MemberNotFoundException::new);
+                .orElseThrow(NotFoundMemberException::new);
 
         return reviewPostRepository.countTagsByPostAuthorId(memberId).stream()
                 .collect(Collectors.toMap(
@@ -168,7 +201,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional(readOnly = true)
     public ReviewResponseDto getPostReview(Long postId) {
         ReviewPost review = reviewPostRepository.findByPostId(postId)
-                .orElseThrow(PostNotFoundException::new);
+                .orElseThrow(NotFoundPostException::new);
         return ReviewResponseDto.from(review);
     }
 
@@ -176,7 +209,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional(readOnly = true)
     public List<ReviewResponseDto> getMemberReviews(Long memberId) {
         memberRepository.findById(memberId)
-                .orElseThrow(MemberNotFoundException::new);
+                .orElseThrow(NotFoundMemberException::new);
         List<ReviewPost> reviews = reviewPostRepository.findAllByReviewerId(memberId);
         return reviews.stream()
                 .map(ReviewResponseDto::from)
@@ -199,14 +232,14 @@ public class ReviewServiceImpl implements ReviewService {
 
         return tags.stream()
                 .map(tag -> new ReviewTagResponseDto(tag.getTagName(), tag.getType()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<ReviewResponseDto> getReviewsAboutMe(Long memberId) {
         memberRepository.findById(memberId)
-                .orElseThrow(MemberNotFoundException::new);
+                .orElseThrow(NotFoundMemberException::new);
 
         List<ReviewPost> reviews = reviewPostRepository.findAllByToMemberId(memberId);
 
