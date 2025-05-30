@@ -1,0 +1,80 @@
+/* src/styles/ChatRoomList.css */
+
+.chat-room-list {
+    width: 503px;
+    height: 1080px;
+    background-color: #ffffff;
+    border: 1px solid #d0d0d0;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.room-item {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    padding: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.room-item:hover {
+    background-color: #f6fcfe;
+}
+
+.room-avatar {
+    width: 82px;
+    height: 82px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.room-info {
+    margin-left: 16px;
+    flex: 1;
+}
+
+.room-title {
+    font-family: "Pretendard-Medium", Helvetica;
+    font-size: 20px;
+    font-weight: 500;
+    color: #000000;
+}
+
+.room-snippet {
+    margin-top: 8px;
+    font-family: "Pretendard-Medium", Helvetica;
+    font-size: 16px;
+    font-weight: 500;
+    color: #949494;
+}
+
+.room-meta {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-family: "Pretendard-Regular", Helvetica;
+    font-size: 12px;
+    font-weight: 400;
+    color: #949494;
+}
+
+.unread-badge {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    width: 26px;
+    height: 26px;
+    background-color: #f8882e;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Pretendard-Medium", Helvetica;
+    font-size: 14px;
+    font-weight: 500;
+    color: #ffffff;
+}
