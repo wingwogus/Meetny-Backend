@@ -72,6 +72,6 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 
         postService.validateAuth(chatRoom.getPost(), member);
 
-        postService.addParticipant(chatRoom.getPost().getId(), chatRoom.getMember().getId());
+        //postService.addParticipant(chatRoom.getPost().getId(), chatRoom.getMember().getId());
     }
 }
