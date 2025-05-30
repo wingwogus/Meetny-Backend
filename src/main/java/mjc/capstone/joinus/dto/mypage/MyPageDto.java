@@ -2,9 +2,9 @@ package mjc.capstone.joinus.dto.mypage;
 
 import lombok.*;
 import mjc.capstone.joinus.dto.post.PostResponseDto;
+import mjc.capstone.joinus.dto.review.CredibilityResponseDto;
 
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @Setter
