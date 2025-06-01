@@ -112,7 +112,6 @@ public class MyPageServiceIml implements MyPageService {
         return memberRepository.findByUsername(m.getUsername())
                 .map(member -> MyPageDto.builder()
                         .nickname(member.getNickname())
-                        .email(member.getMail())
                         .profilePic(member.getProfileImg())
                         .password(member.getPassword())
                         .phone(member.getPhone())

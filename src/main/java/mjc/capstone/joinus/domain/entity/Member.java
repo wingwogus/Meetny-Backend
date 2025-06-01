@@ -29,8 +29,6 @@ public class Member {
 
     private String phone;
 
-    private String mail;
-
     private String profileImg;
 
     @Enumerated(EnumType.STRING)
