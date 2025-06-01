@@ -1,0 +1,433 @@
+ /*---------------------------------------------------
+      공통 변수 (원본 색상, 폰트 패밀리 등)
+    ---------------------------------------------------*/
+:root {
+    --color-bg-light: #f9f9f9;       /* 원본 .overlap-group 배경색 */
+    --color-border: #d5d5d5;         /* 원본 테두리 색 */
+    --color-text-light: #858585;     /* 원본 .text-wrapper 글자색 */
+    --color-text-medium: #525252;    /* 원본 .text-wrapper-2 글자색 */
+    --color-text-dark: #444444;      /* 원본 .text-wrapper-12 글자색 */
+    --color-highlight: #f4964a;      /* 원본 강조색 (#f4964a) */
+    --color-accent: #f7b681;         /* 원본 .rectangle 배경색 */
+    --color-accent-dark: #db6a1f;    /* 원본 .ellipse 배경색 */
+    --color-success: #72d3aa;        /* 원본 .ellipse-2 배경색 */
+    --color-btn-address: #bebebe;    /* 원본 .div-wrapper 배경색 */
+    --color-btn-submit: #f4964a;     /* 원본 .overlap-3 배경색 */
+    --color-btn-submit-hover: #d67a35;/* 약간 짙은 submit 호버색 */
+
+    --font-family-light: "Pretendard-Light", Helvetica, Arial, sans-serif;
+    --font-family-medium: "Pretendard-Medium", Helvetica, Arial, sans-serif;
+    --font-family-semibold: "Pretendard-SemiBold", Helvetica, Arial, sans-serif;
+    --font-family-bold: "Pretendard-Bold", Helvetica, Arial, sans-serif;
+}
+
+/*---------------------------------------------------
+  1. 최상위 컨테이너
+---------------------------------------------------*/
+.element {
+    background-color: #ffffff;        /* 원본 배경색 유지 */
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;               /* 위아래 여백 추가 */
+}
+
+.element .div {
+    background-color: #ffffff;        /* 원본 배경색 유지 */
+    position: relative;
+    width: 100%;
+    max-width: 760px;                 /* 적절히 제한하여 가독성 향상 */
+}
+
+/*---------------------------------------------------
+  2. 제목, 구분선, 섹션 텍스트
+    (원본 .text-wrapper-12, .text-wrapper-11, .text-wrapper-10 등)
+---------------------------------------------------*/
+.text-wrapper-12 {
+    color: var(--color-text-dark);
+    font-family: var(--font-family-semibold);
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 8px; /* 제목 아래 여백 */
+}
+
+.text-wrapper-11 {
+    color: var(--color-highlight);
+    font-family: var(--font-family-semibold);
+    font-size: 22px;
+    font-weight: 600;
+    margin-left: 8px; /* 제목 옆 별표 간격 */
+}
+
+.text-wrapper-10 {
+    color: var(--color-text-medium);
+    font-family: var(--font-family-medium);
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 24px; /* 폼 상단 섹션과의 여백 */
+}
+
+/* 구분선 */
+.vector-2,
+.vector-3 {
+    display: block;
+    background-color: var(--color-border);
+    height: 2px;
+    width: 100%;
+    margin: 24px 0;
+}
+
+/*---------------------------------------------------
+  3. 폼 그룹 공통 스타일
+    .form-group-container: 한 개의 레이블+인풋 컨테이너
+    .form-label: 레이블 텍스트
+    .form-input: 텍스트 입력 & 셀렉트
+    .required: 필수 표기(*) 스타일
+---------------------------------------------------*/
+.form-group-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.form-group-container .form-label {
+    color: var(--color-text-medium);
+    font-family: var(--font-family-medium);
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.form-group-container .required {
+    color: var(--color-highlight);
+    margin-left: 4px;
+    font-family: var(--font-family-semibold);
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.form-group-container .form-input {
+    height: 61px;
+    padding: 0 16px;
+    font-family: var(--font-family-light);
+    font-size: 20px;
+    color: var(--color-text-light);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    background-color: var(--color-bg-light);
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group-container .form-input::placeholder {
+    color: var(--color-text-light);
+    opacity: 1;
+}
+
+.form-group-container .form-input:focus {
+    border-color: var(--color-highlight);
+}
+
+/*---------------------------------------------------
+  4. SelectField 전용 스타일
+---------------------------------------------------*/
+.form-group-container select.form-input {
+    appearance: none;
+    background-color: var(--color-bg-light);
+    cursor: pointer;
+}
+
+/*---------------------------------------------------
+  5. 주소 입력 + 버튼 그룹
+    .address-group: 인풋과 버튼을 가로 배치
+    .address-btn: “주소 찾기” 버튼
+---------------------------------------------------*/
+.address-group {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+/* 주소 인풋만 세로 레이아웃 대신 flex:1 사용 */
+.address-group .form-group-container {
+    flex: 1;
+}
+
+.address-btn {
+    background-color: var(--color-btn-address);
+    border: 1px solid #a8a8a8;
+    border-radius: 10px;
+    height: 61px;
+    padding: 0 24px;
+    font-family: var(--font-family-semibold);
+    font-size: 20px;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.address-btn:hover {
+    background-color: #a0a0a0;
+}
+
+/*---------------------------------------------------
+  6. 인증번호(OTP) 그룹
+    .auth-group: 인풋 + 버튼 + 타이머 + 버튼
+    .auth-input: 코드 입력란
+    .auth-btn: 인증번호 받기/확인 버튼
+    .timer-text: 남은 시간 표시
+---------------------------------------------------*/
+.auth-group {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.auth-input {
+    flex: 1;
+    height: 61px;
+    padding: 0 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    background-color: #ffffff;
+    font-family: var(--font-family-light);
+    font-size: 20px;
+    color: var(--color-text-light);
+    outline: none;
+}
+
+.auth-input::placeholder {
+    color: var(--color-text-light);
+    opacity: 1;
+}
+
+.auth-input:focus {
+    border-color: var(--color-highlight);
+}
+
+.auth-btn {
+    background-color: var(--color-btn-submit);
+    border: none;
+    border-radius: 10px;
+    height: 61px;
+    padding: 0 24px;
+    font-family: var(--font-family-semibold);
+    font-size: 20px;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.auth-btn:hover {
+    background-color: var(--color-btn-submit-hover);
+}
+
+.timer-text {
+    color: #d4d4d4; /* 원본 .text-wrapper-18 색상 유지 */
+    font-family: var(--font-family-medium);
+    font-size: 18px;
+}
+
+/*---------------------------------------------------
+  7. 가입하기 버튼 (submit)
+    .submit-btn: “다음으로” 버튼
+---------------------------------------------------*/
+.submit-btn {
+    width: 100%;
+    background-color: var(--color-btn-submit);
+    border: none;
+    border-radius: 10px;
+    height: 93px;
+    margin-top: 32px;
+    font-family: var(--font-family-bold);
+    font-size: 28px;
+    font-weight: 700;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: var(--color-btn-submit-hover);
+}
+
+/*---------------------------------------------------
+  8. 폼 전체 레이아웃 보조 스타일
+    - <form> 태그 내부 패딩, 그룹 간 간격 등
+---------------------------------------------------*/
+.register-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0; /* 개별 그룹마다 margin-bottom을 사용 */
+    padding-bottom: 40px;
+}
+
+/*---------------------------------------------------
+  9. 하단 아이콘 그룹
+    .icon-group: 아이콘을 가로로 정렬
+---------------------------------------------------*/
+.icon-group {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.icon-group img {
+    display: block;
+    height: 55px; /* 원본 .group-10 높이 유지 */
+    /* 너비는 auto로 설정하거나 필요 시 별도 지정 */
+}
+
+/*---------------------------------------------------
+  10. 추가 텍스트/문구 스타일 (원본 .group-7, .group-8, .group-9 등)
+    비밀번호 규칙 안내 텍스트
+---------------------------------------------------*/
+.group-7 p,
+.group-8 p,
+.group-9 p {
+    color: var(--color-text-light);
+    font-family: var(--font-family-light);
+    font-size: 16px;
+    font-weight: 300;
+    margin: 0;
+}
+
+.group-7 .vector-wrapper,
+.group-8 .img-wrapper,
+.group-9 .img-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4964a; /* 원본 .vector-wrapper 배경색 */
+    border-radius: 3px;
+    width: 25px;
+    height: 25px;
+}
+
+.group-8 .img-wrapper {
+    background-color: #f3f3f3; /* 원본 .img-wrapper 배경색 */
+    border: 1px solid #e8e8e8;
+}
+
+.group-7 .vector-4,
+.group-8 .vector-5,
+.group-9 .vector-5 {
+    width: 16px;
+    height: 15px;
+}
+
+/*---------------------------------------------------
+  11. 포지셔닝이 필요한 작은 엘리먼트 스타일 (절대 위치 최소화)
+    - 예: 성공 아이콘(원본 .ellipse-2), 강조 아이콘 등
+---------------------------------------------------*/
+.ellipse-2 {
+    background-color: var(--color-success);
+    border-radius: 10.82px;
+    width: 22px;
+    height: 22px;
+    display: inline-block;
+    /* parent 컨텍스트에서 위치를 잡고 싶다면 추가 위치 지정 */
+}
+
+/* 원본 .ellipse-2처럼 특정 좌표에 고정해야 한다면, 최상위 .div에
+   position: relative; 로 두고, 아래처럼 별도 위치를 지정할 수 있습니다.
+   예시)
+   .ellipse-2 {
+     position: absolute;
+     top: 417px;
+     left: 356px;
+   }
+   그러나 일반 폼에서는 이처럼 절대 위치가 필요 없기 때문에 inline-block만 남겼습니다.
+*/
+
+/*---------------------------------------------------
+  12. 기타 (원본 .ellipse, .rectangle, .overlap 등)
+    - 일반 UI 요소로 치환하거나, 필요 시 절대 위치 지우고 Accent로 사용
+---------------------------------------------------*/
+.overlap {
+    background-color: #ffdec4;  /* 경고 바 또는 진행 바 상단 */
+    border-radius: 13.5px;
+    height: 27px;
+    width: 100%;
+    max-width: 1128px;
+    margin: 0 auto 24px;        /* 위 지정 없이 중앙 정렬 */
+}
+
+.rectangle {
+    background-color: var(--color-accent);
+    border-radius: 13.5px;
+    height: 27px;
+    width: 761px;
+    margin: 0 auto;            /* 중앙 정렬 */
+}
+
+.ellipse {
+    background-color: var(--color-accent-dark);
+    border-radius: 50%;
+    width: 27px;
+    height: 27px;
+    position: relative;
+    top: -27px;                /* rectangle 바로 위에 배치 예시 */
+    left: calc(50% + 380.5px); /* 중앙에서 오른쪽으로 */
+}
+
+/*---------------------------------------------------
+  13. 기타 텍스트 스타일
+---------------------------------------------------*/
+.text-wrapper-14 {
+    color: #ffffff;
+    font-family: var(--font-family-bold);
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.text-wrapper-15 {
+    color: var(--color-text-light);
+    font-family: var(--font-family-light);
+    font-size: 20px;
+}
+
+.text-wrapper-16 {
+    color: var(--color-highlight);
+    font-family: var(--font-family-semibold);
+    font-size: 22px;
+}
+
+.text-wrapper-17 {
+    color: var(--color-text-light);
+    font-family: var(--font-family-light);
+    font-size: 20px;
+}
+
+.text-wrapper-18 {
+    color: #d4d4d4;
+    font-family: var(--font-family-medium);
+    font-size: 18px;
+}
+
+.text-wrapper-19 {
+    color: #a2a2a2;
+    font-family: var(--font-family-medium);
+    font-size: 20px;
+}
+
+/*---------------------------------------------------
+  14. 반응형/추가 보조 스타일 (필요 시)
+---------------------------------------------------*/
+@media (max-width: 768px) {
+    .form-group-container .form-input {
+        font-size: 18px;
+        height: 54px;
+    }
+    .form-group-container .form-label {
+        font-size: 20px;
+    }
+    .submit-btn {
+        font-size: 24px;
+        height: 80px;
+    }
+}
