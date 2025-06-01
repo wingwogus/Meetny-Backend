@@ -1,5 +1,6 @@
 package mjc.capstone.joinus.dto.review;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import mjc.capstone.joinus.domain.entity.Member;
@@ -11,7 +12,9 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class ReviewRequestDto {
+    @Schema(description = "리뷰 코멘트")
     private String comment;
+    @Schema(description = "매너 평가 태그")
     private List<Long> mannerTags;
 
     public ReviewPost toEntity(Member member) {

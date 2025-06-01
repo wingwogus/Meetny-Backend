@@ -3,11 +3,10 @@ package mjc.capstone.joinus.service.implementation;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import mjc.capstone.joinus.domain.entity.*;
+import mjc.capstone.joinus.domain.review.ReviewTag;
+import mjc.capstone.joinus.domain.review.ReviewTagType;
 import mjc.capstone.joinus.domain.tags.*;
-import mjc.capstone.joinus.repository.MemberRepository;
-import mjc.capstone.joinus.repository.PostRepository;
-import mjc.capstone.joinus.repository.TagRepository;
-import mjc.capstone.joinus.repository.UserTagRepository;
+import mjc.capstone.joinus.repository.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +21,7 @@ public class InitDataService {
     private final UserTagRepository userTagRepository;
     private final PasswordEncoder passwordEncoder;
     private final PostRepository postRepository;
+    private final ReviewTagRepository reviewTagRepository;
 
     @PostConstruct
     public void init() {
@@ -70,16 +70,38 @@ public class InitDataService {
 
         tagRepository.saveAll(selectedTags);
 
+        ReviewTag goodManner = new ReviewTag("친절하고 매너가 좋아요", ReviewTagType.POSITIVE);
+        ReviewTag punctual = new ReviewTag("시간 약속을 잘 지켜요", ReviewTagType.POSITIVE);
+        ReviewTag goodCommunication = new ReviewTag("소통이 원활해요", ReviewTagType.POSITIVE);
+        ReviewTag considerate = new ReviewTag("배려심이 깊어요", ReviewTagType.POSITIVE);
+
+        ReviewTag unpunctual = new ReviewTag("시간 약속을 지키지 않아 아쉬웠어요", ReviewTagType.NEGATIVE);
+        ReviewTag badCommunication = new ReviewTag("소통이 원활하지 않았어요", ReviewTagType.NEGATIVE);
+        ReviewTag verbalAbuse = new ReviewTag("폭언 및 욕설을 해요", ReviewTagType.NEGATIVE);
+        ReviewTag inappropriateTalk = new ReviewTag("불편한 주제로 대화를 해요", ReviewTagType.NEGATIVE);
+
+        List<ReviewTag> reviewTags = List.of(
+                goodManner, punctual, goodCommunication, considerate, unpunctual, badCommunication, verbalAbuse, inappropriateTalk
+        );
+
+        for (
+                ReviewTag reviewTag : reviewTags) {
+            reviewTagRepository.save(reviewTag);
+        }
+
+
         Member member = Member.builder()
                 .username("mih2001103")
                 .nickname("monikhyun")
                 .phone("010-0000-0000")
+                .mail("mih2001103@gmail.com")
                 .address(Address.builder()
                         .city("서울특별시")
                         .street("송파구")
                         .town("방이동")
                         .build())
                 .gender(Gender.MALE)
+                .credibility(45.0)
                 .role(Role.USER)
                 .profileImg("https://ui-avatars.com/api/?name=Jae+Hyun&background=random")
                 .password(passwordEncoder.encode("1234"))
@@ -99,12 +121,14 @@ public class InitDataService {
                 .username("user1")
                 .nickname("user1")
                 .phone("010-0000-0000")
+                .mail("user1@gmail.com")
                 .address(Address.builder()
                         .city("서울특별시")
                         .street("송파구")
                         .town("방이동")
                         .build())
                 .gender(Gender.MALE)
+                .credibility(45.0)
                 .role(Role.USER)
                 .profileImg("https://ui-avatars.com/api/?name=Jae+Hyun&background=random")
                 .password(passwordEncoder.encode("1234"))
@@ -114,12 +138,14 @@ public class InitDataService {
                 .username("user2")
                 .nickname("user2")
                 .phone("010-0000-0000")
+                .mail("user2@gmail.com")
                 .address(Address.builder()
                         .city("서울특별시")
                         .street("은평구")
                         .town("응암동")
                         .build())
                 .gender(Gender.MALE)
+                .credibility(45.0)
                 .role(Role.USER)
                 .profileImg("https://ui-avatars.com/api/?name=Jae+Hyun&background=random")
                 .password(passwordEncoder.encode("1234"))
@@ -129,12 +155,14 @@ public class InitDataService {
                 .username("user3")
                 .nickname("user3")
                 .phone("010-0000-0000")
+                .mail("user3@gmail.com")
                 .address(Address.builder()
                         .city("서울특별시")
                         .street("서대문구")
                         .town("홍제동")
                         .build())
                 .gender(Gender.MALE)
+                .credibility(45.0)
                 .role(Role.USER)
                 .profileImg("https://ui-avatars.com/api/?name=Jae+Hyun&background=random")
                 .password(passwordEncoder.encode("1234"))
@@ -191,6 +219,7 @@ public class InitDataService {
                                 .town("마포구")
                                 .street("월드컵로 240")
                                 .build())
+                .participant(member2)
                 .build();
 
         postRepository.save(post1);
@@ -208,9 +237,9 @@ public class InitDataService {
                                 .town("마포구")
                                 .street("월드컵로 240")
                                 .build())
+                .participant(member3)
                 .build();
 
         postRepository.save(post2);
     }
 }
-

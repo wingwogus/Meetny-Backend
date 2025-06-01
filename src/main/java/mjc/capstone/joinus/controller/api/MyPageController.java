@@ -14,6 +14,7 @@ import mjc.capstone.joinus.dto.tag.TagDto;
 import mjc.capstone.joinus.dto.tag.UserTagDto;
 import mjc.capstone.joinus.service.inf.MyPageService;
 import mjc.capstone.joinus.service.inf.PostService;
+import mjc.capstone.joinus.service.inf.ReviewService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,7 +32,7 @@ public class MyPageController {
 
     private final MyPageService myPageService;
     private final PostService postService;
-
+    private final ReviewService reviewService;
 
     // 프로필 이미지 수정
     @Operation(summary = "프로필 이미지 수정", description = "프로필 이미지를 넘겨받아 DB에 저장합니다.")
@@ -50,6 +51,7 @@ public class MyPageController {
     public ResponseEntity<ApiResponse<MyPageDto>> getInformation(@AuthenticationPrincipal CustomUserDetails userDetails) {
         MyPageDto userDetailDto = myPageService.findMemberDto(userDetails.getMember());
         userDetailDto.setPosts(postService.getAllPosts(userDetails.getMember().getId()));
+        userDetailDto.setCredibility(reviewService.getCredibility(userDetails.getMember().getId()));
         return ResponseEntity.ok(ApiResponse.success(userDetailDto));
     }
 
