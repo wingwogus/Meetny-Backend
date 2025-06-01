@@ -13,7 +13,7 @@ import mjc.capstone.joinus.domain.tags.MemberTag;
 @Builder
 public class SignUpRequestDto {
 
-    @Schema(description = "회원가입 id", example = "user1")
+    @Schema(description = "회원가입 id", example = "user1@naver.com")
     private String username;
 
     @Schema(description = "닉네임", example = "거인이재현")
@@ -24,9 +24,6 @@ public class SignUpRequestDto {
 
     @Schema(description = "휴대폰 번호", example = "01012345678")
     private String phone;
-
-    @Schema(description = "이메일", example = "example@naver.com")
-    private String mail;
 
     @Schema(description = "프로필 사진", example = "example.png")
     private String profileImg;

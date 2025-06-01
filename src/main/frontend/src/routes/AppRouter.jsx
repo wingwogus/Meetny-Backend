@@ -7,6 +7,7 @@ import PostForm from "../pages/PostForm";
 import Login from "../pages/Loginpage";
 import MyPage from "../pages/MyPage";
 import RegisterPage from "../pages/RegisterPage";
+import Chat from "../pages/Chat";
 
 export default function AppRouter() {
     return (
@@ -19,6 +20,7 @@ export default function AppRouter() {
                 <Route path="/posts/form" element={<PostForm />} />
                 <Route path="/information" element={<MyPage />} />
                 <Route path="/register" element={<RegisterPage/>}/>
+                <Route path="/chat" element={<Chat/>}/>
             </Routes>
         </Router>
     );

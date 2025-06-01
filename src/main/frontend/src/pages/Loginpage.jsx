@@ -2,7 +2,9 @@
 import React, { useState } from 'react'
 import axiosClient from '../api/axiosClient'
 import { useNavigate } from 'react-router-dom'
+import {jwtDecode} from 'jwt-decode'
 import '../styles/Login.css';
+
 
 const Login = () => {
     const [username, setUsername] = useState('')
@@ -16,6 +18,8 @@ const Login = () => {
             const { accessToken, refreshToken } = response.data.data;
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
+            const decoded = jwtDecode(accessToken);
+            localStorage.setItem('username', decoded.sub);
             navigate('/information')
         } catch (err) {
             console.error(err)
