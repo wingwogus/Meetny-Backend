@@ -1,433 +1,1620 @@
- /*---------------------------------------------------
-      공통 변수 (원본 색상, 폰트 패밀리 등)
-    ---------------------------------------------------*/
-:root {
-    --color-bg-light: #f9f9f9;       /* 원본 .overlap-group 배경색 */
-    --color-border: #d5d5d5;         /* 원본 테두리 색 */
-    --color-text-light: #858585;     /* 원본 .text-wrapper 글자색 */
-    --color-text-medium: #525252;    /* 원본 .text-wrapper-2 글자색 */
-    --color-text-dark: #444444;      /* 원본 .text-wrapper-12 글자색 */
-    --color-highlight: #f4964a;      /* 원본 강조색 (#f4964a) */
-    --color-accent: #f7b681;         /* 원본 .rectangle 배경색 */
-    --color-accent-dark: #db6a1f;    /* 원본 .ellipse 배경색 */
-    --color-success: #72d3aa;        /* 원본 .ellipse-2 배경색 */
-    --color-btn-address: #bebebe;    /* 원본 .div-wrapper 배경색 */
-    --color-btn-submit: #f4964a;     /* 원본 .overlap-3 배경색 */
-    --color-btn-submit-hover: #d67a35;/* 약간 짙은 submit 호버색 */
-
-    --font-family-light: "Pretendard-Light", Helvetica, Arial, sans-serif;
-    --font-family-medium: "Pretendard-Medium", Helvetica, Arial, sans-serif;
-    --font-family-semibold: "Pretendard-SemiBold", Helvetica, Arial, sans-serif;
-    --font-family-bold: "Pretendard-Bold", Helvetica, Arial, sans-serif;
-}
-
-/*---------------------------------------------------
-  1. 최상위 컨테이너
----------------------------------------------------*/
-.element {
-    background-color: #ffffff;        /* 원본 배경색 유지 */
-    display: flex;
-    justify-content: center;
-    padding: 40px 20px;               /* 위아래 여백 추가 */
-}
-
-.element .div {
-    background-color: #ffffff;        /* 원본 배경색 유지 */
-    position: relative;
-    width: 100%;
-    max-width: 760px;                 /* 적절히 제한하여 가독성 향상 */
-}
-
-/*---------------------------------------------------
-  2. 제목, 구분선, 섹션 텍스트
-    (원본 .text-wrapper-12, .text-wrapper-11, .text-wrapper-10 등)
----------------------------------------------------*/
-.text-wrapper-12 {
-    color: var(--color-text-dark);
-    font-family: var(--font-family-semibold);
-    font-size: 28px;
-    font-weight: 600;
-    margin-bottom: 8px; /* 제목 아래 여백 */
-}
-
-.text-wrapper-11 {
-    color: var(--color-highlight);
-    font-family: var(--font-family-semibold);
-    font-size: 22px;
-    font-weight: 600;
-    margin-left: 8px; /* 제목 옆 별표 간격 */
-}
-
-.text-wrapper-10 {
-    color: var(--color-text-medium);
-    font-family: var(--font-family-medium);
-    font-size: 18px;
-    font-weight: 500;
-    margin-bottom: 24px; /* 폼 상단 섹션과의 여백 */
-}
-
-/* 구분선 */
-.vector-2,
-.vector-3 {
-    display: block;
-    background-color: var(--color-border);
-    height: 2px;
-    width: 100%;
-    margin: 24px 0;
-}
-
-/*---------------------------------------------------
-  3. 폼 그룹 공통 스타일
-    .form-group-container: 한 개의 레이블+인풋 컨테이너
-    .form-label: 레이블 텍스트
-    .form-input: 텍스트 입력 & 셀렉트
-    .required: 필수 표기(*) 스타일
----------------------------------------------------*/
-.form-group-container {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-}
-
-.form-group-container .form-label {
-    color: var(--color-text-medium);
-    font-family: var(--font-family-medium);
-    font-size: 22px;
-    font-weight: 500;
-    margin-bottom: 8px;
-}
-
-.form-group-container .required {
-    color: var(--color-highlight);
-    margin-left: 4px;
-    font-family: var(--font-family-semibold);
-    font-size: 22px;
-    font-weight: 600;
-}
-
-.form-group-container .form-input {
-    height: 61px;
-    padding: 0 16px;
-    font-family: var(--font-family-light);
-    font-size: 20px;
-    color: var(--color-text-light);
-    border: 1px solid var(--color-border);
-    border-radius: 10px;
-    background-color: var(--color-bg-light);
-    outline: none;
-    transition: border-color 0.2s;
-}
-
-.form-group-container .form-input::placeholder {
-    color: var(--color-text-light);
-    opacity: 1;
-}
-
-.form-group-container .form-input:focus {
-    border-color: var(--color-highlight);
-}
-
-/*---------------------------------------------------
-  4. SelectField 전용 스타일
----------------------------------------------------*/
-.form-group-container select.form-input {
-    appearance: none;
-    background-color: var(--color-bg-light);
-    cursor: pointer;
-}
-
-/*---------------------------------------------------
-  5. 주소 입력 + 버튼 그룹
-    .address-group: 인풋과 버튼을 가로 배치
-    .address-btn: “주소 찾기” 버튼
----------------------------------------------------*/
-.address-group {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    margin-bottom: 24px;
-}
-
-/* 주소 인풋만 세로 레이아웃 대신 flex:1 사용 */
-.address-group .form-group-container {
-    flex: 1;
-}
-
-.address-btn {
-    background-color: var(--color-btn-address);
-    border: 1px solid #a8a8a8;
-    border-radius: 10px;
-    height: 61px;
-    padding: 0 24px;
-    font-family: var(--font-family-semibold);
-    font-size: 20px;
-    color: #ffffff;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.address-btn:hover {
-    background-color: #a0a0a0;
-}
-
-/*---------------------------------------------------
-  6. 인증번호(OTP) 그룹
-    .auth-group: 인풋 + 버튼 + 타이머 + 버튼
-    .auth-input: 코드 입력란
-    .auth-btn: 인증번호 받기/확인 버튼
-    .timer-text: 남은 시간 표시
----------------------------------------------------*/
-.auth-group {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    margin-bottom: 24px;
-}
-
-.auth-input {
-    flex: 1;
-    height: 61px;
-    padding: 0 16px;
-    border: 1px solid var(--color-border);
-    border-radius: 10px;
+.mypage {
     background-color: #ffffff;
-    font-family: var(--font-family-light);
-    font-size: 20px;
-    color: var(--color-text-light);
-    outline: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
 }
 
-.auth-input::placeholder {
-    color: var(--color-text-light);
-    opacity: 1;
+.mypage .div {
+    background-color: #ffffff;
+    height: 4199px;
+    position: relative;
+    width: 1920px;
 }
 
-.auth-input:focus {
-    border-color: var(--color-highlight);
+.mypage .group {
+    height: 102px;
+    left: 411px;
+    position: absolute;
+    top: 511px;
+    width: 594px;
 }
 
-.auth-btn {
-    background-color: var(--color-btn-submit);
-    border: none;
+.mypage .overlap-group {
+    background-color: #f9f9f9;
+    border: 1px solid;
+    border-color: #d5d5d5;
     border-radius: 10px;
     height: 61px;
-    padding: 0 24px;
-    font-family: var(--font-family-semibold);
+    left: 0;
+    position: absolute;
+    top: 40px;
+    width: 588px;
+}
+
+.mypage .text-wrapper {
+    color: #858585;
+    font-family: "Pretendard-Light", Helvetica;
     font-size: 20px;
-    color: #ffffff;
-    cursor: pointer;
-    transition: background-color 0.2s;
+    font-weight: 300;
+    left: 30px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 18px;
+    white-space: nowrap;
 }
 
-.auth-btn:hover {
-    background-color: var(--color-btn-submit-hover);
+.mypage .text-wrapper-2 {
+    color: #525252;
+    font-family: "Pretendard-Medium", Helvetica;
+    font-size: 22px;
+    font-weight: 500;
+    left: 6px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 0;
+    white-space: nowrap;
 }
 
-.timer-text {
-    color: #d4d4d4; /* 원본 .text-wrapper-18 색상 유지 */
-    font-family: var(--font-family-medium);
-    font-size: 18px;
+.mypage .text-wrapper-3 {
+    color: #f4964a;
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 22px;
+    font-weight: 600;
+    left: 68px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 0;
+    white-space: nowrap;
 }
 
-/*---------------------------------------------------
-  7. 가입하기 버튼 (submit)
-    .submit-btn: “다음으로” 버튼
----------------------------------------------------*/
-.submit-btn {
-    width: 100%;
-    background-color: var(--color-btn-submit);
-    border: none;
+.mypage .group-2 {
+    height: 102px;
+    left: 411px;
+    position: absolute;
+    top: 635px;
+    width: 594px;
+}
+
+.mypage .text-wrapper-4 {
+    color: #f4964a;
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 22px;
+    font-weight: 600;
+    left: 87px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 0;
+    white-space: nowrap;
+}
+
+.mypage .group-3 {
+    height: 102px;
+    left: 411px;
+    position: absolute;
+    top: 1129px;
+    width: 594px;
+}
+
+.mypage .text-wrapper-5 {
+    color: #f4964a;
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 22px;
+    font-weight: 600;
+    left: 52px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 0;
+    white-space: nowrap;
+}
+
+.mypage .group-4 {
+    height: 102px;
+    left: 411px;
+    position: absolute;
+    top: 1629px;
+    width: 594px;
+}
+
+.mypage .text-wrapper-6 {
+    color: #f4964a;
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 22px;
+    font-weight: 600;
+    left: 562px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 1874px;
+    white-space: nowrap;
+}
+
+.mypage .group-5 {
+    height: 102px;
+    left: 411px;
+    position: absolute;
+    top: 1261px;
+    width: 594px;
+}
+
+.mypage .text-wrapper-7 {
+    color: #f4964a;
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 22px;
+    font-weight: 600;
+    left: 66px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 0;
+    white-space: nowrap;
+}
+
+.mypage .overlap {
+    background-color: #ffffff;
+    border: 1px solid;
+    border-color: #d5d5d5;
     border-radius: 10px;
-    height: 93px;
-    margin-top: 32px;
-    font-family: var(--font-family-bold);
+    height: 61px;
+    left: 411px;
+    position: absolute;
+    top: 1374px;
+    width: 588px;
+}
+
+.mypage .text-wrapper-8 {
+    color: #858585;
+    font-family: "Pretendard-Light", Helvetica;
+    font-size: 20px;
+    font-weight: 300;
+    left: 30px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 17px;
+    white-space: nowrap;
+}
+
+.mypage .text-wrapper-9 {
+    color: #d4d4d4;
+    font-family: "Pretendard-Medium", Helvetica;
+    font-size: 18px;
+    font-weight: 500;
+    left: 330px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 17px;
+}
+
+.mypage .div-wrapper {
+    background-color: #ebebeb;
+    border: 1px solid;
+    border-color: #d5d5d5;
+    border-radius: 10px;
+    height: 61px;
+    left: 404px;
+    position: absolute;
+    top: 0;
+    width: 184px;
+}
+
+.mypage .text-wrapper-10 {
+    color: #a2a2a2;
+    font-family: "Pretendard-Medium", Helvetica;
+    font-size: 20px;
+    font-weight: 500;
+    left: 36px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 18px;
+    white-space: nowrap;
+}
+
+.mypage .overlap-2 {
+    height: 102px;
+    left: 411px;
+    position: absolute;
+    top: 1482px;
+    width: 596px;
+}
+
+.mypage .group-6 {
+    height: 102px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 596px;
+}
+
+.mypage .text-wrapper-11 {
+    color: #858585;
+    font-family: "Pretendard-Light", Helvetica;
+    font-size: 20px;
+    font-weight: 300;
+    left: 82px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 18px;
+    white-space: nowrap;
+}
+
+.mypage .text-wrapper-12 {
+    color: #858585;
+    font-family: "Pretendard-Light", Helvetica;
+    font-size: 20px;
+    font-weight: 300;
+    left: 273px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 18px;
+    white-space: nowrap;
+}
+
+.mypage .text-wrapper-13 {
+    color: #858585;
+    font-family: "Pretendard-Light", Helvetica;
+    font-size: 20px;
+    font-weight: 300;
+    left: 460px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 18px;
+    white-space: nowrap;
+}
+
+.mypage .vector {
+    height: 28px;
+    left: 209px;
+    position: absolute;
+    top: 57px;
+    width: 2px;
+}
+
+.mypage .group-7 {
+    height: 102px;
+    left: 411px;
+    position: absolute;
+    top: 909px;
+    width: 592px;
+}
+
+.mypage .text-wrapper-14 {
+    color: #525252;
+    font-family: "Pretendard-Medium", Helvetica;
+    font-size: 18px;
+    font-weight: 500;
+    left: 1410px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 413px;
+}
+
+.mypage .text-wrapper-15 {
+    color: #f4964a;
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 22px;
+    font-weight: 600;
+    left: 1389px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 413px;
+    white-space: nowrap;
+}
+
+.mypage .group-8 {
+    height: 55px;
+    left: 829px;
+    position: absolute;
+    top: 182px;
+    width: 261px;
+}
+
+.mypage .img {
+    height: 25px;
+    left: 101px;
+    position: absolute;
+    top: 21px;
+    width: 160px;
+}
+
+.mypage .overlap-group-wrapper {
+    height: 55px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 82px;
+}
+
+.mypage .overlap-group-2 {
+    height: 55px;
+    position: relative;
+}
+
+.mypage .vector-2 {
+    height: 21px;
+    left: 40px;
+    position: absolute;
+    top: 33px;
+    width: 12px;
+}
+
+.mypage .group-9 {
+    height: 51px;
+    left: 9px;
+    position: absolute;
+    top: 5px;
+    width: 73px;
+}
+
+.mypage .vector-3 {
+    height: 22px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 23px;
+}
+
+.mypage .text-wrapper-16 {
+    color: #444444;
+    font-family: "Pretendard-SemiBold", Helvetica;
     font-size: 28px;
-    font-weight: 700;
-    color: #ffffff;
-    cursor: pointer;
-    transition: background-color 0.2s;
+    font-weight: 600;
+    left: 402px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 396px;
 }
 
-.submit-btn:hover {
-    background-color: var(--color-btn-submit-hover);
+.mypage .text-wrapper-17 {
+    color: #444444;
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 28px;
+    font-weight: 600;
+    left: 402px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 1874px;
 }
 
-/*---------------------------------------------------
-  8. 폼 전체 레이아웃 보조 스타일
-    - <form> 태그 내부 패딩, 그룹 간 간격 등
----------------------------------------------------*/
-.register-form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: 0; /* 개별 그룹마다 margin-bottom을 사용 */
-    padding-bottom: 40px;
+.mypage .text-wrapper-18 {
+    color: #444444;
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 28px;
+    font-weight: 600;
+    left: 402px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 2358px;
 }
 
-/*---------------------------------------------------
-  9. 하단 아이콘 그룹
-    .icon-group: 아이콘을 가로로 정렬
----------------------------------------------------*/
-.icon-group {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    margin-top: 40px;
+.mypage .vector-4 {
+    height: 2px;
+    left: 396px;
+    position: absolute;
+    top: 452px;
+    width: 1128px;
 }
 
-.icon-group img {
-    display: block;
-    height: 55px; /* 원본 .group-10 높이 유지 */
-    /* 너비는 auto로 설정하거나 필요 시 별도 지정 */
+.mypage .vector-5 {
+    height: 2px;
+    left: 396px;
+    position: absolute;
+    top: 1930px;
+    width: 1128px;
 }
 
-/*---------------------------------------------------
-  10. 추가 텍스트/문구 스타일 (원본 .group-7, .group-8, .group-9 등)
-    비밀번호 규칙 안내 텍스트
----------------------------------------------------*/
-.group-7 p,
-.group-8 p,
-.group-9 p {
-    color: var(--color-text-light);
-    font-family: var(--font-family-light);
+.mypage .vector-6 {
+    height: 2px;
+    left: 396px;
+    position: absolute;
+    top: 2414px;
+    width: 1128px;
+}
+
+.mypage .vector-7 {
+    height: 2px;
+    left: 396px;
+    position: absolute;
+    top: 1069px;
+    width: 1128px;
+}
+
+.mypage .group-10 {
+    height: 25px;
+    left: 422px;
+    position: absolute;
+    top: 775px;
+    width: 290px;
+}
+
+.mypage .p {
+    color: #858585;
+    font-family: "Pretendard-Light", Helvetica;
     font-size: 16px;
     font-weight: 300;
-    margin: 0;
+    left: 41px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 3px;
+    white-space: nowrap;
 }
 
-.group-7 .vector-wrapper,
-.group-8 .img-wrapper,
-.group-9 .img-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f4964a; /* 원본 .vector-wrapper 배경색 */
+.mypage .vector-wrapper {
+    background-color: #f4964a;
     border-radius: 3px;
-    width: 25px;
     height: 25px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 25px;
 }
 
-.group-8 .img-wrapper {
-    background-color: #f3f3f3; /* 원본 .img-wrapper 배경색 */
-    border: 1px solid #e8e8e8;
-}
-
-.group-7 .vector-4,
-.group-8 .vector-5,
-.group-9 .vector-5 {
-    width: 16px;
+.mypage .vector-8 {
     height: 15px;
+    left: 4px;
+    position: absolute;
+    top: 5px;
+    width: 16px;
 }
 
-/*---------------------------------------------------
-  11. 포지셔닝이 필요한 작은 엘리먼트 스타일 (절대 위치 최소화)
-    - 예: 성공 아이콘(원본 .ellipse-2), 강조 아이콘 등
----------------------------------------------------*/
-.ellipse-2 {
-    background-color: var(--color-success);
-    border-radius: 10.82px;
-    width: 22px;
-    height: 22px;
-    display: inline-block;
-    /* parent 컨텍스트에서 위치를 잡고 싶다면 추가 위치 지정 */
+.mypage .group-11 {
+    height: 26px;
+    left: 441px;
+    position: absolute;
+    top: 1967px;
+    width: 361px;
 }
 
-/* 원본 .ellipse-2처럼 특정 좌표에 고정해야 한다면, 최상위 .div에
-   position: relative; 로 두고, 아래처럼 별도 위치를 지정할 수 있습니다.
-   예시)
-   .ellipse-2 {
-     position: absolute;
-     top: 417px;
-     left: 356px;
-   }
-   그러나 일반 폼에서는 이처럼 절대 위치가 필요 없기 때문에 inline-block만 남겼습니다.
-*/
-
-/*---------------------------------------------------
-  12. 기타 (원본 .ellipse, .rectangle, .overlap 등)
-    - 일반 UI 요소로 치환하거나, 필요 시 절대 위치 지우고 Accent로 사용
----------------------------------------------------*/
-.overlap {
-    background-color: #ffdec4;  /* 경고 바 또는 진행 바 상단 */
-    border-radius: 13.5px;
-    height: 27px;
-    width: 100%;
-    max-width: 1128px;
-    margin: 0 auto 24px;        /* 위 지정 없이 중앙 정렬 */
+.mypage .text-wrapper-19 {
+    color: #5e5e5e;
+    font-family: "Pretendard-Medium", Helvetica;
+    font-size: 22px;
+    font-weight: 500;
+    left: 41px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 0;
+    white-space: nowrap;
 }
 
-.rectangle {
-    background-color: var(--color-accent);
-    border-radius: 13.5px;
-    height: 27px;
-    width: 761px;
-    margin: 0 auto;            /* 중앙 정렬 */
+.mypage .group-12 {
+    height: 29px;
+    left: 403px;
+    position: absolute;
+    top: 2456px;
+    width: 112px;
 }
 
-.ellipse {
-    background-color: var(--color-accent-dark);
-    border-radius: 50%;
-    width: 27px;
-    height: 27px;
+.mypage .text-wrapper-20 {
+    color: #727272;
+    font-family: "Pretendard-Medium", Helvetica;
+    font-size: 24px;
+    font-weight: 500;
+    left: 0;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 0;
+}
+
+.mypage .group-13 {
+    height: 29px;
+    left: 403px;
+    position: absolute;
+    top: 2831px;
+    width: 159px;
+}
+
+.mypage .group-14 {
+    height: 25px;
+    left: 422px;
+    position: absolute;
+    top: 810px;
+    width: 272px;
+}
+
+.mypage .img-wrapper {
+    background-color: #f3f3f3;
+    border: 1px solid;
+    border-color: #e8e8e8;
+    border-radius: 3px;
+    height: 25px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 25px;
+}
+
+.mypage .vector-9 {
+    height: 15px;
+    left: 3px;
+    position: absolute;
+    top: 4px;
+    width: 16px;
+}
+
+.mypage .group-wrapper {
+    height: 30px;
+    left: 482px;
+    position: absolute;
+    top: 2034px;
+    width: 30px;
+}
+
+.mypage .group-15 {
+    background-color: #f3f3f3;
+    border: 1.16px solid;
+    border-color: #e8e8e8;
+    border-radius: 3.49px;
+    height: 30px;
     position: relative;
-    top: -27px;                /* rectangle 바로 위에 배치 예시 */
-    left: calc(50% + 380.5px); /* 중앙에서 오른쪽으로 */
 }
 
-/*---------------------------------------------------
-  13. 기타 텍스트 스타일
----------------------------------------------------*/
-.text-wrapper-14 {
+.mypage .vector-10 {
+    height: 17px;
+    left: 4px;
+    position: absolute;
+    top: 5px;
+    width: 19px;
+}
+
+.mypage .group-16 {
+    height: 25px;
+    left: 422px;
+    position: absolute;
+    top: 845px;
+    width: 271px;
+}
+
+.mypage .group-17 {
+    height: 30px;
+    left: 482px;
+    position: absolute;
+    top: 2082px;
+    width: 30px;
+}
+
+.mypage .group-18 {
+    height: 30px;
+    left: 482px;
+    position: absolute;
+    top: 2130px;
+    width: 30px;
+}
+
+.mypage .group-19 {
+    height: 30px;
+    left: 482px;
+    position: absolute;
+    top: 2179px;
+    width: 30px;
+}
+
+.mypage .overlap-3 {
+    background-color: #ffb482;
+    border-radius: 10px;
+    height: 61px;
+    left: 1015px;
+    position: absolute;
+    top: 1301px;
+    width: 188px;
+}
+
+.mypage .text-wrapper-21 {
     color: #ffffff;
-    font-family: var(--font-family-bold);
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 20px;
+    font-weight: 600;
+    left: 39px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 19px;
+    white-space: nowrap;
+}
+
+.mypage .overlap-4 {
+    background-color: #bebebe;
+    border: 1px solid;
+    border-color: #a8a8a8;
+    border-radius: 10px;
+    height: 61px;
+    left: 1015px;
+    position: absolute;
+    top: 1669px;
+    width: 188px;
+}
+
+.mypage .text-wrapper-22 {
+    color: #ffffff;
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 20px;
+    font-weight: 600;
+    left: 56px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 18px;
+    white-space: nowrap;
+}
+
+.mypage .ellipse {
+    background-color: #72d3aa;
+    border-radius: 10.82px;
+    height: 22px;
+    left: 356px;
+    position: absolute;
+    top: 402px;
+    width: 22px;
+}
+
+.mypage .ellipse-2 {
+    background-color: #f4964a;
+    border-radius: 10.82px;
+    height: 22px;
+    left: 356px;
+    position: absolute;
+    top: 1881px;
+    width: 22px;
+}
+
+.mypage .ellipse-3 {
+    background-color: #ffcc4d;
+    border-radius: 10.82px;
+    height: 22px;
+    left: 356px;
+    position: absolute;
+    top: 2365px;
+    width: 22px;
+}
+
+.mypage .text-wrapper-23 {
+    color: #646464;
+    font-family: "Pretendard-Regular", Helvetica;
+    font-size: 20.9px;
+    font-weight: 400;
+    left: 529px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 2036px;
+    white-space: nowrap;
+}
+
+.mypage .overlap-5 {
+    height: 25px;
+    left: 661px;
+    position: absolute;
+    top: 2036px;
+    width: 51px;
+}
+
+.mypage .text-wrapper-24 {
+    color: #a1a1a1;
+    font-family: "Pretendard-Regular", Helvetica;
+    font-size: 20.9px;
+    font-weight: 400;
+    left: 0;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 0;
+    white-space: nowrap;
+}
+
+.mypage .overlap-6 {
+    height: 25px;
+    left: 745px;
+    position: absolute;
+    top: 2083px;
+    width: 51px;
+}
+
+.mypage .text-wrapper-25 {
+    color: #939393;
+    font-family: "Pretendard-Medium", Helvetica;
+    font-size: 18px;
+    font-weight: 500;
+    left: 1387px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 2036px;
+}
+
+.mypage .text-wrapper-26 {
+    color: #939393;
+    font-family: "Pretendard-Medium", Helvetica;
+    font-size: 18px;
+    font-weight: 500;
+    left: 1387px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 2084px;
+}
+
+.mypage .text-wrapper-27 {
+    color: #939393;
+    font-family: "Pretendard-Medium", Helvetica;
+    font-size: 18px;
+    font-weight: 500;
+    left: 1387px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 2132px;
+}
+
+.mypage .text-wrapper-28 {
+    color: #939393;
+    font-family: "Pretendard-Medium", Helvetica;
+    font-size: 18px;
+    font-weight: 500;
+    left: 1387px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 2180px;
+}
+
+.mypage .text-wrapper-29 {
+    color: #a1a1a1;
+    font-family: "Pretendard-Regular", Helvetica;
+    font-size: 20.9px;
+    font-weight: 400;
+    left: 745px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 2133px;
+    white-space: nowrap;
+}
+
+.mypage .text-wrapper-30 {
+    color: #a1a1a1;
+    font-family: "Pretendard-Regular", Helvetica;
+    font-size: 20.9px;
+    font-weight: 400;
+    left: 770px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 2181px;
+    white-space: nowrap;
+}
+
+.mypage .text-wrapper-31 {
+    color: #646464;
+    font-family: "Pretendard-Regular", Helvetica;
+    font-size: 20.9px;
+    font-weight: 400;
+    left: 529px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 2083px;
+    white-space: nowrap;
+}
+
+.mypage .text-wrapper-32 {
+    color: #646464;
+    font-family: "Pretendard-Regular", Helvetica;
+    font-size: 20.9px;
+    font-weight: 400;
+    left: 529px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 2133px;
+    white-space: nowrap;
+}
+
+.mypage .text-wrapper-33 {
+    color: #646464;
+    font-family: "Pretendard-Regular", Helvetica;
+    font-size: 20.9px;
+    font-weight: 400;
+    left: 529px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 2181px;
+    white-space: nowrap;
+}
+
+.mypage .vector-11 {
+    height: 15px;
+    left: 1429px;
+    position: absolute;
+    top: 2042px;
+    width: 9px;
+}
+
+.mypage .vector-12 {
+    height: 15px;
+    left: 1429px;
+    position: absolute;
+    top: 2089px;
+    width: 9px;
+}
+
+.mypage .vector-13 {
+    height: 15px;
+    left: 1429px;
+    position: absolute;
+    top: 2138px;
+    width: 9px;
+}
+
+.mypage .vector-14 {
+    height: 15px;
+    left: 1429px;
+    position: absolute;
+    top: 2186px;
+    width: 9px;
+}
+
+.mypage .overlap-7 {
+    background-color: #ffdec4;
+    border-radius: 13.5px;
+    height: 27px;
+    left: 396px;
+    position: absolute;
+    top: 311px;
+    width: 1128px;
+}
+
+.mypage .rectangle {
+    background-color: #f7b681;
+    border-radius: 13.5px;
+    height: 27px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 402px;
+}
+
+.mypage .ellipse-4 {
+    background-color: #db6a1f;
+    border-radius: 13.41px;
+    height: 27px;
+    left: 375px;
+    position: absolute;
+    top: 0;
+    width: 27px;
+}
+
+.mypage .overlap-8 {
+    background-color: #f9f9f9;
+    border: 1px solid;
+    border-color: #d5d5d5;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 403px;
+    position: absolute;
+    top: 2525px;
+    width: 151px;
+}
+
+.mypage .text-wrapper-34 {
+    color: #646464;
+    font-family: "Pretendard-Regular", Helvetica;
+    font-size: 20.9px;
+    font-weight: 400;
+    left: 47px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 8px;
+    white-space: nowrap;
+}
+
+.mypage .overlap-9 {
+    background-color: #f9f9f9;
+    border: 1px solid;
+    border-color: #d5d5d5;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 478px;
+    position: absolute;
+    top: 2580px;
+    width: 151px;
+}
+
+.mypage .overlap-10 {
+    background-color: #f9f9f9;
+    border: 1px solid;
+    border-color: #d5d5d5;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 430px;
+    position: absolute;
+    top: 2636px;
+    width: 151px;
+}
+
+.mypage .text-wrapper-35 {
+    color: #646464;
+    font-family: "Pretendard-Regular", Helvetica;
+    font-size: 20.9px;
+    font-weight: 400;
+    left: 56px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 8px;
+    white-space: nowrap;
+}
+
+.mypage .overlap-11 {
+    background-color: #f9f9f9;
+    border: 1px solid;
+    border-color: #d5d5d5;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 382px;
+    position: absolute;
+    top: 2691px;
+    width: 151px;
+}
+
+.mypage .overlap-12 {
+    background-color: #ffeab9;
+    border: 1px solid;
+    border-color: #feb77d;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 396px;
+    position: absolute;
+    top: 3158px;
+    width: 151px;
+}
+
+.mypage .text-wrapper-36 {
+    color: #f8984a;
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 20.9px;
+    font-weight: 600;
+    left: 47px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 8px;
+    white-space: nowrap;
+}
+
+.mypage .overlap-13 {
+    background-color: #ffeab9;
+    border: 1px solid;
+    border-color: #feb77d;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 555px;
+    position: absolute;
+    top: 3158px;
+    width: 151px;
+}
+
+.mypage .text-wrapper-37 {
+    color: #f8984a;
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 20.9px;
+    font-weight: 600;
+    left: 35px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 8px;
+    white-space: nowrap;
+}
+
+.mypage .overlap-14 {
+    background-color: #ffeab9;
+    border: 1px solid;
+    border-color: #feb77d;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 1180px;
+    position: absolute;
+    top: 3158px;
+    width: 151px;
+}
+
+.mypage .overlap-15 {
+    background-color: #ffeab9;
+    border: 1px solid;
+    border-color: #feb77d;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 1340px;
+    position: absolute;
+    top: 3158px;
+    width: 151px;
+}
+
+.mypage .text-wrapper-38 {
+    color: #f8984a;
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 20.9px;
+    font-weight: 600;
+    left: 38px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 8px;
+    white-space: nowrap;
+}
+
+.mypage .overlap-16 {
+    background-color: #f9f9f9;
+    border: 1px solid;
+    border-color: #d5d5d5;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 726px;
+    position: absolute;
+    top: 2525px;
+    width: 151px;
+}
+
+.mypage .overlap-17 {
+    background-color: #f9f9f9;
+    border: 1px solid;
+    border-color: #d5d5d5;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 802px;
+    position: absolute;
+    top: 2580px;
+    width: 151px;
+}
+
+.mypage .text-wrapper-39 {
+    color: #646464;
+    font-family: "Pretendard-Regular", Helvetica;
+    font-size: 20.9px;
+    font-weight: 400;
+    left: 38px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 8px;
+    white-space: nowrap;
+}
+
+.mypage .overlap-18 {
+    background-color: #f9f9f9;
+    border: 1px solid;
+    border-color: #d5d5d5;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 754px;
+    position: absolute;
+    top: 2636px;
+    width: 151px;
+}
+
+.mypage .overlap-19 {
+    background-color: #f9f9f9;
+    border: 1px solid;
+    border-color: #d5d5d5;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 706px;
+    position: absolute;
+    top: 2691px;
+    width: 151px;
+}
+
+.mypage .overlap-20 {
+    background-color: #f9f9f9;
+    border: 1px solid;
+    border-color: #d5d5d5;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 888px;
+    position: absolute;
+    top: 2525px;
+    width: 151px;
+}
+
+.mypage .overlap-21 {
+    background-color: #f9f9f9;
+    border: 1px solid;
+    border-color: #d5d5d5;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 963px;
+    position: absolute;
+    top: 2580px;
+    width: 151px;
+}
+
+.mypage .overlap-22 {
+    background-color: #f9f9f9;
+    border: 1px solid;
+    border-color: #d5d5d5;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 916px;
+    position: absolute;
+    top: 2636px;
+    width: 151px;
+}
+
+.mypage .text-wrapper-40 {
+    color: #646464;
+    font-family: "Pretendard-Regular", Helvetica;
+    font-size: 20.9px;
+    font-weight: 400;
+    left: 45px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 8px;
+    white-space: nowrap;
+}
+
+.mypage .overlap-23 {
+    background-color: #f9f9f9;
+    border: 1px solid;
+    border-color: #d5d5d5;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 868px;
+    position: absolute;
+    top: 2691px;
+    width: 151px;
+}
+
+.mypage .overlap-24 {
+    background-color: #f9f9f9;
+    border: 1px solid;
+    border-color: #d5d5d5;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 1050px;
+    position: absolute;
+    top: 2525px;
+    width: 151px;
+}
+
+.mypage .overlap-25 {
+    background-color: #f9f9f9;
+    border: 1px solid;
+    border-color: #d5d5d5;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 1125px;
+    position: absolute;
+    top: 2580px;
+    width: 151px;
+}
+
+.mypage .overlap-26 {
+    background-color: #f9f9f9;
+    border: 1px solid;
+    border-color: #d5d5d5;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 1077px;
+    position: absolute;
+    top: 2636px;
+    width: 151px;
+}
+
+.mypage .overlap-27 {
+    background-color: #f9f9f9;
+    border: 1px solid;
+    border-color: #d5d5d5;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 1030px;
+    position: absolute;
+    top: 2691px;
+    width: 151px;
+}
+
+.mypage .overlap-28 {
+    background-color: #f9f9f9;
+    border: 1px solid;
+    border-color: #d5d5d5;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 1373px;
+    position: absolute;
+    top: 2525px;
+    width: 151px;
+}
+
+.mypage .overlap-29 {
+    background-color: #f9f9f9;
+    border: 1px solid;
+    border-color: #d5d5d5;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 1449px;
+    position: absolute;
+    top: 2580px;
+    width: 151px;
+}
+
+.mypage .text-wrapper-41 {
+    color: #646464;
+    font-family: "Pretendard-Regular", Helvetica;
+    font-size: 20.9px;
+    font-weight: 400;
+    left: 47px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: -1px;
+    white-space: nowrap;
+}
+
+.mypage .overlap-30 {
+    background-color: #f9f9f9;
+    border: 1px solid;
+    border-color: #d5d5d5;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 1401px;
+    position: absolute;
+    top: 2636px;
+    width: 151px;
+}
+
+.mypage .overlap-31 {
+    background-color: #f9f9f9;
+    border: 1px solid;
+    border-color: #d5d5d5;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 1353px;
+    position: absolute;
+    top: 2691px;
+    width: 151px;
+}
+
+.mypage .overlap-32 {
+    background-color: #ffeab9;
+    border: 1px solid;
+    border-color: #feb67c;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 564px;
+    position: absolute;
+    top: 2525px;
+    width: 151px;
+}
+
+.mypage .text-wrapper-42 {
+    color: #f7974a;
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 20.9px;
+    font-weight: 600;
+    left: 56px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 8px;
+    white-space: nowrap;
+}
+
+.mypage .overlap-33 {
+    background-color: #f9f9f9;
+    border: 1px solid;
+    border-color: #d5d5d5;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 640px;
+    position: absolute;
+    top: 2580px;
+    width: 151px;
+}
+
+.mypage .overlap-34 {
+    background-color: #ffeab9;
+    border: 1px solid;
+    border-color: #feb67c;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 592px;
+    position: absolute;
+    top: 2636px;
+    width: 151px;
+}
+
+.mypage .text-wrapper-43 {
+    color: #f7974a;
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 20.9px;
+    font-weight: 600;
+    left: 45px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 8px;
+    white-space: nowrap;
+}
+
+.mypage .overlap-35 {
+    background-color: #ffeab9;
+    border: 1px solid;
+    border-color: #feb67c;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 544px;
+    position: absolute;
+    top: 2691px;
+    width: 151px;
+}
+
+.mypage .overlap-36 {
+    background-color: #ffeab9;
+    border: 1px solid;
+    border-color: #feb67c;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 1212px;
+    position: absolute;
+    top: 2525px;
+    width: 151px;
+}
+
+.mypage .text-wrapper-44 {
+    color: #f7974a;
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 20.9px;
+    font-weight: 600;
+    left: 38px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 8px;
+    white-space: nowrap;
+}
+
+.mypage .overlap-37 {
+    background-color: #ffeab9;
+    border: 1px solid;
+    border-color: #feb67c;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 1287px;
+    position: absolute;
+    top: 2580px;
+    width: 151px;
+}
+
+.mypage .overlap-38 {
+    background-color: #ffeab9;
+    border: 1px solid;
+    border-color: #feb67c;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 1239px;
+    position: absolute;
+    top: 2636px;
+    width: 151px;
+}
+
+.mypage .overlap-39 {
+    background-color: #ffeab9;
+    border: 1px solid;
+    border-color: #feb67c;
+    border-radius: 22.74px;
+    height: 45px;
+    left: 1191px;
+    position: absolute;
+    top: 2691px;
+    width: 151px;
+}
+
+.mypage .text-wrapper-45 {
+    color: #f4964a;
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 22px;
+    font-weight: 600;
+    left: 521px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 2455px;
+    white-space: nowrap;
+}
+
+.mypage .text-wrapper-46 {
+    color: #f4964a;
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 22px;
+    font-weight: 600;
+    left: 564px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 2829px;
+    white-space: nowrap;
+}
+
+.mypage .overlap-40 {
+    background-image: url(https://c.animaapp.com/VvKSTbyT/img/mask-group@2x.png);
+    background-size: 100% 100%;
+    height: 244px;
+    left: 396px;
+    position: absolute;
+    top: 2894px;
+    width: 360px;
+}
+
+.mypage .rectangle-2 {
+    background: linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(0, 0, 0, 0.6) 100%
+    );
+    border-radius: 0px 0px 17px 17px;
+    height: 186px;
+    left: 0;
+    position: absolute;
+    top: 58px;
+    width: 360px;
+}
+
+.mypage .text-wrapper-47 {
+    color: #ffffff;
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 20px;
+    font-weight: 600;
+    left: 130px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 202px;
+    white-space: nowrap;
+}
+
+.mypage .overlap-41 {
+    background-image: url(https://c.animaapp.com/VvKSTbyT/img/mask-group-1@2x.png);
+    background-size: 100% 100%;
+    height: 244px;
+    left: 781px;
+    position: absolute;
+    top: 2894px;
+    width: 360px;
+}
+
+.mypage .text-wrapper-48 {
+    color: #ffffff;
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 20px;
+    font-weight: 600;
+    left: 132px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 202px;
+    white-space: nowrap;
+}
+
+.mypage .overlap-42 {
+    background-image: url(https://c.animaapp.com/VvKSTbyT/img/mask-group-2@2x.png);
+    background-size: 100% 100%;
+    height: 244px;
+    left: 1167px;
+    position: absolute;
+    top: 2894px;
+    width: 360px;
+}
+
+.mypage .overlap-43 {
+    background-image: url(https://c.animaapp.com/VvKSTbyT/img/mask-group-3@2x.png);
+    background-size: 100% 100%;
+    height: 244px;
+    left: 396px;
+    position: absolute;
+    top: 3261px;
+    width: 360px;
+}
+
+.mypage .text-wrapper-49 {
+    color: #ffffff;
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 20px;
+    font-weight: 600;
+    left: 120px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 202px;
+    white-space: nowrap;
+}
+
+.mypage .overlap-44 {
+    background-image: url(https://c.animaapp.com/VvKSTbyT/img/mask-group-4@2x.png);
+    background-size: 100% 100%;
+    height: 244px;
+    left: 1167px;
+    position: absolute;
+    top: 3261px;
+    width: 360px;
+}
+
+.mypage .text-wrapper-50 {
+    color: #ffffff;
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 20px;
+    font-weight: 600;
+    left: 142px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 202px;
+    white-space: nowrap;
+}
+
+.mypage .overlap-45 {
+    background-image: url(https://c.animaapp.com/VvKSTbyT/img/mask-group-5@2x.png);
+    background-size: 100% 100%;
+    height: 244px;
+    left: 781px;
+    position: absolute;
+    top: 3261px;
+    width: 360px;
+}
+
+.mypage .overlap-wrapper {
+    height: 93px;
+    left: 531px;
+    position: absolute;
+    top: 3748px;
+    width: 859px;
+}
+
+.mypage .overlap-46 {
+    background-color: #f4964a;
+    border-radius: 10px;
+    height: 93px;
+    position: relative;
+    width: 857px;
+}
+
+.mypage .text-wrapper-51 {
+    color: #ffffff;
+    font-family: "Pretendard-Bold", Helvetica;
     font-size: 28px;
     font-weight: 700;
-    text-align: center;
+    left: 380px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 30px;
+    width: 97px;
 }
 
-.text-wrapper-15 {
-    color: var(--color-text-light);
-    font-family: var(--font-family-light);
-    font-size: 20px;
-}
-
-.text-wrapper-16 {
-    color: var(--color-highlight);
-    font-family: var(--font-family-semibold);
-    font-size: 22px;
-}
-
-.text-wrapper-17 {
-    color: var(--color-text-light);
-    font-family: var(--font-family-light);
-    font-size: 20px;
-}
-
-.text-wrapper-18 {
-    color: #d4d4d4;
-    font-family: var(--font-family-medium);
-    font-size: 18px;
-}
-
-.text-wrapper-19 {
-    color: #a2a2a2;
-    font-family: var(--font-family-medium);
-    font-size: 20px;
-}
-
-/*---------------------------------------------------
-  14. 반응형/추가 보조 스타일 (필요 시)
----------------------------------------------------*/
-@media (max-width: 768px) {
-    .form-group-container .form-input {
-        font-size: 18px;
-        height: 54px;
-    }
-    .form-group-container .form-label {
-        font-size: 20px;
-    }
-    .submit-btn {
-        font-size: 24px;
-        height: 80px;
-    }
+.mypage .group-20 {
+    height: 93px;
+    left: 531px;
+    position: absolute;
+    top: 3627px;
+    width: 859px;
 }

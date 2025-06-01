@@ -29,6 +29,7 @@ const Login = () => {
 
     return (
         <form onSubmit={handleSubmit}>
+            {/* Anima에서 내보낸 JSX + CSS를 여기에 사용 */}
 
             <div className="login-screen">
               <div className="mypage" data-model-id="721:2">
