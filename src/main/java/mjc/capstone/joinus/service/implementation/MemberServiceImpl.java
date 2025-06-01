@@ -99,6 +99,7 @@ public class MemberServiceImpl implements MemberService {
                 .gender(request.getGender())
                 .address(request.getAddress())
                 .role(Role.USER)
+                .credibility(45.0)
                 .build();
 
         memberRepository.save(member);
