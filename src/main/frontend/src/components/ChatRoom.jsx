@@ -4,7 +4,7 @@ import api from '../api/axiosClient';
 import { useWebSocket } from '../hooks/useWebSocket';
 import '../styles/ChatRoom.css';
 
-export default function ChatRoom({ roomId, roomTitle, authorNickname }) {
+export default function ChatRoom({ roomId, roomTitle, authorNickname, onIncomingMessage }) {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
 
@@ -13,15 +13,27 @@ export default function ChatRoom({ roomId, roomTitle, authorNickname }) {
         setMessages((prev) => [...prev, msg]);
     }, []);
 
+
     // 수신 메시지 핸들러
     const handleIncoming = useCallback((wsMsg) => {
         const formatted = {
-            sender: wsMsg.sender,
+            sender:  wsMsg.sender,
             message: wsMsg.message,
-            sendAt: wsMsg.sendAt
+            sendAt:  wsMsg.sendAt
         };
+        // 1) 로컬 메시지 리스트에 추가
         addMessage(formatted);
-    }, [addMessage]);
+
+        // 2) 부모에게도 새 메시지를 통보 → 부모가 rooms 상태를 갱신하도록
+        if (typeof onIncomingMessage === 'function') {
+            onIncomingMessage({
+                roomId: roomId,
+                message: wsMsg.message,
+                sendAt: wsMsg.sendAt,
+                sender: wsMsg.sender
+            });
+        }
+    }, [addMessage, onIncomingMessage, roomId]);
 
     // WebSocket 연결 & 수신
     const { sendMessage } = useWebSocket(roomId, handleIncoming);

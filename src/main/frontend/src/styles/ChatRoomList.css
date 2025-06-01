@@ -1,80 +1,100 @@
 /* src/styles/ChatRoomList.css */
 
+/* 채팅방 리스트 전체 컨테이너 */
 .chat-room-list {
-    width: 503px;
-    height: 1080px;
+    width: 100%;
+    max-width: 480px;              /* 가로 너비 최대 480px 예시 */
+    height: calc(100vh - 64px);    /* 상단 헤더(64px) 빼고 화면 높이만큼 */
     background-color: #ffffff;
     border: 1px solid #d0d0d0;
     border-radius: 15px;
-    display: flex;
-    flex-direction: column;
     overflow-y: auto;
+    box-sizing: border-box;
+    margin: 0;                      /* 부모가 가운데 정렬할 때 조정 */
+    padding-top: 0;
 }
 
+/* 각각의 방 아이템 */
 .room-item {
-    position: relative;
     display: flex;
-    align-items: flex-start;
-    padding: 16px;
-    border-bottom: 1px solid #f0f0f0;
+    align-items: center;
+    padding: 12px 16px;
     cursor: pointer;
     transition: background-color 0.2s;
 }
-
 .room-item:hover {
     background-color: #f6fcfe;
 }
+.room-item.selected {
+    background-color: #eaf7ff;
+}
 
+/* 왼쪽 프로필/아바타 */
 .room-avatar {
-    width: 82px;
-    height: 82px;
-    border-radius: 8px;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
     object-fit: cover;
+    background-color: #ddd; /* 사진이 없을 때 대비 */
 }
 
+/* 중앙 텍스트 블록 */
 .room-info {
-    margin-left: 16px;
     flex: 1;
+    margin-left: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0; /* 긴 텍스트 넘칠 때 ellipsis 적용을 위해 필요 */
 }
-
 .room-title {
-    font-family: "Pretendard-Medium", Helvetica;
-    font-size: 20px;
-    font-weight: 500;
-    color: #000000;
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 18px;
+    color: #000;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-
 .room-snippet {
-    margin-top: 8px;
-    font-family: "Pretendard-Medium", Helvetica;
-    font-size: 16px;
-    font-weight: 500;
+    margin-top: 4px;
+    font-family: "Pretendard-Regular", Helvetica;
+    font-size: 14px;
     color: #949494;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
+/* 우측 메타 */
 .room-meta {
-    position: absolute;
-    top: 16px;
-    right: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex-shrink: 0;
+    margin-left: 12px;
+}
+.room-time {
     font-family: "Pretendard-Regular", Helvetica;
     font-size: 12px;
-    font-weight: 400;
     color: #949494;
+    margin-bottom: 6px;
+    white-space: nowrap;
 }
-
 .unread-badge {
-    position: absolute;
-    bottom: 16px;
-    right: 16px;
-    width: 26px;
-    height: 26px;
-    background-color: #f8882e;
-    border-radius: 50%;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-family: "Pretendard-Medium", Helvetica;
-    font-size: 14px;
-    font-weight: 500;
+    min-width: 24px;
+    height: 24px;
+    background-color: #f8882e;
     color: #ffffff;
+    font-family: "Pretendard-Medium", Helvetica;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 50%;
+    padding: 0 6px;
+    box-sizing: border-box;
 }

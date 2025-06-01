@@ -1,14 +1,13 @@
-
 /* 전체 레이아웃 컨테이너 */
 .chat {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 16px;
-  padding: 0 10%;
-  height: calc(100vh - 252px);
-  box-sizing: border-box;
-  background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 0 10%;
+    height: calc(100vh - 252px);
+    box-sizing: border-box;
+    background-color: #ffffff;
 }
 
 .chat-title {
