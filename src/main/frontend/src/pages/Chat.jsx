@@ -1,32 +1,55 @@
-import React, { useState, useEffect, useCallback  } from 'react';
+// src/components/Chat.jsx
+import React, { useState, useEffect, useCallback } from 'react';
 import ChatRoomList from '../components/ChatRoomList';
 import ChatRoom from '../components/ChatRoom';
 import AppHeader from "../components/AppHeader";
-import axios from '../api/axiosClient'
+import axios from '../api/axiosClient';
+import { useWebSocket } from '../hooks/useWebSocket';
 import '../styles/Chat.css';
 
 export default function Chat() {
-    // 1) 전체 방 목록을 상태로 관리
+    // 1) 전체 방 목록 상태
     const [rooms, setRooms] = useState([]);
     const [selectedRoomId, setSelectedRoomId] = useState(null);
     const [selectedRoomTitle, setSelectedRoomTitle] = useState('');
     const [authorNickname, setAuthorNickname] = useState('');
-// --- 1) 컴포넌트 마운트 시, axios로 방 목록을 한 번만 불러옴 ---
+
+    // 2) 현재 방의 메시지 목록 상태
+    const [messages, setMessages] = useState([]);
+
+    // 3) 입력창 상태
+    const [input, setInput] = useState('');
+
+    // ─────────────────────────────────────────────────────────────
+    // (1) 컴포넌트 마운트 시 → 전체 방 목록 조회
     useEffect(() => {
         axios
-            .get('/api/chat/rooms/') // 필요에 따라 베이스 URL을 지정해도 좋습니다.
+            .get('/api/chat/rooms/')
             .then((response) => {
                 const data = response.data;
-                // API 응답 구조에 맞게 data.data 혹은 data 자체를 사용하세요.
                 const roomsData = Array.isArray(data.data) ? data.data : [];
                 setRooms(roomsData);
 
                 if (roomsData.length > 0) {
-                    // 초기 선택 방 설정 (옵션)
                     const first = roomsData[0];
                     setSelectedRoomId(first.roomId);
                     setSelectedRoomTitle(first.postTitle);
                     setAuthorNickname(first.authorNickname);
+
+                    // 첫 번째 방 메시지 이력도 미리 불러오기 (옵션)
+                    axios
+                        .get(`/api/chat/rooms/history/${first.roomId}`)
+                        .then((res) => {
+                            const list = res.data.data || [];
+                            setMessages(
+                                list.map((msg) => ({
+                                    sender: msg.sender,
+                                    message: msg.message,
+                                    sendAt: msg.sendAt,
+                                }))
+                            );
+                        })
+                        .catch(console.error);
                 }
             })
             .catch((error) => {
@@ -34,14 +57,46 @@ export default function Chat() {
             });
     }, []);
 
-    // --- 2) 오른쪽 ChatRoom에서 새 메시지를 받을 때 호출될 콜백 ---
-    //     이 콜백이 rooms 배열을 업데이트하여
-    //     왼쪽 ChatRoomList가 자동으로 최신 메시지/시간/뱃지를 리렌더링함
+    // ─────────────────────────────────────────────────────────────
+    // (2) 방 선택 시 → 해당 방 ID/제목/작성자 상태 업데이트 + 메시지 이력 조회
+    const handleSelect = (roomId, roomTitle, authorNickname) => {
+        setSelectedRoomId(roomId);
+        setSelectedRoomTitle(roomTitle);
+        setAuthorNickname(authorNickname);
+
+        // 해당 방 메시지 이력 불러오기
+        axios
+            .get(`/api/chat/rooms/history/${roomId}`)
+            .then((res) => {
+                const list = res.data.data || [];
+                setMessages(
+                    list.map((msg) => ({
+                        sender: msg.sender,
+                        message: msg.message,
+                        sendAt: msg.sendAt,
+                    }))
+                );
+            })
+            .catch((error) => {
+                console.error(`방 ${roomId} 채팅 내역 조회 실패:`, error);
+            });
+
+        // 해당 방의 unreadCount를 0으로 초기화 (ChatRoomList 용)
+        setRooms((prev) =>
+            prev.map((rm) =>
+                rm.roomId === roomId ? { ...rm, unreadCount: 0 } : rm
+            )
+        );
+    };
+
+    // ─────────────────────────────────────────────────────────────
+    // (3) WebSocket 수신 콜백: rooms 상태 업데이트 + 현재 보고 있는 방이면 messages에도 추가
     const handleIncomingMessage = useCallback(
-        ({ roomId, message, sendAt, sender }) => {
+        ({ roomId: incomingRoomId, message, sendAt, sender }) => {
+            // 1) rooms 배열에서 latestMessage, latestTime, unreadCount 업데이트
             setRooms((prevRooms) =>
                 prevRooms.map((rm) => {
-                    if (rm.roomId !== roomId) return rm;
+                    if (rm.roomId !== incomingRoomId) return rm;
 
                     const formattedTime = new Date(sendAt).toLocaleTimeString('ko-KR', {
                         hour: '2-digit',
@@ -49,9 +104,7 @@ export default function Chat() {
                         hour12: true,
                     });
 
-                    // 현재 보고 있는 방이 아니면 unreadCount +1, 보고 있으면 0으로 유지
-                    const isCurrent = roomId === selectedRoomId;
-
+                    const isCurrent = incomingRoomId === selectedRoomId;
                     return {
                         ...rm,
                         latestMessage: message,
@@ -60,28 +113,53 @@ export default function Chat() {
                     };
                 })
             );
+
+            // 2) 현재 보고 있는 방이면 messages에도 바로 추가
+            if (incomingRoomId === selectedRoomId) {
+                setMessages((prev) => [
+                    ...prev,
+                    { sender, message, sendAt },
+                ]);
+            }
         },
         [selectedRoomId]
     );
 
-    const handleSelect = (roomId, roomTitle, authorNickname) => {
-        setSelectedRoomId(roomId);
-        setSelectedRoomTitle(roomTitle);
-        setAuthorNickname(authorNickname);
+    // ─────────────────────────────────────────────────────────────
+    // (4) WebSocket 훅: 현재 선택된 방에 대해 구독/구독해제 자동 처리
+    const { sendMessage } = useWebSocket(selectedRoomId, handleIncomingMessage);
 
-        // 해당 방의 unreadCount를 0으로 초기화
-        setRooms((prev) =>
-            prev.map((rm) =>
-                rm.roomId === roomId ? { ...rm, unreadCount: 0 } : rm
-            )
-        );
+    // ─────────────────────────────────────────────────────────────
+    // (5) 메시지 전송 핸들러: sendMessage 호출 + 로컬 messages에 바로 추가 + input 초기화
+    const handleSend = () => {
+        const trimmed = input.trim();
+        if (!selectedRoomId || trimmed === '') return;
+
+        const payload = {
+            roomId: selectedRoomId,
+            sender: authorNickname,
+            message: trimmed,
+            sendAt: new Date().toISOString(),
+        };
+
+        // WebSocket으로 발행
+        sendMessage(payload);
+
+        // 로컬 messages에도 즉시 추가
+        setMessages((prev) => [...prev, payload]);
+
+        // 입력창 초기화
+        setInput('');
     };
 
+    // ─────────────────────────────────────────────────────────────
     return (
         <>
-            <AppHeader/>
+            <AppHeader />
             <h2 className="chat-title">메시지</h2>
+
             <div className="chat">
+                {/* 왼쪽: 채팅방 리스트 */}
                 <div className="chat-room-list-wrapper">
                     <ChatRoomList
                         rooms={rooms}
@@ -89,14 +167,18 @@ export default function Chat() {
                         onSelectRoom={handleSelect}
                     />
                 </div>
+
+                {/* 오른쪽: 선택된 방의 ChatRoom */}
                 <div className="chat-room-wrapper">
-                    {/* 오른쪽: 메시지 뷰 (방 선택 시) */}
                     {selectedRoomId ? (
                         <ChatRoom
                             roomId={selectedRoomId}
                             roomTitle={selectedRoomTitle}
                             authorNickname={authorNickname}
-                            onIncomingMessage={handleIncomingMessage}
+                            messages={messages}                // ← 부모가 내려주는 메시지 배열
+                            inputValue={input}                 // ← 부모가 내려주는 입력창 값
+                            onInputChange={(e) => setInput(e.target.value)} // ← 부모가 내려주는 입력 변화 핸들러
+                            onSend={handleSend}                // ← 부모가 내려주는 전송 핸들러
                         />
                     ) : (
                         <div className="placeholder">채팅방을 선택해주세요.</div>

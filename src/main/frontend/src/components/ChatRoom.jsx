@@ -1,72 +1,16 @@
 // src/components/ChatRoom.jsx
-import React, { useCallback, useEffect, useState } from 'react';
-import api from '../api/axiosClient';
-import { useWebSocket } from '../hooks/useWebSocket';
+import React from 'react';
 import '../styles/ChatRoom.css';
 
-export default function ChatRoom({ roomId, roomTitle, authorNickname, onIncomingMessage }) {
-    const [messages, setMessages] = useState([]);
-    const [input, setInput] = useState('');
-
-    // 메시지 추가 헬퍼
-    const addMessage = useCallback((msg) => {
-        setMessages((prev) => [...prev, msg]);
-    }, []);
-
-
-    // 수신 메시지 핸들러
-    const handleIncoming = useCallback((wsMsg) => {
-        const formatted = {
-            sender:  wsMsg.sender,
-            message: wsMsg.message,
-            sendAt:  wsMsg.sendAt
-        };
-        // 1) 로컬 메시지 리스트에 추가
-        addMessage(formatted);
-
-        // 2) 부모에게도 새 메시지를 통보 → 부모가 rooms 상태를 갱신하도록
-        if (typeof onIncomingMessage === 'function') {
-            onIncomingMessage({
-                roomId: roomId,
-                message: wsMsg.message,
-                sendAt: wsMsg.sendAt,
-                sender: wsMsg.sender
-            });
-        }
-    }, [addMessage, onIncomingMessage, roomId]);
-
-    // WebSocket 연결 & 수신
-    const { sendMessage } = useWebSocket(roomId, handleIncoming);
-
-    // 초기 채팅 내역 로드
-    useEffect(() => {
-        if (!roomId) {
-            setMessages([]);
-            return;
-        }
-        setMessages([]);
-        api.get(`/api/chat/rooms/history/${roomId}`)
-            .then((res) => {
-                const list = res.data.data || res.data;
-                list.forEach((msg) =>
-                    addMessage({
-                        sender:  msg.sender,
-                        message: msg.message,
-                        sendAt:  msg.sendAt
-                    })
-                );
-            })
-            .catch(console.error);
-    }, [roomId, addMessage]);
-
-    // 메시지 전송
-    const handleSend = () => {
-        const trimmed = input.trim();
-        if (!trimmed) return;
-        sendMessage({ roomId, message: trimmed });
-        setInput('');
-    };
-
+export default function ChatRoom({
+                                     roomId,
+                                     roomTitle,
+                                     authorNickname,
+                                     messages,
+                                     inputValue,
+                                     onInputChange,
+                                     onSend
+                                 }) {
     return (
         <div className="chat-room">
             {roomTitle && (
@@ -75,18 +19,17 @@ export default function ChatRoom({ roomId, roomTitle, authorNickname, onIncoming
                     <div className="post-title">{roomTitle}</div>
                 </div>
             )}
+
             <div className="message-list">
                 {messages.map((msg, idx) => {
-                    const date = new Date(msg.sendAt); // ISO 문자열을 Date 객체로 변환
-
-                    // 'ko-KR' 로케일 + 12시간제 옵션 설정
+                    const date = new Date(msg.sendAt);
                     const timeLabel = date.toLocaleTimeString('ko-KR', {
-                        hour:   '2-digit',  // 두 자리 시
-                        minute: '2-digit',  // 두 자리 분
-                        hour12: true        // 12시간제 (오전/오후)
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: true,
                     });
-
                     const isMine = msg.sender === localStorage.getItem('username');
+
                     return (
                         <div
                             key={idx}
@@ -94,13 +37,11 @@ export default function ChatRoom({ roomId, roomTitle, authorNickname, onIncoming
                         >
                             {isMine ? (
                                 <>
-                                    {/* 내 메시지: 시간 먼저 */}
                                     <span className="timestamp">{timeLabel}</span>
                                     <div className="message">{msg.message}</div>
                                 </>
                             ) : (
                                 <>
-                                    {/* 상대 메시지: 말풍선 먼저 */}
                                     <div className="message">{msg.message}</div>
                                     <span className="timestamp">{timeLabel}</span>
                                 </>
@@ -114,12 +55,14 @@ export default function ChatRoom({ roomId, roomTitle, authorNickname, onIncoming
                 <button className="btn-add">＋</button>
                 <input
                     type="text"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                    value={inputValue}
+                    onChange={onInputChange}
+                    onKeyPress={(e) => e.key === 'Enter' && onSend()}
                     placeholder="메시지를 입력하세요..."
                 />
-                <button className="btn-send" onClick={handleSend}>⮕</button>
+                <button className="btn-send" onClick={onSend}>
+                    ⮕
+                </button>
             </div>
         </div>
     );
