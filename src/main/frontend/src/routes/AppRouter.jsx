@@ -4,6 +4,7 @@ import PostDetail from '../pages/PostDetail';
 import SignUp from "../pages/SignUp";
 import Login from "../pages/Login";
 import PostForm from "../pages/PostForm";
+import PostCategorySidebar from "../post/PostCatergorySidebar";
 
 export default function AppRouter() {
     return (
@@ -14,6 +15,7 @@ export default function AppRouter() {
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/posts/form" element={<PostForm />} />
+                <Route path='/posts/category' element={<PostCategorySidebar />} />
             </Routes>
         </Router>
     );

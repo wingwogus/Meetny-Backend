@@ -1,0 +1,61 @@
+/* HeroSection.css */
+.hero {
+    background-image: url('/your-image.jpg'); /* 실제 이미지로 교체 */
+    background-size: cover;
+    background-position: center;
+    height: 500px;
+    position: relative;
+}
+
+.overlay {
+    background: rgba(0, 0, 0, 0.3);
+    height: 100%;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 25px;
+    padding: 5px 20px;
+    color: black;
+    margin-bottom: 15px;
+}
+
+.search-bar .location {
+    margin-right: 10px;
+    color: #ff7e00;
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-size: 14px;
+}
+
+.calendar-btn {
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.tags span {
+    background-color: white;
+    color: #ff7e00;
+    border-radius: 20px;
+    padding: 5px 12px;
+    margin: 5px;
+    font-size: 14px;
+}
