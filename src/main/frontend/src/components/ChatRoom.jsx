@@ -1,5 +1,5 @@
 // src/components/ChatRoom.jsx
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import '../styles/ChatRoom.css';
 
 export default function ChatRoom({
@@ -11,6 +11,14 @@ export default function ChatRoom({
                                      onInputChange,
                                      onSend
                                  }) {
+    const scrollRef = useRef(null);
+
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [messages]);
+
     return (
         <div className="chat-room">
             {roomTitle && (
@@ -28,7 +36,7 @@ export default function ChatRoom({
                         minute: '2-digit',
                         hour12: true,
                     });
-                    const isMine = msg.sender === localStorage.getItem('username');
+                    const isMine = msg.sender === localStorage.getItem('nickname');
 
                     return (
                         <div
@@ -49,6 +57,7 @@ export default function ChatRoom({
                         </div>
                     );
                 })}
+                <div ref={scrollRef} />
             </div>
 
             <div className="input-area">

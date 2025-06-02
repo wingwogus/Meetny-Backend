@@ -4,7 +4,7 @@
 .chat-room-list {
     width: 100%;
     max-width: 480px;              /* 가로 너비 최대 480px 예시 */
-    height: calc(100vh - 64px);    /* 상단 헤더(64px) 빼고 화면 높이만큼 */
+    height: 250px;  /* 상단 헤더(64px) 빼고 화면 높이만큼 */
     background-color: #ffffff;
     border: 1px solid #d0d0d0;
     border-radius: 15px;
