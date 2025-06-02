@@ -10,13 +10,14 @@ import mjc.capstone.joinus.domain.tags.Tag;
 import mjc.capstone.joinus.dto.post.PostLikeResponseDto;
 import mjc.capstone.joinus.dto.post.PostRequestDto;
 import mjc.capstone.joinus.dto.post.PostResponseDto;
+import mjc.capstone.joinus.exception.InvalidTokenException;
+import mjc.capstone.joinus.exception.NotFoundMemberException;
 import mjc.capstone.joinus.repository.MemberRepository;
 import mjc.capstone.joinus.repository.PostLikeRepository;
 import mjc.capstone.joinus.repository.PostRepository;
 import mjc.capstone.joinus.repository.PostViewRepository;
 import mjc.capstone.joinus.service.inf.PostService;
 import org.springframework.stereotype.Service;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -36,7 +37,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public void createPost(PostRequestDto dto, Long memberId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new EntityNotFoundException("Member with id " + memberId + " not found"));
+                .orElseThrow(NotFoundMemberException::new);
 
         postRepository.save(dto.toEntity(member));
     }
@@ -44,7 +45,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public void updatePost(Post post, PostRequestDto requestDto, Long memberId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new EntityNotFoundException("Member with id " + memberId + " not found"));
+                .orElseThrow(NotFoundMemberException::new);
 
         validateAuth(post, member);
         requestDto.updatePost(post);
@@ -53,17 +54,18 @@ public class PostServiceImpl implements PostService {
     @Override
     public void deletePost(Post post, Long memberId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new EntityNotFoundException("Member with id " + memberId + " not found"));
+                .orElseThrow(NotFoundMemberException::new);
 
         validateAuth(post, member);
         postRepository.delete(post);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public PostResponseDto getPostDetail(Post post, Long memberId) {
         if (memberId != null) {
             Member member = memberRepository.findById(memberId)
-                    .orElseThrow(() -> new EntityNotFoundException("Member with id " + memberId + " not found"));
+                    .orElseThrow(NotFoundMemberException::new);
 
             boolean alreadyViewed = postViewRepository.existsByPostAndMember(post, member);
 
@@ -78,6 +80,7 @@ public class PostServiceImpl implements PostService {
         return PostResponseDto.from(post, false);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<PostResponseDto> getPostByTag(Tag tag, Long memberId) {
         return postRepository.findByTag(tag).stream()
@@ -85,6 +88,7 @@ public class PostServiceImpl implements PostService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<PostResponseDto> getAllPosts(Long memberId) {
         return postRepository.findAll().stream()
@@ -94,6 +98,7 @@ public class PostServiceImpl implements PostService {
 
 
 
+    @Transactional(readOnly = true)
     @Override
     public List<PostResponseDto> getPostsByDateRange(LocalDateTime from, LocalDateTime to, Long memberId) {
         return postRepository.findAllByCreatedAtBetween(from, to.plusDays(1)).stream()
@@ -104,7 +109,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostLikeResponseDto togglePostLike(Post post, Long memberId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new EntityNotFoundException("Member with id " + memberId + " not found"));
+                .orElseThrow(NotFoundMemberException::new);
 
         boolean liked;
         if (postLikeRepository.existsByMemberAndPost(member, post)) {
@@ -121,10 +126,11 @@ public class PostServiceImpl implements PostService {
         return new PostLikeResponseDto(liked, likeCount);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<PostResponseDto> getPostsByMember(Long memberId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new EntityNotFoundException("Member with id " + memberId + " not found"));
+                .orElseThrow(NotFoundMemberException::new);
 
         return postRepository.findByAuthor(member).stream()
                 .map(post -> PostResponseDto.from(post, isPostLikedByMember(post, memberId)))
@@ -134,7 +140,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public void validateAuth(Post post, Member member) {
         if (!(post.getAuthor().equals(member))) {
-            throw new AccessDeniedException("작성자만 수정/삭제할 수 있습니다.");
+            throw new InvalidTokenException("작성자만 수정/삭제할 수 있습니다.");
         }
     }
 
@@ -142,7 +148,7 @@ public class PostServiceImpl implements PostService {
     private boolean isPostLikedByMember(Post post, Long memberId) {
         if (memberId == null) return false;
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new EntityNotFoundException("Member not found"));
+                .orElseThrow(NotFoundMemberException::new);
 
         return postLikeRepository.existsByMemberAndPost(member, post);
     }
@@ -162,8 +168,6 @@ public class PostServiceImpl implements PostService {
         post.setParticipant(member);
         postRepository.save(post);
     }
-
-
 
 
 //    @Override

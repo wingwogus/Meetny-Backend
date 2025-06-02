@@ -1,0 +1,43 @@
+/* 전체 레이아웃 컨테이너 */
+.chat {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 0 10%;
+    height: calc(100vh - 252px);
+    box-sizing: border-box;
+    background-color: #ffffff;
+}
+
+.chat-title {
+    font-family: "Pretendard-Medium", Helvetica;
+    font-size: 24px;
+    font-weight: 500;
+    color: #000000;
+    margin-left: 10%;
+}
+
+/* 채팅방 목록 (왼쪽) 래퍼 */
+.chat-room-list-wrapper {
+    width: 503px;
+    flex: 0 0 503px;
+}
+
+/* 채팅창 (오른쪽) 래퍼 */
+.chat-room-wrapper {
+    width: 576px;
+    flex: 0 0 576px;
+}
+
+/* 모바일/반응형 예시 */
+/* @media (max-width: 1200px) {
+  .chat {
+    flex-direction: column;
+    align-items: center;
+  }
+  .chat-room-list-wrapper,
+  .chat-room-wrapper {
+    margin: 16px;
+  }
+} */

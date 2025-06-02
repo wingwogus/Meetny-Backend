@@ -1,21 +1,14 @@
 package mjc.capstone.joinus.service.inf;
 
-import mjc.capstone.joinus.dto.chat.ChatRoomDto;
-import org.springframework.transaction.annotation.Transactional;
+import mjc.capstone.joinus.dto.chat.ChatRequestDto;
+import mjc.capstone.joinus.dto.chat.ChatResponseDto;
 
 import java.util.List;
 
 public interface ChatService {
-    List<ChatRoomDto> chatRoomList();
+    ChatResponseDto convertMessage(ChatRequestDto dto, String memberId, String roomId);
 
-    @Transactional
-    ChatRoomDto createRoom(String roomName);
+    void saveChat(ChatResponseDto dto);
 
-    List<String> userList(String roomId);
-
-    @Transactional
-    Long addUser(String roomId, String userName);
-
-    @Transactional
-    void delUser(String roomId, String userName);
+    List<ChatResponseDto> getChatList(String roomId);
 }

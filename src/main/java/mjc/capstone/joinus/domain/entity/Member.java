@@ -29,8 +29,6 @@ public class Member {
 
     private String phone;
 
-    private String mail;
-
     private String profileImg;
 
     @Enumerated(EnumType.STRING)
@@ -38,6 +36,9 @@ public class Member {
 
     @Embedded
     private Address address;
+
+    @Column(nullable = false)
+    private Double credibility = 45.0;
 
     @Setter
     @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)

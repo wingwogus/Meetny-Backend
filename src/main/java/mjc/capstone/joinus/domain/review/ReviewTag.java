@@ -9,6 +9,12 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 public class ReviewTag {
+
+    public ReviewTag(String tagName, ReviewTagType type) {
+        this.tagName = tagName;
+        this.type = type;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_tag_id")
@@ -16,4 +22,8 @@ public class ReviewTag {
 
     @Column(nullable = false, unique = true)
     private String tagName;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ReviewTagType type;
 }

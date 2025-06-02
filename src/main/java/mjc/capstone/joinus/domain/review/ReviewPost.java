@@ -23,11 +23,11 @@ public class ReviewPost {
     private String comment;
 
     @ManyToOne
-    @JoinColumn(name = "reviewer_id", nullable = false)
+    @JoinColumn(name = "reviewer", nullable = false)
     private Member reviewer;
 
     @OneToOne
-    @JoinColumn(name = "post_id", unique = true,nullable = false)
+    @JoinColumn(name = "post", unique = true, nullable = false)
     private Post post;
 
     @OneToMany(mappedBy = "reviewPost", cascade = CascadeType.ALL)

@@ -31,8 +31,6 @@ public class RabbitConfig {
     private String rabbitPw;
     @Value("${spring.rabbitmq.host}")
     private String rabbitHost;
-//    @Value("${spring.rabbitmq.virtual-host}")
-//    private String rabbitVh;
     @Value("${spring.rabbitmq.port}")
     private int rabbitPort;
 

@@ -1,11 +1,11 @@
 package mjc.capstone.joinus.repository;
 
 import mjc.capstone.joinus.domain.entity.Chat;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import mjc.capstone.joinus.domain.entity.ChatRoom;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-public interface ChatRepository extends MongoRepository<Chat,String> {
-    public List<Chat> findAllByRoomIdAndTimeAfter(String roomId, LocalDateTime time);
+public interface ChatRepository extends JpaRepository<Chat,Long> {
+    List<Chat> findByRoom(ChatRoom room);
 }

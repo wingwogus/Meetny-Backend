@@ -2,66 +2,75 @@ package mjc.capstone.joinus.service.implementation;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import mjc.capstone.joinus.domain.entity.Chat;
 import mjc.capstone.joinus.domain.entity.ChatRoom;
 import mjc.capstone.joinus.domain.entity.Member;
-import mjc.capstone.joinus.dto.chat.ChatRoomDto;
+import mjc.capstone.joinus.dto.chat.ChatRequestDto;
+import mjc.capstone.joinus.dto.chat.ChatResponseDto;
+import mjc.capstone.joinus.exception.NotFoundChatRoomException;
+import mjc.capstone.joinus.repository.ChatRepository;
 import mjc.capstone.joinus.repository.ChatRoomRepository;
 import mjc.capstone.joinus.repository.MemberRepository;
 import mjc.capstone.joinus.service.inf.ChatService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ChatServiceImpl implements ChatService{
-    private final ChatRoomRepository chatRoomRepository;
+@Transactional
+public class ChatServiceImpl implements ChatService {
+
     private final MemberRepository memberRepository;
+    private final ChatRoomRepository chatRoomRepository;
+    private final ChatRepository chatRepository;
 
+    @Transactional(readOnly = true)
     @Override
-    public List<ChatRoomDto> chatRoomList() {
-        List<ChatRoom> chatRoomList = chatRoomRepository.findAll();
-        return chatRoomList.stream().map(ChatRoomDto::new).collect(Collectors.toList());
-    }
+    public ChatResponseDto convertMessage(ChatRequestDto dto, String username, String roomId) {
+        Member member = memberRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("멤버를 찾을 수 없습니다"));
 
-    @Transactional
-    @Override
-    public ChatRoomDto createRoom(String roomName) {
-        ChatRoom chatRoom = ChatRoom.builder()
-                .roomId(UUID.randomUUID().toString())
-                .roomName(roomName)
-                .userCount(0)
+        return ChatResponseDto.builder()
+                .message(dto.getMessage())
+                .sender(member.getNickname())
+                .roomId(roomId)
+                .sendAt(LocalDateTime.now().toString())
                 .build();
-        chatRoomRepository.save(chatRoom);
-        return new ChatRoomDto(chatRoom);
     }
 
     @Override
-    public List<String> userList(String roomId) {
-        ChatRoom chatRoom = chatRoomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("CHATROOM_NOT_FOUND"));
-        return chatRoom.getUserList().stream().map(user -> user.getNickname()).collect(Collectors.toList());
+    public void saveChat(ChatResponseDto dto) {
+        Member member = memberRepository.findByNickname(dto.getSender())
+                .orElseThrow(() -> new EntityNotFoundException("멤버를 찾을 수 없습니다"));
+
+        ChatRoom chatRoom = chatRoomRepository.findById(dto.getRoomId())
+                .orElseThrow(() -> new EntityNotFoundException("채팅방을 찾을 수 없습니다"));
+
+        Chat chat = Chat.builder()
+                .sender(member)
+                .room(chatRoom)
+                .message(dto.getMessage())
+                .time(LocalDateTime.parse(dto.getSendAt()))
+                .build();
+
+        chatRepository.save(chat);
     }
 
-    @Transactional
     @Override
-    public Long addUser(String roomId, String userName) {
-        ChatRoom chatRoom = chatRoomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("CHATROOM_NOT_FOUND"));
-        Member user = memberRepository.findByNickname(userName).orElseThrow(() -> new EntityNotFoundException("MEMBER_NOT_FOUND"));
-        chatRoom.upUserCount();
-        chatRoom.addUser(user);
+    public List<ChatResponseDto> getChatList(String roomId) {
+        ChatRoom chatRoom = chatRoomRepository.findById(roomId)
+                .orElseThrow(NotFoundChatRoomException::new);
 
-        return user.getId();
-    }
-
-    @Transactional
-    @Override
-    public void delUser(String roomId, String userName) {
-        ChatRoom chatRoom = chatRoomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("CHATROOM_NOT_FOUND"));
-        Member user = memberRepository.findByNickname(userName).orElseThrow(() -> new EntityNotFoundException("MEMBER_NOT_FOUND"));
-        chatRoom.downUserCount();
-        chatRoom.removeUser(user);
+        return chatRepository.findByRoom(chatRoom).stream()
+                .map(chat -> ChatResponseDto.builder()
+                    .message(chat.getMessage())
+                    .sender(chat.getSender().getNickname())
+                    .roomId(roomId)
+                    .sendAt(chat.getTime().toString())
+                    .build())
+                .toList();
     }
 }
