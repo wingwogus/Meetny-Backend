@@ -217,7 +217,6 @@ public class InitDataService {
                                 .town("마포구")
                                 .street("월드컵로 240")
                                 .build())
-                .participant(member2)
                 .build();
 
         postRepository.save(post1);
@@ -235,7 +234,6 @@ public class InitDataService {
                                 .town("마포구")
                                 .street("월드컵로 240")
                                 .build())
-                .participant(member3)
                 .build();
 
         postRepository.save(post2);
