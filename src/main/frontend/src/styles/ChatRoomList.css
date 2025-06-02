@@ -2,23 +2,22 @@
 
 /* 채팅방 리스트 전체 컨테이너 */
 .chat-room-list {
-    width: 100%;
-    max-width: 480px;              /* 가로 너비 최대 480px 예시 */
-    height: calc(100vh - 64px);    /* 상단 헤더(64px) 빼고 화면 높이만큼 */
+    width: 503px; /* 가로 너비 최대 480px 예시 */
+    height: 1070px;  /* 상단 헤더(64px) 빼고 화면 높이만큼 */
     background-color: #ffffff;
     border: 1px solid #d0d0d0;
     border-radius: 15px;
     overflow-y: auto;
     box-sizing: border-box;
     margin: 0;                      /* 부모가 가운데 정렬할 때 조정 */
-    padding-top: 0;
+    padding-top: 17px;
 }
 
 /* 각각의 방 아이템 */
 .room-item {
     display: flex;
-    align-items: center;
-    padding: 12px 16px;
+    align-items: flex-start;
+    padding: 17px 40px;
     cursor: pointer;
     transition: background-color 0.2s;
 }
@@ -32,17 +31,18 @@
 /* 왼쪽 프로필/아바타 */
 .room-avatar {
     flex-shrink: 0;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
     object-fit: cover;
     background-color: #ddd; /* 사진이 없을 때 대비 */
 }
 
 /* 중앙 텍스트 블록 */
 .room-info {
+    padding-top: 5px;
     flex: 1;
-    margin-left: 12px;
+    margin-left: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -50,26 +50,22 @@
 }
 .room-title {
     font-family: "Pretendard-SemiBold", Helvetica;
-    font-size: 18px;
+    font-size: 20px;
     color: #000;
-    line-height: 1.2;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 .room-snippet {
-    margin-top: 4px;
+    margin-top: 6px;
     font-family: "Pretendard-Regular", Helvetica;
-    font-size: 14px;
+    font-size: 16px;
     color: #949494;
-    line-height: 1.2;
-    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 /* 우측 메타 */
 .room-meta {
+    padding-top: 5px;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -80,21 +76,21 @@
     font-family: "Pretendard-Regular", Helvetica;
     font-size: 12px;
     color: #949494;
-    margin-bottom: 6px;
     white-space: nowrap;
 }
 .unread-badge {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 24px;
-    height: 24px;
+    min-width: 26px;
+    height: 26px;
     background-color: #f8882e;
     color: #ffffff;
     font-family: "Pretendard-Medium", Helvetica;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 500;
     border-radius: 50%;
     padding: 0 6px;
     box-sizing: border-box;
+    margin-top: 10px;
 }

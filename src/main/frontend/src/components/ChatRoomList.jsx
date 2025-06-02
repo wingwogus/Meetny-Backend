@@ -1,6 +1,8 @@
 // ChatRoomList.jsx
 import React from 'react';
 import '../styles/ChatRoomList.css';
+import logo from '../assets/logo.png';
+
 
 /**
  * props:
@@ -18,23 +20,37 @@ import '../styles/ChatRoomList.css';
  *   - onSelectRoom: (roomId, postTitle, authorNickname) => void
  */
 export default function ChatRoomList({ rooms, selectedRoomId, onSelectRoom }) {
+    const formatTime = (isoString) =>
+        new Date(isoString).toLocaleTimeString('ko-KR', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+        });
+
     return (
         <div className="chat-room-list">
             {rooms.map((room) => {
                 const isSelected = room.roomId === selectedRoomId;
                 // 백엔드에서 내려준 필드명에 맞춰서 사용하세요.
-                const otherUserName = room.otherUserName || room.postTitle;
+                const nickname = localStorage.getItem('nickname');
+
+                let isMine = room.authorNickname === nickname;
+
+                const otherUserName =
+                    isMine ? room.userNickname : room.authorNickname || room.postTitle;
+                const authorNickname = room.authorNickname;
                 const latestMessage = room.latestMessage || '대화 없음';
-                const latestTime = room.latestTime || '';
+                const latestTime = formatTime(room.latestTime) || '';
                 const unreadCount = room.unreadCount || 0;
-                const avatarUrl = room.otherUserAvatar || '/default-avatar.png';
+                const avatarUrl =
+                    isMine ? room.userImage : room.authorImage || logo;
 
                 return (
                     <div
                         key={room.roomId}
                         className={`room-item ${isSelected ? 'selected' : ''}`}
                         onClick={() =>
-                            onSelectRoom(room.roomId, room.postTitle, room.authorNickname)
+                            onSelectRoom(room.roomId, room.postTitle, otherUserName, authorNickname, room.postImage)
                         }
                     >
                         {/* 왼쪽 아바타 */}

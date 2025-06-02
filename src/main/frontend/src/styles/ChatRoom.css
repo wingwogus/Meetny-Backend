@@ -4,7 +4,7 @@
 .chat-room {
     position: relative;
     width: 576px;
-    height: 1079px;
+    height: 1070px;
     background: #fff;
     border: 1px solid #d0d0d0;
     border-radius: 15px;
@@ -14,7 +14,7 @@
 }
 
 .chat-room-header {
-    padding: 16px;
+    padding: 30px;
     border-bottom: 1px solid #f0f0f0;
     background: #fff;
     text-align: center;
@@ -23,15 +23,42 @@
 .chat-room-header .participant-name {
     font-family: "Pretendard-SemiBold", Helvetica;
     font-size: 24px;
-    font-weight: 600;
     color: #000;
-    margin-bottom: 4px;
+}
+
+.chat-room-header .post-info {
+    display: flex;
+    font-family: "Pretendard-Regular", Helvetica;
+    font-weight: bold;
+    color: #000;
+    margin-top: 40px;
+    text-align: left;
+}
+
+.chat-room-header .post-image {
+    width: 65px;
+    height: 65px;
+    border-radius: 15px;
+    object-fit: cover;
+    background-color: #ddd;
 }
 
 .chat-room-header .post-title {
     font-family: "Pretendard-Regular", Helvetica;
+    font-weight: bold;
+    font-size: 22px;
+    color: #000;
+    margin-left: 15px;
+}
+
+.chat-room-header .post-complete {
+    font-family: "Pretendard-Regular", Helvetica;
+    font-weight: bold;
     font-size: 16px;
-    color: #555;
+    margin-top: 10px;
+    text-decoration-line: underline;
+    margin-left: 15px;
+    color: #4e4e4e;
 }
 
 
@@ -60,7 +87,7 @@
 /* 말풍선 */
 .message {
     max-width: 70%;
-    padding: 8px 12px;
+    padding: 10px 20px;
     border-radius: 18px;
     background-color: #e4f5f4;
     font-family: "Pretendard-Regular", Helvetica;
