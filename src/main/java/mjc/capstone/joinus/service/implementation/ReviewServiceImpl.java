@@ -231,7 +231,7 @@ public class ReviewServiceImpl implements ReviewService {
         List<ReviewTag> tags = reviewTagRepository.findAll();
 
         return tags.stream()
-                .map(tag -> new ReviewTagResponseDto(tag.getTagName(), tag.getType()))
+                .map(tag -> new ReviewTagResponseDto(tag.getId(), tag.getTagName(), tag.getType()))
                 .toList();
     }
 
