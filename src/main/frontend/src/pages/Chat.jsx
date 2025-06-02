@@ -125,6 +125,16 @@ export default function Chat() {
         setInput('');
     };
 
+    const handleComplete = (roomId) => {
+        axios.post(`/api/chat/rooms/${roomId}/complete`)
+            .then(res => {
+                console.log(res.data.message);
+            })
+            .catch(error => {
+                console.error(`방 ${roomId} 동행 완료 실패:`, error);
+            });
+    }
+
     return (
         <>
             <AppHeader />
@@ -149,6 +159,7 @@ export default function Chat() {
                             inputValue={input}
                             onInputChange={e => setInput(e.target.value)}
                             onSend={handleSend}
+                            complete={handleComplete}
                         />
                     ) : (
                         <div className="placeholder">채팅방을 선택해주세요.</div>

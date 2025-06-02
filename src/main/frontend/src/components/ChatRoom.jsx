@@ -13,7 +13,8 @@ export default function ChatRoom({
                                      messages,
                                      inputValue,
                                      onInputChange,
-                                     onSend}) {
+                                     onSend,
+                                     complete}) {
     const scrollRef = useRef(null);
 
     useEffect(() => {
@@ -35,7 +36,8 @@ export default function ChatRoom({
                         />
                         <div>
                             <div className="post-title">[{postTitle}]</div>
-                            {authorNickname === localStorage.getItem('nickname') && <div className="post-complete">동행 완료</div>}
+                            {authorNickname === localStorage.getItem('nickname') &&
+                                <div className="post-complete" onClick={complete(roomId)}>동행 완료</div>}
                         </div>
                     </div>
                 </div>
