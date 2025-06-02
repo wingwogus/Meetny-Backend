@@ -8,6 +8,7 @@ export default function ChatRoom({
                                      roomId,
                                      postTitle,
                                      postImage,
+                                     otherNickname,
                                      authorNickname,
                                      messages,
                                      inputValue,
@@ -25,7 +26,7 @@ export default function ChatRoom({
         <div className="chat-room">
             {postTitle && (
                 <div className="chat-room-header">
-                    <div className="participant-name">{authorNickname}</div>
+                    <div className="participant-name">{otherNickname}</div>
                     <div className="post-info">
                         <img
                             src={postImage || logo}
@@ -34,7 +35,7 @@ export default function ChatRoom({
                         />
                         <div>
                             <div className="post-title">[{postTitle}]</div>
-                            <div className="post-complete">동행 완료</div>
+                            {authorNickname === localStorage.getItem('nickname') && <div className="post-complete">동행 완료</div>}
                         </div>
                     </div>
                 </div>

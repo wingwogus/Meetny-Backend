@@ -38,6 +38,7 @@ export default function ChatRoomList({ rooms, selectedRoomId, onSelectRoom }) {
 
                 const otherUserName =
                     isMine ? room.userNickname : room.authorNickname || room.postTitle;
+                const authorNickname = room.authorNickname;
                 const latestMessage = room.latestMessage || '대화 없음';
                 const latestTime = formatTime(room.latestTime) || '';
                 const unreadCount = room.unreadCount || 0;
@@ -49,7 +50,7 @@ export default function ChatRoomList({ rooms, selectedRoomId, onSelectRoom }) {
                         key={room.roomId}
                         className={`room-item ${isSelected ? 'selected' : ''}`}
                         onClick={() =>
-                            onSelectRoom(room.roomId, room.postTitle, otherUserName, room.postImage)
+                            onSelectRoom(room.roomId, room.postTitle, otherUserName, authorNickname, room.postImage)
                         }
                     >
                         {/* 왼쪽 아바타 */}

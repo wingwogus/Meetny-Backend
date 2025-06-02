@@ -18,6 +18,7 @@ export default function Chat() {
     const [selectedRoomId, setSelectedRoomId] = useState(null);
     const [selectedRoomTitle, setSelectedRoomTitle] = useState('');
     const [selectedRoomPostImage, setSelectedRoomPostImage] = useState('');
+    const [otherNickname, setOtherNickname] = useState('');
     const [authorNickname, setAuthorNickname] = useState('');
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
@@ -71,8 +72,9 @@ export default function Chat() {
                 setSelectedRoomTitle(firstRoom.postTitle);
                 setSelectedRoomPostImage(firstRoom.postImage);
                 const nickname = localStorage.getItem('nickname');
-                setAuthorNickname(firstRoom.authorNickname === nickname ?
+                setOtherNickname(firstRoom.authorNickname === nickname ?
                     firstRoom.userNickname : firstRoom.authorNickname);
+                setAuthorNickname(firstRoom.authorNickname);
 
                 return axios.get(`/api/chat/rooms/history/${firstRoom.roomId}`);
             })
@@ -86,10 +88,11 @@ export default function Chat() {
             });
     }, []);
 
-    const handleSelect = (roomId, postTitle, author, postImage) => {
+    const handleSelect = (roomId, postTitle, otherNickname, authorNickname, postImage) => {
         setSelectedRoomId(roomId);
         setSelectedRoomTitle(postTitle);
-        setAuthorNickname(author);
+        setOtherNickname(otherNickname);
+        setAuthorNickname(authorNickname);
         setSelectedRoomPostImage(postImage);
 
         axios.get(`/api/chat/rooms/history/${roomId}`)
@@ -114,7 +117,7 @@ export default function Chat() {
 
         sendMessage({
             roomId: selectedRoomId,
-            sender: authorNickname,
+            sender: otherNickname,
             message: trimmed,
             sendAt: new Date().toISOString(),
         });
@@ -140,6 +143,7 @@ export default function Chat() {
                             roomId={selectedRoomId}
                             postTitle={selectedRoomTitle}
                             postImage={selectedRoomPostImage}
+                            otherNickname={otherNickname}
                             authorNickname={authorNickname}
                             messages={messages}
                             inputValue={input}
