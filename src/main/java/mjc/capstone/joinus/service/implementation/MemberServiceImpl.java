@@ -165,4 +165,10 @@ public class MemberServiceImpl implements MemberService {
 
         redisService.deleteValues("RT:" + email);
     }
+
+    @Override
+    public Member findMemberByNickname(String username) {
+        Optional<Member> member = memberRepository.findByNickname(username);
+        return member.orElse(null);
+    }
 }
