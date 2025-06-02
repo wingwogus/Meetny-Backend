@@ -6,8 +6,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mjc.capstone.joinus.dto.ApiResponse;
 import mjc.capstone.joinus.dto.auth.CustomUserDetails;
+import mjc.capstone.joinus.dto.chat.ChatResponseDto;
 import mjc.capstone.joinus.dto.chat.ChatRoomDto;
 import mjc.capstone.joinus.service.inf.ChatRoomService;
+import mjc.capstone.joinus.service.inf.ChatService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,7 @@ import java.util.List;
 @RequestMapping("/api/chat/rooms")
 public class ChatRoomController {
     private final ChatRoomService chatRoomService;
+    private final ChatService chatService;
 
     // 채팅 리스트 화면
     @GetMapping("/")
@@ -45,6 +48,13 @@ public class ChatRoomController {
 
         ChatRoomDto room = chatRoomService.findOrCreateRoom(postId, memberId);
         return ResponseEntity.ok(ApiResponse.success("채팅방 입장 성공", room));
+    }
+
+    @GetMapping("/history/{roomId}")
+    public ResponseEntity<ApiResponse<List<ChatResponseDto>>> getChatHistory(
+            @PathVariable String roomId) {
+
+        return ResponseEntity.ok(ApiResponse.success("채팅 조회 성공", chatService.getChatList(roomId)));
     }
 
     @PostMapping("/{roomId}/complete")

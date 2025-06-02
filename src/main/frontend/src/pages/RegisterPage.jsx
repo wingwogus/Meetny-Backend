@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../styles/Register.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 const InputField = ({ id, label, type = "text", placeholder, required = false, value, onChange }) => (
   <label htmlFor={id} className="form-group">
@@ -57,7 +57,7 @@ const RegisterPage = () => {
       console.log("회원가입 성공:", response.data);
       alert("회원가입이 완료되었습니다.");
       // TODO: 페이지 이동 처리 (예: navigate("/login"))
-        navigate("/login");
+         navigate("/login");
     } catch (error) {
       console.error("회원가입 오류:", error.response ? error.response.data : error.message);
       alert("회원가입 중 오류가 발생했습니다.");

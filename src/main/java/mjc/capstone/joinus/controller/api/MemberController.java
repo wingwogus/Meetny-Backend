@@ -4,9 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mjc.capstone.joinus.dto.ApiResponse;
-import mjc.capstone.joinus.dto.auth.LoginRequestDto;
-import mjc.capstone.joinus.dto.auth.ReissueRequestDto;
-import mjc.capstone.joinus.dto.auth.SignUpRequestDto;
+import mjc.capstone.joinus.dto.auth.*;
 import mjc.capstone.joinus.jwt.JwtToken;
 import mjc.capstone.joinus.service.inf.MemberService;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +33,20 @@ public class MemberController {
     public ResponseEntity<ApiResponse<JwtToken>> reissue(@RequestBody ReissueRequestDto request) {
         JwtToken newToken = memberService.reissue(request);
         return ResponseEntity.ok(ApiResponse.success("RefreshToken 재발급 성공", newToken));
+    }
+
+    @PostMapping("/send-email")
+    @Operation(summary = "이메일 인증 코드 전송", description = "입력된 이메일로 인증 코드를 전송합니다.")
+    public ResponseEntity<ApiResponse<Void>> sendMessage(@RequestBody EmailRequestDto emailRequestDto) {
+        memberService.sendCodeToEmail(emailRequestDto.getEmail());
+        return ResponseEntity.ok(ApiResponse.success("이메일 전송에 성공하였습니다", null));
+    }
+
+    @PostMapping("/verification")
+    @Operation(summary = "이메일 인증 코드 확인", description = "사용자가 입력한 인증 코드를 확인합니다.")
+    public ResponseEntity<ApiResponse<Void>> verification(@RequestBody VerifiedRequestDto verifiedRequestDto) {
+        memberService.verifiedCode(verifiedRequestDto);
+        return ResponseEntity.ok(ApiResponse.success("코드 인증에 성공하였습니다.", null));
     }
 
     @PostMapping("/signup")

@@ -28,11 +28,10 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
         String provider = request.getClientRegistration().getRegistrationId();
         String email = extractEmail(provider, user.getAttributes());
 
-        Member member = memberRepository.findByMail(email)
+        Member member = memberRepository.findByUsername(email)
                 .orElseGet(() -> memberRepository.save(
                         Member.builder()
-                                .mail(email)
-                                .username(provider + "_" + UUID.randomUUID())
+                                .username(email)
                                 .role(Role.USER)
                                 .build()
                 ));

@@ -91,10 +91,9 @@ public class InitDataService {
 
 
         Member member = Member.builder()
-                .username("mih2001103")
+                .username("mih2001103@naver.com")
                 .nickname("monikhyun")
                 .phone("010-0000-0000")
-                .mail("mih2001103@gmail.com")
                 .address(Address.builder()
                         .city("서울특별시")
                         .street("송파구")
@@ -118,10 +117,9 @@ public class InitDataService {
         }
 
         Member member1 = Member.builder()
-                .username("user1")
+                .username("user1@naver.com")
                 .nickname("user1")
                 .phone("010-0000-0000")
-                .mail("user1@gmail.com")
                 .address(Address.builder()
                         .city("서울특별시")
                         .street("송파구")
@@ -135,10 +133,9 @@ public class InitDataService {
                 .build();
 
         Member member2 = Member.builder()
-                .username("user2")
+                .username("user2@naver.com")
                 .nickname("user2")
                 .phone("010-0000-0000")
-                .mail("user2@gmail.com")
                 .address(Address.builder()
                         .city("서울특별시")
                         .street("은평구")
@@ -152,10 +149,9 @@ public class InitDataService {
                 .build();
 
         Member member3 = Member.builder()
-                .username("user3")
+                .username("user3@naver.com")
                 .nickname("user3")
                 .phone("010-0000-0000")
-                .mail("user3@gmail.com")
                 .address(Address.builder()
                         .city("서울특별시")
                         .street("서대문구")
