@@ -1,5 +1,6 @@
 package mjc.capstone.joinus.service.inf;
 
+import mjc.capstone.joinus.domain.entity.Member;
 import mjc.capstone.joinus.dto.auth.LoginRequestDto;
 import mjc.capstone.joinus.dto.auth.ReissueRequestDto;
 import mjc.capstone.joinus.dto.auth.SignUpRequestDto;
@@ -18,4 +19,5 @@ public interface MemberService {
 
     void logout(String email);
 
+    Member findMemberByNickname(String username);
 }
