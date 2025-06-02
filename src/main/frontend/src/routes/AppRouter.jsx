@@ -7,6 +7,9 @@ import PostForm from "../pages/PostForm";
 import Login from "../pages/Loginpage";
 import MyPage from "../pages/MyPage";
 import RegisterPage from "../pages/RegisterPage";
+import ReviewDetail from "../pages/ReviewDetail";
+import ReviewForm from "../pages/ReviewForm";
+import ReviewForm1 from "../pages/ReviewForm1";
 
 export default function AppRouter() {
     return (
@@ -19,6 +22,9 @@ export default function AppRouter() {
                 <Route path="/posts/form" element={<PostForm />} />
                 <Route path="/information" element={<MyPage />} />
                 <Route path="/register" element={<RegisterPage/>}/>
+                <Route path="/reviews/:id" element={<ReviewDetail />} />
+                <Route path="/reviews/write/:postId" element={<ReviewForm />} />
+                <Route path="/reviews/write" element={<ReviewForm1 />} />
             </Routes>
         </Router>
     );

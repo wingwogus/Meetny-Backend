@@ -9,8 +9,8 @@ function PostDetail() {
     useEffect(() => {
         axios.get(`/api/posts/${id}`)
             .then((res) => {
-                console.log("받은 게시글:", res.data);
-                setPost(res.data)
+                console.log("받은 게시글:", res.data.data);
+                setPost(res.data.data)
             })
             .catch((err) => console.error(err));
     }, [id]);

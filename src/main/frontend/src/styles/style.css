@@ -1,0 +1,93 @@
+.label {
+    color: #525252;
+    font-family: "Pretendard-Medium", Helvetica;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+}
+
+.sub-label {
+    color: #858585;
+    font-family: "Pretendard-Light", Helvetica;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: normal;
+    letter-spacing: 0;
+    white-space: nowrap;
+}
+
+.review-box {
+    background-color: #fafafa;
+    border: 1px solid #d5d5d5;
+    border-radius: 10px;
+    position: absolute;
+    top: 902px;
+    left: 103px;
+    width: 929px;
+    height: 296px;
+}
+
+.section-header {
+    position: absolute;
+    font-size: 22px;
+    font-family: "Pretendard-Medium", Helvetica;
+    font-weight: 500;
+    color: #525252;
+    white-space: nowrap;
+    letter-spacing: 0;
+    line-height: normal;
+}
+
+.section-subtext {
+    position: absolute;
+    font-size: 20px;
+    font-family: "Pretendard-Light", Helvetica;
+    font-weight: 300;
+    color: #858585;
+    white-space: nowrap;
+    letter-spacing: 0;
+    line-height: normal;
+}
+
+.tag-container {
+    position: absolute;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tag-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 3.35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f3f3f3;
+    border: 1.12px solid #e8e8e8;
+}
+
+.tag-icon.active {
+    background-color: #f4964a;
+    border: none;
+}
+
+.review-button {
+    position: absolute;
+    top: 1648px;
+    left: 682px;
+    width: 556px;
+    height: 59px;
+    background-color: #fa801e;
+    border-radius: 9.45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-family: "Pretendard-Bold", Helvetica;
+    font-size: 23.6px;
+    font-weight: 700;
+}

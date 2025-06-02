@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../styles/Register.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const InputField = ({ id, label, type = "text", placeholder, required = false, value, onChange }) => (
   <label htmlFor={id} className="form-group">
@@ -29,6 +30,7 @@ const RegisterPage = () => {
   const [mail, setMail] = useState("");
   const [profileImg, setProfileImg] = useState("");
   const [gender, setGender] = useState("");
+  const navigate = useNavigate();
 
   const handleFindAddress = () => {
     // TODO: 우편번호/주소 검색 API 호출
