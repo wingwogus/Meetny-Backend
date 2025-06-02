@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -22,6 +23,7 @@ public class InitDataService {
     private final PasswordEncoder passwordEncoder;
     private final PostRepository postRepository;
     private final ReviewTagRepository reviewTagRepository;
+    private final ChatRoomRepository chatRoomRepository;
 
     @PostConstruct
     public void init() {
@@ -237,5 +239,20 @@ public class InitDataService {
                 .build();
 
         postRepository.save(post2);
+
+        ChatRoom room1 = ChatRoom.builder()
+                .roomId(UUID.randomUUID().toString())
+                .post(post1)
+                .member(member2)
+                .build();
+
+        ChatRoom room2 = ChatRoom.builder()
+                .roomId(UUID.randomUUID().toString())
+                .post(post2)
+                .member(member1)
+                .build();
+
+        chatRoomRepository.save(room1);
+        chatRoomRepository.save(room2);
     }
 }
