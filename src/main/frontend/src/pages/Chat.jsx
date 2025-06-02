@@ -13,17 +13,11 @@ const formatMessage = (msg) => ({
     sendAt: msg.sendAt,
 });
 
-const formatTime = (isoString) =>
-    new Date(isoString).toLocaleTimeString('ko-KR', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true,
-    });
-
 export default function Chat() {
     const [rooms, setRooms] = useState([]);
     const [selectedRoomId, setSelectedRoomId] = useState(null);
     const [selectedRoomTitle, setSelectedRoomTitle] = useState('');
+    const [selectedRoomPostImage, setSelectedRoomPostImage] = useState('');
     const [authorNickname, setAuthorNickname] = useState('');
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
@@ -35,20 +29,22 @@ export default function Chat() {
 
     const handleIncomingMessage = useCallback(
         ({ roomId: incomingRoomId, message, sendAt, sender }) => {
-            setRooms(prevRooms =>
-                prevRooms.map(rm => {
+            setRooms(prevRooms => {
+                const updatedRooms = prevRooms.map(rm => {
                     if (rm.roomId !== incomingRoomId) return rm;
-
                     const isCurrent = incomingRoomId === selectedRoomIdRef.current;
-
                     return {
                         ...rm,
                         latestMessage: message,
-                        latestTime: formatTime(sendAt),
+                        latestTime: sendAt,
                         unreadCount: isCurrent ? 0 : (rm.unreadCount || 0) + 1,
                     };
-                })
-            );
+                });
+                // 재정렬: 메시지 받은 방을 맨 앞으로 이동
+                const targetRoom = updatedRooms.find(r => r.roomId === incomingRoomId);
+                const others = updatedRooms.filter(r => r.roomId !== incomingRoomId);
+                return [targetRoom, ...others];
+            });
 
             if (incomingRoomId === selectedRoomIdRef.current) {
                 setMessages(prev => [...prev, { sender, message, sendAt }]);
@@ -73,7 +69,10 @@ export default function Chat() {
                 const firstRoom = roomsData[0];
                 setSelectedRoomId(firstRoom.roomId);
                 setSelectedRoomTitle(firstRoom.postTitle);
-                setAuthorNickname(firstRoom.authorNickname);
+                setSelectedRoomPostImage(firstRoom.postImage);
+                const nickname = localStorage.getItem('nickname');
+                setAuthorNickname(firstRoom.authorNickname === nickname ?
+                    firstRoom.userNickname : firstRoom.authorNickname);
 
                 return axios.get(`/api/chat/rooms/history/${firstRoom.roomId}`);
             })
@@ -87,10 +86,11 @@ export default function Chat() {
             });
     }, []);
 
-    const handleSelect = (roomId, roomTitle, author) => {
+    const handleSelect = (roomId, postTitle, author, postImage) => {
         setSelectedRoomId(roomId);
-        setSelectedRoomTitle(roomTitle);
+        setSelectedRoomTitle(postTitle);
         setAuthorNickname(author);
+        setSelectedRoomPostImage(postImage);
 
         axios.get(`/api/chat/rooms/history/${roomId}`)
             .then(res => {
@@ -138,7 +138,8 @@ export default function Chat() {
                     {selectedRoomId ? (
                         <ChatRoom
                             roomId={selectedRoomId}
-                            roomTitle={selectedRoomTitle}
+                            postTitle={selectedRoomTitle}
+                            postImage={selectedRoomPostImage}
                             authorNickname={authorNickname}
                             messages={messages}
                             inputValue={input}

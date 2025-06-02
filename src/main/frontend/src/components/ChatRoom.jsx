@@ -1,16 +1,18 @@
 // src/components/ChatRoom.jsx
 import React, { useEffect, useRef } from 'react';
 import '../styles/ChatRoom.css';
+import logo from '../assets/logo.png';
+
 
 export default function ChatRoom({
                                      roomId,
-                                     roomTitle,
+                                     postTitle,
+                                     postImage,
                                      authorNickname,
                                      messages,
                                      inputValue,
                                      onInputChange,
-                                     onSend
-                                 }) {
+                                     onSend}) {
     const scrollRef = useRef(null);
 
     useEffect(() => {
@@ -21,10 +23,20 @@ export default function ChatRoom({
 
     return (
         <div className="chat-room">
-            {roomTitle && (
+            {postTitle && (
                 <div className="chat-room-header">
                     <div className="participant-name">{authorNickname}</div>
-                    <div className="post-title">{roomTitle}</div>
+                    <div className="post-info">
+                        <img
+                            src={postImage || logo}
+                            alt={`Post 사진`}
+                            className="post-image"
+                        />
+                        <div>
+                            <div className="post-title">[{postTitle}]</div>
+                            <div className="post-complete">동행 완료</div>
+                        </div>
+                    </div>
                 </div>
             )}
 
