@@ -6,15 +6,18 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import mjc.capstone.joinus.domain.entity.Member;
 import mjc.capstone.joinus.dto.ApiResponse;
 import mjc.capstone.joinus.dto.auth.CustomUserDetails;
 import mjc.capstone.joinus.dto.mypage.MyPageDto;
 import mjc.capstone.joinus.dto.mypage.ProfileRequest;
 import mjc.capstone.joinus.dto.tag.TagDto;
 import mjc.capstone.joinus.dto.tag.UserTagDto;
+import mjc.capstone.joinus.service.inf.MemberService;
 import mjc.capstone.joinus.service.inf.MyPageService;
 import mjc.capstone.joinus.service.inf.PostService;
 import mjc.capstone.joinus.service.inf.ReviewService;
+import org.apache.juli.logging.Log;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,6 +36,7 @@ public class MyPageController {
     private final MyPageService myPageService;
     private final PostService postService;
     private final ReviewService reviewService;
+    private final MemberService memberService;
 
     // 프로필 이미지 수정
     @Operation(summary = "프로필 이미지 수정", description = "프로필 이미지를 넘겨받아 DB에 저장합니다.")
@@ -52,6 +56,23 @@ public class MyPageController {
         MyPageDto userDetailDto = myPageService.findMemberDto(userDetails.getMember());
         userDetailDto.setPosts(postService.getAllPosts(userDetails.getMember().getId()));
         userDetailDto.setCredibility(reviewService.getCredibility(userDetails.getMember().getId()));
+        return ResponseEntity.ok(ApiResponse.success(userDetailDto));
+    }
+
+    @Operation(summary = "계정 정보 조회", description = "다른 유저의 계정 정보와 게시글 목록을 반환합니다.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "조회 성공",
+            content = @Content(schema = @Schema(implementation = MyPageDto.class)))
+    // 계정 정보 페이지
+    @GetMapping("/information/{username}")
+    public ResponseEntity<ApiResponse<MyPageDto>> getOtherInformation(
+            @PathVariable String username,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ) {
+        Member targetMember = memberService.findMemberByNickname(username);
+
+        MyPageDto userDetailDto = myPageService.findMemberDto(targetMember);
+        userDetailDto.setPosts(postService.getAllPosts(targetMember.getId()));
+        userDetailDto.setCredibility(reviewService.getCredibility(targetMember.getId()));
         return ResponseEntity.ok(ApiResponse.success(userDetailDto));
     }
 
