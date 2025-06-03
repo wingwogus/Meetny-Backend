@@ -92,10 +92,10 @@
 }
 
 .like-button {
-    background-color: white;
+    background-color: #fa801e;
     border: 1px solid #ff9f40;
     color: #ff9f40;
-    border-radius: 50%;
+    border-radius: 30px;
     font-size: 18px;
     width: 42px;
     height: 42px;

@@ -91,6 +91,16 @@ public class PostController {
         return ResponseEntity.ok(ApiResponse.success("날짜별 게시글 조회 성공", posts));
     }
 
+    // 좋아요 게시물 목록
+    @Operation(summary = "좋아요 게시글 조회", description = "좋아요 누른 게시물을 조회합니다")
+    @GetMapping("/like")
+    public ResponseEntity<ApiResponse<List<PostResponseDto>>> getPostByLike(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        Long memberId = userDetails != null ? userDetails.getMember().getId() : null;
+
+        List<PostResponseDto> likedPost = postService.getLikedPost(memberId);
+        return ResponseEntity.ok(ApiResponse.success("좋아요 누른 게시물 조회 성공", likedPost));
+    }
+
     // 포스트 좋아요
     @Operation(summary = "게시글 좋아요", description = "게시글 하나에 좋아요을 누르거나 취소합니다")
     @PostMapping("/{id}/like")
@@ -100,6 +110,7 @@ public class PostController {
                 postService.togglePostLike(post, userDetails.getMember().getId());
         return ResponseEntity.ok(ApiResponse.success("좋아요/취소 성공", response));
     }
+
 
     // 동행 참여
     @PostMapping("/{postId}/participant")

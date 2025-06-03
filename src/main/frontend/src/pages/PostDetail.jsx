@@ -7,8 +7,30 @@ import AppHeader from "../components/AppHeader";
 export default function PostDetail() {
     const { id } = useParams();
     const [post, setPost] = useState(null);
-    const [author, setAuthor] = useState(null);
     const [loading, setLoading] = useState(true);
+
+    const handleJoinClick = async () => {
+        try {
+            await axiosClient.post(`/api/chat/rooms/${post.id}`);
+            window.location.href = "/chat";
+        } catch (error) {
+            console.error("채팅방 생성 실패:", error);
+            alert("채팅방 입장 중 오류가 발생했습니다.");
+        }
+    };
+
+    const handleLike = async () => {
+        try {
+            await axiosClient.post(`/api/chat/rooms/${post.id}`);
+            window.location.href = "/chat";
+        } catch (error) {
+            console.error("채팅방 생성 실패:", error);
+            alert("채팅방 입장 중 오류가 발생했습니다.");
+        }
+    };
+
+
+
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -31,7 +53,7 @@ export default function PostDetail() {
         <>
             <AppHeader/>
             <div className="post-detail-wrapper">
-                <h2 className="post-detail-header">🎥 {post.title}</h2>
+                <h2 className="post-detail-header">{post.title}</h2>
                 <div className="post-main">
 
                     <div className="post-main-card">
@@ -43,7 +65,7 @@ export default function PostDetail() {
                                 <span className="post-category">{post.postTag.tagName}</span>
                             </div>
 
-                            <h3 className="post-title">🎥 {post.title}</h3>
+                            <h3 className="post-title">{post.title}</h3>
 
                             <div className="post-meta-info">
                                 <p>📍 {post.address.city} {post.address.town} {post.address.street} </p>
@@ -55,8 +77,8 @@ export default function PostDetail() {
                             </div>
 
                             <div className="like-cta">
+                                <button className="cta-button" onClick={handleJoinClick}>동행하기</button>
                                 <button className="like-button">🤍</button>
-                                <button className="cta-button">동행하기</button>
                             </div>
                         </div>
                     </div>
@@ -82,7 +104,7 @@ export default function PostDetail() {
                 <div className="post-detail-info">
                     <div className="post-detail-info-header">모임 상세 정보</div>
                     <div className="post-detail-info-body">
-                        <h2 className="detail-title">🎥 {post.title}</h2>
+                        <h2 className="detail-title">{post.title}</h2>
                         <p className="detail-location">{post.address.town} | {new Date(post.meetingTime).toLocaleString()}</p>
                         <img className="post-detail-image" src={post.photo} alt="상세 이미지" />
 

@@ -10,7 +10,6 @@ import mjc.capstone.joinus.domain.tags.Tag;
 import mjc.capstone.joinus.dto.post.PostLikeResponseDto;
 import mjc.capstone.joinus.dto.post.PostRequestDto;
 import mjc.capstone.joinus.dto.post.PostResponseDto;
-import mjc.capstone.joinus.dto.post.SimpleMemberInfoDto;
 import mjc.capstone.joinus.exception.InvalidTokenException;
 import mjc.capstone.joinus.exception.NotFoundMemberException;
 import mjc.capstone.joinus.repository.MemberRepository;
@@ -91,6 +90,16 @@ public class PostServiceImpl implements PostService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<PostResponseDto> getLikedPost(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(NotFoundMemberException::new);
+
+        return postLikeRepository.findByMember(member).stream()
+                .map(postLike -> PostResponseDto.from(postLike.orElseThrow().getPost(), true))
+                .collect(Collectors.toList());
+    }
+
     @Transactional(readOnly = true)
     @Override
     public List<PostResponseDto> getAllPosts(Long memberId) {
@@ -98,8 +107,6 @@ public class PostServiceImpl implements PostService {
                 .map(post -> PostResponseDto.from(post, isPostLikedByMember(post,memberId)))
                 .toList();
     }
-
-
 
     @Transactional(readOnly = true)
     @Override
