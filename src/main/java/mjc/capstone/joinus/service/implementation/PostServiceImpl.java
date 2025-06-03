@@ -138,12 +138,12 @@ public class PostServiceImpl implements PostService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<PostResponseDto> getPostsByMember(Long memberId) {
-        Member member = memberRepository.findById(memberId)
+    public List<PostResponseDto> getPostsByMember(String nickname) {
+        Member member = memberRepository.findByNickname(nickname)
                 .orElseThrow(NotFoundMemberException::new);
 
         return postRepository.findByAuthor(member).stream()
-                .map(post -> PostResponseDto.from(post, isPostLikedByMember(post, memberId)))
+                .map(post -> PostResponseDto.from(post, isPostLikedByMember(post, member.getId())))
                 .toList();
     }
 
@@ -177,6 +177,16 @@ public class PostServiceImpl implements PostService {
 
         post.setParticipant(member);
         postRepository.save(post);
+    }
+
+    @Override
+    public List<PostResponseDto> getLikedPost(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(NotFoundMemberException::new);
+
+        return postLikeRepository.findByMember(member).stream()
+                .map(postLike -> PostResponseDto.from(postLike.orElseThrow().getPost(), true))
+                .collect(Collectors.toList());
     }
 
 

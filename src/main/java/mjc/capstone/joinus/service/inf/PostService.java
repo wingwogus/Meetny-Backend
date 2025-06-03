@@ -31,7 +31,7 @@ public interface PostService {
     // 포스트 좋아요 토글 기능
     PostLikeResponseDto togglePostLike(Post post, Long memberId);
     // 유저별 포스트 불러오기
-    List<PostResponseDto> getPostsByMember(Long memberId);
+    List<PostResponseDto> getPostsByMember(String nickname);
     //List<PostResponseDto> searchPosts(String keyword);
     // 포스트 유효성 검증
     void validateAuth(Post post, Member member);
@@ -39,4 +39,6 @@ public interface PostService {
     PostResponseDto getPostDetail(Post post, Long memberId);
     // 포스트 참가 기능
     void addParticipant(Long postId, Long memberId);
+
+    List<PostResponseDto> getLikedPost(Long memberId);
 }

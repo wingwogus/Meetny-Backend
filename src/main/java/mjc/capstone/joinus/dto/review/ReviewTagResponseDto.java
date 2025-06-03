@@ -8,6 +8,8 @@ import mjc.capstone.joinus.domain.review.ReviewTagType;
 @Getter
 @AllArgsConstructor
 public class ReviewTagResponseDto {
+    @Schema(description = "매너 태그 아이디")
+    private Long id;
     @Schema(description = "매너 태그 이름")
     private String tagName;
     @Schema(description = "매너 태그 타입")
