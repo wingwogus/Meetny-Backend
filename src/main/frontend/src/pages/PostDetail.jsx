@@ -1,30 +1,97 @@
-import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axiosClient from "../api/axiosClient";
+import "../styles/PostDetail.css";
+import AppHeader from "../components/AppHeader";
 
-function PostDetail() {
+export default function PostDetail() {
     const { id } = useParams();
     const [post, setPost] = useState(null);
+    const [author, setAuthor] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get(`/api/posts/${id}`)
-            .then((res) => {
-                console.log("받은 게시글:", res.data);
-                setPost(res.data)
-            })
-            .catch((err) => console.error(err));
+        const fetchPost = async () => {
+            try {
+                const response = await axiosClient.get(`/api/posts/${id}`);
+                setPost(response.data.data);
+            } catch (err) {
+                console.error("게시물 불러오기 실패:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchPost();
     }, [id]);
 
-    if (!post) return <p>로딩 중...</p>;
+    if (loading) return <div className="post-loading">로딩 중...</div>;
+    if (!post) return <div className="post-error">게시물을 불러올 수 없습니다.</div>;
 
     return (
-        <div>
-            <h2>{post.title}</h2>
-            <p><strong>작성자:</strong> {post.author}</p>
-            <p><strong>내용:</strong> {post.content}</p>
-            <p><strong>작성일:</strong> {post.createdAt}</p>
-        </div>
+        <>
+            <AppHeader/>
+            <div className="post-detail-wrapper">
+                <h2 className="post-detail-header">🎥 {post.title}</h2>
+                <div className="post-main">
+
+                    <div className="post-main-card">
+                        <div className="post-left">
+                            <img className="post-main-image" src={post.photo} alt="대표 이미지" />
+                        </div>
+                        <div className="post-right">
+                            <div className="post-tags-top">
+                                <span className="post-category">{post.postTag.tagName}</span>
+                            </div>
+
+                            <h3 className="post-title">🎥 {post.title}</h3>
+
+                            <div className="post-meta-info">
+                                <p>📍 {post.address.city} {post.address.town} {post.address.street} </p>
+                                <p>
+                                    <span>📅 {new Date(post.meetingTime).toLocaleDateString()} {new Date(post.meetingTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                    </span>
+                                    <span className="d-day">D-{post.dDay ?? 7}</span>
+                                </p>
+                            </div>
+
+                            <div className="like-cta">
+                                <button className="like-button">🤍</button>
+                                <button className="cta-button">동행하기</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="post-author-box">
+                        <h4>작성자</h4>
+                        <div className="author-info">
+                            <img className="author-image" src={post.author.profileImg} alt="작성자" />
+                            <div className="author-text">
+                                <div className="author-name">
+                                    {post.author.nickname}
+                                    <div className="author-score">{post.author.credibility}%</div>
+                                </div>
+                                <div className="author-tags">
+                                    {post.author.tags?.map((tag, idx) => (
+                                        <span key={idx} className="author-tag">{tag}</span>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="post-detail-info">
+                    <div className="post-detail-info-header">모임 상세 정보</div>
+                    <div className="post-detail-info-body">
+                        <h2 className="detail-title">🎥 {post.title}</h2>
+                        <p className="detail-location">{post.address.town} | {new Date(post.meetingTime).toLocaleString()}</p>
+                        <img className="post-detail-image" src={post.photo} alt="상세 이미지" />
+
+                        <div className="post-detail-description">
+                            <p>{post.content}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
     );
 }
-
-export default PostDetail;
