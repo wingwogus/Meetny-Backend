@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import mjc.capstone.joinus.domain.entity.Address;
 import mjc.capstone.joinus.domain.review.ReviewPost;
 
 import java.time.LocalDateTime;
@@ -28,6 +29,8 @@ public class ReviewResponseDto {
     private String photo;
     @Schema(description = "게시글 만남 시간")
     private LocalDateTime meetingTime;
+    @Schema(description = "만남 장소")
+    private Address address;
     @Schema(description = "매너 태그 목록")
     private List<String> mannerTag = new ArrayList<>();
 
@@ -37,6 +40,7 @@ public class ReviewResponseDto {
                 .comment(review.getComment())
                 .photo(review.getPost().getPhoto())
                 .meetingTime(review.getPost().getMeetingTime())
+                .address(review.getPost().getAddress())
                 .reviewerNickname(review.getReviewer().getNickname())
                 .postTitle(review.getPost().getTitle())
                 .mannerTag(
