@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axiosClient from "../api/axiosClient";
+import {useNavigate} from "react-router-dom";
 import "../styles/MyPage.css";
 
 export default function MyPage() {
@@ -7,8 +8,15 @@ export default function MyPage() {
     const [errorMsg, setErrorMsg] = useState("");
     // activeTab: "posts" | "participated" | "feed"
     const [activeTab, setActiveTab] = useState("posts");
+    const [writtenReviews, setWrittenReviews] = useState([]);
     const [receivedReviews, setReceivedReviews] = useState([]);
+    const [likedPosts, setLikedPosts] = useState([]);
 
+    const navigate = useNavigate();
+
+    // ───────────────────────────────────────────────
+    // 1) 사용자 정보 가져오기
+    // ───────────────────────────────────────────────
     useEffect(() => {
         const fetchMyPage = async () => {
             try {
@@ -25,12 +33,14 @@ export default function MyPage() {
         fetchMyPage();
     }, []);
 
-    // “받은 동행 후기” 데이터 가져오기
+    // ───────────────────────────────────────────────
+    // 2) 받은 동행 후기 데이터 가져오기
+    // ───────────────────────────────────────────────
     useEffect(() => {
         const fetchReceivedReviews = async () => {
             if (!user) return;
             try {
-                // 여기서 user.nickname을 username으로 사용한다고 가정합니다.
+                // user.nickname을 username으로 사용한다고 가정
                 const res = await axiosClient.get(
                     `/api/reviews/receive/${user.nickname}`
                 );
@@ -43,7 +53,55 @@ export default function MyPage() {
         fetchReceivedReviews();
     }, [user]);
 
-    // 에러 화면
+    // ───────────────────────────────────────────────
+    // 4) 내가 좋아요(관심) 누른 동행 게시물(likedPosts) 가져오기
+    //    → /api/posts/like 를 호출하여, DTO 내 { posts: [ ... ] } 형태로 받아온다고 가정
+    // ───────────────────────────────────────────────
+    useEffect(() => {
+        const fetchLikedPosts = async () => {
+            if (!user) return;
+            try {
+                const token = localStorage.getItem("accessToken");
+                // 만약 토큰이 필요하다면 헤더에 Bearer 토큰을 붙이세요.
+                const res = await axiosClient.get("/api/posts/like", {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                // 예시 응답: { posts: [ { id, title, content, photo, author, meetingTime, address, … }, … ] }
+                setLikedPosts(res.data.data || []);
+            } catch (err) {
+                console.error(err);
+                setLikedPosts([]);
+            }
+        };
+        fetchLikedPosts();
+    }, [user]);
+
+    // ───────────────────────────────────────────────
+    // 3) 내가 작성한 동행 후기(writtenReviews) 가져오기
+    // ───────────────────────────────────────────────
+    useEffect(() => {
+        const fetchWrittenReviews = async () => {
+            if (!user) return;
+            try {
+                // user.nickname 을 username으로 사용한다고 가정
+                const res = await axiosClient.get(
+                    `/api/reviews/write/${user.nickname}`
+                );
+                setWrittenReviews(res.data.data || []);
+            } catch (err) {
+                console.error(err);
+                setWrittenReviews([]);
+            }
+        };
+        fetchWrittenReviews();
+    }, [user]);
+
+
+
+
+    // ───────────────────────────────────────────────
+    // 3) 에러 / 로딩 화면
+    // ───────────────────────────────────────────────
     if (errorMsg) {
         return (
             <div className="mypage-loading-container">
@@ -51,7 +109,6 @@ export default function MyPage() {
             </div>
         );
     }
-    // 로딩 화면
     if (!user) {
         return (
             <div className="mypage-loading-container">
@@ -61,7 +118,7 @@ export default function MyPage() {
     }
 
     // ───────────────────────────────────────────────
-    // 백엔드에서 받은 데이터를 안전하게 분리
+    // 4) 백엔드에서 받은 데이터를 안전하게 분리
     // ───────────────────────────────────────────────
     const tagList = Array.isArray(user.tags) ? user.tags : [];
     const participationCount = Array.isArray(user.posts)
@@ -70,7 +127,7 @@ export default function MyPage() {
     const followerCount = user.followerCount ?? 0;
     const followingCount = user.followingCount ?? 0;
 
-    // "credibility": { "credibility": 0 } 스펙 가정
+    // “credibility”: { “credibility”: 0 } 스펙 가정
     const rawCred = user.credibility?.credibility ?? 0;
     const trustScore = Math.min(Math.max(rawCred, 0), 100);
 
@@ -81,7 +138,7 @@ export default function MyPage() {
             : "https://picsum.photos/200/300";
 
     // ───────────────────────────────────────────────
-    // 신뢰도 바: 3단계 색상과 너비 계산
+    // 5) 신뢰도 바: 3단계 색상 및 너비 계산
     // ───────────────────────────────────────────────
     const fullBarWidth = 435; // CSS에 정의된 전체 바 너비
     const filledBarWidth = (trustScore / 100) * fullBarWidth;
@@ -94,7 +151,7 @@ export default function MyPage() {
     }
 
     // ───────────────────────────────────────────────
-    // 날짜 포맷 함수 (YYYY.MM.DD)
+    // 6) 날짜 포맷 함수 (YYYY.MM.DD)
     // ───────────────────────────────────────────────
     const formatDate = (isoString) => {
         if (!isoString) return "";
@@ -106,7 +163,7 @@ export default function MyPage() {
     };
 
     // ───────────────────────────────────────────────
-    // 리뷰용 날짜 포맷 함수 (YY/MM/DD)
+    // 7) 리뷰용 날짜 포맷 함수 (YY/MM/DD)
     // ───────────────────────────────────────────────
     const formatDateSlash = (isoString) => {
         if (!isoString) return "";
@@ -120,9 +177,9 @@ export default function MyPage() {
     return (
         <div className="mypage-container">
             <div className="mypage-content">
-                {/* ============================
-            1. 상단 프로필 & 태그 섹션
-        ============================ */}
+                {/* =================================================
+             1. 상단 프로필 & 태그 섹션
+        ================================================= */}
                 <div className="mypage-profile-section">
                     <div className="mypage-tag-wrapper">
                         {/* (1-1) 태그 배경 이미지 */}
@@ -227,9 +284,9 @@ export default function MyPage() {
                     <div className="mypage-divider-vertical-2" />
                 </div>
 
-                {/* ============================
-            2. 상단 우측 검색 아이콘 & 프로필 배지
-        ============================ */}
+                {/* =================================================
+             2. 상단 우측 검색 아이콘 & 프로필 배지
+        ================================================= */}
                 <div className="mypage-search-icon" />
                 <img
                     className="mypage-profile-badge"
@@ -237,10 +294,10 @@ export default function MyPage() {
                     src={avatarUrl}
                 />
 
-                {/* ============================
-            3. 탭 영역 (동행 게시글 / 참가한 동행 / 동행후기)
-            “받은 동행 후기”는 탭이 아니라 상시 노출로 대체
-        ============================ */}
+                {/* =================================================
+             3. 탭 영역 (동행 게시글 / 참가한 동행 / 동행 후기)
+             (받은 동행 후기는 탭이 아니라 상시 노출)
+        ================================================= */}
                 <div
                     className={`mypage-tab-title-posts ${
                         activeTab === "posts" ? "active" : ""
@@ -266,9 +323,9 @@ export default function MyPage() {
                     동행 후기
                 </div>
 
-                {/* ============================
-            4. 사이트 로고 (상단 중앙)
-        ============================ */}
+                {/* =================================================
+             4. 사이트 로고 (상단 중앙)
+        ================================================= */}
                 <div className="mypage-site-logo">
                     <img
                         className="mypage-logo-text"
@@ -302,38 +359,60 @@ export default function MyPage() {
                 </div>
 
                 {/* =================================================
-           5. 관심 동행 섹션 (항상 왼쪽 상단에 노출)
-           ─ “관심 동행” 헤딩 + 예시 카드 (차박 캠핑 모임과 불멍)
-        ================================================== */}
+             5. 관심 동행 섹션 (항상 왼쪽 상단)
+        ================================================= */}
                 <div className="mypage-interest-section">
                     <div className="mypage-interest-heading">관심 동행</div>
-                    <div className="mypage-interest-card">
-                        {/* 예시: 차박 캠핑 모임과 불멍 카드 */}
-                        <div className="mypage-review-thumb-wrapper-2">
-                            <img
-                                className="mypage-review-thumb-img-2"
-                                alt="Interest Thumb"
-                                src="https://c.animaapp.com/3LplbCFc/img/mask-group-7@2x.png"
-                            />
-                            <div className="mypage-review-thumb-overlay-2" />
-                            <div className="mypage-thumb-overlay-text-2">
-                                종료된
-                                <br />
-                                동행
-                            </div>
-                        </div>
-                        <div className="mypage-review-title-2">
-                            차박 캠핑 모임과 불멍
-                        </div>
-                        {/* (예시용으로 날짜만 표기) */}
-                        <div className="mypage-review-date-2">25/03/12</div>
-                    </div>
-                </div>
 
+                    {likedPosts.length > 0 ? (
+                        likedPosts.map((post, idx) => (
+                            <div key={post.id} className="mypage-interest-card">
+                                {/* 1) 썸네일 */}
+                                <div className="mypage-review-thumb-wrapper-2">
+                                    <img
+                                        className="mypage-review-thumb-img-2"
+                                        alt={post.title}
+                                        src={
+                                            post.photo
+                                                ? post.photo
+                                                : "https://via.placeholder.com/114x110?text=No+Photo"
+                                        }
+                                    />
+                                    <div className="mypage-review-thumb-overlay-2" />
+                                    <div className="mypage-thumb-overlay-text-2">
+                                        종료된
+                                        <br />
+                                        동행
+                                    </div>
+                                </div>
+
+                                {/* 2) 제목 */}
+                                <div className="mypage-review-title-2">
+                                    {post.title}
+                                </div>
+
+                                {/* 3) content (설명) */}
+                                <p className="mypage-review-snippet-2">
+                                    {post.content}
+                                </p>
+
+                                {/* 4) 날짜 (createdAt) */}
+                                <div className="mypage-review-date-2">
+                                    {formatDate(post.createdAt)}
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        <div className="mypage-interest-card">
+                        <div className="mypage-interest-empty">
+                            관심 동행이 없습니다.
+                        </div>
+                        </div>
+                    )}
+                </div>
                 {/* =================================================
-           6. 받은 동행 후기 섹션 (항상 오른쪽 상단에 노출)
-           ─ “받은 동행 후기” 헤딩 + 백엔드 데이터 기반 리스팅
-        ================================================== */}
+             6. 받은 동행 후기 섹션 (항상 오른쪽 상단)
+        ================================================= */}
                 <div className="mypage-review-list-wrapper">
                     <div className="mypage-review-list-heading">받은 동행 후기</div>
 
@@ -364,9 +443,7 @@ export default function MyPage() {
                                     <div className="mypage-review-title">{rev.postTitle}</div>
 
                                     {/* 내용(댓글) */}
-                                    <p className="mypage-review-snippet">
-                                        “{rev.comment}”
-                                    </p>
+                                    <p className="mypage-review-snippet">“{rev.comment}”</p>
 
                                     {/* 만난 날짜 */}
                                     <div className="mypage-review-date">
@@ -388,9 +465,9 @@ export default function MyPage() {
                 </div>
 
                 {/* =================================================
-           7. “동행 게시글” 탭 눌렀을 때 (activeTab === "posts")
-           ─ Travel Management (2×2 레이아웃)
-        ================================================== */}
+             7. “동행 게시글” 탭 눌렀을 때 (activeTab === "posts")
+             ─ Travel Management (2×2 레이아웃)
+        ================================================= */}
                 {activeTab === "posts" && (
                     <div className="mypage-travel-management-section">
                         <div className="mypage-travel-management-title">
@@ -400,54 +477,50 @@ export default function MyPage() {
                         {/* posts 첫 4개만 2×2 레이아웃으로 배치 */}
                         {user.posts.slice(0, 4).map((post, i) => (
                             <React.Fragment key={post.id}>
-                                {/* 썸네일: 항상 동일한 Picsum URL 사용 */}
+                                {/* 1) 썸네일 */}
                                 <img
                                     className={`mypage-card-thumb-${i + 1}`}
                                     alt={`Travel ${i + 1}`}
                                     src="https://fastly.picsum.photos/id/992/300/200.jpg?hmac=w137wSlXMe7QugWkdz2qvxFlif1dwEWqNnv4qFIyWps"
+                                    onClick={()=>navigate(`/post/${post.id}`)}
                                 />
 
-                                {/* 제목 */}
-                                <p className={`mypage-card-title-${i + 1}`}>
+                                {/* 2) 제목 */}
+                                <p className={`mypage-card-title-${i + 1}`}
+                                   onClick={()=>navigate(`/post/${post.id}`)}>
                                     {post.title}
                                 </p>
 
-                                {/* 위치(동) */}
+                                {/* 3) 위치(동) */}
                                 <div className={`mypage-card-location-${i + 1}`}>
                                     {post.address?.town || ""}
                                 </div>
 
-                                {/* 날짜 */}
+                                {/* 4) 날짜 */}
                                 <div className={`mypage-card-date-${i + 1}`}>
                                     {formatDate(post.createdAt)}
                                 </div>
+
+                                {/* 5) 해당 카드의 “상태 아이콘” */}
+                                <img
+                                    className={`mypage-card-status-icon-${i + 1}`}
+                                    alt={`Status ${i + 1}`}
+                                    src="https://c.animaapp.com/3LplbCFc/img/-----1.svg"
+                                />
+
+                                {/* 6) 해당 카드의 “아이콘(태그 등)” */}
+                                <img
+                                    className={`mypage-card-icon-${i + 1}`}
+                                    alt={`Icon ${i + 1}`}
+                                    src="https://c.animaapp.com/3LplbCFc/img/-----1-4.svg"
+                                />
                             </React.Fragment>
                         ))}
 
-                        {/* 카드 상태/아이콘 & 기타 장식 (절대 좌표로 고정) */}
-                        <img
-                            className="mypage-card-status-icon-1"
-                            alt="Status 1"
-                            src="https://c.animaapp.com/3LplbCFc/img/-----1.svg"
-                        />
-                        <img
-                            className="mypage-card-status-icon-2"
-                            alt="Status 2"
-                            src="https://c.animaapp.com/3LplbCFc/img/-----1-1.svg"
-                        />
-
-                        <img
-                            className="mypage-card-icon-1"
-                            alt="Icon 1"
-                            src="https://c.animaapp.com/3LplbCFc/img/-----1-4.svg"
-                        />
-                        <img
-                            className="mypage-card-icon-2"
-                            alt="Icon 2"
-                            src="https://c.animaapp.com/3LplbCFc/img/-----1-5.svg"
-                        />
-
+                        {/* 7) 카드들 전체를 나누는 가로 구분선 */}
                         <div className="mypage-card-divider-horizontal" />
+
+                        {/* 8) 화살표 (전체 section 우측 상단) */}
                         <img
                             className="mypage-card-arrow"
                             alt="Arrow"
@@ -455,11 +528,10 @@ export default function MyPage() {
                         />
                     </div>
                 )}
-
                 {/* =================================================
-           8. “참가한 동행” 탭 눌렀을 때 (activeTab === "participated")
-           ─ 향후 백엔드 데이터가 내려오면 동일한 레이아웃(map() 안에서 대체)
-        ================================================== */}
+             8. “참가한 동행” 탭 눌렀을 때 (activeTab === "participated")
+             ─ 향후 백엔드 데이터가 내려오면 동일한 레이아웃(map() 안에서 대체)
+        ================================================= */}
                 {activeTab === "participated" && (
                     <div className="mypage-participated-section">
                         <div className="mypage-participated-placeholder">
@@ -469,20 +541,106 @@ export default function MyPage() {
                 )}
 
                 {/* =================================================
-           9. “동행 후기” 탭 눌렀을 때 (activeTab === "feed")
-           ─ 향후 백엔드 데이터가 내려오면 동일한 레이아웃(map() 안에서 대체)
-        ================================================== */}
+             9. “동행 후기” 탭 눌렀을 때 (activeTab === "feed")
+             ─ 향후 백엔드 데이터가 내려오면 동일한 레이아웃(map() 안에서 대체)
+        ================================================= */}
                 {activeTab === "feed" && (
-                    <div className="mypage-feed-section">
-                        <div className="mypage-feed-placeholder">
-                            동행 후기 데이터가 없습니다.
+                    <div className="mypage-travel-management-section">
+                        {/* 1) 섹션 타이틀 */}
+                        <div className="mypage-travel-management-title">
+                            동행 후기 관리
                         </div>
+
+                        {/* 2) writtenReviews 배열의 첫 4개만 2×2 형태로 배치 */}
+                        {writtenReviews.slice(0, 4).map((rev, i) => (
+                            <React.Fragment key={i}>
+                                {/* 2-1) 썸네일 영역 */}
+                                <img
+                                    className={`mypage-card-thumb-${i + 1}`}
+                                    alt={`Review Thumb ${i + 1}`}
+                                    src={
+                                        rev.photo
+                                            ? rev.photo
+                                            : "https://via.placeholder.com/308x246?text=No+Photo"
+                                    }
+                                />
+
+                                {/* 2-2) 후기 제목 (postTitle) */}
+                                <p className={`mypage-card-title-${i + 1}`}>
+                                    {rev.postTitle}
+                                </p>
+
+                                {/* 2-3) 만난 날짜 (YYYY.MM.DD) */}
+                                <div className={`mypage-card-date-${i + 1}`}>
+                                    {formatDate(rev.meetingTime)}
+                                </div>
+
+                                {/* 2-4) 내용(댓글) */}
+                                <div
+                                    className={`mypage-card-location-${i + 1}`}
+                                    style={{
+                                        top: "calc( /*mypage-card-date 의 top + 24px*/ )"
+                                    }}
+                                >
+                                    {rev.comment}
+                                </div>
+
+                                {/* 2-5) 작성자 닉네임 */}
+                                <div
+                                    className={`mypage-card-location-${i + 1}`}
+                                    style={{
+                                        top: "calc( /*mypage-card-date 의 top + 40px*/ )",
+                                        color: "#696969",
+                                        fontWeight: "700",
+                                        fontSize: "12px",
+                                        whiteSpace: "nowrap",
+                                    }}
+                                >
+                                    {rev.reviewerNickname}
+                                </div>
+
+                                {/* 2-6) “상태 아이콘” (card-status-icon) */}
+                                <img
+                                    className={`mypage-card-status-icon-${i + 1}`}
+                                    alt={`Status Icon ${i + 1}`}
+                                    src="https://c.animaapp.com/3LplbCFc/img/-----1.svg"
+                                />
+
+                                {/* 2-7) “추가 아이콘(태그 등)” (card-icon) */}
+                                <img
+                                    className={`mypage-card-icon-${i + 1}`}
+                                    alt={`Icon ${i + 1}`}
+                                    src="https://c.animaapp.com/3LplbCFc/img/-----1-4.svg"
+                                />
+                            </React.Fragment>
+                        ))}
+
+                        {/* 3) 카드들을 나누는 가로 구분선 (후기가 하나라도 있으면 렌더) */}
+                        {writtenReviews.length > 0 && (
+                            <div className="mypage-card-divider-horizontal" />
+                        )}
+
+                        {/* 4) 전체 섹션 우측 상단 화살표 (후기가 하나라도 있으면 렌더) */}
+                        {writtenReviews.length > 0 && (
+                            <img
+                                className="mypage-card-arrow"
+                                alt="Arrow"
+                                src="https://c.animaapp.com/3LplbCFc/img/vector-29.svg"
+                            />
+                        )}
+
+                        {/* 5) 후기가 하나도 없으면 중앙 메시지 */}
+                        {writtenReviews.length === 0 && (
+                            <div className="mypage-feed-placeholder">
+                                동행 후기 데이터가 없습니다.
+                            </div>
+                        )}
                     </div>
                 )}
 
                 {/* =================================================
-           10. 사이드바 (내비게이션 메뉴)
-        ================================================== */}
+             10. 사이드바 (내비게이션 메뉴)
+        ================================================= */}
                 <div className="mypage-sidebar">
                     <div className="mypage-nav-travel-management">동행 관리</div>
                     <div className="mypage-nav-home">마이페이지</div>
@@ -520,8 +678,8 @@ export default function MyPage() {
                 </div>
 
                 {/* =================================================
-           11. 팔로워/팔로잉 패널 (하단 우측)
-        ================================================== */}
+             11. 팔로워/팔로잉 패널 (하단 우측)
+        ================================================= */}
                 <div className="mypage-followers-pane">
                     {/* (8-1) 필터 버튼들 */}
                     <div className="mypage-filter-active-highlight">

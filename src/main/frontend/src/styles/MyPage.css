@@ -478,7 +478,7 @@
 .mypage-interest-section {
     position: absolute;
     top: 825px;   /* “동행 후기”가 시작되는 지점과 동일 높이 */
-    left: 30px;  /* 프로필 영역 왼쪽 시작점 */
+    left: 30px;   /* 프로필 영역 왼쪽 시작점 */
     width: 360px; /* 카드 너비와 동일 */
     display: flex;
     flex-direction: column;
@@ -486,9 +486,9 @@
 }
 .mypage-interest-heading {
     font-family: var(--font-family-semibold);
-    top : -50px;
-    left: 50px;
     position: absolute;
+    top: -50px;
+    left: 50px;
     font-size: 20px;
     font-weight: 1000;
     color: var(--color-text-dark);
@@ -498,12 +498,43 @@
     position: relative;
     width: 291px;
     height: 135px;
-    left : 40px;
+    left: 40px;
     background-color: #FFF6ED;
     box-shadow: 0px 4px 4px rgba(215, 215, 215, 0.25);
     border: 1px solid var(--color-divider);
     border-radius: 16px;
 }
+
+/* ===========================================
+   관심 동행 카드 내부: 콘텐츠(설명) 스타일
+   =========================================== */
+.mypage-interest-card .mypage-review-snippet-2 {
+    position: absolute;
+    /* 제목(.mypage-review-title-2)이 top:16px에 있으므로,
+       바로 아래에 배치할 수 있도록 top 값을 40px 정도로 설정 */
+    top: 40px;
+    left: 145px; /* 제목과 같은 왼쪽 간격 유지 */
+    font-family: var(--font-family-regular);
+    font-size: 12px;        /* 제목보다 작게 */
+    color: #606060;         /* 어두운 회색 계열 */
+    line-height: 1.4;       /* 적당한 줄간격 */
+    word-wrap: break-word;  /* 넘치는 텍스트 줄바꿈 */
+    max-width: 130px;       /* 카드 너비 대비 적당히 제한 */
+}
+
+/* 빈 상태 메시지를 카드 중앙에 배치 */
+.mypage-interest-empty {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-family-regular);
+    font-size: 18px;
+    color: var(--color-text-light);
+    text-align: center;
+    white-space: nowrap;
+}
+
 /* (관심 동행 카드 내부) 기존 리뷰 카드-2 스타일을 재활용 */
 .mypage-review-thumb-wrapper-2 {
     position: absolute;
@@ -570,9 +601,9 @@
 /* “받은 동행 후기” 헤딩 */
 .mypage-review-list-wrapper {
     position: absolute;
-    top: 825px;    /* 관심 동행과 동일 Y축 */
-    left: 1164px;  /* 오른쪽 컬럼 */
-    width: 360px;  /* 카드는 모두 360px 너비 */
+    top: 825px;   /* 관심 동행과 동일 Y축 */
+    left: 1164px; /* 오른쪽 컬럼 */
+    width: 360px; /* 카드는 모두 360px 너비 */
 }
 /* 헤딩 텍스트 */
 .mypage-review-list-heading {
@@ -620,7 +651,7 @@
     height: 136px;
     object-fit: cover;
 }
-/* 사진이 없을 때 보여줄 회색 박스*/
+/* 사진이 없을 때 보여줄 회색 박스 */
 .mypage-review-thumb-placeholder {
     position: absolute;
     top: 0;
