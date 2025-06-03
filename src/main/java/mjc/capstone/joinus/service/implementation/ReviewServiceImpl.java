@@ -6,11 +6,8 @@ import mjc.capstone.joinus.domain.entity.Post;
 import mjc.capstone.joinus.domain.review.ReviewPost;
 import mjc.capstone.joinus.domain.review.ReviewPostTag;
 import mjc.capstone.joinus.domain.review.ReviewTag;
-import mjc.capstone.joinus.dto.review.ReviewRequestDto;
-import mjc.capstone.joinus.dto.review.ReviewResponseDto;
+import mjc.capstone.joinus.dto.review.*;
 import mjc.capstone.joinus.domain.review.ReviewTagType;
-import mjc.capstone.joinus.dto.review.CredibilityResponseDto;
-import mjc.capstone.joinus.dto.review.ReviewTagResponseDto;
 import mjc.capstone.joinus.exception.*;
 import mjc.capstone.joinus.repository.*;
 import mjc.capstone.joinus.service.inf.ReviewService;
@@ -246,5 +243,12 @@ public class ReviewServiceImpl implements ReviewService {
         return reviews.stream()
                 .map(ReviewResponseDto::from)
                 .toList();
+    }
+
+    @Override
+    public ReviewMetaResponseDto getReviewMeta(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(NotFoundPostException::new);
+        return ReviewMetaResponseDto.from(post);
     }
 }

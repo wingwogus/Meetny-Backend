@@ -1,11 +1,8 @@
 package mjc.capstone.joinus.service.inf;
 
-import mjc.capstone.joinus.dto.review.ReviewRequestDto;
-import mjc.capstone.joinus.dto.review.ReviewResponseDto;
+import mjc.capstone.joinus.dto.review.*;
 import mjc.capstone.joinus.domain.entity.Member;
 import mjc.capstone.joinus.domain.review.ReviewTagType;
-import mjc.capstone.joinus.dto.review.CredibilityResponseDto;
-import mjc.capstone.joinus.dto.review.ReviewTagResponseDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,4 +45,7 @@ public interface ReviewService {
 
     //태그목록
     List<ReviewTagResponseDto> getTags();
+
+    //리뷰 대상 게시물 정보 조회
+    public ReviewMetaResponseDto getReviewMeta(Long postId);
 }

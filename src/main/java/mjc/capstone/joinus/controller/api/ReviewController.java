@@ -5,11 +5,8 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import mjc.capstone.joinus.dto.ApiResponse;
-import mjc.capstone.joinus.dto.review.CredibilityResponseDto;
-import mjc.capstone.joinus.dto.review.ReviewTagResponseDto;
+import mjc.capstone.joinus.dto.review.*;
 import mjc.capstone.joinus.dto.auth.CustomUserDetails;
-import mjc.capstone.joinus.dto.review.ReviewRequestDto;
-import mjc.capstone.joinus.dto.review.ReviewResponseDto;
 import mjc.capstone.joinus.service.inf.ReviewService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -110,6 +107,13 @@ public class ReviewController {
     public ResponseEntity<ApiResponse<List<ReviewResponseDto>>> getReceive(
             @Parameter(description = "회원 ID") @PathVariable Long memberId) {
         return ResponseEntity.ok(ApiResponse.success("받은 리뷰 목록 조회 성공", reviewService.getReviewsAboutMe(memberId)));
+    }
+
+    @GetMapping("/{postId}/meta")
+    @Operation(summary = "리뷰 대상 게시물 정보 조회", description = "리뷰를 작성할 게시물에 대한 정보 간단 조회")
+    public ResponseEntity<ApiResponse<ReviewMetaResponseDto>> getReviewMeta(
+            @Parameter(description = "게시물 ID") @PathVariable Long postId) {
+        return ResponseEntity.ok(ApiResponse.success("게시물 데이터 조회", reviewService.getReviewMeta(postId)));
     }
 
 }
