@@ -2,6 +2,7 @@ import React from "react";
 import { ReactComponent as PinIcon } from '../assets/point.svg';
 import { ReactComponent as CalIcon } from "../assets/cal.svg";
 import "../styles/main.css";
+import { Link } from 'react-router-dom';
 
 
 function MainPage() {
@@ -13,9 +14,13 @@ function MainPage() {
                     <img src="/logo.png" alt="MEETNY Logo" className="logo-image" />
                 </div>
                 <div className="header-right">
-                    <button className="text-button">로그인</button>
+                    <Link to="/login">
+                        <button className="text-button">로그인</button>
+                    </Link>
                     <button className="text-button">고객센터</button>
-                    <button className="signup-button">회원가입</button>
+                    <Link to="/register">
+                        <button className="signup-button">회원가입</button>
+                    </Link>
                 </div>
             </div>
 
