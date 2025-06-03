@@ -10,6 +10,7 @@ import mjc.capstone.joinus.domain.tags.Tag;
 import mjc.capstone.joinus.dto.post.PostLikeResponseDto;
 import mjc.capstone.joinus.dto.post.PostRequestDto;
 import mjc.capstone.joinus.dto.post.PostResponseDto;
+import mjc.capstone.joinus.dto.post.SimpleMemberInfoDto;
 import mjc.capstone.joinus.exception.InvalidTokenException;
 import mjc.capstone.joinus.exception.NotFoundMemberException;
 import mjc.capstone.joinus.repository.MemberRepository;
@@ -74,10 +75,12 @@ public class PostServiceImpl implements PostService {
                 postViewRepository.save(new PostView(post, member));
             }
 
+
+
             return PostResponseDto.from(post, isPostLikedByMember(post, memberId));
         }
 
-        return PostResponseDto.from(post, false);
+        return PostResponseDto.from(post,false);
     }
 
     @Transactional(readOnly = true)
