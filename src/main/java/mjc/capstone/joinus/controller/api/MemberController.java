@@ -49,6 +49,13 @@ public class MemberController {
         return ResponseEntity.ok(ApiResponse.success("코드 인증에 성공하였습니다.", null));
     }
 
+    @PostMapping("/verification-nickname")
+    @Operation(summary = "닉네임 중복 확인", description = "닉네임 중복 여부를 확인합니다.")
+    public ResponseEntity<ApiResponse<Void>> verificationNickname(@RequestBody VerifiedNicknameRequest verifiedRequestDto) {
+        memberService.checkDuplicatedNickname(verifiedRequestDto);
+        return ResponseEntity.ok(ApiResponse.success("사용 가능한 닉네임입니다!", null));
+    }
+
     @PostMapping("/signup")
     @Operation(summary = "회원가입", description = "이메일 인증을 마친 사용자를 등록합니다.")
     public ResponseEntity<ApiResponse<Void>> signup(@RequestBody SignUpRequestDto signUpRequest) {

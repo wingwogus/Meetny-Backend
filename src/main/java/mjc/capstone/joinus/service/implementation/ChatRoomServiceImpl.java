@@ -36,9 +36,9 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         List<ChatRoom> chatRoomList = chatRoomRepository.findWithPostAndAuthorAndMember(member).
                 orElseThrow(NotFoundChatRoomException::new);
 
-        return chatRoomList.stream().
-                map(ChatRoomDto::new).
-                collect(Collectors.toList());
+        return chatRoomList.stream()
+                .map(ChatRoomDto::new)
+                .collect(Collectors.toList());
     }
 
     @Override

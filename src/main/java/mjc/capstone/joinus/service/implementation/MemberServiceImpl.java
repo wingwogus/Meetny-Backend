@@ -7,10 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mjc.capstone.joinus.domain.entity.Member;
 import mjc.capstone.joinus.domain.entity.Role;
-import mjc.capstone.joinus.dto.auth.LoginRequestDto;
-import mjc.capstone.joinus.dto.auth.ReissueRequestDto;
-import mjc.capstone.joinus.dto.auth.SignUpRequestDto;
-import mjc.capstone.joinus.dto.auth.VerifiedRequestDto;
+import mjc.capstone.joinus.dto.auth.*;
 import mjc.capstone.joinus.exception.*;
 import mjc.capstone.joinus.jwt.JwtToken;
 import mjc.capstone.joinus.jwt.JwtTokenProvider;
@@ -123,6 +120,16 @@ public class MemberServiceImpl implements MemberService {
             throw new DuplicateEmailException(email);
         }
     }
+
+    @Override
+    public void checkDuplicatedNickname(VerifiedNicknameRequest verifiedRequestDto) {
+        Optional<Member> member = memberRepository.findByNickname(verifiedRequestDto.getNickname());
+        if (member.isPresent()) {
+            log.debug("MemberServiceImpl.checkDuplicatedNickname exception occur nickname: {}", verifiedRequestDto.getNickname());
+            throw new DuplicateNicknameException(verifiedRequestDto.getNickname());
+        }
+    }
+
 
     private String createCode() {
         int lenth = 6;

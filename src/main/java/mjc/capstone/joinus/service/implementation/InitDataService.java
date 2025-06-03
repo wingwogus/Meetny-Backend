@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -23,6 +24,7 @@ public class InitDataService {
     private final PasswordEncoder passwordEncoder;
     private final PostRepository postRepository;
     private final ReviewTagRepository reviewTagRepository;
+    private final ChatRoomRepository chatRoomRepository;
 
     @PostConstruct
     public void init() {
@@ -76,7 +78,7 @@ public class InitDataService {
         ReviewTag goodCommunication = new ReviewTag("소통이 원활해요", ReviewTagType.POSITIVE);
         ReviewTag considerate = new ReviewTag("배려심이 깊어요", ReviewTagType.POSITIVE);
 
-        ReviewTag unpunctual = new ReviewTag("시간 약속을 지키지 않아 아쉬웠어요", ReviewTagType.NEGATIVE);
+        ReviewTag unpunctual = new ReviewTag("시간 약속을 지키지 않아요", ReviewTagType.NEGATIVE);
         ReviewTag badCommunication = new ReviewTag("소통이 원활하지 않았어요", ReviewTagType.NEGATIVE);
         ReviewTag verbalAbuse = new ReviewTag("폭언 및 욕설을 해요", ReviewTagType.NEGATIVE);
         ReviewTag inappropriateTalk = new ReviewTag("불편한 주제로 대화를 해요", ReviewTagType.NEGATIVE);
@@ -103,7 +105,7 @@ public class InitDataService {
                 .gender(Gender.MALE)
                 .credibility(45.0)
                 .role(Role.USER)
-                .profileImg("https://ui-avatars.com/api/?name=Jae+Hyun&background=random")
+                .profileImg("https://picsum.photos/200/300")
                 .password(passwordEncoder.encode("1234"))
                 .build();
 
@@ -128,7 +130,7 @@ public class InitDataService {
 
         Member member1 = Member.builder()
                 .username("user1@naver.com")
-                .nickname("user1")
+                .nickname("빵애에요~")
                 .phone("010-0000-0000")
                 .address(Address.builder()
                         .city("서울특별시")
@@ -138,13 +140,13 @@ public class InitDataService {
                 .gender(Gender.MALE)
                 .credibility(45.0)
                 .role(Role.USER)
-                .profileImg("https://ui-avatars.com/api/?name=Jae+Hyun&background=random")
+                .profileImg("https://picsum.photos/200/300")
                 .password(passwordEncoder.encode("1234"))
                 .build();
 
         Member member2 = Member.builder()
                 .username("user2@naver.com")
-                .nickname("user2")
+                .nickname("침착착맨")
                 .phone("010-0000-0000")
                 .address(Address.builder()
                         .city("서울특별시")
@@ -154,7 +156,7 @@ public class InitDataService {
                 .gender(Gender.MALE)
                 .credibility(45.0)
                 .role(Role.USER)
-                .profileImg("https://ui-avatars.com/api/?name=Jae+Hyun&background=random")
+                .profileImg("https://picsum.photos/200/300")
                 .password(passwordEncoder.encode("1234"))
                 .build();
 
@@ -170,7 +172,7 @@ public class InitDataService {
                 .gender(Gender.MALE)
                 .credibility(45.0)
                 .role(Role.USER)
-                .profileImg("https://ui-avatars.com/api/?name=Jae+Hyun&background=random")
+                .profileImg("https://picsum.photos/200/300")
                 .password(passwordEncoder.encode("1234"))
                 .build();
 
@@ -218,7 +220,7 @@ public class InitDataService {
                 .content("토트넘 내한 동행 구해용")
                 .tag(soccerTag)
                 .meetingTime(LocalDateTime.now().plusDays(3))
-                .photo("https://fastly.picsum.photos/id/992/300/200.jpg?hmac=w137wSlXMe7QugWkdz2qvxFlif1dwEWqNnv4qFIyWps")
+                .photo("https://picsum.photos/200/300")
                 .address(
                         Address.builder()
                                 .city("서울시")
@@ -236,7 +238,7 @@ public class InitDataService {
                 .content("여자만 받아요")
                 .tag(rockTag)
                 .meetingTime(LocalDateTime.now().plusDays(10))
-                .photo("https://fastly.picsum.photos/id/992/300/200.jpg?hmac=w137wSlXMe7QugWkdz2qvxFlif1dwEWqNnv4qFIyWps")
+                .photo("https://picsum.photos/200/300")
                 .address(
                         Address.builder()
                                 .city("서울시")
@@ -247,5 +249,20 @@ public class InitDataService {
                 .build();
 
         postRepository.save(post2);
+
+        ChatRoom room1 = ChatRoom.builder()
+                .roomId(UUID.randomUUID().toString())
+                .post(post1)
+                .member(member2)
+                .build();
+
+        ChatRoom room2 = ChatRoom.builder()
+                .roomId(UUID.randomUUID().toString())
+                .post(post2)
+                .member(member1)
+                .build();
+
+        chatRoomRepository.save(room1);
+        chatRoomRepository.save(room2);
     }
 }

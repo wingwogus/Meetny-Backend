@@ -55,7 +55,7 @@ public class MyPageController {
     public ResponseEntity<ApiResponse<MyPageDto>> getInformation(@AuthenticationPrincipal CustomUserDetails userDetails) {
         MyPageDto userDetailDto = myPageService.findMemberDto(userDetails.getMember());
         userDetailDto.setPosts(postService.getAllPosts(userDetails.getMember().getId()));
-        userDetailDto.setCredibility(reviewService.getCredibility(userDetails.getMember().getId()));
+        userDetailDto.setCredibility(reviewService.getCredibility(userDetails.getMember().getNickname()));
         return ResponseEntity.ok(ApiResponse.success(userDetailDto));
     }
 
