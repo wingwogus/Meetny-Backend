@@ -72,7 +72,7 @@ public class MyPageController {
 
         MyPageDto userDetailDto = myPageService.findMemberDto(targetMember);
         userDetailDto.setPosts(postService.getAllPosts(targetMember.getId()));
-        userDetailDto.setCredibility(reviewService.getCredibility(targetMember.getId()));
+        userDetailDto.setCredibility(reviewService.getCredibility(username));
         return ResponseEntity.ok(ApiResponse.success(userDetailDto));
     }
 
