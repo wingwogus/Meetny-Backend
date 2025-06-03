@@ -41,13 +41,13 @@
   1. 최상위 레이아웃: 마이페이지 컨테이너
 ====================================================*/
 .mypage-container {
-    background-color: var(--color-bg-light);
+    background-color: #ffffff;
     display: flex;
     justify-content: center;
     width: 100%;
 }
 .mypage-content {
-    background-color: var(--color-bg-light);
+    background-color: #ffffff;
     position: relative;
     width: 1920px; /* Figma 기준 고정 */
     height: 1718px; /* 총 페이지 높이 */
@@ -714,7 +714,7 @@
 .mypage-review-date {
     position: absolute;
     bottom: 16px;
-    left: 16px; /* 카드 왼쪽 하단 */
+    left: 170px; /* 카드 왼쪽 하단 */
     font-family: var(--font-family-medium);
     font-size: 12px;
     font-weight: 500;
@@ -844,19 +844,19 @@
     white-space: nowrap;
 }
 .mypage-card-location-1 {
-    top: 366px;
+    top: 367px;
     left: 93px;
 }
 .mypage-card-location-2 {
-    top: 745px;
+    top: 746px;
     left: 93px;
 }
 .mypage-card-location-3 {
-    top: 366px;
+    top: 367px;
     left: 424px;
 }
 .mypage-card-location-4 {
-    top: 745px;
+    top: 746px;
     left: 424px;
 }
 /* 날짜 텍스트 */
@@ -872,19 +872,19 @@
     white-space: nowrap;
 }
 .mypage-card-date-1 {
-    top: 364px;
+    top: 367px;
     left: 177px;
 }
 .mypage-card-date-2 {
-    top: 743px;
+    top: 746px;
     left: 177px;
 }
 .mypage-card-date-3 {
-    top: 364px;
+    top: 367px;
     left: 509px;
 }
 .mypage-card-date-4 {
-    top: 743px;
+    top: 746px;
     left: 509px;
 }
 /* 카드 상태 아이콘 */
