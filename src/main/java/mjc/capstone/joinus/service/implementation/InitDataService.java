@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -110,11 +111,20 @@ public class InitDataService {
 
         memberRepository.save(member);
 
+// 이미 저장한 member 이후에 추가
+// 카테고리별 2개씩 태그 연결
+        List<Tag> memberTags = List.of(
+                jpopTag, rockTag,         // Concert
+                museumTag, galleryTag,    // Culture
+                soccerTag, baseballTag,   // Sports
+                actionTag, romanceTag     // Movie
+        );
 
-        for (Tag tag : selectedTags) {
+// MemberTag 저장
+        for (Tag tag : memberTags) {
             MemberTag memberTag = new MemberTag();
-            memberTag.setMember(member);
-            memberTag.setTags(tag);
+            memberTag.setMember(member); // 위에서 저장한 member 사용
+            memberTag.setTags(tag);      // 이미 saveAll된 tag 객체 사용
             userTagRepository.save(memberTag);
         }
 
@@ -217,6 +227,7 @@ public class InitDataService {
                                 .town("마포구")
                                 .street("월드컵로 240")
                                 .build())
+                .participant(member2)
                 .build();
 
         postRepository.save(post1);
@@ -234,6 +245,7 @@ public class InitDataService {
                                 .town("마포구")
                                 .street("월드컵로 240")
                                 .build())
+                .participant(member3)
                 .build();
 
         postRepository.save(post2);

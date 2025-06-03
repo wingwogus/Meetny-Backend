@@ -1,12 +1,22 @@
-// src/pages/MyPage.jsx
 import React, { useState, useEffect } from "react";
-import axiosClient from '../api/axiosClient'
-import "../styles/Mypage.css";
+import axiosClient from "../api/axiosClient";
+import {useNavigate} from "react-router-dom";
+import "../styles/MyPage.css";
 
 export default function MyPage() {
     const [user, setUser] = useState(null);
     const [errorMsg, setErrorMsg] = useState("");
+    // activeTab: "posts" | "participated" | "feed"
+    const [activeTab, setActiveTab] = useState("posts");
+    const [writtenReviews, setWrittenReviews] = useState([]);
+    const [receivedReviews, setReceivedReviews] = useState([]);
+    const [likedPosts, setLikedPosts] = useState([]);
 
+    const navigate = useNavigate();
+
+    // ───────────────────────────────────────────────
+    // 1) 사용자 정보 가져오기
+    // ───────────────────────────────────────────────
     useEffect(() => {
         const fetchMyPage = async () => {
             try {
@@ -23,205 +33,324 @@ export default function MyPage() {
         fetchMyPage();
     }, []);
 
+    // ───────────────────────────────────────────────
+    // 2) 받은 동행 후기 데이터 가져오기
+    // ───────────────────────────────────────────────
+    useEffect(() => {
+        const fetchReceivedReviews = async () => {
+            if (!user) return;
+            try {
+                // user.nickname을 username으로 사용한다고 가정
+                const res = await axiosClient.get(
+                    `/api/reviews/receive/${user.nickname}`
+                );
+                setReceivedReviews(res.data.data || []);
+            } catch (err) {
+                console.error(err);
+                setReceivedReviews([]);
+            }
+        };
+        fetchReceivedReviews();
+    }, [user]);
+
+    // ───────────────────────────────────────────────
+    // 4) 내가 좋아요(관심) 누른 동행 게시물(likedPosts) 가져오기
+    //    → /api/posts/like 를 호출하여, DTO 내 { posts: [ ... ] } 형태로 받아온다고 가정
+    // ───────────────────────────────────────────────
+    useEffect(() => {
+        const fetchLikedPosts = async () => {
+            if (!user) return;
+            try {
+                const token = localStorage.getItem("accessToken");
+                // 만약 토큰이 필요하다면 헤더에 Bearer 토큰을 붙이세요.
+                const res = await axiosClient.get("/api/posts/like", {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                // 예시 응답: { posts: [ { id, title, content, photo, author, meetingTime, address, … }, … ] }
+                setLikedPosts(res.data.data || []);
+            } catch (err) {
+                console.error(err);
+                setLikedPosts([]);
+            }
+        };
+        fetchLikedPosts();
+    }, [user]);
+
+    // ───────────────────────────────────────────────
+    // 3) 내가 작성한 동행 후기(writtenReviews) 가져오기
+    // ───────────────────────────────────────────────
+    useEffect(() => {
+        const fetchWrittenReviews = async () => {
+            if (!user) return;
+            try {
+                // user.nickname 을 username으로 사용한다고 가정
+                const res = await axiosClient.get(
+                    `/api/reviews/write/${user.nickname}`
+                );
+                setWrittenReviews(res.data.data || []);
+            } catch (err) {
+                console.error(err);
+                setWrittenReviews([]);
+            }
+        };
+        fetchWrittenReviews();
+    }, [user]);
+
+
+
+
+    // ───────────────────────────────────────────────
+    // 3) 에러 / 로딩 화면
+    // ───────────────────────────────────────────────
     if (errorMsg) {
         return (
-            <div className="min-h-screen flex items-center justify-center">
-                <p className="text-red-500">{errorMsg}</p>
+            <div className="mypage-loading-container">
+                <p className="mypage-error-text">{errorMsg}</p>
             </div>
         );
     }
     if (!user) {
         return (
-            <div className="min-h-screen flex items-center justify-center">
-                <p>로딩 중...</p>
+            <div className="mypage-loading-container">
+                <p className="mypage-loading-text">로딩 중...</p>
             </div>
         );
     }
 
+    // ───────────────────────────────────────────────
+    // 4) 백엔드에서 받은 데이터를 안전하게 분리
+    // ───────────────────────────────────────────────
+    const tagList = Array.isArray(user.tags) ? user.tags : [];
+    const participationCount = Array.isArray(user.posts)
+        ? user.posts.length
+        : 0;
+    const followerCount = user.followerCount ?? 0;
+    const followingCount = user.followingCount ?? 0;
+
+    // “credibility”: { “credibility”: 0 } 스펙 가정
+    const rawCred = user.credibility?.credibility ?? 0;
+    const trustScore = Math.min(Math.max(rawCred, 0), 100);
+
+    // 프로필 사진 URL (없으면 테스트용 랜덤 사진)
+    const avatarUrl =
+        user.profilePic && user.profilePic.length > 0
+            ? user.profilePic
+            : "https://picsum.photos/200/300";
+
+    // ───────────────────────────────────────────────
+    // 5) 신뢰도 바: 3단계 색상 및 너비 계산
+    // ───────────────────────────────────────────────
+    const fullBarWidth = 435; // CSS에 정의된 전체 바 너비
+    const filledBarWidth = (trustScore / 100) * fullBarWidth;
+
+    let barColor = "#f7b681"; // 기본: 노란색
+    if (trustScore >= 66) {
+        barColor = "#72d3aa"; // 초록색
+    } else if (trustScore >= 33) {
+        barColor = "#f4964a"; // 주황색
+    }
+
+    // ───────────────────────────────────────────────
+    // 6) 날짜 포맷 함수 (YYYY.MM.DD)
+    // ───────────────────────────────────────────────
+    const formatDate = (isoString) => {
+        if (!isoString) return "";
+        const d = new Date(isoString);
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, "0");
+        const day = String(d.getDate()).padStart(2, "0");
+        return `${year}.${month}.${day}`;
+    };
+
+    // ───────────────────────────────────────────────
+    // 7) 리뷰용 날짜 포맷 함수 (YY/MM/DD)
+    // ───────────────────────────────────────────────
+    const formatDateSlash = (isoString) => {
+        if (!isoString) return "";
+        const d = new Date(isoString);
+        const yy = String(d.getFullYear() % 100).padStart(2, "0");
+        const month = String(d.getMonth() + 1).padStart(2, "0");
+        const day = String(d.getDate()).padStart(2, "0");
+        return `${yy}/${month}/${day}`;
+    };
+
     return (
-        <div className="mypage-screen">
-            <div className="mypage" data-model-id="722:240">
-            <div className="div">
-                <div className="overlap">
+        <div className="mypage-container">
+            <div className="mypage-content">
+                {/* =================================================
+             1. 상단 프로필 & 태그 섹션
+        ================================================= */}
+                <div className="mypage-profile-section">
+                    <div className="mypage-tag-wrapper">
+                        {/* (1-1) 태그 배경 이미지 */}
+                        <img
+                            className="mypage-tag-background"
+                            alt="Tag Background"
+                            src="https://c.animaapp.com/3LplbCFc/img/rectangle-73.png"
+                        />
+
+                        {/* (1-2) 동적 Tags */}
+                        <div className="mypage-tag-list">
+                            {tagList.map((tag, idx) => (
+                                <div key={idx} className="mypage-tag-pill">
+                                    {tag}
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* (1-3) 프로필 닉네임 */}
+                        <div className="mypage-profile-tag-label">
+              <span className="mypage-profile-nickname">
+                {user.nickname}
+              </span>
+                            <span className="mypage-profile-tag-text">
+                {" "}
+                                님의 동행 키워드
+              </span>
+                        </div>
+                    </div>
+
+                    {/* (1-4) 프로필·통계 카드 배경 */}
+                    <div className="mypage-profile-card-bg" />
+                    <div className="mypage-stats-card-bg" />
+
+                    {/* (1-5) 프로필 아바타 */}
                     <img
-                        className="rectangle"
-                        alt="Rectangle"
-                        src="https://c.animaapp.com/3LplbCFc/img/rectangle-73.png"
+                        className="mypage-avatar"
+                        alt="Profile Avatar"
+                        src={avatarUrl}
                     />
+                    <div className="mypage-profile-name">{user.nickname}</div>
 
-                    <div className="rectangle-2" />
-
-                    <div className="rectangle-3" />
-
-                    <div className="rectangle-4" />
-
-                    <div className="text-wrapper">콘서트</div>
-
-                    <div className="text-wrapper-2">역동적/활동적</div>
-
-                    <div className="rectangle-5" />
-
-                    <div className="rectangle-6" />
-
-                    <div className="text-wrapper-3">음악</div>
-
-                    <div className="text-wrapper-4">맛집투어</div>
-
-                    <div className="rectangle-7" />
-
-                    <div className="rectangle-8" />
-
-                    <img
-                        className="mask-group"
-                        alt="Mask group"
-                        src="https://c.animaapp.com/3LplbCFc/img/mask-group@2x.png"
-                    />
-
-                    <p className="element">
-                        <span className="span">동행 </span>
-
-                        <span className="text-wrapper-5">{user.posts.length}회 참여</span>
-
-                        <span className="span"> 인증</span>
+                    {/* (1-6) 참여 인증 */}
+                    <p className="mypage-participation-cert">
+                        <span className="mypage-participation-text">동행 </span>
+                        <span className="mypage-participation-highlight">
+              {participationCount}회 참여
+            </span>
+                        <span className="mypage-participation-text"> 인증</span>
                     </p>
 
-                    <div className="text-wrapper-6">(최근 5개월 기준)</div>
-
-                    <div className="text-wrapper-7">{user.nickname}</div>
-
-                    <div className="text-wrapper-8"></div>
-
-                    <div className="text-wrapper-9">동행 신뢰도</div>
-
-                    <div className="rectangle-9" />
-
-                    <div className="rectangle-10" />
-
-                    <div className="rectangle-11" />
-
-                    <div className="rectangle-12" />
-
-                    <div className="rectangle-13" />
-
-                    <div className="text-wrapper-10">47.3</div>
-
-                    <p className="p">
-                        “지속 가능한 삶과 자기개발을 중요하게 생각해요 :) ”
-                    </p>
-
-                    <div className="text-wrapper-11">{user.tags[0]}</div>
-
-                    <div className="text-wrapper-12">{user.tags[1]}</div>
-
-                    <div className="text-wrapper-13">{user.tags[2]}</div>
-
-                    <div className="text-wrapper-14">{user.tags[3]}</div>
-
-                    <div className="text-wrapper-15">{user.nickname} 님의 동행 키워드</div>
-
-                    <div className="text-wrapper-16">게시물</div>
-
-                    <div className="text-wrapper-17">{user.posts.length}</div>
-
-                    <div className="text-wrapper-18">{user.followerCount}</div>
-
-                    <div className="text-wrapper-19">{user.followingCount}</div>
-
-                    <div className="text-wrapper-20">팔로워</div>
-
-                    <div className="text-wrapper-21">팔로잉</div>
-
-                    <div className="ellipse" />
-
-                    <div className="rectangle-14" />
-
-                    <div className="rectangle-15" />
-
-                    <div className="rectangle-16" />
-
-                    <div className="rectangle-17" />
-
-                    <div className="rectangle-18" />
-
-                    <div className="text-wrapper-22">우수 동행자</div>
-
-                    <img
-                        className="vector"
-                        alt="Vector"
-                        src="https://c.animaapp.com/3LplbCFc/img/vector-25.svg"
+                    {/* (1-7) 신뢰도 프로그레스바 */}
+                    <div className="mypage-trust-label">동행 신뢰도</div>
+                    {/* 배경 바 */}
+                    <div
+                        className="mypage-trust-bar-bg"
+                        style={{
+                            left: `${313 + filledBarWidth - 35}px`,
+                            top: "218px",
+                        }}
                     />
-
-                    <img
-                        className="img"
-                        alt="Vector"
-                        src="https://c.animaapp.com/3LplbCFc/img/vector-26.svg"
+                    {/* 회색 전체 바 */}
+                    <div className="mypage-trust-bar-full" />
+                    {/* 채워진 바 (너비·색상 동적) */}
+                    <div
+                        className="mypage-trust-bar-filled"
+                        style={{
+                            width: `${filledBarWidth}px`,
+                            backgroundColor: barColor,
+                        }}
                     />
-
-                    <img
-                        className="vector-2"
-                        alt="Vector"
-                        src="https://c.animaapp.com/3LplbCFc/img/vector-27.svg"
+                    {/* 강조 바 (디자인 참고용) */}
+                    <div className="mypage-trust-bar-accent" />
+                    {/* 표시 점 */}
+                    <div
+                        className="mypage-trust-indicator"
+                        style={{
+                            left: `${313 + filledBarWidth - 7.5}px`,
+                        }}
                     />
+                    {/* 점수 텍스트 */}
+                    <div
+                        className="mypage-trust-score"
+                        style={{
+                            left: `${313 + filledBarWidth - 8}px`,
+                            top: "220px",
+                        }}
+                    >
+                        {trustScore.toFixed(0)}
+                    </div>
 
-                    <img
-                        className="vector-3"
-                        alt="Vector"
-                        src="https://c.animaapp.com/3LplbCFc/img/vector-28.svg"
-                    />
+                    {/* (1-8) 게시물/팔로워/팔로잉 통계 */}
+                    <div className="mypage-stat-label-posts">게시물</div>
+                    <div className="mypage-stat-value-posts">{participationCount}</div>
+                    <div className="mypage-stat-value-followers">{followerCount}</div>
+                    <div className="mypage-stat-value-following">{followingCount}</div>
+                    <div className="mypage-stat-label-followers">팔로워</div>
+                    <div className="mypage-stat-label-following">팔로잉</div>
 
-                    <img
-                        className="element-2"
-                        alt="Element"
-                        src="https://c.animaapp.com/3LplbCFc/img/-----1-12.svg"
-                    />
-            </div>
-        </div>
+                    {/* (1-9) 세로 구분선들 */}
+                    <div className="mypage-divider-vertical-1" />
+                    <div className="mypage-divider-vertical-2" />
+                </div>
 
-                <div className="svg" />
-
+                {/* =================================================
+             2. 상단 우측 검색 아이콘 & 프로필 배지
+        ================================================= */}
+                <div className="mypage-search-icon" />
                 <img
-                    className="mask-group-2"
-                    alt="Mask group"
-                    src="https://c.animaapp.com/3LplbCFc/img/mask-group-1@2x.png"
+                    className="mypage-profile-badge"
+                    alt="Profile Badge"
+                    src={avatarUrl}
                 />
 
-                <div className="text-wrapper-23">동행 후기</div>
+                {/* =================================================
+             3. 탭 영역 (동행 게시글 / 참가한 동행 / 동행 후기)
+             (받은 동행 후기는 탭이 아니라 상시 노출)
+        ================================================= */}
+                <div
+                    className={`mypage-tab-title-posts ${
+                        activeTab === "posts" ? "active" : ""
+                    }`}
+                    onClick={() => setActiveTab("posts")}
+                >
+                    동행 게시글
+                </div>
+                <div
+                    className={`mypage-tab-title-participated ${
+                        activeTab === "participated" ? "active" : ""
+                    }`}
+                    onClick={() => setActiveTab("participated")}
+                >
+                    참가한 동행
+                </div>
+                <div
+                    className={`mypage-tab-title-feed ${
+                        activeTab === "feed" ? "active" : ""
+                    }`}
+                    onClick={() => setActiveTab("feed")}
+                >
+                    동행 후기
+                </div>
 
-                <div className="text-wrapper-24">동행 게시글</div>
-
-                <div className="text-wrapper-25">참가한 동행</div>
-
-                <div className="text-wrapper-26">피드</div>
-
-                <div className="logo">
+                {/* =================================================
+             4. 사이트 로고 (상단 중앙)
+        ================================================= */}
+                <div className="mypage-site-logo">
                     <img
-                        className="group"
-                        alt="Group"
+                        className="mypage-logo-text"
+                        alt="Logo Text"
                         src="https://c.animaapp.com/3LplbCFc/img/group@2x.png"
                     />
-
-                    <div className="overlap-group-wrapper">
-                        <div className="overlap-group">
+                    <div className="mypage-logo-icon-wrapper">
+                        <div className="mypage-logo-icon-container">
                             <img
-                                className="vector-4"
+                                className="mypage-logo-icon-vector"
                                 alt="Vector"
                                 src="https://c.animaapp.com/3LplbCFc/img/vector.svg"
                             />
-
                             <img
-                                className="vector-4"
+                                className="mypage-logo-icon-mask"
                                 alt="Vector"
                                 src="https://c.animaapp.com/3LplbCFc/img/vector-1.svg"
                             />
-
                             <img
-                                className="group-2"
+                                className="mypage-logo-icon-main"
                                 alt="Group"
                                 src="https://c.animaapp.com/3LplbCFc/img/group-1@2x.png"
                             />
-
                             <img
-                                className="vector-5"
+                                className="mypage-logo-icon-decor"
                                 alt="Vector"
                                 src="https://c.animaapp.com/3LplbCFc/img/vector-2.svg"
                             />
@@ -229,323 +358,418 @@ export default function MyPage() {
                     </div>
                 </div>
 
-                <img
-                    className="vector-6"
-                    alt="Vector"
-                    src="https://c.animaapp.com/3LplbCFc/img/vector-16.svg"
-                />
+                {/* =================================================
+             5. 관심 동행 섹션 (항상 왼쪽 상단)
+        ================================================= */}
+                <div className="mypage-interest-section">
+                    <div className="mypage-interest-heading">관심 동행</div>
 
-                <div className="overlap-2">
-                    <p className="text-wrapper-27">
-                        좋은 날씨에 친절하고 마음
-                        <br />
-                        통하는 분들과 함께 시간...
-                    </p>
+                    {likedPosts.length > 0 ? (
+                        likedPosts.map((post, idx) => (
+                            <div key={post.id} className="mypage-interest-card">
+                                {/* 1) 썸네일 */}
+                                <div className="mypage-review-thumb-wrapper-2">
+                                    <img
+                                        className="mypage-review-thumb-img-2"
+                                        alt={post.title}
+                                        src={
+                                            post.photo
+                                                ? post.photo
+                                                : "https://via.placeholder.com/114x110?text=No+Photo"
+                                        }
+                                    />
+                                    <div className="mypage-review-thumb-overlay-2" />
+                                    <div className="mypage-thumb-overlay-text-2">
+                                        종료된
+                                        <br />
+                                        동행
+                                    </div>
+                                </div>
 
-                    <div className="text-wrapper-28">
-                        한강 피크닉 수다
-                        <br />
-                        도시락 모임
-                    </div>
+                                {/* 2) 제목 */}
+                                <div className="mypage-review-title-2">
+                                    {post.title}
+                                </div>
 
-                    <div className="overlap-3">
+                                {/* 3) content (설명) */}
+                                <p className="mypage-review-snippet-2">
+                                    {post.content}
+                                </p>
+
+                                {/* 4) 날짜 (createdAt) */}
+                                <div className="mypage-review-date-2">
+                                    {formatDate(post.createdAt)}
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        <div className="mypage-interest-card">
+                        <div className="mypage-interest-empty">
+                            관심 동행이 없습니다.
+                        </div>
+                        </div>
+                    )}
+                </div>
+                {/* =================================================
+             6. 받은 동행 후기 섹션 (항상 오른쪽 상단)
+        ================================================= */}
+                <div className="mypage-review-list-wrapper">
+                    <div className="mypage-review-list-heading">받은 동행 후기</div>
+
+                    {receivedReviews.length > 0 ? (
+                        <div className="mypage-review-list">
+                            {receivedReviews.map((rev, idx) => (
+                                <div key={idx} className="mypage-received-review-card">
+                                    {/* 사진(썸네일) */}
+                                    <div className="mypage-review-thumb-wrapper">
+                                        {rev.photo ? (
+                                            <img
+                                                className="mypage-review-thumb-img"
+                                                alt="Review Thumbnail"
+                                                src={rev.photo}
+                                            />
+                                        ) : (
+                                            <div className="mypage-review-thumb-placeholder" />
+                                        )}
+                                        <div className="mypage-review-thumb-overlay" />
+                                        <div className="mypage-thumb-overlay-text">
+                                            종료된
+                                            <br />
+                                            동행
+                                        </div>
+                                    </div>
+
+                                    {/* 제목 */}
+                                    <div className="mypage-review-title">{rev.postTitle}</div>
+
+                                    {/* 내용(댓글) */}
+                                    <p className="mypage-review-snippet">“{rev.comment}”</p>
+
+                                    {/* 만난 날짜 */}
+                                    <div className="mypage-review-date">
+                                        {formatDateSlash(rev.meetingTime)}
+                                    </div>
+
+                                    {/* 작성자 닉네임 */}
+                                    <div className="mypage-reviewer-nickname">
+                                        {rev.reviewerNickname}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="mypage-received-review-card-empty">
+                            동행 후기 없음
+                        </div>
+                    )}
+                </div>
+
+                {/* =================================================
+             7. “동행 게시글” 탭 눌렀을 때 (activeTab === "posts")
+             ─ Travel Management (2×2 레이아웃)
+        ================================================= */}
+                {activeTab === "posts" && (
+                    <div className="mypage-travel-management-section">
+                        <div className="mypage-travel-management-title">
+                            동행 관리
+                        </div>
+
+                        {/* posts 첫 4개만 2×2 레이아웃으로 배치 */}
+                        {user.posts.slice(0, 4).map((post, i) => (
+                            <React.Fragment key={post.id}>
+                                {/* 1) 썸네일 */}
+                                <img
+                                    className={`mypage-card-thumb-${i + 1}`}
+                                    alt={`Travel ${i + 1}`}
+                                    src="https://fastly.picsum.photos/id/992/300/200.jpg?hmac=w137wSlXMe7QugWkdz2qvxFlif1dwEWqNnv4qFIyWps"
+                                    onClick={()=>navigate(`/post/${post.id}`)}
+                                />
+
+                                {/* 2) 제목 */}
+                                <p className={`mypage-card-title-${i + 1}`}
+                                   onClick={()=>navigate(`/post/${post.id}`)}>
+                                    {post.title}
+                                </p>
+
+                                {/* 3) 위치(동) */}
+                                <div className={`mypage-card-location-${i + 1}`}>
+                                    {post.address?.town || ""}
+                                </div>
+
+                                {/* 4) 날짜 */}
+                                <div className={`mypage-card-date-${i + 1}`}>
+                                    {formatDate(post.createdAt)}
+                                </div>
+
+                                {/* 5) 해당 카드의 “상태 아이콘” */}
+                                <img
+                                    className={`mypage-card-status-icon-${i + 1}`}
+                                    alt={`Status ${i + 1}`}
+                                    src="https://c.animaapp.com/3LplbCFc/img/-----1.svg"
+                                />
+
+                                {/* 6) 해당 카드의 “아이콘(태그 등)” */}
+                                <img
+                                    className={`mypage-card-icon-${i + 1}`}
+                                    alt={`Icon ${i + 1}`}
+                                    src="https://c.animaapp.com/3LplbCFc/img/-----1-4.svg"
+                                />
+                            </React.Fragment>
+                        ))}
+
+                        {/* 7) 카드들 전체를 나누는 가로 구분선 */}
+                        <div className="mypage-card-divider-horizontal" />
+
+                        {/* 8) 화살표 (전체 section 우측 상단) */}
                         <img
-                            className="mask-group-3"
-                            alt="Mask group"
-                            src="https://c.animaapp.com/3LplbCFc/img/mask-group-6@2x.png"
+                            className="mypage-card-arrow"
+                            alt="Arrow"
+                            src="https://c.animaapp.com/3LplbCFc/img/vector-29.svg"
                         />
-
-                        <div className="rectangle-19" />
-
-                        <div className="text-wrapper-29">
-                            종료된
-                            <br />
-                            동행
+                    </div>
+                )}
+                {/* =================================================
+             8. “참가한 동행” 탭 눌렀을 때 (activeTab === "participated")
+             ─ 향후 백엔드 데이터가 내려오면 동일한 레이아웃(map() 안에서 대체)
+        ================================================= */}
+                {activeTab === "participated" && (
+                    <div className="mypage-participated-section">
+                        <div className="mypage-participated-placeholder">
+                            참여한 동행 데이터가 없습니다.
                         </div>
                     </div>
+                )}
 
-                    <div className="text-wrapper-30">6/8</div>
+                {/* =================================================
+             9. “동행 후기” 탭 눌렀을 때 (activeTab === "feed")
+             ─ 향후 백엔드 데이터가 내려오면 동일한 레이아웃(map() 안에서 대체)
+        ================================================= */}
+                {activeTab === "feed" && (
+                    <div className="mypage-travel-management-section">
+                        {/* 1) 섹션 타이틀 */}
+                        <div className="mypage-travel-management-title">
+                            동행 후기 관리
+                        </div>
 
-                    <div className="text-wrapper-31">25/03/12</div>
+                        {/* 2) writtenReviews 배열의 첫 4개만 2×2 형태로 배치 */}
+                        {writtenReviews.slice(0, 4).map((rev, i) => (
+                            <React.Fragment key={i}>
+                                {/* 2-1) 썸네일 영역 */}
+                                <img
+                                    className={`mypage-card-thumb-${i + 1}`}
+                                    alt={`Review Thumb ${i + 1}`}
+                                    src={
+                                        rev.photo
+                                            ? rev.photo
+                                            : "https://via.placeholder.com/308x246?text=No+Photo"
+                                    }
+                                />
 
+                                {/* 2-2) 후기 제목 (postTitle) */}
+                                <p className={`mypage-card-title-${i + 1}`}>
+                                    {rev.postTitle}
+                                </p>
+
+                                {/* 2-3) 만난 날짜 (YYYY.MM.DD) */}
+                                <div className={`mypage-card-date-${i + 1}`}>
+                                    {formatDate(rev.meetingTime)}
+                                </div>
+
+                                {/* 2-4) 내용(댓글) */}
+                                <div
+                                    className={`mypage-card-location-${i + 1}`}
+                                    style={{
+                                        top: "calc( /*mypage-card-date 의 top + 24px*/ )"
+                                    }}
+                                >
+                                    {rev.comment}
+                                </div>
+
+                                {/* 2-5) 작성자 닉네임 */}
+                                <div
+                                    className={`mypage-card-location-${i + 1}`}
+                                    style={{
+                                        top: "calc( /*mypage-card-date 의 top + 40px*/ )",
+                                        color: "#696969",
+                                        fontWeight: "700",
+                                        fontSize: "12px",
+                                        whiteSpace: "nowrap",
+                                    }}
+                                >
+                                    {rev.reviewerNickname}
+                                </div>
+
+                                {/* 2-6) “상태 아이콘” (card-status-icon) */}
+                                <img
+                                    className={`mypage-card-status-icon-${i + 1}`}
+                                    alt={`Status Icon ${i + 1}`}
+                                    src="https://c.animaapp.com/3LplbCFc/img/-----1.svg"
+                                />
+
+                                {/* 2-7) “추가 아이콘(태그 등)” (card-icon) */}
+                                <img
+                                    className={`mypage-card-icon-${i + 1}`}
+                                    alt={`Icon ${i + 1}`}
+                                    src="https://c.animaapp.com/3LplbCFc/img/-----1-4.svg"
+                                />
+                            </React.Fragment>
+                        ))}
+
+                        {/* 3) 카드들을 나누는 가로 구분선 (후기가 하나라도 있으면 렌더) */}
+                        {writtenReviews.length > 0 && (
+                            <div className="mypage-card-divider-horizontal" />
+                        )}
+
+                        {/* 4) 전체 섹션 우측 상단 화살표 (후기가 하나라도 있으면 렌더) */}
+                        {writtenReviews.length > 0 && (
+                            <img
+                                className="mypage-card-arrow"
+                                alt="Arrow"
+                                src="https://c.animaapp.com/3LplbCFc/img/vector-29.svg"
+                            />
+                        )}
+
+                        {/* 5) 후기가 하나도 없으면 중앙 메시지 */}
+                        {writtenReviews.length === 0 && (
+                            <div className="mypage-feed-placeholder">
+                                동행 후기 데이터가 없습니다.
+                            </div>
+                        )}
+                    </div>
+                )}
+
+                {/* =================================================
+             10. 사이드바 (내비게이션 메뉴)
+        ================================================= */}
+                <div className="mypage-sidebar">
+                    <div className="mypage-nav-travel-management">동행 관리</div>
+                    <div className="mypage-nav-home">마이페이지</div>
+                    <div className="mypage-nav-my-posts">내 게시글</div>
+                    <div className="mypage-nav-home-duplicate">마이페이지</div>
+                    <div className="mypage-nav-followers-following">
+                        팔로워/팔로잉
+                    </div>
+                    <div className="mypage-nav-liked-posts">좋아요 한 게시물</div>
+                    <div className="mypage-nav-reviews">동행 후기</div>
+                    <div className="mypage-nav-settings">설정</div>
+
+                    <div className="mypage-sidebar-divider" />
+
+                    <div className="mypage-profile-manage-btn">
+                        <div className="mypage-profile-manage-text">프로필 관리</div>
+                    </div>
+
+                    <div className="mypage-notification-btn">
+                        <img
+                            className="mypage-notification-icon"
+                            alt="Notification"
+                            src="https://c.animaapp.com/3LplbCFc/img/notification@2x.png"
+                        />
+                    </div>
                     <img
-                        className="element-3"
-                        alt="Element"
-                        src="https://c.animaapp.com/3LplbCFc/img/-----1-6.svg"
+                        className="mypage-message-btn"
+                        alt="Message"
+                        src="https://c.animaapp.com/3LplbCFc/img/frame.svg"
                     />
-
-                    <img
-                        className="element-4"
-                        alt="Element"
-                        src="https://c.animaapp.com/3LplbCFc/img/-----1-9.svg"
-                    />
+                    <div className="mypage-chat-btn">
+                        <div className="mypage-chat-icon" />
+                        <div className="mypage-chat-badge" />
+                    </div>
                 </div>
 
-                <div className="overlap-4">
-                    <p className="text-wrapper-32">
-                        좋은 날씨에 친절하고 마음
-                        <br />
-                        통하는 분들과 함께 시간...
-                    </p>
-
-                    <div className="text-wrapper-33">차박 캠핑 모임과 불멍</div>
-
-                    <div className="overlap-5">
-                        <img
-                            className="mask-group-4"
-                            alt="Mask group"
-                            src="https://c.animaapp.com/3LplbCFc/img/mask-group-7@2x.png"
-                        />
-
-                        <div className="rectangle-19" />
-
-                        <div className="text-wrapper-34">
-                            종료된
-                            <br />
-                            동행
+                {/* =================================================
+             11. 팔로워/팔로잉 패널 (하단 우측)
+        ================================================= */}
+                <div className="mypage-followers-pane">
+                    {/* (8-1) 필터 버튼들 */}
+                    <div className="mypage-filter-active-highlight">
+                        <div className="mypage-filter-pill mypage-filter-follow">
+                            <div className="mypage-filter-pill-text">팔로우</div>
                         </div>
                     </div>
-
-                    <div className="text-wrapper-35">6/8</div>
-
-                    <div className="text-wrapper-36">25/03/12</div>
-
-                    <img
-                        className="element-5"
-                        alt="Element"
-                        src="https://c.animaapp.com/3LplbCFc/img/-----1-7.svg"
-                    />
-
-                    <img
-                        className="element-6"
-                        alt="Element"
-                        src="https://c.animaapp.com/3LplbCFc/img/-----1-10.svg"
-                    />
-                </div>
-
-                <div className="overlap-6">
-                    <p className="text-wrapper-37">
-                        좋은 날씨에 친절하고 마음
-                        <br />
-                        통하는 분들과 함께 시간...
-                    </p>
-
-                    <div className="text-wrapper-38">
-                        한강 - [채식주의자]
-                        <br />
-                        독서 모임
+                    <div className="mypage-filter-pill mypage-filter-following">
+                        <div className="mypage-filter-pill-text">팔로잉</div>
+                    </div>
+                    <div className="mypage-filter-pill mypage-filter-all">
+                        <div className="mypage-filter-pill-text">전체</div>
+                    </div>
+                    <div className="mypage-filter-pill mypage-filter-other">
+                        <div className="mypage-filter-pill-text">기타</div>
                     </div>
 
-                    <div className="overlap-3">
-                        <img
-                            className="mask-group-3"
-                            alt="Mask group"
-                            src="https://c.animaapp.com/3LplbCFc/img/mask-group-8@2x.png"
-                        />
+                    {/* (8-2) 팔로워 신뢰도 배지들 (고정 샘플) */}
+                    <div className="mypage-follower-trust-score-1">
+                        <div className="mypage-follower-trust-value-1">47.3</div>
+                    </div>
+                    <div className="mypage-follower-trust-score-2">
+                        <div className="mypage-follower-trust-value-2">21.3</div>
+                    </div>
+                    <div className="mypage-follower-trust-score-3">
+                        <div className="mypage-follower-trust-value-3">18.1</div>
+                    </div>
+                    <div className="mypage-follower-trust-score-4">
+                        <div className="mypage-follower-trust-value-4">47.3</div>
+                    </div>
+                    <div className="mypage-follower-trust-score-5">
+                        <div className="mypage-follower-trust-value-5">47.3</div>
+                    </div>
 
-                        <div className="rectangle-19" />
+                    {/* (8-3) 팔로워 아바타, 이름, “팔로우 버튼” */}
+                    <img
+                        className="mypage-follower-avatar-1"
+                        alt="Follower 1"
+                        src="https://c.animaapp.com/3LplbCFc/img/rectangle-177.png"
+                    />
+                    <div className="mypage-follower-name-1">민하준</div>
+                    <button className="mypage-follow-btn-1">팔로우</button>
 
-                        <div className="text-wrapper-39">
-                            종료된
-                            <br />
-                            동행
+                    <img
+                        className="mypage-follower-avatar-2"
+                        alt="Follower 2"
+                        src="https://c.animaapp.com/3LplbCFc/img/rectangle-252.png"
+                    />
+                    <div className="mypage-follower-name-2">성은하</div>
+                    <button className="mypage-follow-btn-2">팔로우</button>
+
+                    <img
+                        className="mypage-follower-avatar-3"
+                        alt="Follower 3"
+                        src="https://c.animaapp.com/3LplbCFc/img/rectangle-254.png"
+                    />
+                    <div className="mypage-follower-name-3">도민기</div>
+                    <button className="mypage-follow-btn-3">팔로우</button>
+
+                    <img
+                        className="mypage-follower-avatar-4"
+                        alt="Follower 4"
+                        src="https://c.animaapp.com/3LplbCFc/img/rectangle-256.png"
+                    />
+                    <div className="mypage-follower-name-4">정은주</div>
+                    <button className="mypage-follow-btn-4">팔로우</button>
+
+                    <img
+                        className="mypage-follower-avatar-5"
+                        alt="Follower 5"
+                        src="https://c.animaapp.com/3LplbCFc/img/rectangle-258.png"
+                    />
+                    <div className="mypage-follower-name-5">한가비</div>
+                    <button className="mypage-follow-btn-5">팔로우</button>
+
+                    <div className="mypage-followers-title">팔로워</div>
+
+                    {/* (8-4) 검색창 */}
+                    <div className="mypage-search-group">
+                        <div className="mypage-search-input-wrapper">
+                            <div className="mypage-search-placeholder">검색하기</div>
+                            <img
+                                className="mypage-search-icon-img"
+                                alt="Search Icon"
+                                src="https://c.animaapp.com/3LplbCFc/img/icons.svg"
+                            />
                         </div>
                     </div>
-
-                    <div className="text-wrapper-40">6/8</div>
-
-                    <div className="text-wrapper-41">25/03/12</div>
-
-                    <img
-                        className="element-5"
-                        alt="Element"
-                        src="https://c.animaapp.com/3LplbCFc/img/-----1-8.svg"
-                    />
-
-                    <img
-                        className="element-7"
-                        alt="Element"
-                        src="https://c.animaapp.com/3LplbCFc/img/-----1-11.svg"
-                    />
-                </div>
-
-                <div className="overlap-7">
-                    <div className="text-wrapper-42">동행 관리</div>
-
-                    <img
-                        className="mask-group-5"
-                        alt="Mask group"
-                        src="https://c.animaapp.com/3LplbCFc/img/mask-group-2@2x.png"
-                    />
-
-                    <img
-                        className="mask-group-6"
-                        alt="Mask group"
-                        src="https://c.animaapp.com/3LplbCFc/img/mask-group-3@2x.png"
-                    />
-
-                    <img
-                        className="mask-group-7"
-                        alt="Mask group"
-                        src="https://c.animaapp.com/3LplbCFc/img/mask-group-4@2x.png"
-                    />
-
-                    <img
-                        className="mask-group-8"
-                        alt="Mask group"
-                        src="https://c.animaapp.com/3LplbCFc/img/mask-group-5@2x.png"
-                    />
-
-                    <p className="text-wrapper-43">아티스트 DPR LIVE 콘서트 동행</p>
-
-                    <p className="text-wrapper-44">기억에 가장 남는 도서와 힐링</p>
-
-                    <p className="text-wrapper-45">아티스트 박유훈 기타 콘서트 동행</p>
-
-                    <p className="text-wrapper-46">감성 음악과 함께하는 한강 요가</p>
-
-                    <div className="text-wrapper-47">연남동</div>
-
-                    <div className="text-wrapper-48">연남동</div>
-
-                    <div className="text-wrapper-49">연남동</div>
-
-                    <div className="text-wrapper-50">연남동</div>
-
-                    <div className="text-wrapper-51">25.05.18</div>
-
-                    <div className="text-wrapper-52">25.05.18</div>
-
-                    <div className="text-wrapper-53">25.03.18</div>
-
-                    <div className="text-wrapper-54">25.03.18</div>
-
-                    <div className="text-wrapper-55">11/15</div>
-
-                    <div className="text-wrapper-56">11/15</div>
-
-                    <div className="text-wrapper-57">05/05</div>
-
-                    <div className="text-wrapper-58">05/05</div>
-
-                    <img
-                        className="element-8"
-                        alt="Element"
-                        src="https://c.animaapp.com/3LplbCFc/img/-----1.svg"
-                    />
-
-                    <img
-                        className="element-9"
-                        alt="Element"
-                        src="https://c.animaapp.com/3LplbCFc/img/-----1-1.svg"
-                    />
-
-                    <img
-                        className="element-10"
-                        alt="Element"
-                        src="https://c.animaapp.com/3LplbCFc/img/-----1-2.svg"
-                    />
-
-                    <img
-                        className="element-11"
-                        alt="Element"
-                        src="https://c.animaapp.com/3LplbCFc/img/-----1-3.svg"
-                    />
-
-                    <img
-                        className="element-12"
-                        alt="Element"
-                        src="https://c.animaapp.com/3LplbCFc/img/-----1-4.svg"
-                    />
-
-                    <img
-                        className="element-13"
-                        alt="Element"
-                        src="https://c.animaapp.com/3LplbCFc/img/-----1-5.svg"
-                    />
-
-                    <img
-                        className="vector-7"
-                        alt="Vector"
-                        src="https://c.animaapp.com/3LplbCFc/img/vector-29.svg"
-                    />
-
-                    <img
-                        className="vector-8"
-                        alt="Vector"
-                        src="https://c.animaapp.com/3LplbCFc/img/vector-20.svg"
-                    />
-                </div>
-
-                <img className="element-14" alt="Element" src="/img/1.svg" />
-
-                <img className="element-15" alt="Element" src="/img/image.svg" />
-
-                <img className="element-16" alt="Element" src="/img/1-2.svg" />
-
-                <img className="element-17" alt="Element" src="/img/1-3.svg" />
-
-                <img className="element-18" alt="Element" src="/img/1-4.svg" />
-
-                <img className="element-19" alt="Element" src="/img/1-5.svg" />
-
-                <div className="text-wrapper-59">마이페이지</div>
-
-                <div className="text-wrapper-60">동행 관리</div>
-
-                <div className="text-wrapper-61">내 게시글</div>
-
-                <div className="text-wrapper-62">마이페이지</div>
-
-                <div className="text-wrapper-63">신뢰도 관리</div>
-
-                <div className="text-wrapper-64">팔로워/팔로잉</div>
-
-                <div className="text-wrapper-65">찜 게시물</div>
-
-                <div className="text-wrapper-66">동행 후기</div>
-
-                <div className="text-wrapper-67">필터 관리</div>
-
-                <div className="text-wrapper-68">설정</div>
-
-                <img
-                    className="vector-9"
-                    alt="Vector"
-                    src="https://c.animaapp.com/3LplbCFc/img/vector-24.svg"
-                />
-
-                <div className="rectangle-20" />
-
-                <div className="rectangle-21" />
-
-                <div className="rectangle-22" />
-
-                <div className="div-wrapper">
-                    <div className="text-wrapper-69">프로필 관리</div>
-                </div>
-
-                <div className="frame">
-                    <img
-                        className="notification"
-                        alt="Notification"
-                        src="https://c.animaapp.com/3LplbCFc/img/notification@2x.png"
-                    />
-                </div>
-
-                <img
-                    className="frame-2"
-                    alt="Frame"
-                    src="https://c.animaapp.com/3LplbCFc/img/frame.svg"
-                />
-
-                <img className="vector-10" alt="Vector" src="/img/vector-30.svg" />
-
-                <div className="overlap-8">
-                    <div className="svg-2" />
-
-                    <div className="ellipse-2" />
                 </div>
             </div>
-        </div>    );
+        </div>
+    );
 }
