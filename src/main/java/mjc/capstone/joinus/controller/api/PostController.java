@@ -65,6 +65,15 @@ public class PostController {
                 postService.getPostDetail(post, memberId)));
     }
 
+    @Operation(summary = "멤버별 게시글 조회", description = "특정 멤버가 작성한 모든 게시물을 조회합니다")
+    @GetMapping("/user/{nickname}")
+    public ResponseEntity<ApiResponse<List<PostResponseDto>>> getPostsByMember(@PathVariable("nickname") String nickname) {
+
+        return ResponseEntity.ok(ApiResponse.success(
+                "멤버별 게시글 조회 성공",
+                postService.getPostsByMember(nickname)));
+    }
+
 
     // 태그별 게시글 조회
     @Operation(summary = "태그별 게시글 조회", description = "원하는 태그의 모든 게시글을 조회합니다")
