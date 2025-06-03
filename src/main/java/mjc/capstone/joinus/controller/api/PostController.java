@@ -128,16 +128,6 @@ public class PostController {
         return ResponseEntity.ok("Participant added");
     }
 
-    // 좋아요 게시물 목록
-    @Operation(summary = "좋아요 게시글 조회", description = "좋아요 누른 게시물을 조회합니다")
-    @GetMapping("/like")
-    public ResponseEntity<ApiResponse<List<PostResponseDto>>> getPostByLike(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        Long memberId = userDetails != null ? userDetails.getMember().getId() : null;
-
-        List<PostResponseDto> likedPost = postService.getLikedPost(memberId);
-        return ResponseEntity.ok(ApiResponse.success("좋아요 누른 게시물 조회 성공", likedPost));
-    }
-
 
 //    // 게시글 키워드 검색
 //    @GetMapping("/search")
