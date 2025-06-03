@@ -1,11 +1,8 @@
 package mjc.capstone.joinus.service.inf;
 
-import mjc.capstone.joinus.dto.review.ReviewRequestDto;
-import mjc.capstone.joinus.dto.review.ReviewResponseDto;
+import mjc.capstone.joinus.dto.review.*;
 import mjc.capstone.joinus.domain.entity.Member;
 import mjc.capstone.joinus.domain.review.ReviewTagType;
-import mjc.capstone.joinus.dto.review.CredibilityResponseDto;
-import mjc.capstone.joinus.dto.review.ReviewTagResponseDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,20 +29,23 @@ public interface ReviewService {
     void deleteReview(Long reviewId, Member reviewer);
 
     // 매너태그 개수 조회
-    Map<String, Long> getMannerTagCounts(Long memberId);
+    Map<String, Long> getMannerTagCounts(String nickname);
 
     //포스트 리뷰 보기
     ReviewResponseDto getPostReview(Long postId);
 
     //작성한 리뷰 보기
-    List<ReviewResponseDto> getMemberReviews(Long memberId);
+    List<ReviewResponseDto> getMemberReviews(String nickname);
 
     //받은 리뷰 보기
-    List<ReviewResponseDto> getReviewsAboutMe(Long memberId);
+    List<ReviewResponseDto> getReviewsAboutMe(String nickname);
 
     //신뢰도보기
-    CredibilityResponseDto getCredibility(Long memberId);
+    CredibilityResponseDto getCredibility(String nickname);
 
     //태그목록
     List<ReviewTagResponseDto> getTags();
+
+    //리뷰 대상 게시물 정보 조회
+    public ReviewMetaResponseDto getReviewMeta(Long postId);
 }

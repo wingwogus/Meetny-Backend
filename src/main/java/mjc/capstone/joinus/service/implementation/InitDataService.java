@@ -77,7 +77,7 @@ public class InitDataService {
         ReviewTag goodCommunication = new ReviewTag("소통이 원활해요", ReviewTagType.POSITIVE);
         ReviewTag considerate = new ReviewTag("배려심이 깊어요", ReviewTagType.POSITIVE);
 
-        ReviewTag unpunctual = new ReviewTag("시간 약속을 지키지 않아 아쉬웠어요", ReviewTagType.NEGATIVE);
+        ReviewTag unpunctual = new ReviewTag("시간 약속을 지키지 않아요", ReviewTagType.NEGATIVE);
         ReviewTag badCommunication = new ReviewTag("소통이 원활하지 않았어요", ReviewTagType.NEGATIVE);
         ReviewTag verbalAbuse = new ReviewTag("폭언 및 욕설을 해요", ReviewTagType.NEGATIVE);
         ReviewTag inappropriateTalk = new ReviewTag("불편한 주제로 대화를 해요", ReviewTagType.NEGATIVE);

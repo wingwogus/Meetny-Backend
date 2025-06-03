@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosClient from "../api/axiosClient";
 import { useNavigate } from 'react-router-dom';
 
 function PostList() {
@@ -7,10 +7,10 @@ function PostList() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get('/api/posts') // proxy 설정 되어 있다면 이대로
+        axiosClient().get('/api/posts') // proxy 설정 되어 있다면 이대로
             .then((res) => {
-                console.log("받은 게시글:", res.data);
-                setPosts(res.data)
+                console.log("받은 게시글:", res.data.data);
+                setPosts(res.data.data)
             })
             .catch((err) => console.error(err));
     }, []);

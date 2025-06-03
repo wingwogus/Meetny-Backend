@@ -5,11 +5,8 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import mjc.capstone.joinus.dto.ApiResponse;
-import mjc.capstone.joinus.dto.review.CredibilityResponseDto;
-import mjc.capstone.joinus.dto.review.ReviewTagResponseDto;
+import mjc.capstone.joinus.dto.review.*;
 import mjc.capstone.joinus.dto.auth.CustomUserDetails;
-import mjc.capstone.joinus.dto.review.ReviewRequestDto;
-import mjc.capstone.joinus.dto.review.ReviewResponseDto;
 import mjc.capstone.joinus.service.inf.ReviewService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -65,12 +62,12 @@ public class ReviewController {
         return ResponseEntity.ok(ApiResponse.success("리뷰 삭제 성공", null));
     }
 
-    @GetMapping("/tags/count/{memberId}")
+    @GetMapping("/tags/count/{nickname}")
     @Operation(summary = "회원의 매너 태그 개수 조회", description = "회원이 받은 매너 태그별 개수를 조회합니다.")
     public ResponseEntity<ApiResponse<Map<String, Long>>> getMannerTagCounts(
-            @Parameter(description = "회원 ID") @PathVariable Long memberId) {
+            @Parameter(description = "회원 닉네임") @PathVariable String nickname) {
 
-        Map<String, Long> tagCounts = reviewService.getMannerTagCounts(memberId);
+        Map<String, Long> tagCounts = reviewService.getMannerTagCounts(nickname);
         return ResponseEntity.ok(ApiResponse.success("매너 태그 개수 조회 성공", tagCounts));
     }
 
@@ -89,27 +86,33 @@ public class ReviewController {
         return ResponseEntity.ok(ApiResponse.success("게시글 별 리뷰 조회 성공", review));
     }
 
-    @GetMapping("/write/{memberId}")
+    @GetMapping("/write/{nickname}")
     @Operation(summary = "회원이 작성한 리뷰 목록 조회", description = "특정 회원이 작성한 모든 리뷰를 조회합니다.")
     public ResponseEntity<ApiResponse<List<ReviewResponseDto>>> getReviewByMember(
-            @Parameter(description = "회원 ID") @PathVariable Long memberId) {
-
-        List<ReviewResponseDto> reviews = reviewService.getMemberReviews(memberId);
+            @Parameter(description = "회원 닉네임") @PathVariable String nickname) {
+        List<ReviewResponseDto> reviews = reviewService.getMemberReviews(nickname);
         return ResponseEntity.ok(ApiResponse.success("작성한 리뷰 목록 조회 성공", reviews));
     }
 
-    @GetMapping("/credibility/{memberId}")
+    @GetMapping("/credibility/{nickname}")
     @Operation(summary = "회원의 신뢰도 조회", description = "특정 회원의 신뢰도를 조회합니다.")
     public ResponseEntity<ApiResponse<CredibilityResponseDto>> getCredibility(
-            @Parameter(description = "회원 ID") @PathVariable Long memberId) {
-        return ResponseEntity.ok(ApiResponse.success("신뢰도 조회 성공", reviewService.getCredibility(memberId)));
+            @Parameter(description = "회원 닉네임") @PathVariable String nickname) {
+        return ResponseEntity.ok(ApiResponse.success("신뢰도 조회 성공", reviewService.getCredibility(nickname)));
     }
 
-    @GetMapping("/receive/{memberId}")
+    @GetMapping("/receive/{nickname}")
     @Operation(summary = "회원이 받은 리뷰 목록 조회", description = "특정 회원이 받은 모든 리뷰를 조회합니다.")
     public ResponseEntity<ApiResponse<List<ReviewResponseDto>>> getReceive(
-            @Parameter(description = "회원 ID") @PathVariable Long memberId) {
-        return ResponseEntity.ok(ApiResponse.success("받은 리뷰 목록 조회 성공", reviewService.getReviewsAboutMe(memberId)));
+            @Parameter(description = "회원 닉네임") @PathVariable String nickname) {
+        return ResponseEntity.ok(ApiResponse.success("받은 리뷰 목록 조회 성공", reviewService.getReviewsAboutMe(nickname)));
+    }
+
+    @GetMapping("/{postId}/meta")
+    @Operation(summary = "리뷰 대상 게시물 정보 조회", description = "리뷰를 작성할 게시물에 대한 정보 간단 조회")
+    public ResponseEntity<ApiResponse<ReviewMetaResponseDto>> getReviewMeta(
+            @Parameter(description = "게시물 ID") @PathVariable Long postId) {
+        return ResponseEntity.ok(ApiResponse.success("게시물 데이터 조회", reviewService.getReviewMeta(postId)));
     }
 
 }
