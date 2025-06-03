@@ -128,12 +128,12 @@ public class PostServiceImpl implements PostService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<PostResponseDto> getPostsByMember(Long memberId) {
-        Member member = memberRepository.findById(memberId)
+    public List<PostResponseDto> getPostsByMember(String nickname) {
+        Member member = memberRepository.findByNickname(nickname)
                 .orElseThrow(NotFoundMemberException::new);
 
         return postRepository.findByAuthor(member).stream()
-                .map(post -> PostResponseDto.from(post, isPostLikedByMember(post, memberId)))
+                .map(post -> PostResponseDto.from(post, isPostLikedByMember(post, member.getId())))
                 .toList();
     }
 
