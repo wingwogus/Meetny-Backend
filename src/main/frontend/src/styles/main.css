@@ -1,0 +1,170 @@
+.header {
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 80px;
+    background-color: white;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.header-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-image {
+    height: 60px;
+}
+
+.header-right {
+    position: absolute;
+    right: 180px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.text-button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #3f3f3f;
+    cursor: pointer;
+    font-family: "Pretendard", sans-serif;
+}
+
+.signup-button {
+    background-color: #f4964a;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: "Pretendard", sans-serif;
+}
+
+.search-section {
+    position: relative;
+    height: 450px;
+    padding-top: 30px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.search-background {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: brightness(0.8);
+    background-color: rgba(60, 60, 60, 0.8);
+    background-blend-mode: overlay;
+    z-index: 0;
+}
+
+.search-overlay {
+    position: relative;
+    z-index: 1;
+    color: white;
+    text-align: center;
+    margin-top: -160px;
+}
+
+.search-title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 64px;
+    font-family: "Pretendard", sans-serif;
+}
+
+.search-bar {
+    background-color: rgba(110, 110, 110, 0.6);
+    border-radius: 32px;
+    height: 64px;
+    width: 950px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    box-sizing: border-box;
+}
+
+.location-tag {
+    background-color: white;
+    border-radius: 32px;
+    height: 48px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: #db6a1f;
+    font-family: "Pretendard", sans-serif;
+}
+
+.search-text {
+    flex: 1;
+    text-align: left;
+    margin-left: 20px;
+    color: white;
+    font-size: 18px;
+    font-family: "Pretendard-Light", sans-serif;
+}
+
+.divider {
+    height: 16px;
+    margin-top: 0;
+    margin-bottom: 0;
+    background-color: #f4964a;
+    width: 100%;
+}
+
+.meet-section {
+    padding: 32px 24px 60px;
+    text-align: center;
+    background-color: white;
+}
+
+.section-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 32px;
+    color: #333;
+}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    flex-wrap: wrap;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 200px;
+}
+
+.card-img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    margin-bottom: 16px;
+}
+
+.card-text {
+    font-size: 14px;
+    color: #555;
+}
