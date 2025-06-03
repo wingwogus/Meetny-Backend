@@ -218,7 +218,7 @@ public class InitDataService {
                 .content("토트넘 내한 동행 구해용")
                 .tag(soccerTag)
                 .meetingTime(LocalDateTime.now().plusDays(3))
-                .photo("url/dummyImg")
+                .photo("https://fastly.picsum.photos/id/992/300/200.jpg?hmac=w137wSlXMe7QugWkdz2qvxFlif1dwEWqNnv4qFIyWps")
                 .address(
                         Address.builder()
                                 .city("서울시")
@@ -236,7 +236,7 @@ public class InitDataService {
                 .content("여자만 받아요")
                 .tag(rockTag)
                 .meetingTime(LocalDateTime.now().plusDays(10))
-                .photo("url/dummyImg")
+                .photo("https://fastly.picsum.photos/id/992/300/200.jpg?hmac=w137wSlXMe7QugWkdz2qvxFlif1dwEWqNnv4qFIyWps")
                 .address(
                         Address.builder()
                                 .city("서울시")

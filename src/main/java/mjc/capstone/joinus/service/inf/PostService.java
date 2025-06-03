@@ -36,4 +36,6 @@ public interface PostService {
     PostResponseDto getPostDetail(Post post, Long memberId);
     // 포스트 참가 기능
     void addParticipant(Long postId, Long memberId);
+
+    List<PostResponseDto> getLikedPost(Long memberId);
 }

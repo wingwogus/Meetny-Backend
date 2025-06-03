@@ -169,6 +169,16 @@ public class PostServiceImpl implements PostService {
         postRepository.save(post);
     }
 
+    @Override
+    public List<PostResponseDto> getLikedPost(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(NotFoundMemberException::new);
+
+        return postLikeRepository.findByMember(member).stream()
+                .map(postLike -> PostResponseDto.from(postLike.orElseThrow().getPost(), true))
+                .collect(Collectors.toList());
+    }
+
 
 //    @Override
 //    public List<PostResponseDto> searchPosts(String keyword) {
