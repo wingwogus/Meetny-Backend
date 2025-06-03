@@ -50,7 +50,7 @@ export default function ChatRoomList({ rooms, selectedRoomId, onSelectRoom }) {
                         key={room.roomId}
                         className={`room-item ${isSelected ? 'selected' : ''}`}
                         onClick={() =>
-                            onSelectRoom(room.roomId, room.postTitle, otherUserName, authorNickname, room.postImage)
+                            onSelectRoom(room.roomId, room.postId, room.postTitle, otherUserName, authorNickname, room.postImage)
                         }
                     >
                         {/* 왼쪽 아바타 */}

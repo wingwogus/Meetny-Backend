@@ -41,6 +41,7 @@
     border-radius: 15px;
     object-fit: cover;
     background-color: #ddd;
+    cursor: pointer;
 }
 
 .chat-room-header .post-title {
@@ -49,6 +50,8 @@
     font-size: 22px;
     color: #000;
     margin-left: 15px;
+    margin-top: 0px;
+    cursor: pointer;
 }
 
 .chat-room-header .post-complete {
@@ -59,6 +62,7 @@
     text-decoration-line: underline;
     margin-left: 15px;
     color: #4e4e4e;
+    cursor: pointer;
 }
 
 
