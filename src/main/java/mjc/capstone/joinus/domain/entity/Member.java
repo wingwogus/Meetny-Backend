@@ -40,7 +40,6 @@ public class Member {
     @Column(nullable = false)
     private Double credibility = 45.0;
 
-    @Setter
     @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<MemberTag> memberTag;
 

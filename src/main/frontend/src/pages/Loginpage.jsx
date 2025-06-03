@@ -19,7 +19,7 @@ const Login = () => {
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
             const decoded = jwtDecode(accessToken);
-            localStorage.setItem('username', decoded.sub);
+            localStorage.setItem('nickname', decoded.nickname);
             navigate('/information')
         } catch (err) {
             console.error(err)

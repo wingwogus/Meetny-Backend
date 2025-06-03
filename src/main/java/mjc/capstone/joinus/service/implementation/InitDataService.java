@@ -11,7 +11,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -22,6 +24,7 @@ public class InitDataService {
     private final PasswordEncoder passwordEncoder;
     private final PostRepository postRepository;
     private final ReviewTagRepository reviewTagRepository;
+    private final ChatRoomRepository chatRoomRepository;
 
     @PostConstruct
     public void init() {
@@ -102,23 +105,32 @@ public class InitDataService {
                 .gender(Gender.MALE)
                 .credibility(45.0)
                 .role(Role.USER)
-                .profileImg("https://ui-avatars.com/api/?name=Jae+Hyun&background=random")
+                .profileImg("https://picsum.photos/200/300")
                 .password(passwordEncoder.encode("1234"))
                 .build();
 
         memberRepository.save(member);
 
+// 이미 저장한 member 이후에 추가
+// 카테고리별 2개씩 태그 연결
+        List<Tag> memberTags = List.of(
+                jpopTag, rockTag,         // Concert
+                museumTag, galleryTag,    // Culture
+                soccerTag, baseballTag,   // Sports
+                actionTag, romanceTag     // Movie
+        );
 
-        for (Tag tag : selectedTags) {
+// MemberTag 저장
+        for (Tag tag : memberTags) {
             MemberTag memberTag = new MemberTag();
-            memberTag.setMember(member);
-            memberTag.setTags(tag);
+            memberTag.setMember(member); // 위에서 저장한 member 사용
+            memberTag.setTags(tag);      // 이미 saveAll된 tag 객체 사용
             userTagRepository.save(memberTag);
         }
 
         Member member1 = Member.builder()
                 .username("user1@naver.com")
-                .nickname("user1")
+                .nickname("빵애에요~")
                 .phone("010-0000-0000")
                 .address(Address.builder()
                         .city("서울특별시")
@@ -128,13 +140,13 @@ public class InitDataService {
                 .gender(Gender.MALE)
                 .credibility(45.0)
                 .role(Role.USER)
-                .profileImg("https://ui-avatars.com/api/?name=Jae+Hyun&background=random")
+                .profileImg("https://picsum.photos/200/300")
                 .password(passwordEncoder.encode("1234"))
                 .build();
 
         Member member2 = Member.builder()
                 .username("user2@naver.com")
-                .nickname("user2")
+                .nickname("침착착맨")
                 .phone("010-0000-0000")
                 .address(Address.builder()
                         .city("서울특별시")
@@ -144,7 +156,7 @@ public class InitDataService {
                 .gender(Gender.MALE)
                 .credibility(45.0)
                 .role(Role.USER)
-                .profileImg("https://ui-avatars.com/api/?name=Jae+Hyun&background=random")
+                .profileImg("https://picsum.photos/200/300")
                 .password(passwordEncoder.encode("1234"))
                 .build();
 
@@ -160,7 +172,7 @@ public class InitDataService {
                 .gender(Gender.MALE)
                 .credibility(45.0)
                 .role(Role.USER)
-                .profileImg("https://ui-avatars.com/api/?name=Jae+Hyun&background=random")
+                .profileImg("https://picsum.photos/200/300")
                 .password(passwordEncoder.encode("1234"))
                 .build();
 
@@ -208,7 +220,7 @@ public class InitDataService {
                 .content("토트넘 내한 동행 구해용")
                 .tag(soccerTag)
                 .meetingTime(LocalDateTime.now().plusDays(3))
-                .photo("url/dummyImg")
+                .photo("https://picsum.photos/200/300")
                 .address(
                         Address.builder()
                                 .city("서울시")
@@ -226,7 +238,7 @@ public class InitDataService {
                 .content("여자만 받아요")
                 .tag(rockTag)
                 .meetingTime(LocalDateTime.now().plusDays(10))
-                .photo("url/dummyImg")
+                .photo("https://picsum.photos/200/300")
                 .address(
                         Address.builder()
                                 .city("서울시")
@@ -237,5 +249,20 @@ public class InitDataService {
                 .build();
 
         postRepository.save(post2);
+
+        ChatRoom room1 = ChatRoom.builder()
+                .roomId(UUID.randomUUID().toString())
+                .post(post1)
+                .member(member2)
+                .build();
+
+        ChatRoom room2 = ChatRoom.builder()
+                .roomId(UUID.randomUUID().toString())
+                .post(post2)
+                .member(member1)
+                .build();
+
+        chatRoomRepository.save(room1);
+        chatRoomRepository.save(room2);
     }
 }
