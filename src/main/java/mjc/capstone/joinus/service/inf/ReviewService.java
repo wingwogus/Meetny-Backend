@@ -29,19 +29,19 @@ public interface ReviewService {
     void deleteReview(Long reviewId, Member reviewer);
 
     // 매너태그 개수 조회
-    Map<String, Long> getMannerTagCounts(Long memberId);
+    Map<String, Long> getMannerTagCounts(String nickname);
 
     //포스트 리뷰 보기
     ReviewResponseDto getPostReview(Long postId);
 
     //작성한 리뷰 보기
-    List<ReviewResponseDto> getMemberReviews(Long memberId);
+    List<ReviewResponseDto> getMemberReviews(String nickname);
 
     //받은 리뷰 보기
-    List<ReviewResponseDto> getReviewsAboutMe(Long memberId);
+    List<ReviewResponseDto> getReviewsAboutMe(String nickname);
 
     //신뢰도보기
-    CredibilityResponseDto getCredibility(Long memberId);
+    CredibilityResponseDto getCredibility(String nickname);
 
     //태그목록
     List<ReviewTagResponseDto> getTags();
