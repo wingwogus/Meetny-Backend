@@ -21,8 +21,8 @@ function ReviewForm() {
         axiosClient.get("/api/reviews/tags")
             .then((res) => {
                 const tagsFromServer = res.data.data.map((tag) => ({
-                    id: tag.id,            // ✅ 서버에서 받은 실제 ID 사용
-                    label: tag.tagName     // ✅ 이름 그대로 사용
+                    id: tag.id,
+                    label: tag.tagName
                 }));
                 setAllMannerTags(tagsFromServer);
             })
