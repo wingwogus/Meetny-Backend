@@ -17,7 +17,6 @@ public class FollowServiceImpl implements FollowService {
 
     private final FollowRepository followRepository;
 
-
     @Override
     public void follow(Member fromUser, Member toUser) {
         if (fromUser.equals(toUser)) {
@@ -40,13 +39,13 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
-    public List<Member> getFollowings(Member user) {
-        return followRepository.findByFromMember(user).stream().map(Follow::getToMember).collect(Collectors.toList());
+    public List<Member> getFollowings(Member member) {
+        return followRepository.findFollowingsByUserId(member.getId());
     }
 
     @Override
-    public List<Member> getFollowers(Member user) {
-        return followRepository.findByToMember(user).stream().map(Follow::getFromMember).collect(Collectors.toList());
+    public List<Member> getFollowers(Member member) {
+        return followRepository.findFollowersByUserId(member.getId());
     }
 
     @Override
