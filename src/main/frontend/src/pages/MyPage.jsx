@@ -269,11 +269,11 @@ export default function MyPage() {
                     <div
                         className="mypage-trust-score"
                         style={{
-                            left: `${313 + filledBarWidth - 8}px`,
+                            left: `${313 + filledBarWidth - 14}px`,
                             top: "220px",
                         }}
                     >
-                        {trustScore.toFixed(0)}
+                        {trustScore.toFixed(1)}
                     </div>
 
                     {/* (1-8) 게시물/팔로워/팔로잉 통계 */}

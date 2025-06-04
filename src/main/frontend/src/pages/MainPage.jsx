@@ -37,9 +37,6 @@ function MainPage() {
                         </div>
                         <span className="search-text">나를 기다리는 모임이 있어요!</span>
                     </div>
-                    <div className="cal-icon">
-                        <CalIcon width={20} height={20} />
-                    </div>
                 </div>
             </div>
 
