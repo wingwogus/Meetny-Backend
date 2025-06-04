@@ -298,7 +298,7 @@ export default function MyPage() {
                         }}
                     />
                     {/* 강조 바 (디자인 참고용) */}
-                    <div className="mypage-trust-bar-accent" />
+
                     {/* 표시 점 */}
                     <div
                         className="mypage-trust-indicator"
@@ -788,17 +788,6 @@ export default function MyPage() {
                             )}
                         </div>
                     )}
-                </div>
-                {/* (8-4) 검색창 */}
-                <div className="mypage-search-group">
-                    <div className="mypage-search-input-wrapper">
-                        <div className="mypage-search-placeholder">검색하기</div>
-                        <img
-                            className="mypage-search-icon-img"
-                            alt="Search Icon"
-                            src="https://c.animaapp.com/3LplbCFc/img/icons.svg"
-                        />
-                    </div>
                 </div>
 </div>
         </div>
