@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axiosClient from "../api/axiosClient";
 import {useNavigate} from "react-router-dom";
 import "../styles/MyPage.css";
+import AppHeader from "../components/AppHeader";
 
 export default function MyPage() {
     const [user, setUser] = useState(null);
@@ -482,12 +483,12 @@ export default function MyPage() {
                                     className={`mypage-card-thumb-${i + 1}`}
                                     alt={`Travel ${i + 1}`}
                                     src="https://fastly.picsum.photos/id/992/300/200.jpg?hmac=w137wSlXMe7QugWkdz2qvxFlif1dwEWqNnv4qFIyWps"
-                                    onClick={()=>navigate(`/post/${post.id}`)}
+                                    onClick={()=>navigate(`/posts/${post.id}`)}
                                 />
 
                                 {/* 2) 제목 */}
                                 <p className={`mypage-card-title-${i + 1}`}
-                                   onClick={()=>navigate(`/post/${post.id}`)}>
+                                   onClick={()=>navigate(`/posts/${post.id}`)}>
                                     {post.title}
                                 </p>
 
@@ -582,22 +583,10 @@ export default function MyPage() {
                                         top: "calc( /*mypage-card-date 의 top + 24px*/ )"
                                     }}
                                 >
-                                    {rev.comment}
+                                    {rev.address?.town || ""}
                                 </div>
 
                                 {/* 2-5) 작성자 닉네임 */}
-                                <div
-                                    className={`mypage-card-location-${i + 1}`}
-                                    style={{
-                                        top: "calc( /*mypage-card-date 의 top + 40px*/ )",
-                                        color: "#696969",
-                                        fontWeight: "700",
-                                        fontSize: "12px",
-                                        whiteSpace: "nowrap",
-                                    }}
-                                >
-                                    {rev.reviewerNickname}
-                                </div>
 
                                 {/* 2-6) “상태 아이콘” (card-status-icon) */}
                                 <img
@@ -671,7 +660,9 @@ export default function MyPage() {
                         alt="Message"
                         src="https://c.animaapp.com/3LplbCFc/img/frame.svg"
                     />
-                    <div className="mypage-chat-btn">
+                    <div
+                        className="mypage-chat-btn"
+                        onClick={() => navigate("/chat")}>
                         <div className="mypage-chat-icon" />
                         <div className="mypage-chat-badge" />
                     </div>

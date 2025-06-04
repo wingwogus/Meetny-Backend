@@ -6,6 +6,7 @@ import logo from '../assets/logo.png';
 
 export default function ChatRoom({
                                      roomId,
+                                     postId,
                                      postTitle,
                                      postImage,
                                      otherNickname,
@@ -14,7 +15,7 @@ export default function ChatRoom({
                                      inputValue,
                                      onInputChange,
                                      onSend,
-                                     complete}) {
+                                     onComplete}) {
     const scrollRef = useRef(null);
 
     useEffect(() => {
@@ -33,11 +34,25 @@ export default function ChatRoom({
                             src={postImage || logo}
                             alt={`Post 사진`}
                             className="post-image"
+                            onClick={() => window.location.href = `/posts/${postId}`}
                         />
                         <div>
-                            <div className="post-title">[{postTitle}]</div>
+                            <div
+                                className="post-title"
+                                onClick={() => window.location.href = `/posts/${postId}`}
+                            >[{postTitle}]</div>
                             {authorNickname === localStorage.getItem('nickname') &&
-                                <div className="post-complete" onClick={complete(roomId)}>동행 완료</div>}
+                                <div
+                                    className="post-complete"
+                                    onClick={() => {
+                                        if (window.confirm('동행을 완료하시겠습니까?')) {
+                                            onComplete(roomId);
+                                        }
+                                    }}
+                                >
+                                    동행 완료
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
