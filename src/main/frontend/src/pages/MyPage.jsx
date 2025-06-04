@@ -12,7 +12,9 @@ export default function MyPage() {
     const [writtenReviews, setWrittenReviews] = useState([]);
     const [receivedReviews, setReceivedReviews] = useState([]);
     const [likedPosts, setLikedPosts] = useState([]);
-
+    const [followers, setFollowers] = useState([]); // ✅ 초기값 명확히 배열
+    const [following, setFollowing] = useState([]); // ✅ 이거 없으면 .length 에러 남
+    const [activeFollowTab, setActiveFollowTab] = useState("follower");
     const navigate = useNavigate();
 
     // ───────────────────────────────────────────────
@@ -97,7 +99,46 @@ export default function MyPage() {
         fetchWrittenReviews();
     }, [user]);
 
+    // ===============================
+    // 팔로워/팔로잉 정보 불러오기 함수
+    // ===============================
+    const fetchFollowers = async () => {
+        try {
+            const token = localStorage.getItem("accessToken");
+            const res = await axiosClient.get(`/api/follows/${user.nickname}/followers`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            console.log("🔥 API 응답 (followers):", res.data);
+            setFollowers(res.data.data);
+        } catch (err) {
+            console.error("팔로워 불러오기 오류:", err);
+            setFollowers([]);
+        }
+    };
 
+    const fetchFollowing = async () => {
+        try {
+            const token = localStorage.getItem("accessToken");
+            const res = await axiosClient.get(`/api/follows/${user.nickname}/followings`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            console.log("✅ followings 응답", res.data);
+            setFollowing(res.data.data);
+        } catch (err) {
+            console.error("❌ 팔로잉 불러오기 오류:", err);
+            setFollowing([]);
+        }
+    };
+
+    useEffect(() => {
+        if (activeFollowTab === "follower") {
+            console.log("🔥 [팔로워 모드] followers:", followers);
+            fetchFollowers(); // ✅ 이거 호출해줘야 데이터 채워짐
+        } else if (activeFollowTab === "following") {
+            console.log("🔥 [팔로잉 모드] following:", following);
+            fetchFollowing(); // ✅ 팔로잉 탭일 때 자동 호출
+        }
+    }, [activeFollowTab, user]);
 
 
     // ───────────────────────────────────────────────
@@ -257,7 +298,7 @@ export default function MyPage() {
                         }}
                     />
                     {/* 강조 바 (디자인 참고용) */}
-                    <div className="mypage-trust-bar-accent" />
+
                     {/* 표시 점 */}
                     <div
                         className="mypage-trust-indicator"
@@ -281,8 +322,12 @@ export default function MyPage() {
                     <div className="mypage-stat-value-posts">{participationCount}</div>
                     <div className="mypage-stat-value-followers">{followerCount}</div>
                     <div className="mypage-stat-value-following">{followingCount}</div>
-                    <div className="mypage-stat-label-followers">팔로워</div>
-                    <div className="mypage-stat-label-following">팔로잉</div>
+                    <div className="mypage-stat-label-followers" onClick={() => setActiveFollowTab("follower")}>
+                        팔로워
+                    </div>
+                    <div className="mypage-stat-label-following" onClick={() => setActiveFollowTab("following")}>
+                        팔로잉
+                    </div>
 
                     {/* (1-9) 세로 구분선들 */}
                     <div className="mypage-divider-vertical-1" />
@@ -675,7 +720,76 @@ export default function MyPage() {
                 {/* =================================================
              11. 팔로워/팔로잉 패널 (하단 우측)
         ================================================= */}
-            </div>
+                <div className="mypage-followers-pane">
+                    {activeFollowTab === "follower" && followers && (
+                        <div className="mypage-follow-list">
+                            {followers.length === 0 ? (
+                                <p>팔로워가 없습니다.</p>
+                            ) : (
+                                followers.map((f, idx) => (
+                                    <div key={f.memberId} className="follower-entry">
+                                        <img
+                                            src={f.profileImg || 'https://via.placeholder.com/40'}
+                                            alt={`${f.nickname} 프로필`}
+                                            className="follower-avatar"
+                                        />
+                                        <div className="follower-info">
+                                            <div className="nickname">{f.nickname}</div>
+                                            <div className="credibility">{f.credibility?.toFixed(1)}</div>
+                                        </div>
+                                        <button className="follow-btn">팔로우</button>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                    )}
+
+                    {activeFollowTab === "following" && (
+                        <div className="mypage-follow-list">
+                            {following.length === 0 ? (
+                                <p>팔로잉한 사용자가 없습니다.</p>
+                            ) : (
+                                following.map((f, idx) => (
+                                    <div key={f.memberId} className="follower-entry">
+                                        <img
+                                            src={f.profileImg || "https://via.placeholder.com/40"}
+                                            alt={`${f.nickname} 프로필`}
+                                            className="follower-avatar"
+                                        />
+                                        <div className="follower-info">
+                                            <div className="nickname">{f.nickname}</div>
+                                            <div className="credibility">
+                                                {f.credibility != null ? f.credibility.toFixed(1) : "0.0"}
+                                            </div>
+                                        </div>
+                                        <button
+                                            className="follow-btn"
+                                            onClick={async () => {
+                                                try {
+                                                    const token = localStorage.getItem("accessToken");
+                                                    await axiosClient.delete(`/api/follows/unfollow/${f.memberId}`, {
+                                                        headers: { Authorization: `Bearer ${token}` },
+                                                    });
+                                                    setFollowing(prev => prev.filter(item => item.memberId !== f.memberId));
+                                                    // 숫자 동기화 (팔로잉 수 감소)
+                                                    setUser(prev => ({
+                                                      ...prev,
+                                                      followingCount: (prev.followingCount ?? 1) - 1,
+                                                    }));
+                                                } catch (err) {
+                                                    console.error("❌ 언팔로우 실패:", err);
+                                                }
+                                            }}
+                                        >
+                                            언팔로우
+                                        </button>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                    )}
+                </div>
+</div>
         </div>
     );
 }

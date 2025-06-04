@@ -85,18 +85,22 @@ const Login = () => {
 
                     <div className="text-wrapper-7">비밀번호 찾기</div>
 
-                    <div className="element">
-                        <img
-                            className="img"
-                            alt="Group"
-                            src="https://c.animaapp.com/6EfA1y0Z/img/group@2x.png"
-                        />
+                    <div className="register-container">
+                        <a href="http://localhost:8080/oauth2/authorization/kakao">
+                            <img
+                                className="img"
+                                alt="Kakao Login"
+                                src="https://c.animaapp.com/6EfA1y0Z/img/group@2x.png"
+                            />
+                        </a>
 
-                        <img
+                        <a href="http://localhost:8080/oauth2/authorization/naver">
+                          <img
                             className="group-3"
-                            alt="Group"
+                            alt="Naver Login"
                             src="https://c.animaapp.com/6EfA1y0Z/img/group-1@2x.png"
-                        />
+                          />
+                        </a>
 
                         <img
                             className="group-4"
@@ -105,13 +109,15 @@ const Login = () => {
                         />
 
                         <div className="overlap-group-wrapper">
-                            <div className="clip-path-group-wrapper">
-                                <img
-                                    className="clip-path-group"
-                                    alt="Clip path group"
-                                    src="https://c.animaapp.com/6EfA1y0Z/img/clip-path-group@2x.png"
-                                />
-                            </div>
+                          <div className="clip-path-group-wrapper">
+                            <a href="http://localhost:8080/oauth2/authorization/google">
+                              <img
+                                className="clip-path-group"
+                                alt="Google Login"
+                                src="https://c.animaapp.com/6EfA1y0Z/img/clip-path-group@2x.png"
+                              />
+                            </a>
+                          </div>
                         </div>
                     </div>
 

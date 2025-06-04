@@ -74,6 +74,16 @@ public class MemberServiceImpl implements MemberService {
         return jwtTokenProvider.reissueToken(request.getAccessToken(), request.getRefreshToken());
     }
 
+    @Override
+    public void completeSocialRegistration(Member member, SignUpRequestDto requestDto) {
+        member.setNickname(requestDto.getNickname());
+        member.setGender(requestDto.getGender());
+        member.setPhone(requestDto.getPhone());
+        member.setAddress(requestDto.getAddress());
+        member.setProfileImg(requestDto.getProfileImg());
+        memberRepository.save(member);
+    }
+
     @Transactional
     @Override
     public void signup(SignUpRequestDto request) {
@@ -177,5 +187,14 @@ public class MemberServiceImpl implements MemberService {
     public Member findMemberByNickname(String username) {
         Optional<Member> member = memberRepository.findByNickname(username);
         return member.orElse(null);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean isProfileComplete(String email) {
+        Member member = memberRepository.findByUsername(email)
+                .orElseThrow(() -> new RuntimeException("회원을 찾을 수 없습니다: " + email));
+
+        return member.getPhone() != null && !member.getPhone().isEmpty();
     }
 }

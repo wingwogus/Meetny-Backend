@@ -36,9 +36,6 @@
     position: relative;
     width: 1920px; /* Figma 기준 너비 고정 */
     height: 2284px; /* Figma 기준 높이 고정 */
-    transform-origin: top;
-    transform: scale(0.6725);
-    margin: 0 auto;
 }
 
 /*====================================================
@@ -858,6 +855,12 @@
     cursor: not-allowed;
 }
 
+.overlap-8.disabled .text-wrapper-22 {
+    color: #999;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 /* ---------------------------------------------------
    OTP 타이머 표시 (00:00)
 --------------------------------------------------- */
@@ -881,3 +884,4 @@
         top: 20px;
     }
 }
+
