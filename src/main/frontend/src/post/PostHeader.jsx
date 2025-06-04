@@ -1,18 +1,21 @@
-import React from "react";
-import group2 from "../assets/group-2.png";
-import vector from "../assets/vector.svg";
+// Header.jsx
+import React from 'react';
+import logo from '../assets/logo.png';
+import '../styles/PostCategorySidebar.css'; // CSS 안에 header 관련 스타일 포함됨
 
-const Header = () => {
+const PostHeader = () => {
     return (
-        <div className="header">
-            <img src={group2} alt="Logo" />
-            <div className="nav-menu">
-                <span>로그인</span>
-                <span>고객센터</span>
-                <button className="join-button">회원가입</button>
+        <header className="header">
+            <div className="header__logo">
+                <img src={logo} alt="MEETNY 로고" />
             </div>
-        </div>
+            <div className="header__actions">
+                <button className="header__button">로그인</button>
+                <button className="header__button">고객센터</button>
+                <button className="header__button header__button--primary">회원가입</button>
+            </div>
+        </header>
     );
 };
 
-export default Header;
+export default PostHeader;

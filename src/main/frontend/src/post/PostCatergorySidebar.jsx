@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import "../styles/Post.css";
+import "../styles/PostCategorySidebar.css";
+import "../components/AppHeader";
 
-const PostCategorySidebar = () => {
+const PostCategorySidebar = ({onTagSelect}) => {
     const categoryData = {
         콘서트: ["J-POP", "락", "발라드", "힙합", "K-POP", "EDM", "POP", "트로트", "JAZZ", "코미디 쇼"],
         문화: ["박물관", "미술관", "팝업", "박람회", "콘테스트", "전시회", "뮤지컬", "연극"],
@@ -24,7 +25,12 @@ const PostCategorySidebar = () => {
     };
 
     return (
+        <>
         <div className="category-sidebar">
+            <div className="sidebar-header">
+                <div className="category-title">카테고리</div>
+                <hr className="category-divider" />
+            </div>
             {Object.entries(categoryData).map(([category, tags]) => (
                 <div key={category} className="accordion-section">
                     <div className="accordion-title" onClick={() => toggleCategory(category)}>
@@ -41,7 +47,7 @@ const PostCategorySidebar = () => {
                                         checked={selectedTags[category] === tag}
                                         onChange={() => selectTag(category, tag)}
                                     />
-                                    {tag}
+                                    <span>{tag}</span>
                                 </label>
                             ))}
                         </div>
@@ -49,6 +55,7 @@ const PostCategorySidebar = () => {
                 </div>
             ))}
         </div>
+        </>
     );
 };
 

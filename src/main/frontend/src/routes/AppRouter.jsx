@@ -9,12 +9,14 @@ import MyPage from "../pages/MyPage";
 import RegisterPage from "../pages/RegisterPage";
 import Chat from "../pages/Chat";
 import PostCategorySidebar from "../post/PostCatergorySidebar";
+import Post from "../main/PostMain";
+import Write from "../main/PostWrite";
 
 export default function AppRouter() {
     return (
         <Router>
             <Routes>
-                <Route path="/posts" element={<PostList />} />
+                <Route path="/posts" element={<Post/>} />
                 <Route path="/posts/:id" element={<PostDetail />} />
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/login" element={<Login />} />
@@ -23,6 +25,7 @@ export default function AppRouter() {
                 <Route path="/register" element={<RegisterPage/>}/>
                 <Route path="/chat" element={<Chat/>}/>
                 <Route path='/posts/category' element={<PostCategorySidebar />} />
+                <Route path='/posts/write' element={<Write/>} />
             </Routes>
         </Router>
     );

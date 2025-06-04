@@ -1,69 +1,9 @@
 import React from "react";
-import x12 from "./1-2.svg";
-import x13 from "./1-3.svg";
-import x14 from "./1-4.svg";
-import x15 from "./1-5.svg";
-import x16 from "./1-6.svg";
-import x17 from "./1-7.svg";
-import x18 from "./1-8.svg";
-import x19 from "./1-9.svg";
-import x110 from "./1-10.svg";
-import x111 from "./1-11.svg";
-import x112 from "./1-12.svg";
-import x113 from "./1-13.svg";
-import x114 from "./1-14.svg";
-import x115 from "./1-15.svg";
-import x116 from "./1-16.svg";
-import x117 from "./1-17.svg";
-import x118 from "./1-18.svg";
-import x119 from "./1-19.svg";
-import x120 from "./1-20.svg";
-import x121 from "./1-21.svg";
-import x122 from "./1-22.svg";
-import x123 from "./1-23.svg";
-import x124 from "./1-24.svg";
-import x125 from "./1-25.svg";
-import x126 from "./1-26.svg";
-import x127 from "./1-27.svg";
-import x128 from "./1-28.svg";
-import x129 from "./1-29.svg";
-import x130 from "./1-30.svg";
-import x131 from "./1-31.svg";
-import x132 from "./1-32.svg";
-import x133 from "./1-33.svg";
-import x134 from "./1-34.svg";
-import x135 from "./1-35.svg";
-import x136 from "./1-36.svg";
-import x137 from "./1-37.svg";
-import x138 from "./1-38.svg";
-import x139 from "./1-39.svg";
-import x1 from "./1.svg";
-import frame2 from "./frame-2.svg";
-import frame3 from "./frame-3.svg";
-import frame from "./frame.svg";
-import group2 from "./group-2.png";
-import group from "./group.png";
-import image1 from "./image.png";
-import image from "./image.svg";
-import layer1 from "./layer-1.png";
-import maskGroup6 from "./mask-group-6.png";
-import maskGroup7 from "./mask-group-7.png";
-import maskGroup8 from "./mask-group-8.png";
-import maskGroup from "./mask-group.png";
-import rectangle192 from "./rectangle-192.png";
-import rectangle194 from "./rectangle-194.png";
-import rectangle201 from "./rectangle-201.png";
-import "../styles/Post.css";
-import vector2 from "./vector-2.svg";
-import vector3 from "./vector-3.svg";
-import vector20 from "./vector-20.svg";
-import vector21 from "./vector-21.svg";
-import vector22 from "./vector-22.svg";
-import vector23 from "./vector-23.svg";
-import vector31 from "./vector-31.svg";
-import vector from "./vector.svg";
+import x12 from "../assets/logo.png";
 
-export const Screen = () => {
+import "../styles/Post.css";
+
+export default function Post() {
     return (
         <div className="screen">
             <div className="div">
@@ -75,7 +15,7 @@ export const Screen = () => {
 
                         <div className="group">
                             <div className="overlap-2">
-                                <img className="element" alt="Element" src={x139} />
+                                <img className="element" alt="Element" src={x12} />
 
                                 <div className="text-wrapper-2">합정동</div>
                             </div>
@@ -85,7 +25,7 @@ export const Screen = () => {
                     {/* ⭐ 포스트 헤더 섹션 */}
                     <div className="frame-wrapper">
                         <div className="frame">
-                            <img className="layer" alt="Layer" src={layer1} />
+                            <img className="layer" alt="Layer" src={x12} />
                         </div>
                     </div>
 
@@ -124,21 +64,21 @@ export const Screen = () => {
                         <div className="rectangle" />
                     </div>
 
-                    <img className="vector" alt="Vector" src={vector23} />
+                    <img className="vector" alt="Vector" src={x12} />
                 </div>
 
                 <div className="logo">
-                    <img className="img" alt="Group" src={group2} />
+                    <img className="img" alt="Group" src={x12} />
 
                     <div className="overlap-group-wrapper">
                         <div className="overlap-group-2">
-                            <img className="vector-2" alt="Vector" src={vector} />
+                            <img className="vector-2" alt="Vector" src={x12} />
 
-                            <img className="vector-2" alt="Vector" src={vector2} />
+                            <img className="vector-2" alt="Vector" src={x12} />
 
-                            <img className="group-2" alt="Group" src={group} />
+                            <img className="group-2" alt="Group" src={x12} />
 
-                            <img className="vector-3" alt="Vector" src={vector3} />
+                            <img className="vector-3" alt="Vector" src={x12} />
                         </div>
                     </div>
                 </div>
@@ -186,9 +126,6 @@ export const Screen = () => {
                     <span className="span">애니 덕후 집합 ! : </span>
 
                     <span className="text-wrapper-14">
-            북극곰 카페
-            <br />
-            정주행 힐링 애니 감상 모임
           </span>
                 </p>
 
@@ -236,15 +173,15 @@ export const Screen = () => {
                     <div className="text-wrapper-30">NEW</div>
                 </div>
 
-                <img className="mask-group" alt="Mask group" src={maskGroup6} />
+                <img className="mask-group" alt="Mask group" src={x12} />
 
-                <img className="mask-group-2" alt="Mask group" src={maskGroup7} />
+                <img className="mask-group-2" alt="Mask group" src={x12} />
 
-                <img className="mask-group-3" alt="Mask group" src={maskGroup8} />
+                <img className="mask-group-3" alt="Mask group" src={x12} />
 
-                <img className="mask-group-4" alt="Mask group" src={maskGroup} />
+                <img className="mask-group-4" alt="Mask group" src={x12} />
 
-                <img className="mask-group-5" alt="Mask group" src={image1} />
+                <img className="mask-group-5" alt="Mask group" src={x12} />
 
                 <div className="overlap-15">
                     <div className="text-wrapper-31">연남동</div>
@@ -253,11 +190,11 @@ export const Screen = () => {
 
                     <div className="text-wrapper-33">11/15</div>
 
-                    <img className="element-2" alt="Element" src={x1} />
+                    <img className="element-2" alt="Element" src={x12} />
 
-                    <img className="element-3" alt="Element" src={x13} />
+                    <img className="element-3" alt="Element" src={x12} />
 
-                    <img className="element-4" alt="Element" src={x16} />
+                    <img className="element-4" alt="Element" src={x12} />
                 </div>
 
                 <div className="overlap-16">
@@ -267,11 +204,11 @@ export const Screen = () => {
 
                     <div className="text-wrapper-36">08/10</div>
 
-                    <img className="element-5" alt="Element" src={image} />
+                    <img className="element-5" alt="Element" src={x12} />
 
-                    <img className="element-6" alt="Element" src={x14} />
+                    <img className="element-6" alt="Element" src={x12} />
 
-                    <img className="element-7" alt="Element" src={x17} />
+                    <img className="element-7" alt="Element" src={x12} />
                 </div>
 
                 <div className="overlap-17">
@@ -283,16 +220,16 @@ export const Screen = () => {
 
                     <img className="element-8" alt="Element" src={x12} />
 
-                    <img className="element-9" alt="Element" src={x15} />
+                    <img className="element-9" alt="Element" src={x12} />
 
-                    <img className="element-10" alt="Element" src={x18} />
+                    <img className="element-10" alt="Element" src={x12} />
                 </div>
 
-                <img className="vector-4" alt="Vector" src={vector20} />
+                <img className="vector-4" alt="Vector" src={x12} />
 
-                <img className="vector-5" alt="Vector" src={vector21} />
+                <img className="vector-5" alt="Vector" src={x12} />
 
-                <img className="vector-6" alt="Vector" src={vector22} />
+                <img className="vector-6" alt="Vector" src={x12} />
 
                 <div className="text-wrapper-40">연남동</div>
 
@@ -330,41 +267,41 @@ export const Screen = () => {
 
                 <div className="text-wrapper-57">11/15</div>
 
-                <img className="element-11" alt="Element" src={x19} />
+                <img className="element-11" alt="Element" src={x12} />
 
-                <img className="element-12" alt="Element" src={x110} />
+                <img className="element-12" alt="Element" src={x12} />
 
-                <img className="element-13" alt="Element" src={x111} />
+                <img className="element-13" alt="Element" src={x12} />
 
-                <img className="element-14" alt="Element" src={x112} />
+                <img className="element-14" alt="Element" src={x12} />
 
-                <img className="element-15" alt="Element" src={x113} />
+                <img className="element-15" alt="Element" src={x12} />
 
-                <img className="element-16" alt="Element" src={x114} />
+                <img className="element-16" alt="Element" src={x12} />
 
-                <img className="element-17" alt="Element" src={x115} />
+                <img className="element-17" alt="Element" src={x12} />
 
-                <img className="element-18" alt="Element" src={x116} />
+                <img className="element-18" alt="Element" src={x12} />
 
-                <img className="element-19" alt="Element" src={x117} />
+                <img className="element-19" alt="Element" src={x12} />
 
-                <img className="element-20" alt="Element" src={x118} />
+                <img className="element-20" alt="Element" src={x12} />
 
-                <img className="element-21" alt="Element" src={x119} />
+                <img className="element-21" alt="Element" src={x12} />
 
-                <img className="element-22" alt="Element" src={x120} />
+                <img className="element-22" alt="Element" src={x12} />
 
-                <img className="element-23" alt="Element" src={x121} />
+                <img className="element-23" alt="Element" src={x12} />
 
-                <img className="element-24" alt="Element" src={x122} />
+                <img className="element-24" alt="Element" src={x12} />
 
-                <img className="element-25" alt="Element" src={x123} />
+                <img className="element-25" alt="Element" src={x12} />
 
-                <img className="element-26" alt="Element" src={x124} />
+                <img className="element-26" alt="Element" src={x12} />
 
-                <img className="element-27" alt="Element" src={x125} />
+                <img className="element-27" alt="Element" src={x12} />
 
-                <img className="element-28" alt="Element" src={x126} />
+                <img className="element-28" alt="Element" src={x12} />
 
                 <div className="overlap-18">
                     <div className="text-wrapper-58">카테고리</div>
@@ -409,7 +346,7 @@ export const Screen = () => {
 
                     <div className="text-wrapper-78">헬스</div>
 
-                    <img className="vector-7" alt="Vector" src={vector31} />
+                    <img className="vector-7" alt="Vector" src={x12} />
 
                     <div className="ellipse-wrapper">
                         <div className="ellipse-2" />
@@ -432,11 +369,11 @@ export const Screen = () => {
                     <div className="ellipse-10" />
                 </div>
 
-                <img className="rectangle-3" alt="Rectangle" src={rectangle192} />
+                <img className="rectangle-3" alt="Rectangle" src={x12} />
 
-                <img className="rectangle-4" alt="Rectangle" src={rectangle194} />
+                <img className="rectangle-4" alt="Rectangle" src={x12} />
 
-                <img className="rectangle-5" alt="Rectangle" src={rectangle201} />
+                <img className="rectangle-5" alt="Rectangle" src={x12} />
 
                 <div className="text-wrapper-79">💪축구/풋살 모임 : 풋살즈</div>
 
@@ -451,7 +388,7 @@ export const Screen = () => {
 
                     <div className="text-wrapper-83">축구</div>
 
-                    <img className="element-29" alt="Element" src={x136} />
+                    <img className="element-29" alt="Element" src={x12} />
                 </div>
 
                 <div className="overlap-20">
@@ -459,7 +396,7 @@ export const Screen = () => {
 
                     <div className="text-wrapper-83">축구</div>
 
-                    <img className="element-29" alt="Element" src={x137} />
+                    <img className="element-29" alt="Element" src={x12} />
                 </div>
 
                 <div className="overlap-21">
@@ -467,7 +404,7 @@ export const Screen = () => {
 
                     <div className="text-wrapper-83">축구</div>
 
-                    <img className="element-29" alt="Element" src={x138} />
+                    <img className="element-29" alt="Element" src={x12} />
                 </div>
 
                 <div className="text-wrapper-84">연남동</div>
@@ -488,23 +425,23 @@ export const Screen = () => {
 
                 <div className="text-wrapper-92">05/05</div>
 
-                <img className="element-30" alt="Element" src={x127} />
+                <img className="element-30" alt="Element" src={x12} />
 
-                <img className="element-31" alt="Element" src={x128} />
+                <img className="element-31" alt="Element" src={x12} />
 
-                <img className="element-32" alt="Element" src={x129} />
+                <img className="element-32" alt="Element" src={x12} />
 
-                <img className="element-33" alt="Element" src={x130} />
+                <img className="element-33" alt="Element" src={x12} />
 
-                <img className="element-34" alt="Element" src={x131} />
+                <img className="element-34" alt="Element" src={x12} />
 
-                <img className="element-35" alt="Element" src={x132} />
+                <img className="element-35" alt="Element" src={x12} />
 
-                <img className="element-36" alt="Element" src={x133} />
+                <img className="element-36" alt="Element" src={x12} />
 
-                <img className="element-37" alt="Element" src={x134} />
+                <img className="element-37" alt="Element" src={x12} />
 
-                <img className="element-38" alt="Element" src={x135} />
+                <img className="element-38" alt="Element" src={x12} />
 
                 <p className="text-wrapper-93">
                     적당한 거리의 축구모임 : 다함께 으쌰으쌰하며 친목도 다지고 축구도...
@@ -531,15 +468,15 @@ export const Screen = () => {
                 </div>
 
                 <div className="img-wrapper">
-                    <img className="frame-2" alt="Frame" src={frame} />
+                    <img className="frame-2" alt="Frame" src={x12} />
                 </div>
 
                 <div className="overlap-24">
-                    <img className="frame-2" alt="Frame" src={frame2} />
+                    <img className="frame-2" alt="Frame" src={x12} />
                 </div>
 
                 <div className="overlap-25">
-                    <img className="frame-2" alt="Frame" src={frame3} />
+                    <img className="frame-2" alt="Frame" src={x12} />
                 </div>
 
                 <div className="overlap-26">

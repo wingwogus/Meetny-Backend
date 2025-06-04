@@ -1,0 +1,23 @@
+
+
+.group-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    margin-right: 50px;
+}
+
+.more-button {
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.group-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
