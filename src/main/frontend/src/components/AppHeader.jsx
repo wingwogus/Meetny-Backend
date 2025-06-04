@@ -12,9 +12,10 @@ export default function AppHeader() {
 
             {/* 우측 내비게이션 아이콘 */}
             <nav className="app-header__nav">
-                <div className="icon icon--chat" />
-                <div className="icon icon--bell" />
-                <div className="icon icon--heart" />
+                <img src={'https://c.animaapp.com/3LplbCFc/img/notification@2x.png'}
+                     className="icon icon--chat"/>
+                <img src={'https://c.animaapp.com/3LplbCFc/img/frame.svg'}
+                     className="icon icon--bell" />
             </nav>
 
             {/* 우측 사용자 아바타 */}
@@ -22,6 +23,7 @@ export default function AppHeader() {
                 src="/path/to/avatar.png"      // 실제 유저 아바타 경로로 교체
                 alt="User Avatar"
                 className="app-header__avatar"
+                onClick={() => window.location.href = '/information'}
             />
         </header>
     );

@@ -21,8 +21,8 @@ export default function PostDetail() {
 
     const handleLike = async () => {
         try {
-            await axiosClient.post(`/api/chat/rooms/${post.id}`);
-            window.location.href = "/chat";
+            await axiosClient.post(`/api/posts/${post.id}/like`);
+            window.location.href = "/information";
         } catch (error) {
             console.error("채팅방 생성 실패:", error);
             alert("채팅방 입장 중 오류가 발생했습니다.");
@@ -78,7 +78,7 @@ export default function PostDetail() {
 
                             <div className="like-cta">
                                 <button className="cta-button" onClick={handleJoinClick}>동행하기</button>
-                                <button className="like-button">🤍</button>
+                                <button className="like-button" onClick={handleLike}>🤍</button>
                             </div>
                         </div>
                     </div>

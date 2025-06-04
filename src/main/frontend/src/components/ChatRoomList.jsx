@@ -40,7 +40,7 @@ export default function ChatRoomList({ rooms, selectedRoomId, onSelectRoom }) {
                     isMine ? room.userNickname : room.authorNickname || room.postTitle;
                 const authorNickname = room.authorNickname;
                 const latestMessage = room.latestMessage || '대화 없음';
-                const latestTime = formatTime(room.latestTime) || '';
+                const latestTime = room.latestTime || '';
                 const unreadCount = room.unreadCount || 0;
                 const avatarUrl =
                     isMine ? room.userImage : room.authorImage || logo;
@@ -68,7 +68,7 @@ export default function ChatRoomList({ rooms, selectedRoomId, onSelectRoom }) {
 
                         {/* 우측: 시간 · 읽지 않은 개수 */}
                         <div className="room-meta">
-                            {latestTime && <div className="room-time">{latestTime}</div>}
+                            {latestTime && <div className="room-time">{formatTime(latestTime)}</div>}
                             {unreadCount > 0 && (
                                 <div className="unread-badge">{unreadCount}</div>
                             )}

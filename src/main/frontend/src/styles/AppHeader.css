@@ -31,10 +31,8 @@
     align-items: center;
 }
 .app-header__nav .icon {
-    width: 24px;
-    height: 24px;
-    background-color: #e0e0e0; /* 임시 플레이스홀더 */
-    border-radius: 4px;
+    width: 30px;
+    height: 30px;
     margin-right: 16px;
     cursor: pointer;
 }
