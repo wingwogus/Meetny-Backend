@@ -1,0 +1,33 @@
+.register-header-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+    padding-top: 50px;
+    padding-bottom: 40px;
+    width: 100%;
+}
+
+/* 로고 섹션 */
+.register-logo-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.register-logo-icon {
+    width: 66px;
+    height: 46px;
+}
+
+.register-logo-text {
+    width: 128px;
+    height: 21px;
+}
+
+/* 프로그레스바 */
+.register-progressbar-wrapper {
+    width: 600px;
+    height: 100px;
+}

@@ -51,6 +51,9 @@
     position: relative;
     width: 1920px; /* Figma 기준 고정 */
     height: 1718px; /* 총 페이지 높이 */
+    transform-origin: top;
+    transform: scale(0.628);
+    margin: 0 auto;
 }
 
 /*====================================================
@@ -86,7 +89,6 @@
 }
 /* 개별 태그 Pill */
 .mypage-tag-pill {
-    background-color: var(--color-accent-dark);
     color: #ffffff;
     font-family: var(--font-family-semibold);
     font-size: 15.6px;

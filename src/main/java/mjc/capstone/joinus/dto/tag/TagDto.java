@@ -12,9 +12,6 @@ public class TagDto {
     private String tagName;
     private boolean checked;
 
-    public TagDto() {
-    }
-
     public TagDto(Long tagId, String tagName) {
         this.tagId = tagId;
         this.tagName = tagName;
