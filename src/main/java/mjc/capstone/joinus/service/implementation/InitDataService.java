@@ -89,7 +89,9 @@ public class InitDataService {
 
         for (
                 ReviewTag reviewTag : reviewTags) {
-            reviewTagRepository.save(reviewTag);
+            if (!reviewTagRepository.existsByTagName(reviewTag.getTagName())) {
+                reviewTagRepository.save(reviewTag);
+            }
         }
 
 

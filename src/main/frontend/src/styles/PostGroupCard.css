@@ -63,3 +63,19 @@
     font-size: 14px;
     color: #ff914d;
 }
+
+.meta .location {
+    width: 12px;
+    height: 18px;
+}
+.tag-pill {
+    display: inline-block;
+    background-color: #f3f3f3;     /* 배경색 */
+    color: #989898;                   /* 글자색 */
+    border-radius: 20px;           /* 타원형으로 만들기 */
+    padding: 3px 30px;             /* 상하 / 좌우 여백 */
+    font-size: 14px;
+    font-weight: 500;
+    margin-right: 12px;
+    border: 1px solid #ccc;
+}

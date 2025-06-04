@@ -15,6 +15,9 @@ import Registration from "../pages/Registration";
 import PostCategorySidebar from "../post/PostCatergorySidebar";
 import Post from "../main/PostMain";
 import Write from "../main/PostWrite";
+import OAuth2RedirectHandler from '../pages/OAuth2RedirectHandler';
+import SocialRegisterPage from '../pages/SocialRegisterPage';
+
 
 export default function AppRouter() {
     return (
@@ -35,6 +38,9 @@ export default function AppRouter() {
                 <Route path="/terms" element={<Registration />} />
                 <Route path='/posts/category' element={<PostCategorySidebar />} />
                 <Route path='/posts/write' element={<Write/>} />
+                <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
+                <Route path="/social-register" element={<SocialRegisterPage />} />
+
             </Routes>
         </Router>
     );

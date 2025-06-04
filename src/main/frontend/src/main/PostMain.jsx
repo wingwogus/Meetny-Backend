@@ -26,6 +26,7 @@ const PostMain = () => {
                     setSelectedCategory={setSelectedCategory}
                     selectedTag={selectedTag}
                     setSelectedTag={setSelectedTag}
+                    onTagSelect={setSelectedTag}
                 />
                 <div className="post-content-sections">
                     <PostListContainer
