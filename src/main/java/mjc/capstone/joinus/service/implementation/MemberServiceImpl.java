@@ -61,9 +61,7 @@ public class MemberServiceImpl implements MemberService {
                 authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
         // 3. 인증 정보를 기반으로 JWT 토큰 생성
-        Member member = memberRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다: " + request.getUsername()));
-        return jwtTokenProvider.generateToken(member);
+        return jwtTokenProvider.generateToken(authentication);
     }
 
     @Transactional(readOnly=true)

@@ -41,30 +41,20 @@ public class JwtTokenProvider {
         this.customUserDetailsService = customUserDetailsService;
     }
 
-    public JwtToken generateToken(Member member) {
-        try {
-            System.out.println("✅ JwtTokenProvider.generateToken 호출됨: " + member.getEmail());
+    public JwtToken generateToken(Authentication authentication) {
 
-            String accessToken = Jwts.builder()
-                    .setSubject(member.getUsername())
-                    .claim("auth", member.getRole().name()) // ← 여기가 null이면 터짐
-                    .setIssuedAt(new Date())
-                    .setExpiration(new Date(System.currentTimeMillis() + 3600000))
-                    .signWith(key, SignatureAlgorithm.HS256)
-                    .compact();
+        long now = (new Date()).getTime();
 
-            String refreshToken = Jwts.builder()
-                    .setExpiration(new Date(System.currentTimeMillis() + 604800000))
-                    .signWith(key, SignatureAlgorithm.HS256)
-                    .compact();
+        // Access Token 생성
+        String accessToken = generateAccessToken(authentication, now);
 
-            System.out.println("🟢 토큰 생성 완료");
-            return new JwtToken("Bearer", accessToken, refreshToken);
-        } catch (Exception e) {
-            System.out.println("❌ 토큰 생성 실패: " + e.getMessage());
-            e.printStackTrace();
-            throw e; // 이거 꼭 던져줘야 Spring Security 쪽에서 후속 처리를 함
-        }
+        String refreshToken = generateRefreshToken(authentication, now);
+
+        return JwtToken.builder()
+                .grantType("Bearer")
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
     }
 
     public JwtToken reissueToken(String accessToken, String refreshToken) {
@@ -133,7 +123,10 @@ public class JwtTokenProvider {
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
 
-        CustomUserDetails principal = (CustomUserDetails) customUserDetailsService.loadUserByUsername(claims.getSubject());
+        CustomUserDetails principal =
+                (CustomUserDetails) customUserDetailsService
+                        .loadUserByUsername(claims.getSubject());
+
         log.debug("✅ 인증 완료 - 사용자: {}, 권한: {}", principal.getUsername(), authorities);
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }

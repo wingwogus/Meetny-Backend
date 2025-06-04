@@ -26,7 +26,7 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
     @Override
     public Map<String, Object> getAttributes() {
         // 필요에 따라 사용자 정보를 맵으로 반환 (예: OAuth 정보에서 온 이메일 등)
-        return Map.of("email", member.getEmail());
+        return Map.of("email", member.getUsername());
     }
 
     @Override

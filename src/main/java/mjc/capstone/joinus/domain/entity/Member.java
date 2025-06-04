@@ -70,7 +70,4 @@ public class Member {
             memberTag.setMember(this); // 양방향 설정
         }
     }
-    public String getEmail() {
-        return this.username;
-    }
 }

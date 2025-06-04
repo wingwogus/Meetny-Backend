@@ -48,14 +48,14 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
             return;
         }
 
-        System.out.println("✅ 로그인한 사용자: " + member.getEmail());
+        System.out.println("✅ 로그인한 사용자: " + member.getUsername());
 
-        JwtToken jwtToken = jwtTokenProvider.generateToken(member);
+        JwtToken jwtToken = jwtTokenProvider.generateToken(authentication);
         System.out.println("✅ 토큰 생성 완료");
 
         String accessToken = jwtToken.getAccessToken();
         String refreshToken = jwtToken.getRefreshToken();
-        String encodedEmail = URLEncoder.encode(member.getEmail(), StandardCharsets.UTF_8.toString());
+        String encodedEmail = URLEncoder.encode(member.getUsername(), StandardCharsets.UTF_8.toString());
 
         String redirectUrl;
         if (member.getPhone() == null || member.getPhone().isEmpty()) {
