@@ -178,6 +178,7 @@ export default function MyPage() {
     return (
         <div className="mypage-container">
             <div className="mypage-content">
+                <AppHeader/>
                 {/* =================================================
              1. 상단 프로필 & 태그 섹션
         ================================================= */}
@@ -292,12 +293,6 @@ export default function MyPage() {
                 {/* =================================================
              2. 상단 우측 검색 아이콘 & 프로필 배지
         ================================================= */}
-                <div className="mypage-search-icon" />
-                <img
-                    className="mypage-profile-badge"
-                    alt="Profile Badge"
-                    src={avatarUrl}
-                />
 
                 {/* =================================================
              3. 탭 영역 (동행 게시글 / 참가한 동행 / 동행 후기)
@@ -331,37 +326,7 @@ export default function MyPage() {
                 {/* =================================================
              4. 사이트 로고 (상단 중앙)
         ================================================= */}
-                <div className="mypage-site-logo">
-                    <img
-                        className="mypage-logo-text"
-                        alt="Logo Text"
-                        src="https://c.animaapp.com/3LplbCFc/img/group@2x.png"
-                    />
-                    <div className="mypage-logo-icon-wrapper">
-                        <div className="mypage-logo-icon-container">
-                            <img
-                                className="mypage-logo-icon-vector"
-                                alt="Vector"
-                                src="https://c.animaapp.com/3LplbCFc/img/vector.svg"
-                            />
-                            <img
-                                className="mypage-logo-icon-mask"
-                                alt="Vector"
-                                src="https://c.animaapp.com/3LplbCFc/img/vector-1.svg"
-                            />
-                            <img
-                                className="mypage-logo-icon-main"
-                                alt="Group"
-                                src="https://c.animaapp.com/3LplbCFc/img/group-1@2x.png"
-                            />
-                            <img
-                                className="mypage-logo-icon-decor"
-                                alt="Vector"
-                                src="https://c.animaapp.com/3LplbCFc/img/vector-2.svg"
-                            />
-                        </div>
-                    </div>
-                </div>
+
 
                 {/* =================================================
              5. 관심 동행 섹션 (항상 왼쪽 상단)
@@ -651,19 +616,6 @@ export default function MyPage() {
                     <div className="mypage-profile-manage-btn">
                         <div className="mypage-profile-manage-text">프로필 관리</div>
                     </div>
-
-                    <div className="mypage-notification-btn">
-                        <img
-                            className="mypage-notification-icon"
-                            alt="Notification"
-                            src="https://c.animaapp.com/3LplbCFc/img/notification@2x.png"
-                        />
-                    </div>
-                    <img
-                        className="mypage-message-btn"
-                        alt="Message"
-                        src="https://c.animaapp.com/3LplbCFc/img/frame.svg"
-                    />
                     <div
                         className="mypage-chat-btn"
                         onClick={() => navigate("/chat")}>

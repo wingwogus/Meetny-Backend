@@ -14,6 +14,7 @@
 .app-header__logo {
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 .app-header__logo img {
     height: 40px;
@@ -24,6 +25,11 @@
     font-size: 24px;
     color: #3e2e1a;
     margin-left: 8px;
+}
+
+.app-header--info{
+    display: flex;
+    gap: 16px;
 }
 
 .app-header__nav {

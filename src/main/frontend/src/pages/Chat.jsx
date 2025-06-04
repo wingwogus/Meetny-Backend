@@ -141,7 +141,7 @@ export default function Chat() {
     return (
         <>
             <AppHeader />
-            <h2 className="chat-title">메시지</h2>
+            <h2 className="chat-title"></h2>
             <div className="chat">
                 <div className="chat-room-list-wrapper">
                     <ChatRoomList

@@ -522,6 +522,9 @@
     line-height: 1.4;       /* 적당한 줄간격 */
     word-wrap: break-word;  /* 넘치는 텍스트 줄바꿈 */
     max-width: 130px;       /* 카드 너비 대비 적당히 제한 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* 빈 상태 메시지를 카드 중앙에 배치 */
