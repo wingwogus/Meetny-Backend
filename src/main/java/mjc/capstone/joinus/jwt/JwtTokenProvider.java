@@ -97,9 +97,12 @@ public class JwtTokenProvider {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
+        CustomUserDetails principal = (CustomUserDetails) authentication.getPrincipal();
+
         return Jwts.builder()
                 .setSubject(authentication.getName())         // 토큰의 주체 (보통 username)
-                .claim("auth", authorities)                // 유저 권한 추가
+                .claim("auth", authorities)
+                .claim("nickname", principal.getNickname())// 유저 권한 추가
                 .setExpiration(new Date(now + 60 * 60 * 1000L))          // 만료 시간 1시간 설정
                 .signWith(key, SignatureAlgorithm.HS256)      // 서명 (key는 비밀키)
                 .compact();

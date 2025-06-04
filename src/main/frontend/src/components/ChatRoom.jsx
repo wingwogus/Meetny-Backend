@@ -1,22 +1,60 @@
 // src/components/ChatRoom.jsx
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import '../styles/ChatRoom.css';
+import logo from '../assets/logo.png';
+
 
 export default function ChatRoom({
                                      roomId,
-                                     roomTitle,
+                                     postId,
+                                     postTitle,
+                                     postImage,
+                                     otherNickname,
                                      authorNickname,
                                      messages,
                                      inputValue,
                                      onInputChange,
-                                     onSend
-                                 }) {
+                                     onSend,
+                                     onComplete}) {
+    const scrollRef = useRef(null);
+
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [messages]);
+
     return (
         <div className="chat-room">
-            {roomTitle && (
+            {postTitle && (
                 <div className="chat-room-header">
-                    <div className="participant-name">{authorNickname}</div>
-                    <div className="post-title">{roomTitle}</div>
+                    <div className="participant-name">{otherNickname}</div>
+                    <div className="post-info">
+                        <img
+                            src={postImage || logo}
+                            alt={`Post 사진`}
+                            className="post-image"
+                            onClick={() => window.location.href = `/posts/${postId}`}
+                        />
+                        <div>
+                            <div
+                                className="post-title"
+                                onClick={() => window.location.href = `/posts/${postId}`}
+                            >[{postTitle}]</div>
+                            {authorNickname === localStorage.getItem('nickname') &&
+                                <div
+                                    className="post-complete"
+                                    onClick={() => {
+                                        if (window.confirm('동행을 완료하시겠습니까?')) {
+                                            onComplete(roomId);
+                                        }
+                                    }}
+                                >
+                                    동행 완료
+                                </div>
+                            }
+                        </div>
+                    </div>
                 </div>
             )}
 
@@ -28,7 +66,7 @@ export default function ChatRoom({
                         minute: '2-digit',
                         hour12: true,
                     });
-                    const isMine = msg.sender === localStorage.getItem('username');
+                    const isMine = msg.sender === localStorage.getItem('nickname');
 
                     return (
                         <div
@@ -49,6 +87,7 @@ export default function ChatRoom({
                         </div>
                     );
                 })}
+                <div ref={scrollRef} />
             </div>
 
             <div className="input-area">

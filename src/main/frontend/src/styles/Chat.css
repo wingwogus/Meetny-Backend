@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: flex-start;
     gap: 16px;
-    padding: 0 10%;
+    padding: 0 20%;
     height: calc(100vh - 252px);
     box-sizing: border-box;
     background-color: #ffffff;
@@ -15,19 +15,19 @@
     font-size: 24px;
     font-weight: 500;
     color: #000000;
-    margin-left: 10%;
+    padding: 0 20%;
 }
 
 /* 채팅방 목록 (왼쪽) 래퍼 */
 .chat-room-list-wrapper {
-    width: 503px;
-    flex: 0 0 503px;
+    width: 500px;
+    flex: 0 0 500px;
 }
 
 /* 채팅창 (오른쪽) 래퍼 */
 .chat-room-wrapper {
-    width: 576px;
-    flex: 0 0 576px;
+    width: 550px;
+    flex: 0 0 550px;
 }
 
 /* 모바일/반응형 예시 */

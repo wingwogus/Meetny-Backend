@@ -19,6 +19,9 @@ public interface PostService {
     void updatePost(Post post, PostRequestDto requestDto, Long memberId);
     // 포스트 삭제
     void deletePost(Post post, Long memberId);
+
+    List<PostResponseDto> getLikedPost(Long memberId);
+
     // 모든 포스트 불러오기
     List<PostResponseDto> getAllPosts(Long memberId);
     // 태그별 포스트 불러오기
@@ -28,7 +31,7 @@ public interface PostService {
     // 포스트 좋아요 토글 기능
     PostLikeResponseDto togglePostLike(Post post, Long memberId);
     // 유저별 포스트 불러오기
-    List<PostResponseDto> getPostsByMember(Long memberId);
+    List<PostResponseDto> getPostsByMember(String nickname);
     //List<PostResponseDto> searchPosts(String keyword);
     // 포스트 유효성 검증
     void validateAuth(Post post, Member member);

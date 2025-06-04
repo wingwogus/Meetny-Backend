@@ -1,7 +1,8 @@
 package mjc.capstone.joinus.service.inf;
 
 import mjc.capstone.joinus.domain.entity.Member;
-import mjc.capstone.joinus.dto.tag.TagDto;
+import mjc.capstone.joinus.dto.tag.TagResponseBasicDto;
+import mjc.capstone.joinus.dto.tag.TagResponseDto;
 import mjc.capstone.joinus.dto.mypage.MyPageDto;
 import org.springframework.stereotype.Service;
 
@@ -11,16 +12,17 @@ import java.util.List;
 public interface MyPageService {
     //프로필 이미지 수정
     String profileEdit(String url, String username);
-    // 유저 불러오기
-    Member findMemberByUsername(String username);
+
     // 전체 태그 불러오기
-    List<TagDto> findAlltags(Member member);
+    List<TagResponseDto> findAlltags(Member member);
     // 태그 불러오기
-    List<TagDto> findusertags(Member member);
+    List<TagResponseDto> findusertags(Member member);
+    // 태그 불러오기 - 마이페이지 전용
+    List<TagResponseBasicDto> findBasicUserTags(Member member);
     // 태그 추가
-    void tagAdd(List<TagDto> tags,Member member);
+    void tagAdd(List<TagResponseDto> tags,Member member);
     // 태그 삭제
-    void tagRemove(List<TagDto> tags, Member member);
+    void tagRemove(List<TagResponseDto> tags, Member member);
     // 유저 정보 가져오기
     MyPageDto findMemberDto(Member Member);
     // 팔로워 조회

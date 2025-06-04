@@ -19,7 +19,7 @@ const Login = () => {
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
             const decoded = jwtDecode(accessToken);
-            localStorage.setItem('username', decoded.sub);
+            localStorage.setItem('nickname', decoded.nickname);
             navigate('/information')
         } catch (err) {
             console.error(err)
@@ -38,7 +38,8 @@ const Login = () => {
                         <div className="text-wrapper">로그인</div>
                     </button>
 
-                    <div className="overlap-group">
+                    <div className="overlap-group"
+                    onClick={() => navigate('/register')}>
                         <div className="text-wrapper-2">회원가입</div>
                     </div>
 
