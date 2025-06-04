@@ -11,6 +11,7 @@ import ReviewDetail from "../pages/ReviewDetail";
 import ReviewForm from "../pages/ReviewForm";
 import MainPage from "../pages/MainPage";
 import Chat from "../pages/Chat";
+import ReviewEditForm from "../pages/ReviewEditForm";
 
 export default function AppRouter() {
     return (
@@ -25,6 +26,7 @@ export default function AppRouter() {
                 <Route path="/register" element={<RegisterPage/>}/>
                 <Route path="/reviews/:id" element={<ReviewDetail />} />
                 <Route path="/reviews/write/:postId" element={<ReviewForm />} />
+                <Route path="/reviews/edit/:postId" element={<ReviewEditForm />} />
                 <Route path="/main" element={<MainPage />} />
                 <Route path="/chat" element={<Chat/>}/>
             </Routes>
