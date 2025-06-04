@@ -33,6 +33,8 @@ public class CustomUserDetails implements UserDetails {
 
     public String getNickname() {return member.getNickname();}
 
+    public String getProfileImg() {return member.getProfileImg();}
+
     @Override
     public boolean isAccountNonExpired() {
         return true;

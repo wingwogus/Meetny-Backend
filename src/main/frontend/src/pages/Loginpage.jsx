@@ -20,6 +20,7 @@ const Login = () => {
             localStorage.setItem('refreshToken', refreshToken);
             const decoded = jwtDecode(accessToken);
             localStorage.setItem('nickname', decoded.nickname);
+            localStorage.setItem('profileImg', decoded.profileImg);
             navigate('/information')
         } catch (err) {
             console.error(err)

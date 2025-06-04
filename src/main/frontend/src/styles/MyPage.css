@@ -786,6 +786,7 @@
     height: 246px;
     object-fit: cover;
     border-radius: 16px;
+    cursor: pointer;
 }
 .mypage-card-thumb-1 {
     top: 68px;

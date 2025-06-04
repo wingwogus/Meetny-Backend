@@ -16,7 +16,7 @@
     align-items: center;
 }
 .app-header__logo img {
-    height: 32px;
+    height: 40px;
     width: auto;
 }
 .app-header__text {
@@ -43,8 +43,8 @@
 }
 
 .app-header__avatar {
-    width: 40px;
-    height: 40px;
+    width: 55px;
+    height: 55px;
     border-radius: 50%;
     object-fit: cover;
     cursor: pointer;
