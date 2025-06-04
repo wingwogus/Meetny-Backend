@@ -230,7 +230,7 @@ const RegisterPage = () => {
   const isRequestEnabled = !otpRequested && !otpVerified;
 
   return (
-      <div className="element">
+      <div className="register-container">
         <div className="div">
           {/* 1. Progress Bar */}
           <div className="overlap">

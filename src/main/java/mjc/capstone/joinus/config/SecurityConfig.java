@@ -4,6 +4,7 @@ package mjc.capstone.joinus.config;
 // including authentication, authorization, and session management.
 import lombok.RequiredArgsConstructor;
 import mjc.capstone.joinus.jwt.JwtAuthenticationFilter;
+import mjc.capstone.joinus.config.OAuth2AuthenticationSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 
 @Configuration
 @EnableWebSecurity
@@ -22,6 +24,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    // TODO: Inject these beans as needed (implementations should be provided elsewhere)
+    private final org.springframework.security.oauth2.client.userinfo.OAuth2UserService oAuth2UserService;
+    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -41,13 +47,21 @@ public class SecurityConfig {
                                 "/ws/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
-                                "/swagger-ui.html").permitAll()
+                                "/swagger-ui.html",
+                                "/oauth2/**",
+                                "/login/**").permitAll()
                         .requestMatchers("/api/members/information/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
                         .requestMatchers("/follows/**").permitAll()
                         .requestMatchers("/api/my-page/**").authenticated()
                         .requestMatchers("/information/tag/edit").authenticated()
                         .anyRequest().authenticated()) // 그 외 모든 요청은 인증 필요
+
+                // OAuth2 Login configuration
+                .oauth2Login(oauth2 -> oauth2
+                        .userInfoEndpoint(userInfo -> userInfo.userService(oAuth2UserService))
+                        .successHandler(oAuth2AuthenticationSuccessHandler)
+                )
 
                 // 사용자 정의 로그인 필터 추가
                 .addFilterAt(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
@@ -56,7 +70,11 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // 비밀번호 암호화 방식: BCrypt 사용
         return new BCryptPasswordEncoder();
+    }
+
+    // Ignore favicon.ico from security
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().requestMatchers("/favicon.ico");
     }
 }

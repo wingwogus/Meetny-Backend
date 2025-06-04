@@ -41,16 +41,19 @@
   1. 최상위 레이아웃: 마이페이지 컨테이너
 ====================================================*/
 .mypage-container {
-    background-color: var(--color-bg-light);
+    background-color: #ffffff;
     display: flex;
     justify-content: center;
     width: 100%;
 }
 .mypage-content {
-    background-color: var(--color-bg-light);
+    background-color: #ffffff;
     position: relative;
     width: 1920px; /* Figma 기준 고정 */
     height: 1718px; /* 총 페이지 높이 */
+    transform-origin: top;
+    transform: scale(0.628);
+    margin: 0 auto;
 }
 
 /*====================================================
@@ -86,7 +89,6 @@
 }
 /* 개별 태그 Pill */
 .mypage-tag-pill {
-    background-color: var(--color-accent-dark);
     color: #ffffff;
     font-family: var(--font-family-semibold);
     font-size: 15.6px;
@@ -714,7 +716,7 @@
 .mypage-review-date {
     position: absolute;
     bottom: 16px;
-    left: 16px; /* 카드 왼쪽 하단 */
+    left: 170px; /* 카드 왼쪽 하단 */
     font-family: var(--font-family-medium);
     font-size: 12px;
     font-weight: 500;
@@ -844,19 +846,19 @@
     white-space: nowrap;
 }
 .mypage-card-location-1 {
-    top: 366px;
+    top: 367px;
     left: 93px;
 }
 .mypage-card-location-2 {
-    top: 745px;
+    top: 746px;
     left: 93px;
 }
 .mypage-card-location-3 {
-    top: 366px;
+    top: 367px;
     left: 424px;
 }
 .mypage-card-location-4 {
-    top: 745px;
+    top: 746px;
     left: 424px;
 }
 /* 날짜 텍스트 */
@@ -872,19 +874,19 @@
     white-space: nowrap;
 }
 .mypage-card-date-1 {
-    top: 364px;
+    top: 367px;
     left: 177px;
 }
 .mypage-card-date-2 {
-    top: 743px;
+    top: 746px;
     left: 177px;
 }
 .mypage-card-date-3 {
-    top: 364px;
+    top: 367px;
     left: 509px;
 }
 .mypage-card-date-4 {
-    top: 743px;
+    top: 746px;
     left: 509px;
 }
 /* 카드 상태 아이콘 */
@@ -1388,4 +1390,55 @@
     left: 20px;
     width: 22px;
     height: 22px;
+}
+
+
+.mypage-follow-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+}
+
+.follower-entry {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-radius: 12px;
+    background-color: white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.follower-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.follower-info {
+    flex: 1;
+    margin-left: 16px;
+}
+
+.nickname {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.credibility {
+    font-size: 14px;
+    color: gray;
+}
+
+.follow-btn {
+    background-color: #ff6b00;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
 }

@@ -855,6 +855,12 @@
     cursor: not-allowed;
 }
 
+.overlap-8.disabled .text-wrapper-22 {
+    color: #999;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 /* ---------------------------------------------------
    OTP 타이머 표시 (00:00)
 --------------------------------------------------- */
@@ -878,3 +884,4 @@
         top: 20px;
     }
 }
+

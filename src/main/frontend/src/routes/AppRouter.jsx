@@ -10,6 +10,9 @@ import RegisterPage from "../pages/RegisterPage";
 import ReviewDetail from "../pages/ReviewDetail";
 import ReviewForm from "../pages/ReviewForm";
 import Chat from "../pages/Chat";
+import OAuth2RedirectHandler from '../pages/OAuth2RedirectHandler';
+import SocialRegisterPage from '../pages/SocialRegisterPage';
+
 
 export default function AppRouter() {
     return (
@@ -25,6 +28,9 @@ export default function AppRouter() {
                 <Route path="/reviews/:id" element={<ReviewDetail />} />
                 <Route path="/reviews/write/:postId" element={<ReviewForm />} />
                 <Route path="/chat" element={<Chat/>}/>
+                <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
+                <Route path="/social-register" element={<SocialRegisterPage />} />
+
             </Routes>
         </Router>
     );
