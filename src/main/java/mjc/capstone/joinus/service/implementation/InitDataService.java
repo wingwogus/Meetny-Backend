@@ -25,6 +25,7 @@ public class InitDataService {
     private final PostRepository postRepository;
     private final ReviewTagRepository reviewTagRepository;
     private final ChatRoomRepository chatRoomRepository;
+    private final FollowRepository followRepository;
 
     @PostConstruct
     public void init() {
@@ -262,11 +263,19 @@ public class InitDataService {
 
         ChatRoom room2 = ChatRoom.builder()
                 .roomId(UUID.randomUUID().toString())
-                .post(post2)
-                .member(member1)
+                .post(post1)
+                .member(member3)
                 .build();
 
         chatRoomRepository.save(room1);
         chatRoomRepository.save(room2);
+
+        Follow follow = new Follow();
+
+        follow.setToMember(member1);
+        follow.setFromMember(member2);
+
+        followRepository.save(follow);
+
     }
 }
