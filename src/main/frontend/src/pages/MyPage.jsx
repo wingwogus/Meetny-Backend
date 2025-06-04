@@ -761,7 +761,27 @@ export default function MyPage() {
                                                 {f.credibility != null ? f.credibility.toFixed(1) : "0.0"}
                                             </div>
                                         </div>
-                                        <button className="follow-btn">언팔로우</button>
+                                        <button
+                                            className="follow-btn"
+                                            onClick={async () => {
+                                                try {
+                                                    const token = localStorage.getItem("accessToken");
+                                                    await axiosClient.delete(`/api/follows/unfollow/${f.memberId}`, {
+                                                        headers: { Authorization: `Bearer ${token}` },
+                                                    });
+                                                    setFollowing(prev => prev.filter(item => item.memberId !== f.memberId));
+                                                    // 숫자 동기화 (팔로잉 수 감소)
+                                                    setUser(prev => ({
+                                                      ...prev,
+                                                      followingCount: (prev.followingCount ?? 1) - 1,
+                                                    }));
+                                                } catch (err) {
+                                                    console.error("❌ 언팔로우 실패:", err);
+                                                }
+                                            }}
+                                        >
+                                            언팔로우
+                                        </button>
                                     </div>
                                 ))
                             )}
