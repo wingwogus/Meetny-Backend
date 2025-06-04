@@ -30,7 +30,7 @@ export default function AppRouter() {
                 <Route path="/reviews/:id" element={<ReviewDetail />} />
                 <Route path="/reviews/write/:postId" element={<ReviewForm />} />
                 <Route path="/reviews/edit/:postId" element={<ReviewEditForm />} />
-                <Route path="/main" element={<MainPage />} />
+                <Route path="/" element={<MainPage />} />
                 <Route path="/chat" element={<Chat/>}/>
                 <Route path="/terms" element={<Registration />} />
                 <Route path='/posts/category' element={<PostCategorySidebar />} />
