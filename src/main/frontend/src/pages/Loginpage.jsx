@@ -38,7 +38,8 @@ const Login = () => {
                         <div className="text-wrapper">로그인</div>
                     </button>
 
-                    <div className="overlap-group">
+                    <div className="overlap-group"
+                    onClick={() => navigate('/register')}>
                         <div className="text-wrapper-2">회원가입</div>
                     </div>
 

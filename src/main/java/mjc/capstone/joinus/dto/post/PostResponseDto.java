@@ -29,15 +29,14 @@ public class PostResponseDto {
     @Schema(description = "게시물에 첨부된 사진 URL")
     private String photo;
 
-    @Schema(description = "작성자 닉네임")
-    private String author;
+    @Schema(description = "작성자")
+    private SimpleMemberInfoDto author;
 
     @Schema(description = "동행 시간")
     private LocalDateTime meetingTime;
 
     @Schema(description = "모임 주소 정보")
     private Address address;
-
 
     @Schema(description = "게시물 태그")
     private TagDto postTag;
@@ -58,12 +57,14 @@ public class PostResponseDto {
     private int viewCount;
 
     public static PostResponseDto from(Post post, boolean liked) {
+        SimpleMemberInfoDto author = SimpleMemberInfoDto.from(post.getAuthor());
+
         return PostResponseDto.builder()
                 .id(post.getId())
                 .title(post.getTitle())
                 .content(post.getContent())
                 .photo(post.getPhoto())
-                .author(post.getAuthor().getNickname())
+                .author(author)
                 .meetingTime(post.getMeetingTime())
                 .address(post.getAddress())
                 .postTag(TagDto.builder()

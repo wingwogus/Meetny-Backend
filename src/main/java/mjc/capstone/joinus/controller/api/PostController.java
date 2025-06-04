@@ -65,6 +65,15 @@ public class PostController {
                 postService.getPostDetail(post, memberId)));
     }
 
+    @Operation(summary = "멤버별 게시글 조회", description = "특정 멤버가 작성한 모든 게시물을 조회합니다")
+    @GetMapping("/user/{nickname}")
+    public ResponseEntity<ApiResponse<List<PostResponseDto>>> getPostsByMember(@PathVariable("nickname") String nickname) {
+
+        return ResponseEntity.ok(ApiResponse.success(
+                "멤버별 게시글 조회 성공",
+                postService.getPostsByMember(nickname)));
+    }
+
 
     // 태그별 게시글 조회
     @Operation(summary = "태그별 게시글 조회", description = "원하는 태그의 모든 게시글을 조회합니다")
@@ -91,6 +100,16 @@ public class PostController {
         return ResponseEntity.ok(ApiResponse.success("날짜별 게시글 조회 성공", posts));
     }
 
+    // 좋아요 게시물 목록
+    @Operation(summary = "좋아요 게시글 조회", description = "좋아요 누른 게시물을 조회합니다")
+    @GetMapping("/like")
+    public ResponseEntity<ApiResponse<List<PostResponseDto>>> getPostByLike(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        Long memberId = userDetails != null ? userDetails.getMember().getId() : null;
+
+        List<PostResponseDto> likedPost = postService.getLikedPost(memberId);
+        return ResponseEntity.ok(ApiResponse.success("좋아요 누른 게시물 조회 성공", likedPost));
+    }
+
     // 포스트 좋아요
     @Operation(summary = "게시글 좋아요", description = "게시글 하나에 좋아요을 누르거나 취소합니다")
     @PostMapping("/{id}/like")
@@ -101,21 +120,12 @@ public class PostController {
         return ResponseEntity.ok(ApiResponse.success("좋아요/취소 성공", response));
     }
 
+
     // 동행 참여
     @PostMapping("/{postId}/participant")
     public ResponseEntity<String> addParticipant(@PathVariable Long postId, @RequestParam Long memberId){
         postService.addParticipant(postId, memberId);
         return ResponseEntity.ok("Participant added");
-    }
-
-    // 좋아요 게시물 목록
-    @Operation(summary = "좋아요 게시글 조회", description = "좋아요 누른 게시물을 조회합니다")
-    @GetMapping("/like")
-    public ResponseEntity<ApiResponse<List<PostResponseDto>>> getPostByLike(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        Long memberId = userDetails != null ? userDetails.getMember().getId() : null;
-
-        List<PostResponseDto> likedPost = postService.getLikedPost(memberId);
-        return ResponseEntity.ok(ApiResponse.success("좋아요 누른 게시물 조회 성공", likedPost));
     }
 
 

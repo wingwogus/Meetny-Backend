@@ -4,7 +4,6 @@ package mjc.capstone.joinus.config;
 // including authentication, authorization, and session management.
 import lombok.RequiredArgsConstructor;
 import mjc.capstone.joinus.jwt.JwtAuthenticationFilter;
-import mjc.capstone.joinus.config.OAuth2AuthenticationSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -47,6 +46,8 @@ public class SecurityConfig {
                                 "/ws/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
+                                "/api/tags/**",
+                                "/swagger-ui.html",
                                 "/swagger-ui.html",
                                 "/oauth2/**",
                                 "/login/**").permitAll()

@@ -29,17 +29,17 @@ public class PostRequestDto {
     @Schema(description = "동행 위치", example = "서울시 은평구 응암동")
     private Address address;
 
-    @Schema(description = "게시물 태그", example = "락")
-    private Tag tag;
+    @Schema(description = "태그 ID", example = "3")
+    private Long tagId;
 
-    public Post toEntity(Member member) {
+    public Post toEntity(Member member, Tag tag) {
         Post post = Post.builder()
                 .title(this.title)
                 .content(this.content)
                 .photo(this.photo)
                 .meetingTime(this.meetingTime)
                 .address(this.address)
-                .tag(this.tag)
+                .tag(tag)
                 .build();
 
         // 연관관계 설정
@@ -47,12 +47,12 @@ public class PostRequestDto {
         return post;
     }
 
-    public void updatePost(Post post) {
+    public void updatePost(Post post, Tag tag) {
         post.setTitle(this.title);
         post.setContent(this.content);
         post.setAddress(this.address);
         post.setMeetingTime(this.meetingTime);
         post.setPhoto(this.photo);
-        post.setTag(this.tag);
+        post.setTag(tag);
     }
 }

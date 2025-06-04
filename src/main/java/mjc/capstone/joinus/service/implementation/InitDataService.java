@@ -29,39 +29,39 @@ public class InitDataService {
     @PostConstruct
     public void init() {
 
-        Concert jpopTag = new Concert("J-POP", "#FF5733");
-        Concert rockTag = new Concert("락", "#33C1FF");
-        Concert balladeTag = new Concert("발라드", "#75FF33");
-        Concert hiphopTag = new Concert("힙합", "#FF33EC");
-        Concert kpopTag = new Concert("K-POP", "#FFBD33");
-        Concert edmTag = new Concert("EDM", "#8D33FF");
-        Concert popTag = new Concert("POP", "#33FFBD");
-        Concert trotTag = new Concert("트로트", "#FF3333");
-        Concert jazzTag = new Concert("JAZZ", "#33C1FF");
+        Concert jpopTag = new Concert("J-POP", "#AED73D");
+        Concert rockTag = new Concert("락", "#AED73D");
+        Concert balladeTag = new Concert("발라드", "#AED73D");
+        Concert hiphopTag = new Concert("힙합", "#AED73D");
+        Concert kpopTag = new Concert("K-POP", "#AED73D");
+        Concert edmTag = new Concert("EDM", "#AED73D");
+        Concert popTag = new Concert("POP", "#AED73D");
+        Concert trotTag = new Concert("트로트", "#AED73D");
+        Concert jazzTag = new Concert("JAZZ", "#AED73D");
 
-        Culture museumTag = new Culture("박물관", "#75FF33");
-        Culture galleryTag = new Culture("미술관", "#FF33EC");
-        Culture popupTag = new Culture("팝업", "#FFBD33");
-        Culture expoTag = new Culture("박람회", "#8D33FF");
-        Culture contestTag = new Culture("콘테스트", "#33FFBD");
-        Culture exhibitionTag = new Culture("전시회", "#FF5733");
-        Culture musicalTag = new Culture("뮤지컬", "#FF3333");
-        Culture playTag = new Culture("연극", "#33C1FF");
-        Culture comedyShowTag = new Culture("코미디 쇼", "#75FF33");
+        Culture museumTag = new Culture("박물관", "#9D9DFF");
+        Culture galleryTag = new Culture("미술관", "#9D9DFF");
+        Culture popupTag = new Culture("팝업", "#9D9DFF");
+        Culture expoTag = new Culture("박람회", "#9D9DFF");
+        Culture contestTag = new Culture("콘테스트", "#9D9DFF");
+        Culture exhibitionTag = new Culture("전시회", "#9D9DFF");
+        Culture musicalTag = new Culture("뮤지컬", "#9D9DFF");
+        Culture playTag = new Culture("연극", "#9D9DFF");
+        Culture comedyShowTag = new Culture("코미디 쇼", "#9D9DFF");
 
-        Sports soccerTag = new Sports("축구", "#FF33EC");
-        Sports baseballTag = new Sports("야구", "#FFBD33");
-        Sports basketballTag = new Sports("농구", "#8D33FF");
-        Sports volleyballTag = new Sports("배구", "#33FFBD");
+        Sports soccerTag = new Sports("축구", "#F28A5D");
+        Sports baseballTag = new Sports("야구", "#F28A5D");
+        Sports basketballTag = new Sports("농구", "#F28A5D");
+        Sports volleyballTag = new Sports("배구", "#F28A5D");
 
-        Movie actionTag = new Movie("액션", "#FF3333");
-        Movie romanceTag = new Movie("로맨스", "#33C1FF");
-        Movie comedyTag = new Movie("코미디", "#75FF33");
-        Movie thrillerTag = new Movie("스릴러/호러", "#FF33EC");
-        Movie fantasyTag = new Movie("판타지/SF", "#FFBD33");
-        Movie documentaryTag = new Movie("다큐멘터리", "#8D33FF");
-        Movie animationTag = new Movie("애니메이션", "#33FFBD");
-        Movie musicalMovieTag = new Movie("뮤지컬", "#FF5733");
+        Movie actionTag = new Movie("액션", "#FA76D0");
+        Movie romanceTag = new Movie("로맨스", "#FA76D0");
+        Movie comedyTag = new Movie("코미디", "#FA76D0");
+        Movie thrillerTag = new Movie("스릴러/호러", "#FA76D0");
+        Movie fantasyTag = new Movie("판타지/SF", "#FA76D0");
+        Movie documentaryTag = new Movie("다큐멘터리", "#FA76D0");
+        Movie animationTag = new Movie("애니메이션", "#FA76D0");
+        Movie musicalMovieTag = new Movie("뮤지컬", "#FA76D0");
         Movie dramaTag = new Movie("드라마", "#FF3333");
 
         List<Tag> selectedTags = List.of(
@@ -94,7 +94,7 @@ public class InitDataService {
 
 
         Member member = Member.builder()
-                .username("mih2001103@naver.com")
+                .username("mih200113@naver.com")
                 .nickname("monikhyun")
                 .phone("010-0000-0000")
                 .address(Address.builder()

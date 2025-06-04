@@ -14,5 +14,5 @@ import java.util.List;
 public class UserTagDto {
     private String action;
     private String username;
-    private List<TagDto> tags;
+    private List<TagResponseDto> tags;
 }

@@ -16,6 +16,7 @@ const formatMessage = (msg) => ({
 export default function Chat() {
     const [rooms, setRooms] = useState([]);
     const [selectedRoomId, setSelectedRoomId] = useState(null);
+    const [selectedPostId, setSelectedPostId] = useState(null);
     const [selectedRoomTitle, setSelectedRoomTitle] = useState('');
     const [selectedRoomPostImage, setSelectedRoomPostImage] = useState('');
     const [otherNickname, setOtherNickname] = useState('');
@@ -69,6 +70,7 @@ export default function Chat() {
 
                 const firstRoom = roomsData[0];
                 setSelectedRoomId(firstRoom.roomId);
+                setSelectedPostId(firstRoom.postId);
                 setSelectedRoomTitle(firstRoom.postTitle);
                 setSelectedRoomPostImage(firstRoom.postImage);
                 const nickname = localStorage.getItem('nickname');
@@ -88,8 +90,9 @@ export default function Chat() {
             });
     }, []);
 
-    const handleSelect = (roomId, postTitle, otherNickname, authorNickname, postImage) => {
+    const handleSelect = (roomId, postId, postTitle, otherNickname, authorNickname, postImage) => {
         setSelectedRoomId(roomId);
+        setSelectedPostId(postId);
         setSelectedRoomTitle(postTitle);
         setOtherNickname(otherNickname);
         setAuthorNickname(authorNickname);
@@ -151,6 +154,7 @@ export default function Chat() {
                     {selectedRoomId ? (
                         <ChatRoom
                             roomId={selectedRoomId}
+                            postId={selectedPostId}
                             postTitle={selectedRoomTitle}
                             postImage={selectedRoomPostImage}
                             otherNickname={otherNickname}
@@ -159,7 +163,7 @@ export default function Chat() {
                             inputValue={input}
                             onInputChange={e => setInput(e.target.value)}
                             onSend={handleSend}
-                            complete={handleComplete}
+                            onComplete={handleComplete}
                         />
                     ) : (
                         <div className="placeholder">채팅방을 선택해주세요.</div>

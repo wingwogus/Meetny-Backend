@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axiosClient from "../api/axiosClient";
 import {useNavigate} from "react-router-dom";
 import "../styles/MyPage.css";
+import AppHeader from "../components/AppHeader";
 
 export default function MyPage() {
     const [user, setUser] = useState(null);
@@ -453,9 +454,9 @@ export default function MyPage() {
                         ))
                     ) : (
                         <div className="mypage-interest-card">
-                            <div className="mypage-interest-empty">
-                                관심 동행이 없습니다.
-                            </div>
+                        <div className="mypage-interest-empty">
+                            관심 동행이 없습니다.
+                        </div>
                         </div>
                     )}
                 </div>

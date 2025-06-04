@@ -12,10 +12,7 @@ import mjc.capstone.joinus.dto.post.PostRequestDto;
 import mjc.capstone.joinus.dto.post.PostResponseDto;
 import mjc.capstone.joinus.exception.InvalidTokenException;
 import mjc.capstone.joinus.exception.NotFoundMemberException;
-import mjc.capstone.joinus.repository.MemberRepository;
-import mjc.capstone.joinus.repository.PostLikeRepository;
-import mjc.capstone.joinus.repository.PostRepository;
-import mjc.capstone.joinus.repository.PostViewRepository;
+import mjc.capstone.joinus.repository.*;
 import mjc.capstone.joinus.service.inf.PostService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,13 +30,18 @@ public class PostServiceImpl implements PostService {
     private final MemberRepository memberRepository;
     private final PostLikeRepository postLikeRepository;
     private final PostViewRepository postViewRepository;
+    private final TagRepository tagRepository;
 
     @Override
     public void createPost(PostRequestDto dto, Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(NotFoundMemberException::new);
 
-        postRepository.save(dto.toEntity(member));
+        Tag tag = tagRepository.findById(dto.getTagId())
+                .orElseThrow(() -> new EntityNotFoundException("Tag not found"));
+
+        Post post = dto.toEntity(member, tag);
+        postRepository.save(post);
     }
 
     @Override
@@ -48,7 +50,10 @@ public class PostServiceImpl implements PostService {
                 .orElseThrow(NotFoundMemberException::new);
 
         validateAuth(post, member);
-        requestDto.updatePost(post);
+        Tag tag = tagRepository.findById(requestDto.getTagId())
+                .orElseThrow(() -> new EntityNotFoundException("Tag not found"));
+
+        requestDto.updatePost(post, tag);
     }
 
     @Override
@@ -74,10 +79,12 @@ public class PostServiceImpl implements PostService {
                 postViewRepository.save(new PostView(post, member));
             }
 
+
+
             return PostResponseDto.from(post, isPostLikedByMember(post, memberId));
         }
 
-        return PostResponseDto.from(post, false);
+        return PostResponseDto.from(post,false);
     }
 
     @Transactional(readOnly = true)
@@ -88,6 +95,16 @@ public class PostServiceImpl implements PostService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<PostResponseDto> getLikedPost(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(NotFoundMemberException::new);
+
+        return postLikeRepository.findByMember(member).stream()
+                .map(postLike -> PostResponseDto.from(postLike.orElseThrow().getPost(), true))
+                .collect(Collectors.toList());
+    }
+
     @Transactional(readOnly = true)
     @Override
     public List<PostResponseDto> getAllPosts(Long memberId) {
@@ -95,8 +112,6 @@ public class PostServiceImpl implements PostService {
                 .map(post -> PostResponseDto.from(post, isPostLikedByMember(post,memberId)))
                 .toList();
     }
-
-
 
     @Transactional(readOnly = true)
     @Override
@@ -128,12 +143,12 @@ public class PostServiceImpl implements PostService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<PostResponseDto> getPostsByMember(Long memberId) {
-        Member member = memberRepository.findById(memberId)
+    public List<PostResponseDto> getPostsByMember(String nickname) {
+        Member member = memberRepository.findByNickname(nickname)
                 .orElseThrow(NotFoundMemberException::new);
 
         return postRepository.findByAuthor(member).stream()
-                .map(post -> PostResponseDto.from(post, isPostLikedByMember(post, memberId)))
+                .map(post -> PostResponseDto.from(post, isPostLikedByMember(post, member.getId())))
                 .toList();
     }
 
@@ -167,16 +182,6 @@ public class PostServiceImpl implements PostService {
 
         post.setParticipant(member);
         postRepository.save(post);
-    }
-
-    @Override
-    public List<PostResponseDto> getLikedPost(Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(NotFoundMemberException::new);
-
-        return postLikeRepository.findByMember(member).stream()
-                .map(postLike -> PostResponseDto.from(postLike.orElseThrow().getPost(), true))
-                .collect(Collectors.toList());
     }
 
 

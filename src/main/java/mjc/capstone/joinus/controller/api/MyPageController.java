@@ -11,7 +11,7 @@ import mjc.capstone.joinus.dto.ApiResponse;
 import mjc.capstone.joinus.dto.auth.CustomUserDetails;
 import mjc.capstone.joinus.dto.mypage.MyPageDto;
 import mjc.capstone.joinus.dto.mypage.ProfileRequest;
-import mjc.capstone.joinus.dto.tag.TagDto;
+import mjc.capstone.joinus.dto.tag.TagResponseDto;
 import mjc.capstone.joinus.dto.tag.UserTagDto;
 import mjc.capstone.joinus.service.inf.MemberService;
 import mjc.capstone.joinus.service.inf.MyPageService;
@@ -54,7 +54,7 @@ public class MyPageController {
     @GetMapping("/information")
     public ResponseEntity<ApiResponse<MyPageDto>> getInformation(@AuthenticationPrincipal CustomUserDetails userDetails) {
         MyPageDto userDetailDto = myPageService.findMemberDto(userDetails.getMember());
-        userDetailDto.setPosts(postService.getAllPosts(userDetails.getMember().getId()));
+        userDetailDto.setPosts(postService.getPostsByMember(userDetailDto.getNickname()));
         userDetailDto.setCredibility(reviewService.getCredibility(userDetails.getMember().getNickname()));
         return ResponseEntity.ok(ApiResponse.success(userDetailDto));
     }
@@ -94,9 +94,10 @@ public class MyPageController {
     // 태그 정보 뿌리기
     @Operation(summary = "사용자 태그 조회", description = "로그인한 사용자의 태그 정보를 조회합니다.")
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "조회 성공",
-            content = @Content(array = @ArraySchema(schema = @Schema(implementation = TagDto.class))))
+            content = @Content(array = @ArraySchema(schema = @Schema(implementation = TagResponseDto.class))))
     @GetMapping("/information/tag")
-    public ResponseEntity<ApiResponse<List<TagDto>>> getTags(@AuthenticationPrincipal CustomUserDetails userDetails) {
+
+    public ResponseEntity<ApiResponse<List<TagResponseDto>>> getTags(@AuthenticationPrincipal CustomUserDetails userDetails) {
         return ResponseEntity.ok(ApiResponse.success("태그 정보",myPageService.findAlltags(userDetails.getMember())));
     }
 

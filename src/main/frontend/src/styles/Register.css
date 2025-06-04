@@ -36,6 +36,9 @@
     position: relative;
     width: 1920px; /* Figma 기준 너비 고정 */
     height: 2284px; /* Figma 기준 높이 고정 */
+    transform-origin: top;
+    transform: scale(0.6725);
+    margin: 0 auto;
 }
 
 /*====================================================
