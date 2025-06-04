@@ -487,12 +487,12 @@ export default function MyPage() {
                                     className={`mypage-card-thumb-${i + 1}`}
                                     alt={`Travel ${i + 1}`}
                                     src="https://fastly.picsum.photos/id/992/300/200.jpg?hmac=w137wSlXMe7QugWkdz2qvxFlif1dwEWqNnv4qFIyWps"
-                                    onClick={()=>navigate(`/post/${post.author}`)}
+                                    onClick={()=>navigate(`/posts/${post.id}`)}
                                 />
 
                                 {/* 2) 제목 */}
                                 <p className={`mypage-card-title-${i + 1}`}
-                                   onClick={()=>navigate(`/post/${post.author}`)}>
+                                   onClick={()=>navigate(`/posts/${post.id}`)}>
                                     {post.title}
                                 </p>
 
@@ -664,7 +664,9 @@ export default function MyPage() {
                         alt="Message"
                         src="https://c.animaapp.com/3LplbCFc/img/frame.svg"
                     />
-                    <div className="mypage-chat-btn">
+                    <div
+                        className="mypage-chat-btn"
+                        onClick={() => navigate("/chat")}>
                         <div className="mypage-chat-icon" />
                         <div className="mypage-chat-badge" />
                     </div>

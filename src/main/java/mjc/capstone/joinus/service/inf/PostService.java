@@ -19,6 +19,9 @@ public interface PostService {
     void updatePost(Post post, PostRequestDto requestDto, Long memberId);
     // 포스트 삭제
     void deletePost(Post post, Long memberId);
+
+    List<PostResponseDto> getLikedPost(Long memberId);
+
     // 모든 포스트 불러오기
     List<PostResponseDto> getAllPosts(Long memberId);
     // 태그별 포스트 불러오기
@@ -36,6 +39,4 @@ public interface PostService {
     PostResponseDto getPostDetail(Post post, Long memberId);
     // 포스트 참가 기능
     void addParticipant(Long postId, Long memberId);
-
-    List<PostResponseDto> getLikedPost(Long memberId);
 }

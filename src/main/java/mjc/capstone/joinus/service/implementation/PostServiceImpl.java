@@ -74,10 +74,12 @@ public class PostServiceImpl implements PostService {
                 postViewRepository.save(new PostView(post, member));
             }
 
+
+
             return PostResponseDto.from(post, isPostLikedByMember(post, memberId));
         }
 
-        return PostResponseDto.from(post, false);
+        return PostResponseDto.from(post,false);
     }
 
     @Transactional(readOnly = true)
@@ -88,6 +90,16 @@ public class PostServiceImpl implements PostService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<PostResponseDto> getLikedPost(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(NotFoundMemberException::new);
+
+        return postLikeRepository.findByMember(member).stream()
+                .map(postLike -> PostResponseDto.from(postLike.orElseThrow().getPost(), true))
+                .collect(Collectors.toList());
+    }
+
     @Transactional(readOnly = true)
     @Override
     public List<PostResponseDto> getAllPosts(Long memberId) {
@@ -95,8 +107,6 @@ public class PostServiceImpl implements PostService {
                 .map(post -> PostResponseDto.from(post, isPostLikedByMember(post,memberId)))
                 .toList();
     }
-
-
 
     @Transactional(readOnly = true)
     @Override
@@ -167,16 +177,6 @@ public class PostServiceImpl implements PostService {
 
         post.setParticipant(member);
         postRepository.save(post);
-    }
-
-    @Override
-    public List<PostResponseDto> getLikedPost(Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(NotFoundMemberException::new);
-
-        return postLikeRepository.findByMember(member).stream()
-                .map(postLike -> PostResponseDto.from(postLike.orElseThrow().getPost(), true))
-                .collect(Collectors.toList());
     }
 
 
