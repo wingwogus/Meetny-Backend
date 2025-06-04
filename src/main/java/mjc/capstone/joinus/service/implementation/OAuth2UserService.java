@@ -58,13 +58,22 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
         return switch (provider) {
             case "google" -> (String) attrs.get("email");
             case "kakao" -> {
-                Object account = attrs.get("kakao_account");
-                if (account instanceof Map<?, ?> kakaoMap) {
+                Object accountObj = attrs.get("kakaoaccount");
+                if (accountObj instanceof Map<?, ?> kakaoMap) {
                     Object emailObj = kakaoMap.get("email");
                     if (emailObj instanceof String email) {
                         yield email;
+                    } else {
+                        // 이메일이 없으면 임시 이메일 생성
+                        Object idObj = attrs.get("id");
+                        if (idObj != null) {
+                            String fakeEmail = "kakao" + idObj + "@auth.com";
+                            System.out.println("📛 [카카오] 이메일 없음 → 임시 이메일 사용: " + fakeEmail);
+                            yield fakeEmail;
+                        }
                     }
                 }
+                System.out.println("⚠️ [카카오] kakao_account 없음 또는 형식 오류: " + attrs);
                 throw new OAuth2AuthenticationException("카카오 이메일 정보가 없습니다.");
             }
             case "naver" -> (String) ((Map<String, Object>) attrs.get("response")).get("email");
