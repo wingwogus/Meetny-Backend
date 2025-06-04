@@ -12,12 +12,15 @@ import Chat from "../pages/Chat";
 import ReviewEditForm from "../pages/ReviewEditForm";
 import TermsAgreement from "../pages/TermsAgreement";
 import Registration from "../pages/Registration";
+import PostCategorySidebar from "../post/PostCatergorySidebar";
+import Post from "../main/PostMain";
+import Write from "../main/PostWrite";
 
 export default function AppRouter() {
     return (
         <Router>
             <Routes>
-                <Route path="/posts" element={<PostList />} />
+                <Route path="/posts" element={<Post/>} />
                 <Route path="/posts/:id" element={<PostDetail />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/posts/form" element={<PostForm />} />
@@ -30,6 +33,8 @@ export default function AppRouter() {
                 <Route path="/main" element={<MainPage />} />
                 <Route path="/chat" element={<Chat/>}/>
                 <Route path="/terms" element={<Registration />} />
+                <Route path='/posts/category' element={<PostCategorySidebar />} />
+                <Route path='/posts/write' element={<Write/>} />
             </Routes>
         </Router>
     );
