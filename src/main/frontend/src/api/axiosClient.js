@@ -4,18 +4,25 @@ import axios from 'axios'
 const axiosClient = axios.create({
     baseURL: process.env.REACT_APP_API_BASE_URL,
     headers: { 'Content-Type': 'application/json' },
-})
+});
+
+// 인증 제외 URL 목록
+const skipAuthUrls = [
+    '/api/auth/login',
+    '/api/auth/reissue',
+    '/api/auth/signup',
+    '/api/auth/send-email',
+    '/api/auth/verification'
+];
 
 axiosClient.interceptors.request.use(config => {
     const token = localStorage.getItem('accessToken');
     // don't attach token on login or token refresh requests
-    if (
-        token &&
-        !config.url.endsWith('/api/auth/login') &&
-        !config.url.endsWith('/api/auth/reissue')
-    ) {
+    const skip = skipAuthUrls.some(url => config.url.endsWith(url));
+    if (token && !skip) {
         config.headers.Authorization = `Bearer ${token}`;
     }
+
     return config;
 });
 

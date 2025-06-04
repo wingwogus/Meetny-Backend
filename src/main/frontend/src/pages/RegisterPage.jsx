@@ -22,8 +22,6 @@ const RegisterPage = () => {
   const [otpCode, setOtpCode] = useState("");
   const [otpRequested, setOtpRequested] = useState(false);
   const [otpVerified, setOtpVerified] = useState(false);
-
-  const [username, setUsername] = useState("");
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
@@ -33,7 +31,11 @@ const RegisterPage = () => {
   const [birthDay, setBirthDay] = useState("");
 
   const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState({
+    city: "",
+    street: "",
+    town: ""
+  });
   const [gender, setGender] = useState("");
 
   // ---- Password Rule States ----
@@ -51,8 +53,19 @@ const RegisterPage = () => {
 
   // ---- 함수 정의부: handleFindAddress 반드시 여기 선언! ----
   const handleFindAddress = () => {
-    // TODO: 실제 우편번호/주소 검색 API 호출
-    console.log("주소 찾기 클릭됨");
+    new window.daum.Postcode({
+      oncomplete: function (data) {
+        const city = data.sido;
+        const street = data.sigungu;
+        const town = data.bname || data.roadname || "";
+
+        setAddress({
+          city,
+          town,
+          street,
+        });
+      },
+    }).open();
   };
 
   // 1) 비밀번호 규칙 검사
@@ -100,59 +113,73 @@ const RegisterPage = () => {
   };
 
   // 3) “인증번호 받기” 클릭 시
-  const handleRequestOtp = () => {
+  const handleRequestOtp = async () => {
     if (!email.trim()) {
       alert("이메일을 먼저 입력해주세요.");
       return;
     }
 
-    console.log("OTP 요청:", email);
-    setOtpRequested(true);
-    setOtpVerified(false);
-    setOtpCode("");
+    try {
+      // 백엔드에 이메일 인증번호 전송 요청
+      await axiosClient.post("/api/auth/send-email", { email: email.trim() });
+      alert("인증번호가 전송되었습니다. 이메일을 확인해주세요.");
 
-    // 타이머 초기화 → 180초(3분)
-    setTimer(180);
+      // State 초기화 및 타이머 설정
+      setOtpRequested(true);
+      setOtpVerified(false);
+      setOtpCode("");
+      setTimer(180);
 
-    // 이미 setInterval이 돌아가고 있으면 중지
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
+      // 이미 돌고 있는 Interval 있으면 제거
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+      timerRef.current = setInterval(() => {
+        setTimer(prev => {
+          if (prev <= 1) {
+            clearInterval(timerRef.current);
+            timerRef.current = null;
+            // 타이머가 0이 되면 입력창 비활성화
+            setOtpRequested(false);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    } catch (error) {
+      console.error("OTP 요청 실패:", error.response || error.message);
+      alert("인증번호 전송에 실패했습니다. 다시 시도해주세요.");
     }
-    // 1초마다 timer 감소
-    timerRef.current = setInterval(() => {
-      setTimer(prev => {
-        if (prev <= 1) {
-          clearInterval(timerRef.current);
-          timerRef.current = null;
-          // 타이머가 0이 되면 otpRequested를 false로 돌려서
-          // OTP 입력창과 확인 버튼을 비활성화 시킴
-          setOtpRequested(false);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
   };
 
   // 4) “인증번호 확인” 클릭 시
-  const handleVerifyOtp = () => {
+  const handleVerifyOtp = async () => {
     if (!otpCode.trim()) {
       alert("OTP 코드를 입력해주세요.");
       return;
     }
 
-    console.log("OTP 확인:", otpCode);
+    try {
+      // 백엔드 검증 API 호출 (가정: /api/auth/verification)
+      await axiosClient.post("/api/auth/verification", {
+        email: email.trim(),
+        code: otpCode.trim(),
+      });
 
-    // 실제 API 호출 → 검증 성공 시 otpVerified를 true로
-    setOtpVerified(true);
+      alert("이메일 인증이 완료되었습니다.");
+      setOtpVerified(true);
 
-    // 타이머 중지 & 초기화
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-      timerRef.current = null;
+      // 타이머 중지 & 초기화
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+      setTimer(0);
+      setOtpRequested(false);
+    } catch (error) {
+      console.error("OTP 검증 실패:", error.response || error.message);
+      alert("인증번호가 올바르지 않습니다. 다시 확인해주세요.");
     }
-    setTimer(0);
-    setOtpRequested(false); // 다시 비활성화
   };
 
   // 5) 회원가입 폼 제출
@@ -180,19 +207,23 @@ const RegisterPage = () => {
       return;
     }
 
-    const finalUsername = username.trim();
+    // 최종 username으로 email을 사용
+    const finalUsername = email.trim();
+
+    // SignUpRequestDto 구조에 맞춰서 객체 생성
     const formData = {
-      username: finalUsername,
-      nickname: nickname.trim(),
-      password,
-      phone: phone.trim(),
-      mail: email.trim(),
-      gender,
-      addressDetail: address.trim(),
-      memberTag: null,
-      birthYear,
-      birthMonth,
-      birthDay,
+      username: finalUsername,               // 이메일
+      nickname: nickname.trim(),             // 닉네임
+      password,                              // 비밀번호
+      phone: phone.trim(),                   // 휴대폰
+      profileImg: "",                        // 프로필 이미지 (없으면 빈 문자열 혹은 null)
+      gender,                                // Gender enum 값 (e.g. "MALE" 또는 "FEMALE")
+      address: {                             // Address 객체
+        city: address.city,
+        street: address.street,
+        town: address.town,
+      },
+      memberTag: null                        // MemberTag (없으면 null)
     };
 
     try {
@@ -258,8 +289,8 @@ const RegisterPage = () => {
           <div className="group-2">
             <input
                 type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
                 placeholder="이름을 입력해주세요"
                 className="input-field"
             />
@@ -302,9 +333,9 @@ const RegisterPage = () => {
           <div className="group-5">
             <input
                 type="text"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                placeholder="주소를 입력해주세요"
+                value={`${address.city} ${address.street} ${address.town}`}
+                readOnly
+                placeholder="주소가 여기에 표시됩니다"
                 className="input-field"
             />
             <div className="text-wrapper-2">주소</div>
