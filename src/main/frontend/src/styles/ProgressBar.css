@@ -1,0 +1,60 @@
+/* src/styles/ProgressBar.css */
+
+/*====================================================
+  2. 진행바(Progress Bar) – Figma 기준 크기 그대로
+====================================================*/
+.progressbar-container {
+    width: 100%;
+    height: 10px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative; /* 필요하면 relative, 없으면 static */
+}
+
+/* 배경 바 (연한 베이지) */
+.progressbar-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffdec4; /* Figma: 연한 배경 바 */
+    border-radius: 13.5px;     /* 높이의 절반 */
+}
+
+/* 채워진 바 (노란색) */
+.progressbar-filled {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: #f7b681; /* Figma: 채워진 영역 색 */
+    border-radius: 13.5px;     /* 높이의 절반 */
+    transition: width 0.3s ease-in-out;
+    /* width는 JS에서 퍼센트 계산 후 inline-style로 주면 됩니다.
+       예: width: `${percent}%` → 결국 0~1128px 사이로 채워짐. */
+}
+
+/* 표시점(wrapper) – dot을 감싸서 위치 조정용 */
+.progressbar-indicator {
+    position: absolute;
+    top: 0;
+    /* JS에서 left를 `percent * 1128px / 100` 형태로 주어야 합니다.
+       아래 .progressbar-indicator-dot 크기가 27×27px이므로,
+       좌표 보정을 위해 translateX(-50%)를 씁니다. */
+    transform: translateX(-50%);
+    width: 27px;  /* dot 크기 */
+    height: 27px; /* dot 크기 */
+    pointer-events: none;
+}
+
+/* 표시점(dot) 자체 */
+.progressbar-indicator-dot {
+    width: 100%;
+    height: 100%;
+    background-color: #db6a1f; /* Figma: 표시점 색 */
+    border-radius: 50%;
+    border: 2px solid white;   /* 중앙 강조용 흰 테두리 */
+    box-sizing: border-box;
+}

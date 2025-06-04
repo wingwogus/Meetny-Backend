@@ -193,8 +193,12 @@ export default function MyPage() {
                         {/* (1-2) 동적 Tags */}
                         <div className="mypage-tag-list">
                             {tagList.map((tag, idx) => (
-                                <div key={idx} className="mypage-tag-pill">
-                                    {tag}
+                                <div
+                                    key={idx}
+                                    className="mypage-tag-pill"
+                                    style={{ backgroundColor: tag.color }}
+                                >
+                                    {tag.tagName}
                                 </div>
                             ))}
                         </div>
@@ -671,95 +675,6 @@ export default function MyPage() {
                 {/* =================================================
              11. 팔로워/팔로잉 패널 (하단 우측)
         ================================================= */}
-                <div className="mypage-followers-pane">
-                    {/* (8-1) 필터 버튼들 */}
-                    <div className="mypage-filter-active-highlight">
-                        <div className="mypage-filter-pill mypage-filter-follow">
-                            <div className="mypage-filter-pill-text">팔로우</div>
-                        </div>
-                    </div>
-                    <div className="mypage-filter-pill mypage-filter-following">
-                        <div className="mypage-filter-pill-text">팔로잉</div>
-                    </div>
-                    <div className="mypage-filter-pill mypage-filter-all">
-                        <div className="mypage-filter-pill-text">전체</div>
-                    </div>
-                    <div className="mypage-filter-pill mypage-filter-other">
-                        <div className="mypage-filter-pill-text">기타</div>
-                    </div>
-
-                    {/* (8-2) 팔로워 신뢰도 배지들 (고정 샘플) */}
-                    <div className="mypage-follower-trust-score-1">
-                        <div className="mypage-follower-trust-value-1">47.3</div>
-                    </div>
-                    <div className="mypage-follower-trust-score-2">
-                        <div className="mypage-follower-trust-value-2">21.3</div>
-                    </div>
-                    <div className="mypage-follower-trust-score-3">
-                        <div className="mypage-follower-trust-value-3">18.1</div>
-                    </div>
-                    <div className="mypage-follower-trust-score-4">
-                        <div className="mypage-follower-trust-value-4">47.3</div>
-                    </div>
-                    <div className="mypage-follower-trust-score-5">
-                        <div className="mypage-follower-trust-value-5">47.3</div>
-                    </div>
-
-                    {/* (8-3) 팔로워 아바타, 이름, “팔로우 버튼” */}
-                    <img
-                        className="mypage-follower-avatar-1"
-                        alt="Follower 1"
-                        src="https://c.animaapp.com/3LplbCFc/img/rectangle-177.png"
-                    />
-                    <div className="mypage-follower-name-1">민하준</div>
-                    <button className="mypage-follow-btn-1">팔로우</button>
-
-                    <img
-                        className="mypage-follower-avatar-2"
-                        alt="Follower 2"
-                        src="https://c.animaapp.com/3LplbCFc/img/rectangle-252.png"
-                    />
-                    <div className="mypage-follower-name-2">성은하</div>
-                    <button className="mypage-follow-btn-2">팔로우</button>
-
-                    <img
-                        className="mypage-follower-avatar-3"
-                        alt="Follower 3"
-                        src="https://c.animaapp.com/3LplbCFc/img/rectangle-254.png"
-                    />
-                    <div className="mypage-follower-name-3">도민기</div>
-                    <button className="mypage-follow-btn-3">팔로우</button>
-
-                    <img
-                        className="mypage-follower-avatar-4"
-                        alt="Follower 4"
-                        src="https://c.animaapp.com/3LplbCFc/img/rectangle-256.png"
-                    />
-                    <div className="mypage-follower-name-4">정은주</div>
-                    <button className="mypage-follow-btn-4">팔로우</button>
-
-                    <img
-                        className="mypage-follower-avatar-5"
-                        alt="Follower 5"
-                        src="https://c.animaapp.com/3LplbCFc/img/rectangle-258.png"
-                    />
-                    <div className="mypage-follower-name-5">한가비</div>
-                    <button className="mypage-follow-btn-5">팔로우</button>
-
-                    <div className="mypage-followers-title">팔로워</div>
-
-                    {/* (8-4) 검색창 */}
-                    <div className="mypage-search-group">
-                        <div className="mypage-search-input-wrapper">
-                            <div className="mypage-search-placeholder">검색하기</div>
-                            <img
-                                className="mypage-search-icon-img"
-                                alt="Search Icon"
-                                src="https://c.animaapp.com/3LplbCFc/img/icons.svg"
-                            />
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     );
