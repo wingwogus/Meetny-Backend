@@ -5,7 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import mjc.capstone.joinus.domain.entity.Member;
 import mjc.capstone.joinus.domain.tags.Tag;
 import mjc.capstone.joinus.domain.tags.MemberTag;
-import mjc.capstone.joinus.dto.tag.TagDto;
+import mjc.capstone.joinus.dto.tag.TagResponseBasicDto;
+import mjc.capstone.joinus.dto.tag.TagResponseDto;
 import mjc.capstone.joinus.dto.mypage.MyPageDto;
 import mjc.capstone.joinus.exception.ErrorCode;
 import mjc.capstone.joinus.exception.ImageSaveFailedException;
@@ -47,31 +48,29 @@ public class MyPageServiceIml implements MyPageService {
     }
 
     @Override
-    public Member findMemberByUsername(String username) {
-        return memberRepository.findByUsername(username)
-                .orElseThrow(NotFoundMemberException::new);
-    }
-
-
-    @Override
-    public List<TagDto> findusertags(Member member) {
+    public List<TagResponseDto> findusertags(Member member) {
         return userTagRepository.findTagsByMember(member);
     }
 
     @Override
-    public List<TagDto> findAlltags(Member member) {
+    public List<TagResponseBasicDto> findBasicUserTags(Member member) {
+        return userTagRepository.findBasicTagsByMember(member);
+    }
+
+    @Override
+    public List<TagResponseDto> findAlltags(Member member) {
         // 사용자가 가진 태그 ID들 가져오기
         List<Long> userTagIds = userTagRepository.findTagIdsByMember(member);
 
         // 전체 태그 중 사용자가 가진 태그는 checked=true, 아닌 건 false로 구성
         return tagRepository.findAll().stream()
-                .map(tag -> new TagDto(tag.getId(), tag.getTagName(), userTagIds.contains(tag.getId())))
+                .map(tag -> new TagResponseDto(tag.getId(), tag.getTagName(), tag.getColor(),tag.getClass().getSimpleName(),userTagIds.contains(tag.getId())))
                 .toList();
     }
 
     @Override
-    public void tagAdd(List<TagDto> tags, Member member) {
-        List<Long> tagIds = tags.stream().map(TagDto::getTagId).toList();
+    public void tagAdd(List<TagResponseDto> tags, Member member) {
+        List<Long> tagIds = tags.stream().map(TagResponseDto::getId).toList();
 
         List<Long> existingTagIds = userTagRepository.findTagIdsByMember(member);
 
@@ -94,8 +93,8 @@ public class MyPageServiceIml implements MyPageService {
     }
 
     @Override
-    public void tagRemove(List<TagDto> tags, Member member) {
-        List<Long> tagIdsToRemove = tags.stream().map(TagDto::getTagId).toList();
+    public void tagRemove(List<TagResponseDto> tags, Member member) {
+        List<Long> tagIdsToRemove = tags.stream().map(TagResponseDto::getId).toList();
         List<MemberTag> memberTagsToDelete = userTagRepository.findByMemberAndTagIds(member, tagIdsToRemove);
 
         userTagRepository.deleteAll(memberTagsToDelete);
@@ -115,9 +114,7 @@ public class MyPageServiceIml implements MyPageService {
                         .profilePic(member.getProfileImg())
                         .password(member.getPassword())
                         .phone(member.getPhone())
-                        .tags(findusertags(m).stream()
-                                .map(TagDto::getTagName)
-                                .toList())
+                        .tags(findBasicUserTags(m))
                         .followerCount(findFollowers(m))
                         .followingCount(findFollowing(m))
                         .build()
