@@ -4,7 +4,11 @@ import '../styles/PostGroupCard.css';
 const PostGroupCard = ({ post }) => {
     return (
         <div className="post-card">
-            <img src={'https://picsum.photos/200/300'} alt="모임 썸네일" className="thumbnail" />
+            <img src={'https://picsum.photos/200/300'}
+                 alt="모임 썸네일"
+                 className="thumbnail"
+                 onClick={() => window.location.href = '/posts/${postId}'}
+            />
 
             <div className="post-content">
                 <h4 className="title">{post.title}</h4>

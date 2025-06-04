@@ -89,7 +89,9 @@ public class InitDataService {
 
         for (
                 ReviewTag reviewTag : reviewTags) {
-            reviewTagRepository.save(reviewTag);
+            if (!reviewTagRepository.existsByTagName(reviewTag.getTagName())) {
+                reviewTagRepository.save(reviewTag);
+            }
         }
 
 
@@ -130,7 +132,7 @@ public class InitDataService {
 
         Member member1 = Member.builder()
                 .username("user1@naver.com")
-                .nickname("빵애에요~")
+                .nickname("유저1")
                 .phone("010-0000-0000")
                 .address(Address.builder()
                         .city("서울특별시")
@@ -146,7 +148,7 @@ public class InitDataService {
 
         Member member2 = Member.builder()
                 .username("user2@naver.com")
-                .nickname("침착착맨")
+                .nickname("유저2")
                 .phone("010-0000-0000")
                 .address(Address.builder()
                         .city("서울특별시")
@@ -162,7 +164,7 @@ public class InitDataService {
 
         Member member3 = Member.builder()
                 .username("user3@naver.com")
-                .nickname("user3")
+                .nickname("유저3")
                 .phone("010-0000-0000")
                 .address(Address.builder()
                         .city("서울특별시")
@@ -217,10 +219,11 @@ public class InitDataService {
         Post post1 = Post.builder()
                 .author(member1)
                 .title("토트넘 내한 동행 구인")
-                .content("토트넘 내한 동행 구해용")
+                .content("쿠팡플레이 시리즈로 내한하는 토트넘 경기 함께 보러 가실 분 구합니다!\n" +
+                        "날짜는 7월 XX일, 상암 월드컵 경기장이고, 티켓은 예매 완료된 상태입니다")
                 .tag(soccerTag)
                 .meetingTime(LocalDateTime.now().plusDays(3))
-                .photo("https://picsum.photos/200/300")
+                .photo("https://picsum.photos/300/200")
                 .address(
                         Address.builder()
                                 .city("서울시")
@@ -234,11 +237,12 @@ public class InitDataService {
 
         Post post2 = Post.builder()
                 .author(member2)
-                .title("상상용 내한 동행 구함")
-                .content("여자만 받아요")
-                .tag(rockTag)
+                .title("이번 주말 야구 보러 가실 분")
+                .content("이번 주말 잠실구장 중립석 B1, B2 예매해뒀습니다!\n" +
+                        "야구 좋아하시는 분, 응원 같이 하고 맥주 한잔 하실 분 구해요 :)\n")
+                .tag(baseballTag)
                 .meetingTime(LocalDateTime.now().plusDays(10))
-                .photo("https://picsum.photos/200/300")
+                .photo("https://picsum.photos/300/200")
                 .address(
                         Address.builder()
                                 .city("서울시")

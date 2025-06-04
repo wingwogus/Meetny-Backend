@@ -3,8 +3,9 @@ import axios from 'axios';
 import PostGroupSection from './PostGroupSection';
 import PostCard from './PostGroupCard';
 
-const PostListContainer = () => {
+const PostListContainer = ({ selectedTag }) => {
     const [recommendedPosts, setRecommendedPosts] = useState([]);
+    const [filteredPosts, setFilteredPosts] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -14,10 +15,22 @@ const PostListContainer = () => {
         fetchData();
     }, []);
 
+    // 태그 선택 시 필터링
+    useEffect(() => {
+        if (!selectedTag) {
+            setFilteredPosts(recommendedPosts);
+        } else {
+            const filtered = recommendedPosts.filter(
+                (post) => post.postTag?.tagName === selectedTag
+            );
+            setFilteredPosts(filtered);
+        }
+    }, [selectedTag, recommendedPosts]);
+
     return (
         <div>
             <PostGroupSection title="모임 둘러보기" onMoreClick={() => {}}>
-                {recommendedPosts.map(post => (
+                {filteredPosts.map(post => (
                     <PostCard key={post.id} post={post} />
                 ))}
             </PostGroupSection>

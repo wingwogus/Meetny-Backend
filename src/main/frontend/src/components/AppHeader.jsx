@@ -7,7 +7,9 @@ export default function AppHeader() {
         <header className="app-header">
             {/* 왼쪽 로고 */}
             <div className="app-header__logo">
-                <img src={logoImg} alt="Meetny Logo" />
+                <img src={logoImg} alt="Meetny Logo"
+                     onClick={() => window.location.href = '/posts'}
+                />
             </div>
 
             {/* 우측 내비게이션 아이콘 */}

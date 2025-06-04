@@ -22,15 +22,27 @@ const PostCategorySidebar = ({onTagSelect}) => {
             ...prev,
             [category]: tag
         }));
+        onTagSelect(tag);
     };
 
     return (
         <>
+
         <div className="category-sidebar">
+            {/* 전체보기 버튼 */}
+            <div className="accordion-section">
+                <button className="radio-reset-btn" onClick={() => onTagSelect(null)}>
+                    전체 모임 보기
+                </button>
+            </div>
+
             <div className="sidebar-header">
                 <div className="category-title">카테고리</div>
                 <hr className="category-divider" />
+
             </div>
+
+
             {Object.entries(categoryData).map(([category, tags]) => (
                 <div key={category} className="accordion-section">
                     <div className="accordion-title" onClick={() => toggleCategory(category)}>
@@ -54,6 +66,8 @@ const PostCategorySidebar = ({onTagSelect}) => {
                     )}
                 </div>
             ))}
+
+
         </div>
         </>
     );
