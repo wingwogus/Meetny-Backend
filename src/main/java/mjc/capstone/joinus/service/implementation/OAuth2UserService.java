@@ -40,7 +40,7 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
                     .profileImg(null)
                     .role(Role.USER)
                     .password("oauth2user")
-                    .credibility(4.5)
+                    .credibility(45.0)
                     .build();
             // 저장은 하지 않고 추가정보 입력 후 저장
 
