@@ -20,7 +20,7 @@ export default function AppHeader() {
 
             {/* 우측 사용자 아바타 */}
             <img
-                src="/path/to/avatar.png"      // 실제 유저 아바타 경로로 교체
+                src={localStorage.getItem("profileImg")}      // 실제 유저 아바타 경로로 교체
                 alt="User Avatar"
                 className="app-header__avatar"
                 onClick={() => window.location.href = '/information'}
