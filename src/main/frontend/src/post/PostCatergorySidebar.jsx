@@ -22,7 +22,7 @@ const PostCategorySidebar = ({onTagSelect}) => {
             ...prev,
             [category]: tag
         }));
-        onTagSelect(tag);
+        onTagSelect({category, tagName:tag});
     };
 
     return (

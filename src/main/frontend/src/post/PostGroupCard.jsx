@@ -1,7 +1,10 @@
 import React from 'react';
 import '../styles/PostGroupCard.css';
+import location from '../assets/location.svg';
+import time from '../assets/time.svg';
+import view from '../assets/postview.svg';
 
-const PostGroupCard = ({ post }) => {
+const PostGroupCard = ({ post,selectedTag }) => {
     return (
         <div className="post-card">
             <img
@@ -17,10 +20,12 @@ const PostGroupCard = ({ post }) => {
                 <p className="description">{post.content}</p>
 
                 <div className="meta">
-                    <span>🏷 태그: {post.postTag?.tagName}</span>
-                    <span>📍 {post.address?.city}  {post.address?.town}  {post.address?.street}</span>
-                    <span>🕒 {new Date(post.meetingTime).toLocaleString()}</span>
-                    <span>🔥 조회수: {post.viewCount}</span>
+                    <span className="tag-pill">{post.postTag?.tagName}</span>
+                    <span> <img src={location} alt="location" className="location" />
+                        {post.address?.city}  {post.address?.town}  {post.address?.street}
+                    </span>
+                    <span><img src={time} alt="time" className="location" /> {new Date(post.meetingTime).toLocaleString()}</span>
+                    <span> <img src={view} alt="view" className="location" /> 조회수: {post.viewCount}</span>
                 </div>
             </div>
 

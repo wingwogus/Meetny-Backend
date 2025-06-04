@@ -21,7 +21,7 @@ const PostListContainer = ({ selectedTag }) => {
             setFilteredPosts(recommendedPosts);
         } else {
             const filtered = recommendedPosts.filter(
-                (post) => post.postTag?.tagName === selectedTag
+                (post) => post.postTag?.tagName === selectedTag.tagName
             );
             setFilteredPosts(filtered);
         }
@@ -31,7 +31,7 @@ const PostListContainer = ({ selectedTag }) => {
         <div>
             <PostGroupSection title="모임 둘러보기" onMoreClick={() => {}}>
                 {filteredPosts.map(post => (
-                    <PostCard key={post.id} post={post} />
+                    <PostCard key={post.id} post={post} selectedTag={selectedTag} />
                 ))}
             </PostGroupSection>
         </div>
