@@ -10,7 +10,7 @@ export default function AppHeader() {
                 <img
                     src={logoImg}
                     alt="Meetny Logo"
-                    onClick={() => window.location.href = '/'}/>
+                    onClick={() => window.location.href = '/posts'}/>
             </div>
 
             <div className="app-header--info">

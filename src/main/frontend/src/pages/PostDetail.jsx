@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import axiosClient from "../api/axiosClient";
 import "../styles/PostDetail.css";
 import AppHeader from "../components/AppHeader";
+import point from "../assets/point.svg";
+import time from "../assets/time.svg";
 
 export default function PostDetail() {
     const { id } = useParams();
@@ -68,9 +70,9 @@ export default function PostDetail() {
                             <h3 className="post-title">{post.title}</h3>
 
                             <div className="post-meta-info">
-                                <p>📍 {post.address.city} {post.address.town} {post.address.street} </p>
+                                <p><img src={point} alt="location"/>  {post.address.city} {post.address.town} {post.address.street} </p>
                                 <p>
-                                    <span>📅 {new Date(post.meetingTime).toLocaleDateString()} {new Date(post.meetingTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                    <span><img src={time} alt="time"/> {new Date(post.meetingTime).toLocaleDateString()} {new Date(post.meetingTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                     </span>
                                     <span className="d-day">D-{post.dDay ?? 7}</span>
                                 </p>
@@ -78,7 +80,7 @@ export default function PostDetail() {
 
                             <div className="like-cta">
                                 <button className="cta-button" onClick={handleJoinClick}>동행하기</button>
-                                <button className="like-button" onClick={handleLike}>🤍</button>
+                                <button className="like-button" onClick={handleLike}> {post.liked === true ? "❤️": "🤍️"} </button>
                             </div>
                         </div>
                     </div>

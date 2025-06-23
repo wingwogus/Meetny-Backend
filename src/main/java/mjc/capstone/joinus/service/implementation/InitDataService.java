@@ -224,7 +224,7 @@ public class InitDataService {
                         "날짜는 7월 XX일, 상암 월드컵 경기장이고, 티켓은 예매 완료된 상태입니다")
                 .tag(soccerTag)
                 .meetingTime(LocalDateTime.now().plusDays(3))
-                .photo("https://picsum.photos/300/200")
+                .photo("https://picsum.photos/250/250")
                 .address(
                         Address.builder()
                                 .city("서울시")
@@ -243,7 +243,7 @@ public class InitDataService {
                         "야구 좋아하시는 분, 응원 같이 하고 맥주 한잔 하실 분 구해요 :)\n")
                 .tag(baseballTag)
                 .meetingTime(LocalDateTime.now().plusDays(10))
-                .photo("https://picsum.photos/300/200")
+                .photo("https://picsum.photos/250/250")
                 .address(
                         Address.builder()
                                 .city("서울시")

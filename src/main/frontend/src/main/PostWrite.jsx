@@ -112,6 +112,8 @@ export const PostWrite = () => {
 
             const res = await axios.post("/api/posts/", postData);
             alert("게시글이 성공적으로 등록되었습니다!");
+
+            window.location.href = "/posts"
         } catch (err) {
             console.error("게시글 등록 실패", err);
             alert("등록에 실패했습니다.");
@@ -148,7 +150,7 @@ export const PostWrite = () => {
                     <input
                         type="text"
                         placeholder="장소를 입력해 주세요"
-                        value={`${address.city} ${address.town} ${address.street}`}
+                        value={`${address.city} ${address.street} ${address.town}`}
                         onClick={handleFindAddress}
                         readOnly // 사용자가 직접 입력 못하게 함
                     />

@@ -170,7 +170,7 @@
 .group-2 .text-wrapper-4 {
     position: absolute;
     top: 0;
-    left: 52px; /* Figma 상 좌표 */
+    left: 100px; /* Figma 상 좌표 */
     color: var(--color-highlight);
     font-family: var(--font-family-semibold);
     font-size: 22px;

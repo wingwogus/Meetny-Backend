@@ -27,7 +27,7 @@ public class TagServiceImpl implements TagService {
                         tag.getId(),
                         tag.getTagName(),
                         tag.getColor(),
-                        tag.getClass().getSimpleName()
+                        tag.getClass()
                 ))
                 .collect(Collectors.toList());
         return dtos;
@@ -48,7 +48,7 @@ public class TagServiceImpl implements TagService {
                         tag.getId(),
                         tag.getTagName(),
                         tag.getColor(),
-                        tag.getClass().getSimpleName()
+                        tag.getClass()
                 ))
                 .collect(Collectors.toList());
     }

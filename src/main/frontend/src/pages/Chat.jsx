@@ -136,6 +136,8 @@ export default function Chat() {
             .catch(error => {
                 console.error(`방 ${roomId} 동행 완료 실패:`, error);
             });
+
+        window.location.href = '/information';
     }
 
     return (
