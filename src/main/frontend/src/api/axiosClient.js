@@ -23,7 +23,7 @@ axiosClient.interceptors.request.use(config => {
         config.headers.Authorization = `Bearer ${token}`;
     }
 
-    return config;
+    return config;ㅎㅅ
 });
 
 axiosClient.interceptors.response.use(
@@ -48,7 +48,7 @@ axiosClient.interceptors.response.use(
         // Clear tokens on refresh failure and redirect to login
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
-        window.location.href = '/login';
+        window.location.href = `${window.location.origin}/login`;
         return Promise.reject(refreshError);
       }
     }
