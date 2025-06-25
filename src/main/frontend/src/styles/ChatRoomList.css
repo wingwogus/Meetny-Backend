@@ -2,8 +2,8 @@
 
 /* 채팅방 리스트 전체 컨테이너 */
 .chat-room-list {
-    width: 503px; /* 가로 너비 최대 480px 예시 */
-    height: 1070px;  /* 상단 헤더(64px) 빼고 화면 높이만큼 */
+    width: 450px; /* 가로 너비 최대 480px 예시 */
+    height: 650px;  /* 상단 헤더(64px) 빼고 화면 높이만큼 */
     background-color: #ffffff;
     border: 1px solid #d0d0d0;
     border-radius: 15px;

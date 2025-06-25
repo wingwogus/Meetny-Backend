@@ -5,7 +5,7 @@
     align-items: flex-start;
     gap: 16px;
     padding: 0 20%;
-    height: calc(100vh - 252px);
+    height: 650px;
     box-sizing: border-box;
     background-color: #ffffff;
 }
@@ -20,14 +20,14 @@
 
 /* 채팅방 목록 (왼쪽) 래퍼 */
 .chat-room-list-wrapper {
-    width: 500px;
-    flex: 0 0 500px;
+    width: 450px;
+    flex: 0 0 450px;
 }
 
 /* 채팅창 (오른쪽) 래퍼 */
 .chat-room-wrapper {
-    width: 550px;
-    flex: 0 0 550px;
+    width: 600px;
+    flex: 0 0 600px;
 }
 
 /* 모바일/반응형 예시 */
