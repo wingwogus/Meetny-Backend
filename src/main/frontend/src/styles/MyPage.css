@@ -1022,6 +1022,37 @@
     display: flex;
     flex-direction: column;
 }
+
+.hamburger-button {
+    display: none;
+    font-size: 24px;
+    padding: 10px;
+    cursor: pointer;
+    background: #eee;
+}
+
+@media (max-width: 768px) {
+    .hamburger-button {
+        display: block;
+    }
+
+    .mypage-sidebar {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 240px;
+        height: 100%;
+        background: white;
+        box-shadow: 2px 0 6px rgba(0, 0, 0, 0.15);
+        transition: left 0.3s ease;
+        z-index: 1002;
+        padding: 20px;
+    }
+
+    .mypage-sidebar.open {
+        left: 0;
+    }
+}
 /* 네비게이션 라벨 */
 .mypage-nav-home,
 .mypage-nav-travel-management,
@@ -1308,6 +1339,67 @@
 .mypage-follower-name-5 {
     top: 454px;
     left: 103px;
+}
+
+/* 모바일 버튼 숨기기 (PC에서는) */
+.mobile-followers-button {
+    display: none;
+}
+
+/* 모바일일 때만 표시 */
+@media (max-width: 768px) {
+    .mobile-followers-button {
+        display: block;
+        background: #f2f2f2;
+        padding: 8px 12px;
+        margin: 12px 0;
+        border-radius: 8px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .desktop-only {
+        display: none;
+    }
+
+    .followers-modal-overlay {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.4);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .followers-modal {
+        width: 90%;
+        max-height: 80%;
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        overflow-y: auto;
+    }
+
+    .modal-tabs {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 12px;
+    }
+
+    .modal-tabs button {
+        flex: 1;
+        padding: 10px;
+        font-weight: bold;
+        border: none;
+        background: #e0e0e0;
+        cursor: pointer;
+    }
+
+    .modal-tabs .active {
+        background: #4caf50;
+        color: white;
+    }
 }
 
 /* 팔로우 버튼 (각 팔로워 옆) */
