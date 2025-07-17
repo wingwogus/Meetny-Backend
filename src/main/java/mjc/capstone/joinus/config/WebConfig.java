@@ -14,7 +14,6 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedMethods("*");
 
         registry.addMapping("/ws/**")
-                .allowedOrigins("https://jiangxy.github.io")
                 .allowedMethods("*");
     }
 }

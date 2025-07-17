@@ -1,0 +1,151 @@
+.post-searchbox {
+    background-color: #f4964a;
+    height: 212px;
+    width: 100%;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 수평 중앙정렬 */
+    justify-content: center; /* 수직 중앙정렬 */
+}
+
+.searchbox-header {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* 아이템 간 여백 */
+    margin-top: 50px;
+}
+
+.searchbox-input-wrapper {
+    background-color: #ffffff66;
+    border: 1px solid #ffffff;
+    border-radius: 28px;
+    box-shadow: 0px 4px 4px #c6a78840;
+    margin: 0 auto;
+    width: 1055px;
+    height: 61px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.searchbox-placeholder {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 500;
+    margin-left: 206px;
+    font-family: "Pretendard-Medium", Helvetica;
+}
+
+.searchbox-location-group {
+    position: absolute;
+    left: -1px;
+    top: -1px;
+}
+
+.location-box {
+    background-color: #ffffff;
+    border-radius: 28px;
+    width: 170px;
+    height: 61px;
+    position: relative;
+}
+
+.location-icon {
+    width: 27px;
+    height: 35px;
+    position: absolute;
+    left: 20px;
+    top: 13px;
+}
+
+.location-text {
+    position: absolute;
+    left: 69px;
+    top: 16px;
+    font-size: 24px;
+    font-weight: 600;
+    color: #db6a1f;
+    font-family: "Pretendard-SemiBold", Helvetica;
+}
+
+
+.searchbox-icon {
+    width: 59px;
+    height: 59px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-img {
+    width: 34px;
+    height: 32px;
+}
+
+.searchbox-topbar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 40px;
+    margin-top: 20px;
+    box-sizing: border-box;
+}
+
+.searchbox-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.searchbox-subtitle {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 500;
+    font-family: "Pretendard-Medium", Helvetica;
+}
+
+.tag-wrapper {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex: none;
+}
+
+.searchbox-filter-group {
+    display: flex;
+    align-items: flex-end;
+    white-space: nowrap;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 500;
+    font-family: "Pretendard-Medium", Helvetica;
+}
+
+.tag {
+    height: 30px;
+    border-radius: 14.79px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 0.89px solid #ffffff;
+    width: 119px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 17.8px;
+    font-weight: 500;
+    font-family: "Pretendard-Medium", Helvetica;
+    position: relative; /* 절대 위치 제거 */
+}
+
+.dropdown-icon {
+    width: 8px;
+    height: 23px;
+    margin-left: 5px; /* 🔥 필터 텍스트와 아이콘 사이 여백 */
+}

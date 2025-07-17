@@ -261,7 +261,7 @@ const RegisterPage = () => {
   const isRequestEnabled = !otpRequested && !otpVerified;
 
   return (
-      <div className="element">
+      <div className="register-container">
         <div className="div">
           {/* 1. Progress Bar */}
           <div className="overlap">
@@ -291,10 +291,10 @@ const RegisterPage = () => {
                 type="text"
                 value={nickname}
                 onChange={(e) => setNickname(e.target.value)}
-                placeholder="이름을 입력해주세요"
+                placeholder="닉네임을 입력해주세요"
                 className="input-field"
             />
-            <div className="text-wrapper-2">이름</div>
+            <div className="text-wrapper-2">닉네임</div>
             <div className="text-wrapper-4">*</div>
           </div>
 

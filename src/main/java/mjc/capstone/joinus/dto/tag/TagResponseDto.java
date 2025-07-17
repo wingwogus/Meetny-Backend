@@ -17,11 +17,11 @@ public class TagResponseDto {
 
     private boolean checked;
 
-    public TagResponseDto(Long id, String tagName, String color, Object category) {
+    public TagResponseDto(Long id, String tagName, String color, Class category) {
         this.id = id;
         this.tagName = tagName;
         this.color = color;
-        this.category = category.getClass().getSimpleName();
+        this.category = category.getSimpleName();
         this.checked = false;
     }
 }

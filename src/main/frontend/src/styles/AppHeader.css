@@ -14,9 +14,10 @@
 .app-header__logo {
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 .app-header__logo img {
-    height: 32px;
+    height: 40px;
     width: auto;
 }
 .app-header__text {
@@ -26,15 +27,18 @@
     margin-left: 8px;
 }
 
+.app-header--info{
+    display: flex;
+    gap: 16px;
+}
+
 .app-header__nav {
     display: flex;
     align-items: center;
 }
 .app-header__nav .icon {
-    width: 24px;
-    height: 24px;
-    background-color: #e0e0e0; /* 임시 플레이스홀더 */
-    border-radius: 4px;
+    width: 30px;
+    height: 30px;
     margin-right: 16px;
     cursor: pointer;
 }
@@ -43,8 +47,8 @@
 }
 
 .app-header__avatar {
-    width: 40px;
-    height: 40px;
+    width: 55px;
+    height: 55px;
     border-radius: 50%;
     object-fit: cover;
     cursor: pointer;

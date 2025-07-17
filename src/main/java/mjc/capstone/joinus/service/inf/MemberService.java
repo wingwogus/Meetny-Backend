@@ -23,4 +23,8 @@ public interface MemberService {
     void logout(String email);
 
     Member findMemberByNickname(String username);
+
+    boolean isProfileComplete(String email);
+
+    void completeSocialRegistration(Member member, SignUpRequestDto requestDto);
 }

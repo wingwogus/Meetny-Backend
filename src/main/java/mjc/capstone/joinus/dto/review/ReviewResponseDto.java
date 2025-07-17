@@ -17,6 +17,8 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class ReviewResponseDto {
+    @Schema(description = "리뷰 ID")
+    private Long reviewId;
     @Schema(description = "리뷰어 ID")
     private Long reviewerId;
     @Schema(description = "리뷰 코멘트")
@@ -36,6 +38,7 @@ public class ReviewResponseDto {
 
     public static ReviewResponseDto from(ReviewPost review){
         return ReviewResponseDto.builder()
+                .reviewId(review.getId())
                 .reviewerId(review.getReviewer().getId())
                 .comment(review.getComment())
                 .photo(review.getPost().getPhoto())

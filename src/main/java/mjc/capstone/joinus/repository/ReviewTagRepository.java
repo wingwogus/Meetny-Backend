@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ReviewTagRepository extends JpaRepository<ReviewTag, Long> {
+    boolean existsByTagName(String tagName);
 }

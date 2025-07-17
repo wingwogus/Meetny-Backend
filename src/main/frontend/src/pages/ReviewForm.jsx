@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axiosClient from "../api/axiosClient";
 import "../styles/review.css";
 import CompanionCard from "../components/CompanionCard";
@@ -11,6 +11,8 @@ import { ReactComponent as UncheckedIcon } from "../assets/checkbox_unchecked.sv
 function ReviewForm() {
     const { postId } = useParams();
     const numericPostId = parseInt(postId);
+
+    const navigate = useNavigate();
 
     const [meta, setMeta] = useState(null);
     const [comment, setComment] = useState("");
@@ -58,6 +60,8 @@ function ReviewForm() {
             alert("리뷰 작성 완료!");
             setComment("");
             setSelectedTags([]);
+
+            navigate("/information");
         } catch (err) {
             console.error("리뷰 작성 실패:", err);
             alert("리뷰 작성 실패");
@@ -110,6 +114,11 @@ function ReviewForm() {
                                         key={tag.id}
                                         className={`manner-tag ${isSelected ? "selected" : ""}`}
                                         onClick={() => toggleTag(tag.id)}
+                                        role="button"
+                                        tabIndex={0}
+                                        onKeyDown={(e) => {
+                                            if (e.key === "Enter" || e.key === " ") toggleTag(tag.id);
+                                        }}
                                     >
                                         <span className="icon-wrapper">
                                             {isSelected ? <CheckedIcon /> : <UncheckedIcon />}
@@ -129,6 +138,11 @@ function ReviewForm() {
                                         key={tag.id}
                                         className={`manner-tag ${isSelected ? "selected" : ""}`}
                                         onClick={() => toggleTag(tag.id)}
+                                        role="button"
+                                        tabIndex={0}
+                                        onKeyDown={(e) => {
+                                            if (e.key === "Enter" || e.key === " ") toggleTag(tag.id);
+                                        }}
                                     >
                                         <span className="icon-wrapper">
                                             {isSelected ? <CheckedIcon /> : <UncheckedIcon />}

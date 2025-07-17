@@ -12,10 +12,7 @@ import mjc.capstone.joinus.dto.post.PostRequestDto;
 import mjc.capstone.joinus.dto.post.PostResponseDto;
 import mjc.capstone.joinus.exception.InvalidTokenException;
 import mjc.capstone.joinus.exception.NotFoundMemberException;
-import mjc.capstone.joinus.repository.MemberRepository;
-import mjc.capstone.joinus.repository.PostLikeRepository;
-import mjc.capstone.joinus.repository.PostRepository;
-import mjc.capstone.joinus.repository.PostViewRepository;
+import mjc.capstone.joinus.repository.*;
 import mjc.capstone.joinus.service.inf.PostService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,13 +30,18 @@ public class PostServiceImpl implements PostService {
     private final MemberRepository memberRepository;
     private final PostLikeRepository postLikeRepository;
     private final PostViewRepository postViewRepository;
+    private final TagRepository tagRepository;
 
     @Override
     public void createPost(PostRequestDto dto, Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(NotFoundMemberException::new);
 
-        postRepository.save(dto.toEntity(member));
+        Tag tag = tagRepository.findById(dto.getTagId())
+                .orElseThrow(() -> new EntityNotFoundException("Tag not found"));
+
+        Post post = dto.toEntity(member, tag);
+        postRepository.save(post);
     }
 
     @Override
@@ -48,7 +50,10 @@ public class PostServiceImpl implements PostService {
                 .orElseThrow(NotFoundMemberException::new);
 
         validateAuth(post, member);
-        requestDto.updatePost(post);
+        Tag tag = tagRepository.findById(requestDto.getTagId())
+                .orElseThrow(() -> new EntityNotFoundException("Tag not found"));
+
+        requestDto.updatePost(post, tag);
     }
 
     @Override

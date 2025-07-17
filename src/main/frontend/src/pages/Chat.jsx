@@ -136,12 +136,14 @@ export default function Chat() {
             .catch(error => {
                 console.error(`방 ${roomId} 동행 완료 실패:`, error);
             });
+
+        window.location.href = '/information';
     }
 
     return (
         <>
             <AppHeader />
-            <h2 className="chat-title">메시지</h2>
+            <h2 className="chat-title"></h2>
             <div className="chat">
                 <div className="chat-room-list-wrapper">
                     <ChatRoomList

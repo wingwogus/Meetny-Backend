@@ -1,0 +1,81 @@
+.post-card {
+    display: flex;
+    align-items: flex-start;
+    background-color: #fff;
+    padding: 16px;
+    border-bottom: 1px solid #e0e0e0;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+    margin-right: 50px;
+}
+
+.post-card:hover {
+    background-color: #f9f9f9;
+}
+
+.thumbnail {
+    width: 360px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 16px;
+}
+
+.post-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.description {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.meta {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 12px;
+    color: #888;
+    gap: 8px;
+    align-items: center;
+}
+
+.meta span {
+    display: flex;
+    align-items: center;
+}
+
+.icons {
+    margin-top: 8px;
+    display: flex;
+    gap: 12px;
+    font-size: 14px;
+    color: #ff914d;
+}
+
+.meta .location {
+    width: 12px;
+    height: 18px;
+}
+.tag-pill {
+    display: inline-block;
+    background-color: #f3f3f3;     /* 배경색 */
+    color: #989898;                   /* 글자색 */
+    border-radius: 20px;           /* 타원형으로 만들기 */
+    padding: 3px 30px;             /* 상하 / 좌우 여백 */
+    font-size: 14px;
+    font-weight: 500;
+    margin-right: 12px;
+    border: 1px solid #ccc;
+}

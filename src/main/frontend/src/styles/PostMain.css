@@ -1,0 +1,23 @@
+.post-main-container {
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.post-body {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 32px;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.post-content-sections {
+    flex: 1;
+    min-width: 0;
+}
+
+.category-sidebar {
+    flex-shrink: 0;
+}

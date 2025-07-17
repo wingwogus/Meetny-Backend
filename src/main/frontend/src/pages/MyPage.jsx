@@ -12,7 +12,9 @@ export default function MyPage() {
     const [writtenReviews, setWrittenReviews] = useState([]);
     const [receivedReviews, setReceivedReviews] = useState([]);
     const [likedPosts, setLikedPosts] = useState([]);
-
+    const [followers, setFollowers] = useState([]); // ✅ 초기값 명확히 배열
+    const [following, setFollowing] = useState([]); // ✅ 이거 없으면 .length 에러 남
+    const [activeFollowTab, setActiveFollowTab] = useState("follower");
     const navigate = useNavigate();
 
     // ───────────────────────────────────────────────
@@ -97,7 +99,46 @@ export default function MyPage() {
         fetchWrittenReviews();
     }, [user]);
 
+    // ===============================
+    // 팔로워/팔로잉 정보 불러오기 함수
+    // ===============================
+    const fetchFollowers = async () => {
+        try {
+            const token = localStorage.getItem("accessToken");
+            const res = await axiosClient.get(`/api/follows/${user.nickname}/followers`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            console.log("🔥 API 응답 (followers):", res.data);
+            setFollowers(res.data.data);
+        } catch (err) {
+            console.error("팔로워 불러오기 오류:", err);
+            setFollowers([]);
+        }
+    };
 
+    const fetchFollowing = async () => {
+        try {
+            const token = localStorage.getItem("accessToken");
+            const res = await axiosClient.get(`/api/follows/${user.nickname}/followings`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            console.log("✅ followings 응답", res.data);
+            setFollowing(res.data.data);
+        } catch (err) {
+            console.error("❌ 팔로잉 불러오기 오류:", err);
+            setFollowing([]);
+        }
+    };
+
+    useEffect(() => {
+        if (activeFollowTab === "follower") {
+            console.log("🔥 [팔로워 모드] followers:", followers);
+            fetchFollowers(); // ✅ 이거 호출해줘야 데이터 채워짐
+        } else if (activeFollowTab === "following") {
+            console.log("🔥 [팔로잉 모드] following:", following);
+            fetchFollowing(); // ✅ 팔로잉 탭일 때 자동 호출
+        }
+    }, [activeFollowTab, user]);
 
 
     // ───────────────────────────────────────────────
@@ -178,6 +219,7 @@ export default function MyPage() {
     return (
         <div className="mypage-container">
             <div className="mypage-content">
+                <AppHeader/>
                 {/* =================================================
              1. 상단 프로필 & 태그 섹션
         ================================================= */}
@@ -257,7 +299,7 @@ export default function MyPage() {
                         }}
                     />
                     {/* 강조 바 (디자인 참고용) */}
-                    <div className="mypage-trust-bar-accent" />
+
                     {/* 표시 점 */}
                     <div
                         className="mypage-trust-indicator"
@@ -273,7 +315,7 @@ export default function MyPage() {
                             top: "220px",
                         }}
                     >
-                        {trustScore.toFixed(0)}
+                        {trustScore.toFixed(1)}
                     </div>
 
                     {/* (1-8) 게시물/팔로워/팔로잉 통계 */}
@@ -281,8 +323,12 @@ export default function MyPage() {
                     <div className="mypage-stat-value-posts">{participationCount}</div>
                     <div className="mypage-stat-value-followers">{followerCount}</div>
                     <div className="mypage-stat-value-following">{followingCount}</div>
-                    <div className="mypage-stat-label-followers">팔로워</div>
-                    <div className="mypage-stat-label-following">팔로잉</div>
+                    <div className="mypage-stat-label-followers" onClick={() => setActiveFollowTab("follower")}>
+                        팔로워
+                    </div>
+                    <div className="mypage-stat-label-following" onClick={() => setActiveFollowTab("following")}>
+                        팔로잉
+                    </div>
 
                     {/* (1-9) 세로 구분선들 */}
                     <div className="mypage-divider-vertical-1" />
@@ -292,12 +338,6 @@ export default function MyPage() {
                 {/* =================================================
              2. 상단 우측 검색 아이콘 & 프로필 배지
         ================================================= */}
-                <div className="mypage-search-icon" />
-                <img
-                    className="mypage-profile-badge"
-                    alt="Profile Badge"
-                    src={avatarUrl}
-                />
 
                 {/* =================================================
              3. 탭 영역 (동행 게시글 / 참가한 동행 / 동행 후기)
@@ -331,37 +371,7 @@ export default function MyPage() {
                 {/* =================================================
              4. 사이트 로고 (상단 중앙)
         ================================================= */}
-                <div className="mypage-site-logo">
-                    <img
-                        className="mypage-logo-text"
-                        alt="Logo Text"
-                        src="https://c.animaapp.com/3LplbCFc/img/group@2x.png"
-                    />
-                    <div className="mypage-logo-icon-wrapper">
-                        <div className="mypage-logo-icon-container">
-                            <img
-                                className="mypage-logo-icon-vector"
-                                alt="Vector"
-                                src="https://c.animaapp.com/3LplbCFc/img/vector.svg"
-                            />
-                            <img
-                                className="mypage-logo-icon-mask"
-                                alt="Vector"
-                                src="https://c.animaapp.com/3LplbCFc/img/vector-1.svg"
-                            />
-                            <img
-                                className="mypage-logo-icon-main"
-                                alt="Group"
-                                src="https://c.animaapp.com/3LplbCFc/img/group-1@2x.png"
-                            />
-                            <img
-                                className="mypage-logo-icon-decor"
-                                alt="Vector"
-                                src="https://c.animaapp.com/3LplbCFc/img/vector-2.svg"
-                            />
-                        </div>
-                    </div>
-                </div>
+
 
                 {/* =================================================
              5. 관심 동행 섹션 (항상 왼쪽 상단)
@@ -651,19 +661,6 @@ export default function MyPage() {
                     <div className="mypage-profile-manage-btn">
                         <div className="mypage-profile-manage-text">프로필 관리</div>
                     </div>
-
-                    <div className="mypage-notification-btn">
-                        <img
-                            className="mypage-notification-icon"
-                            alt="Notification"
-                            src="https://c.animaapp.com/3LplbCFc/img/notification@2x.png"
-                        />
-                    </div>
-                    <img
-                        className="mypage-message-btn"
-                        alt="Message"
-                        src="https://c.animaapp.com/3LplbCFc/img/frame.svg"
-                    />
                     <div
                         className="mypage-chat-btn"
                         onClick={() => navigate("/chat")}>
@@ -675,7 +672,76 @@ export default function MyPage() {
                 {/* =================================================
              11. 팔로워/팔로잉 패널 (하단 우측)
         ================================================= */}
-            </div>
+                <div className="mypage-followers-pane">
+                    {activeFollowTab === "follower" && followers && (
+                        <div className="mypage-follow-list">
+                            {followers.length === 0 ? (
+                                <p>팔로워가 없습니다.</p>
+                            ) : (
+                                followers.map((f, idx) => (
+                                    <div key={f.memberId} className="follower-entry">
+                                        <img
+                                            src={f.profileImg || 'https://via.placeholder.com/40'}
+                                            alt={`${f.nickname} 프로필`}
+                                            className="follower-avatar"
+                                        />
+                                        <div className="follower-info">
+                                            <div className="nickname">{f.nickname}</div>
+                                            <div className="credibility">{f.credibility?.toFixed(1)}</div>
+                                        </div>
+                                        <button className="follow-btn">팔로우</button>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                    )}
+
+                    {activeFollowTab === "following" && (
+                        <div className="mypage-follow-list">
+                            {following.length === 0 ? (
+                                <p>팔로잉한 사용자가 없습니다.</p>
+                            ) : (
+                                following.map((f, idx) => (
+                                    <div key={f.memberId} className="follower-entry">
+                                        <img
+                                            src={f.profileImg || "https://via.placeholder.com/40"}
+                                            alt={`${f.nickname} 프로필`}
+                                            className="follower-avatar"
+                                        />
+                                        <div className="follower-info">
+                                            <div className="nickname">{f.nickname}</div>
+                                            <div className="credibility">
+                                                {f.credibility != null ? f.credibility.toFixed(1) : "0.0"}
+                                            </div>
+                                        </div>
+                                        <button
+                                            className="follow-btn"
+                                            onClick={async () => {
+                                                try {
+                                                    const token = localStorage.getItem("accessToken");
+                                                    await axiosClient.delete(`/api/follows/unfollow/${f.memberId}`, {
+                                                        headers: { Authorization: `Bearer ${token}` },
+                                                    });
+                                                    setFollowing(prev => prev.filter(item => item.memberId !== f.memberId));
+                                                    // 숫자 동기화 (팔로잉 수 감소)
+                                                    setUser(prev => ({
+                                                      ...prev,
+                                                      followingCount: (prev.followingCount ?? 1) - 1,
+                                                    }));
+                                                } catch (err) {
+                                                    console.error("❌ 언팔로우 실패:", err);
+                                                }
+                                            }}
+                                        >
+                                            언팔로우
+                                        </button>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                    )}
+                </div>
+</div>
         </div>
     );
 }

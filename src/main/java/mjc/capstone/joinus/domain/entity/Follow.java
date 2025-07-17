@@ -10,6 +10,7 @@ import lombok.*;
 @Entity
 public class Follow {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

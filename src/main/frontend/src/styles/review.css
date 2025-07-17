@@ -93,9 +93,10 @@
     border: 1px solid #D5D5D5;
     border-radius: 16px;
     background-color: #F7F7F7;
-    max-width: 800px;
+    max-width: 650px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     gap: 16px;
+    width: 100%;
 }
 
 .activity-img {
@@ -112,6 +113,7 @@
     justify-content: center;
     flex: 1;
     gap: 6px;
+    min-width: 0;
 }
 
 .activity-title {
@@ -119,15 +121,18 @@
     font-weight: 700;
     color: #000000;
     margin-bottom: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .activity-desc {
     font-size: 20px;
     color: #838383;
+    margin-bottom: 8px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-bottom: 8px;
 }
 
 .activity-meta {

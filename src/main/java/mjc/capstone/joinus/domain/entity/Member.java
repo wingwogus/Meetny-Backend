@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import mjc.capstone.joinus.domain.tags.MemberTag;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,8 @@ public class Member {
     private String phone;
 
     private String profileImg;
+
+    private LocalDate birthdate;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;

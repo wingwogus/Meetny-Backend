@@ -2,6 +2,7 @@ package mjc.capstone.joinus.controller.api;
 
 import lombok.RequiredArgsConstructor;
 import mjc.capstone.joinus.domain.entity.Member;
+import mjc.capstone.joinus.dto.ApiResponse;
 import mjc.capstone.joinus.dto.mypage.FollowDto;
 import mjc.capstone.joinus.repository.MemberRepository;
 import mjc.capstone.joinus.service.inf.FollowService;
@@ -41,22 +42,22 @@ public class FollowController {
         return ResponseEntity.ok("언팔로우 성공");
     }
 
-    @GetMapping("/{userId}/followings")
-    public List<FollowDto> getFollowings(@PathVariable("userId") Long userId) {
-        Member member = memberRepository.findById(userId)
+    @GetMapping("/{nickName}/followings")
+    public ResponseEntity<ApiResponse<List<FollowDto>>> getFollowings(@PathVariable String nickName) {
+        Member member = memberRepository.findByNickname(nickName)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
-        return followService.getFollowings(member).stream()
-                .map(FollowDto::from)
-                .toList();
+        return ResponseEntity.ok(ApiResponse.success(followService.getFollowings(member).stream().map(FollowDto::from)
+                .toList()));
+
     }
 
-    @GetMapping("/{userId}/followers")
-    public List<FollowDto> getFollowers(@PathVariable("userId") Long userId) {
-        Member member = memberRepository.findById(userId)
+    @GetMapping("/{nickName}/followers")
+    public ResponseEntity<ApiResponse<List<FollowDto>>> getFollowers(@PathVariable String nickName) {
+        Member member = memberRepository.findByNickname(nickName)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
-        return followService.getFollowers(member).stream()
+        return ResponseEntity.ok(ApiResponse.success(followService.getFollowers(member).stream()
                 .map(FollowDto::from)
-                .toList();
+                .toList()));
     }
 
     @GetMapping("/{userId}/followings/count")
