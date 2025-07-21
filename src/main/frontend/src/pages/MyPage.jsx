@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axiosClient from "../api/axiosClient";
 import {useNavigate} from "react-router-dom";
 import "../styles/MyPage.css";
-import AppHeader from "../components/AppHeader";
 
 export default function MyPage() {
     const [user, setUser] = useState(null);
@@ -724,22 +723,56 @@ export default function MyPage() {
                     {activeFollowTab === "follower" && followers && (
                         <div className="mypage-follow-list">
                             {followers.length === 0 ? (
-                                <p>팔로워가 없습니다.</p>
+                                <p>팔로워한 사용자가 없습니다.</p>
                             ) : (
-                                followers.map((f, idx) => (
-                                    <div key={f.memberId} className="follower-entry">
-                                        <img
-                                            src={f.profileImg || 'https://via.placeholder.com/40'}
-                                            alt={`${f.nickname} 프로필`}
-                                            className="follower-avatar"
-                                        />
-                                        <div className="follower-info">
-                                            <div className="nickname">{f.nickname}</div>
-                                            <div className="credibility">{f.credibility?.toFixed(1)}</div>
+                                followers.map((f, idx) => {
+                                    const isFollowing = following.some(item => item.memberId === f.memberId);
+                                    return (
+                                        <div key={f.memberId} className="follower-entry">
+                                            <img
+                                                src={f.profileImg || "https://picsum.photos/200/300"}
+                                                alt={`${f.nickname} 프로필`}
+                                                className="follower-avatar"
+                                            />
+                                            <div className="follower-info">
+                                                <div className="nickname">{f.nickname}</div>
+                                                <div className="credibility">{f.credibility?.toFixed(1)}</div>
+                                            </div>
+                                            <button
+                                                className="follow-btn"
+                                                onClick={async () => {
+                                                    try {
+                                                        const token = localStorage.getItem("accessToken");
+                                                        if (isFollowing) {
+                                                            await axiosClient.delete(`/api/follows/unfollow/${f.memberId}`, {
+                                                                headers: { Authorization: `Bearer ${token}` },
+                                                            });
+                                                            setFollowing(prev => prev.filter(item => item.memberId !== f.memberId));
+                                                            setUser(prev => ({
+                                                                ...prev,
+                                                                followingCount: (prev.followingCount ?? 1) - 1,
+                                                            }));
+                                                        } else {
+                                                            await axiosClient.post(`/api/follows/follow/${f.memberId}`, null, {
+                                                                headers: { Authorization: `Bearer ${token}` },
+                                                            });
+                                                            fetchFollowing();
+                                                            setUser(prev => ({
+                                                                ...prev,
+                                                                followingCount: (prev.followingCount ?? 0) + 1,
+                                                            }));
+                                                        }
+                                                        fetchFollowers(); // 목록 갱신
+                                                    } catch (err) {
+                                                        console.error("❌ 팔로우/언팔로우 실패:", err);
+                                                    }
+                                                }}
+                                            >
+                                                {isFollowing ? "언팔로우" : "팔로우"}
+                                            </button>
                                         </div>
-                                        <button className="follow-btn">팔로우</button>
-                                    </div>
-                                ))
+                                    );
+                                })
                             )}
                         </div>
                     )}
@@ -752,7 +785,7 @@ export default function MyPage() {
                                 following.map((f, idx) => (
                                     <div key={f.memberId} className="follower-entry">
                                         <img
-                                            src={f.profileImg || "https://via.placeholder.com/40"}
+                                            src={f.profileImg || "https://picsum.photos/200/300"}
                                             alt={`${f.nickname} 프로필`}
                                             className="follower-avatar"
                                         />

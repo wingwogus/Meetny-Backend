@@ -16,6 +16,8 @@ const SocialRegisterPage = () => {
   const [birthYear, setBirthYear] = useState("");
   const [birthMonth, setBirthMonth] = useState("");
   const [birthDay, setBirthDay] = useState("");
+  const [zonecode, setZonecode] = useState("");
+  const [address, setAddress] = useState("");
   const [addressCity, setAddressCity] = useState("");
   const [addressTown, setAddressTown] = useState("");
   const [addressStreet, setAddressStreet] = useState("");
@@ -23,6 +25,20 @@ const SocialRegisterPage = () => {
   const [submittedData, setSubmittedData] = useState(null);
   const navigate = useNavigate();
   const [gender, setGender] = useState("MALE"); // or "FEMALE"
+
+
+  // ---- 함수 정의부: handleFindAddress 반드시 여기 선언! ----
+  const handleFindAddress = () => {
+    new window.daum.Postcode({
+      oncomplete: function (data) {
+        setZonecode(data.zonecode);
+        setAddress(data.roadAddress);
+        setAddressCity(data.sido);
+        setAddressTown(data.sigungu);
+        setAddressStreet(data.roadAddress);
+      },
+    }).open();
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -100,17 +116,6 @@ const SocialRegisterPage = () => {
   return (
       <div className="element">
         <div className="div">
-          {/* 로고 영역 */}
-          <div className="group-11">
-            <div className="overlap-group-wrapper">
-              <div className="overlap-group-2">
-                <img className="vector-6" alt="로고" src={LogoIcon} />
-              </div>
-            </div>
-            <div className="group-12">
-              <img src={LogoText} alt="로고텍스트" />
-            </div>
-          </div>
 
           {/* 진행바 */}
           <div className="overlap">
@@ -226,17 +231,42 @@ const SocialRegisterPage = () => {
             </div>
           </div>
 
-          {/* 주소 */}
+          {/* 6. Address Input Group */}
           <div className="group-5">
+            <input
+              type="text"
+              value={zonecode}
+              readOnly
+              placeholder="우편번호"
+              className="input-field"
+            />
+            <input
+              type="text"
+              value={address}
+              readOnly
+              placeholder="주소"
+              className="input-field"
+            />
             <div className="text-wrapper-2">주소</div>
             <div className="text-wrapper-4">*</div>
-            <input className="input-field" placeholder="시/도" value={addressCity} onChange={(e) => setAddressCity(e.target.value)} />
-            <input className="input-field" placeholder="구/군" value={addressTown} onChange={(e) => setAddressTown(e.target.value)} />
-            <input className="input-field" placeholder="도로명" value={addressStreet} onChange={(e) => setAddressStreet(e.target.value)} />
           </div>
 
-          <div className="overlap-4">
+          {/* 12. Address Find Button */}
+          <div className="overlap-4" onClick={handleFindAddress}>
             <div className="text-wrapper-15">주소 찾기</div>
+          </div>
+
+          {/* 13. Status Icon */}
+          <img className="ellipse-2" src={EllipseGreen} alt="성공 아이콘" />
+
+          {/* 14. Logo Section */}
+          <div className="group-11">
+            <img className="group-12" src={LogoText} alt="MEETNY" />
+            <div className="overlap-group-wrapper">
+              <div className="overlap-group-2">
+                <img className="vector-6" src={LogoIcon} alt="로고 아이콘" />
+              </div>
+            </div>
           </div>
         </div>
 
@@ -250,7 +280,6 @@ const SocialRegisterPage = () => {
                   가입 완료: {submittedData.name}님, "Meetny에 가입하신걸 환영합니다!"
                 </h2>
             )}
-
         </div>
       </div>
   );

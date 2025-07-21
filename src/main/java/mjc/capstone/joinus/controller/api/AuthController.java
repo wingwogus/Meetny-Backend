@@ -48,7 +48,7 @@ public class AuthController {
         member.setNickname(dto.getNickname());
         member.setPhone(dto.getPhone());
         member.setGender(dto.getGender());
-        member.setAddress(dto.getAddress()); // dto.getAddress()가 객체일 경우 그대로 저장 가능
+        member.setAddress(dto.getAddress());
         member.setBirthdate(dto.getBirthdate()); // Member에도 필드 있어야 함
 
         memberRepository.save(member);

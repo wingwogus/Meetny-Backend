@@ -58,7 +58,10 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         String encodedEmail = URLEncoder.encode(member.getEmail(), StandardCharsets.UTF_8.toString());
 
         String redirectUrl;
-        if (member.getPhone() == null || member.getPhone().isEmpty()) {
+        if (member.getPhone() == null || member.getPhone().isEmpty()
+            || member.getNickname() == null || member.getNickname().isEmpty()
+            || member.getAddress() == null
+            || member.getBirthdate() == null) {
             redirectUrl = UriComponentsBuilder
                     .fromUriString(frontendRedirectUrl + "/social-register")
                     .queryParam("accessToken", accessToken)

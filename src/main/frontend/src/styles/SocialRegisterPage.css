@@ -34,40 +34,39 @@
 .register-container .div {
     background-color: #ffffff;
     position: relative;
-    width: 1920px; /* Figma 기준 너비 고정 */
-    height: 2284px; /* Figma 기준 높이 고정 */
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    overflow-x: hidden;
 }
 
 /*====================================================
   2. 진행바(Progress Bar)
 ====================================================*/
 .overlap {
-    position: absolute;
-    top: 311px;    /* Figma 상 좌표 */
-    left: 396px;   /* Figma 상 좌표 */
-    width: 1128px;
+    width: 90%;
+    max-width: 1200px;     /* ✅ 600px → 900px 정도로 증가 */
+    margin: 40px auto 20px auto;
     height: 27px;
-    background-color: #ffdec4; /* 연한 배경 바 */
+    background-color: #ffdec4;
     border-radius: 13.5px;
 }
 
 .rectangle {
     position: absolute;
-    top: 0;
     left: 0;
-    width: 761px;              /* Figma 상 채워진 길이 */
-    height: 27px;
-    background-color: #f7b681; /* 채워진 영역 색 */
+    width: 70%;
+    height: 100%;
+    background-color: var(--color-accent);
     border-radius: 13.5px;
 }
 
 .ellipse {
     position: absolute;
-    top: 0;
-    left: 734px;               /* Figma 상 표시점 위치 */
+    left: calc(70% - 13.5px);
     width: 27px;
     height: 27px;
-    background-color: #db6a1f; /* 표시점 색 */
+    background-color: var(--color-accent-dark);
     border-radius: 50%;
 }
 
@@ -399,10 +398,6 @@
 ====================================================*/
 .group-7 {
     position: absolute;
-    top: 1049px; /* Figma 상 좌표 */
-    left: 411px; /* Figma 상 좌표 */
-    width: 592px;/* Figma 상 넓이 */
-    height: 102px;/* Figma 상 높이 */
 }
 
 .group-7 .input-field {
@@ -446,8 +441,6 @@
 ====================================================*/
 .text-wrapper-12 {
     position: absolute;
-    top: 428px;   /* 화면 위쪽에서 428px 지점에 고정 */
-    left: 1410px; /* 화면 왼쪽에서 1410px 지점에 고정 */
     color: var(--color-text-medium);
     font-family: var(--font-family-medium);
     font-size: 18px;
@@ -457,8 +450,6 @@
 
 .text-wrapper-13 {
     position: absolute;
-    top: 428px;   /* Figma 상 좌표 */
-    left: 1389px; /* Figma 상 좌표 */
     color: var(--color-highlight);
     font-family: var(--font-family-semibold);
     font-size: 22px;
@@ -467,13 +458,10 @@
 }
 
 .text-wrapper-14 {
-    position: absolute;
-    top: 411px;   /* Figma 상 좌표 */
-    left: 402px;  /* Figma 상 좌표 */
-    color: var(--color-text-dark);
-    font-family: var(--font-family-semibold);
+    position: relative;
+    margin: 0 auto 20px auto;
+    text-align: left;
     font-size: 28px;
-    font-weight: 600;
 }
 
 /*====================================================
@@ -481,20 +469,15 @@
 ====================================================*/
 .vector-2,
 .vector-3 {
-    position: absolute;
-    height: 2px;
-    background-color: var(--color-border);
+    width: 100%;              /* 1128px → 상대적 너비 */
+    max-width: 1200px;
 }
 
 .vector-2 {
-    top: 467px;   /* Figma 상 좌표 */
-    left: 396px;  /* Figma 상 좌표 */
     width: 1128px;
 }
 
 .vector-3 {
-    top: 1197px;  /* Figma 상 좌표 (조정된 위치) */
-    left: 396px;  /* Figma 상 좌표 */
     width: 1128px;
 }
 
@@ -505,22 +488,18 @@
 .group-9,
 .group-10 {
     position: absolute;
-    left: 422px; /* 공통 Figma 상 좌표 */
     height: 25px;
 }
 
 .group-8 {
-    top: 916px;   /* Figma 상 좌표 */
     width: 290px; /* Figma 상 넓이 */
 }
 
 .group-9 {
-    top: 951px;   /* Figma 상 좌표 */
     width: 272px; /* Figma 상 넓이 */
 }
 
 .group-10 {
-    top: 986px;   /* Figma 상 좌표 */
     width: 271px; /* Figma 상 넓이 */
 }
 
@@ -534,6 +513,7 @@
     font-weight: 300;
     white-space: nowrap;
 }
+
 /*====================================================
   아이콘 박스 기본 스타일: 항상 1px 테두리를 갖도록 변경
 ====================================================*/
@@ -573,12 +553,10 @@
 ====================================================*/
 .overlap-4 {
     position: absolute;
-    top: 1823px; /* Figma 상 좌표 */
-    left: 1015px;/* Figma 상 좌표 */
     width: 188px;/* Figma 상 넓이 */
     height: 61px;/* Figma 상 높이 */
-    background-color: var(--color-btn-address);
-    border: 1px solid #a8a8a8;
+    background-color: var(--color-highlight);      /* 주황 배경 */
+    border: 1px solid var(--color-highlight);      /* 기본 테두리(투명하지 않고 주황) */
     border-radius: 10px;
     box-sizing: border-box;
     cursor: pointer;
@@ -613,8 +591,6 @@
 ====================================================*/
 .group-11 {
     position: absolute;
-    top: 182px;  /* Figma 상 좌표 */
-    left: 829px; /* Figma 상 좌표 */
     width: 261px;/* Figma 상 넓이 */
     height: 55px;/* Figma 상 높이 */
 }
@@ -655,22 +631,15 @@
 ====================================================*/
 .overlap-wrapper {
     position: absolute;
-    top: 2014px;  /* Figma 상 좌표 */
-    left: 531px;  /* Figma 상 좌표 */
-    width: 859px; /* Figma 상 넓이 */
-    height: 93px; /* Figma 상 높이 */
-    cursor: pointer;
+    top: 1970px; /* 주소 입력창(top: 1783px) + 높이(102px) + 간격(예: 0~20px) */
+    left: 520px;
+    width: 594px;
 }
 
 .overlap-5 {
-    position: relative;
-    width: 857px; /* Figma 상 넓이 */
-    height: 93px; /* Figma 상 높이 */
-    background-color: var(--color-btn-submit);
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 100%;              /* 고정된 857px 제거 */
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .text-wrapper-16 {
@@ -686,8 +655,6 @@
 .group-14 {
     position: absolute;
     top: 546px;   /* Figma 상 좌표 */
-    left: 411px;  /* Figma 상 좌표 */
-    width: 594px; /* Figma 상 넓이 */
     height: 102px;/* Figma 상 높이 */
 }
 
@@ -727,6 +694,7 @@
     white-space: nowrap;
 }
 
+
 .overlap-6 {
     position: absolute;
     top: 659px;   /* 이메일(546px) + 이메일 높이(102px) + 여유(11px) */
@@ -762,6 +730,12 @@
     background-color: #f9f9f9;
     color: #bababa;
     cursor: not-allowed;
+}
+
+/* Show not-allowed cursor for readOnly .input-field and disabled .otp-input */
+.input-field[readonly],
+.otp-input:disabled {
+  cursor: not-allowed;
 }
 
 .otp-input:not(:disabled) {
@@ -818,14 +792,25 @@
 --------------------------------------------------- */
 .overlap-8 {
     position: absolute;
-    top: 585px;   /* Figma 상 좌표 */
-    left: 1016px; /* Figma 상 좌표 */
     width: 188px; /* Figma 상 넓이 */
     height: 61px; /* Figma 상 높이 */
     background-color: var(--color-btn-submit); /* 기본 주황 */
     border-radius: 10px;
     box-sizing: border-box;
-    cursor: pointer;
+}
+
+.overlap-8.disabled {
+    cursor: not-allowed;
+    pointer-events: auto;
+}
+
+.overlap-8.disabled:hover {
+    cursor: not-allowed;
+}
+
+.overlap-8.disabled .text-wrapper-22 {
+    cursor: not-allowed;
+    pointer-events: none;
 }
 
 .overlap-8 .text-wrapper-22 {
@@ -882,6 +867,84 @@
         font-size: 24px;
         left: 20px;
         top: 20px;
+    }
+
+    .register-container {
+        background-color: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: start;
+        width: 100%;
+        padding-top: 50px;
+    }
+
+    .register-container .div {
+        background-color: #ffffff;
+        width: 100%;
+        max-width: 768px;
+        height: auto;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    .group,
+    .group-2,
+    .group-3,
+    .group-4,
+    .group-5,
+    .group-6,
+    .group-7,
+    .group-14,
+    .overlap,
+    .overlap-3,
+    .overlap-4,
+    .overlap-5,
+    .overlap-6,
+    .overlap-7,
+    .overlap-8,
+    .group-11,
+    .vector-2,
+    .vector-3,
+    .group-8,
+    .group-9,
+    .group-10 {
+        position: relative;
+        margin: 0 auto 20px auto;
+        width: 90%;
+        max-width: 600px;
+    }
+
+    .overlap,
+    .overlap-3,
+    .overlap-4,
+    .overlap-5,
+    .overlap-6,
+    .overlap-7,
+    .overlap-8 {
+      left: 5% !important;
+      width: 90% !important;
+    }
+
+    .text-wrapper-14 {
+      left: 5% !important;
+      font-size: 24px;
+    }
+
+    .text-wrapper-12,
+    .text-wrapper-13 {
+      left: 5% !important;
+      font-size: 14px;
+    }
+
+    .group-11 {
+      left: 50% !important;
+      transform: translateX(-50%);
+    }
+
+    @media (min-width: 1024px) {
+        .register-container .div {
+            max-width: 800px;
+        }
     }
 }
 
