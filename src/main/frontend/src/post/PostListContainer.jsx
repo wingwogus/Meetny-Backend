@@ -9,7 +9,7 @@ const PostListContainer = ({ selectedTag }) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res1 = await axios.get('/api/posts/');
+            const res1 = await axios.get('/api/posts');
             setRecommendedPosts(res1.data.data);
         };
         fetchData();

@@ -25,8 +25,8 @@ public class PostController {
 
     private final PostService postService;
 
-    @Operation(summary = "모든 게시글 조회", description = "현재 생성된 모든 게시글을 조횝합니다")
-    @GetMapping("/")
+    @Operation(summary = "모든 게시글 조회", description = "현재 생성된 모든 게시글을 조회합니다")
+    @GetMapping("")
     public ResponseEntity<ApiResponse<List<PostResponseDto>>> getAllPosts(@AuthenticationPrincipal CustomUserDetails userDetails) {
         Long memberId = userDetails != null ? userDetails.getMember().getId() : null;
 
@@ -34,7 +34,7 @@ public class PostController {
     }
 
     @Operation(summary = "게시글 생성", description = "게시글 하나를 생성합니다")
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<ApiResponse<Void>> createPost(@RequestBody PostRequestDto dto, @AuthenticationPrincipal CustomUserDetails userDetails) {
         postService.createPost(dto, userDetails.getMember().getId());
         return ResponseEntity.ok(ApiResponse.success("게시글 생성 성공", null));
@@ -73,7 +73,6 @@ public class PostController {
                 "멤버별 게시글 조회 성공",
                 postService.getPostsByMember(nickname)));
     }
-
 
     // 태그별 게시글 조회
     @Operation(summary = "태그별 게시글 조회", description = "원하는 태그의 모든 게시글을 조회합니다")
