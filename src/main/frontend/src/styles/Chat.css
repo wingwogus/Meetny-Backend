@@ -1,12 +1,9 @@
-/* 전체 레이아웃 컨테이너 */
 .chat {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     gap: 16px;
     padding: 0 20%;
-    height: 650px;
-    box-sizing: border-box;
     background-color: #ffffff;
 }
 
@@ -20,24 +17,28 @@
 
 /* 채팅방 목록 (왼쪽) 래퍼 */
 .chat-room-list-wrapper {
-    width: 450px;
-    flex: 0 0 450px;
+    flex: 1;
+    min-width: 250px;
 }
 
 /* 채팅창 (오른쪽) 래퍼 */
 .chat-room-wrapper {
-    width: 600px;
-    flex: 0 0 600px;
+    flex: 2;
 }
 
-/* 모바일/반응형 예시 */
-/* @media (max-width: 1200px) {
-  .chat {
-    flex-direction: column;
-    align-items: center;
-  }
-  .chat-room-list-wrapper,
-  .chat-room-wrapper {
-    margin: 16px;
-  }
-} */
+/* 모바일: 채팅방 리스트는 아바타만, 채팅창은 남은 공간 */
+@media screen and (max-width: 768px) {
+    .chat {
+        padding: 0 10%;
+        width: 100%;
+    }
+    .chat-room-list-wrapper {
+        flex: 0 0 60px;      /* 아바타 너비와 동일하게 고정 */
+        min-width: auto;
+    }
+    .chat-room-wrapper {
+        flex: 1;
+        max-width: 80%;
+        box-sizing: border-box;
+    }
+}
