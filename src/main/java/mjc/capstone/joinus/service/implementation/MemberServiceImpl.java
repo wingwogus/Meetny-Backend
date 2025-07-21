@@ -84,7 +84,6 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
     }
 
-    @Transactional
     @Override
     public void signup(SignUpRequestDto request) {
         memberRepository.findByUsername(request.getUsername())
@@ -196,5 +195,14 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(() -> new RuntimeException("회원을 찾을 수 없습니다: " + email));
 
         return member.getPhone() != null && !member.getPhone().isEmpty();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public SimpleMemberInfoDto findMemberById(Long id) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(NotFoundMemberException::new);
+
+        return SimpleMemberInfoDto.from(member);
     }
 }
