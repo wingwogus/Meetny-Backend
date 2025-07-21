@@ -2,10 +2,7 @@ package mjc.capstone.joinus.service.implementation;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import mjc.capstone.joinus.domain.entity.Member;
-import mjc.capstone.joinus.domain.entity.Post;
-import mjc.capstone.joinus.domain.entity.PostLike;
-import mjc.capstone.joinus.domain.entity.PostView;
+import mjc.capstone.joinus.domain.entity.*;
 import mjc.capstone.joinus.domain.tags.Tag;
 import mjc.capstone.joinus.dto.post.PostLikeResponseDto;
 import mjc.capstone.joinus.dto.post.PostRequestDto;
@@ -78,8 +75,6 @@ public class PostServiceImpl implements PostService {
                 post.increaseViewCount(); // Post에 정의한 조회수 증가 메서드
                 postViewRepository.save(new PostView(post, member));
             }
-
-
 
             return PostResponseDto.from(post, isPostLikedByMember(post, memberId));
         }
@@ -181,6 +176,8 @@ public class PostServiceImpl implements PostService {
                 .orElseThrow(() -> new EntityNotFoundException("Member not found"));
 
         post.setParticipant(member);
+        post.setStatus(PostStatus.COMPLETED);
+
         postRepository.save(post);
     }
 
