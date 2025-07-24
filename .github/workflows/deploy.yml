@@ -20,7 +20,7 @@ jobs:
       - name: Rsync backend to server
         run: |
           rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./ \
-            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/${{ secrets.SERVER_USER }}/apps/meetny//backend/
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/${{ secrets.SERVER_USER }}/apps/meetny/backend/
 
       - name: Rsync docker-compose.yml to server
         run: |
