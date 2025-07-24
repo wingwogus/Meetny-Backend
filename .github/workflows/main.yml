@@ -1,0 +1,37 @@
+name: Deploy MEETNY (backend)
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Rsync backend to server
+        run: |
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./ \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/${{ secrets.SERVER_USER }}/apps/meetny//backend/
+
+      - name: Rsync docker-compose.yml to server
+        run: |
+          rsync docker-compose.yml \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/${{ secrets.SERVER_USER }}/apps/meetny/
+
+      - name: Build and restart containers
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+            cd /home/${{ secrets.SERVER_USER }}/apps/meetny
+            docker-compose down
+            docker-compose build
+            docker-compose up -d
+          EOF
