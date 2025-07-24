@@ -1,7 +1,7 @@
 // ChatRoomList.jsx
 import React from 'react';
-import '../styles/ChatRoomList.css';
-import logo from '../assets/logo.png';
+import '../../styles/ChatRoomList.css';
+import logo from '../../assets/logo.png';
 
 
 /**

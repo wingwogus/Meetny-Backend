@@ -7,6 +7,8 @@ import mjc.capstone.joinus.domain.entity.ChatRoom;
 import mjc.capstone.joinus.domain.entity.Member;
 import mjc.capstone.joinus.domain.entity.Post;
 
+import java.time.LocalDateTime;
+
 @Data
 public class ChatRoomDto {
 
@@ -38,7 +40,7 @@ public class ChatRoomDto {
     private String latestMessage;
 
     @Schema(description = "마지막 채팅 시간", example = "2024;11")
-    private String latestTime;
+    private LocalDateTime latestTime;
 
     public ChatRoomDto(ChatRoom chatRoom){
         this.roomId = chatRoom.getRoomId();
@@ -59,7 +61,7 @@ public class ChatRoomDto {
         if (!chatRoom.getChatList().isEmpty()) {
             Chat lastChat = chatRoom.getChatList().getLast();
             this.latestMessage = lastChat.getMessage();
-            this.latestTime = lastChat.getTime().toString();
+            this.latestTime = lastChat.getTime();
         }
     }
 }

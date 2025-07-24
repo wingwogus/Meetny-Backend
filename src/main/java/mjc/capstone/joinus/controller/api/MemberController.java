@@ -3,6 +3,7 @@ package mjc.capstone.joinus.controller.api;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import mjc.capstone.joinus.domain.entity.Member;
 import mjc.capstone.joinus.dto.ApiResponse;
 import mjc.capstone.joinus.dto.auth.*;
 import mjc.capstone.joinus.jwt.JwtToken;
@@ -74,6 +75,12 @@ public class MemberController {
     public ResponseEntity<ApiResponse<Void>> logout(@AuthenticationPrincipal UserDetails userDetails) {
         memberService.logout(userDetails.getUsername());
         return ResponseEntity.ok(ApiResponse.success("로그아웃 성공", null));
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "유저 간단 정보 조회", description = "id를 통해 유저의 간단한 정보(닉네임, 신뢰도, 이미지, 태그)를 조회합니다.")
+    public ResponseEntity<ApiResponse<SimpleMemberInfoDto>> getSimpleMemberInfo(@PathVariable Long id) {
+        return ResponseEntity.ok(ApiResponse.success("유저 정보 조회 성공", memberService.findMemberById(id)));
     }
 }
 

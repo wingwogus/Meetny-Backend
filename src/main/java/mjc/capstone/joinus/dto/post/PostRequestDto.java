@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import mjc.capstone.joinus.domain.entity.Address;
 import mjc.capstone.joinus.domain.entity.Member;
 import mjc.capstone.joinus.domain.entity.Post;
+import mjc.capstone.joinus.domain.entity.PostStatus;
 import mjc.capstone.joinus.domain.tags.Tag;
 
 import java.time.LocalDateTime;
@@ -40,6 +41,7 @@ public class PostRequestDto {
                 .meetingTime(this.meetingTime)
                 .address(this.address)
                 .tag(tag)
+                .status(PostStatus.RECRUITING)
                 .build();
 
         // 연관관계 설정

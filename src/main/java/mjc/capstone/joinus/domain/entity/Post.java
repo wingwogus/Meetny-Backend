@@ -33,6 +33,8 @@ public class Post extends BaseTimeEntity {
 
     private int viewCount = 0;
 
+    private PostStatus status;
+
     @Embedded
     private Address address;
 

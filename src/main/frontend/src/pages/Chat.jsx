@@ -1,7 +1,7 @@
 // src/components/Chat.jsx
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import ChatRoomList from '../components/ChatRoomList';
-import ChatRoom from '../components/ChatRoom';
+import ChatRoomList from '../components/chat/ChatRoomList';
+import ChatRoom from '../components/chat/ChatRoom';
 import AppHeader from "../components/AppHeader";
 import axios from '../api/axiosClient';
 import { useWebSocket } from '../hooks/useWebSocket';
@@ -58,7 +58,7 @@ export default function Chat() {
     const { sendMessage, subscribeToRooms } = useWebSocket(handleIncomingMessage);
 
     useEffect(() => {
-        axios.get('/api/chat/rooms/')
+        axios.get('/api/chat/rooms')
             .then(({ data }) => {
                 const roomsData = Array.isArray(data.data) ? data.data : [];
                 setRooms(roomsData);

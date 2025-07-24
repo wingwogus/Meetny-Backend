@@ -1,7 +1,7 @@
 // src/components/ChatRoom.jsx
 import React, { useEffect, useRef } from 'react';
-import '../styles/ChatRoom.css';
-import logo from '../assets/logo.png';
+import '../../styles/ChatRoom.css';
+import logo from '../../assets/logo.png';
 
 
 export default function ChatRoom({
@@ -9,6 +9,7 @@ export default function ChatRoom({
                                      postId,
                                      postTitle,
                                      postImage,
+                                     status,
                                      otherNickname,
                                      authorNickname,
                                      messages,
@@ -41,7 +42,7 @@ export default function ChatRoom({
                                 className="post-title"
                                 onClick={() => window.location.href = `/posts/${postId}`}
                             >[{postTitle}]</div>
-                            {authorNickname === localStorage.getItem('nickname') &&
+                            {authorNickname === localStorage.getItem('nickname') && status === "모집 중" && (
                                 <div
                                     className="post-complete"
                                     onClick={() => {
@@ -52,7 +53,7 @@ export default function ChatRoom({
                                 >
                                     동행 완료
                                 </div>
-                            }
+                            )}
                         </div>
                     </div>
                 </div>

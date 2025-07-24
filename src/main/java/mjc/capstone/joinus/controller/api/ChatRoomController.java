@@ -26,7 +26,7 @@ public class ChatRoomController {
     private final ChatService chatService;
 
     // 채팅 리스트 화면
-    @GetMapping("/")
+    @GetMapping
     @Operation(summary = "채팅 리스트", description = "현재 로그인 된 계정의 채팅방 목록을 불러옵니다.")
     public ResponseEntity<ApiResponse<List<ChatRoomDto>>> chatRoomList(
             @AuthenticationPrincipal CustomUserDetails userDetails){

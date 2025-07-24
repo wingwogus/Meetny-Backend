@@ -17,7 +17,7 @@ export default function PostDetail() {
             window.location.href = "/chat";
         } catch (error) {
             console.error("채팅방 생성 실패:", error);
-            alert("채팅방 입장 중 오류가 발생했습니다.");
+            alert(error.response?.data?.message || "채팅방 생성 중 오류가 발생했습니다.");
         }
     };
 

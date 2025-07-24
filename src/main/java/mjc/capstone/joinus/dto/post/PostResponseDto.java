@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import mjc.capstone.joinus.domain.entity.Address;
 import mjc.capstone.joinus.domain.entity.Post;
-import mjc.capstone.joinus.domain.tags.Tag;
+import mjc.capstone.joinus.dto.auth.SimpleMemberInfoDto;
 import mjc.capstone.joinus.dto.tag.TagDto;
 
 import java.time.LocalDateTime;
@@ -38,6 +38,9 @@ public class PostResponseDto {
     @Schema(description = "모임 주소 정보")
     private Address address;
 
+    @Schema(description = "모집 상태")
+    private String status;
+
     @Schema(description = "게시물 태그")
     private TagDto postTag;
 
@@ -67,6 +70,7 @@ public class PostResponseDto {
                 .author(author)
                 .meetingTime(post.getMeetingTime())
                 .address(post.getAddress())
+                .status(post.getStatus().getDescription())
                 .postTag(TagDto.builder()
                         .tagId(post.getTag().getId())
                         .tagName(post.getTag().getTagName())

@@ -110,7 +110,7 @@ export const PostWrite = () => {
 
             };
 
-            const res = await axios.post("/api/posts/", postData);
+            const res = await axios.post("/api/posts", postData);
             alert("게시글이 성공적으로 등록되었습니다!");
 
             window.location.href = "/posts"
