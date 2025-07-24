@@ -1,0 +1,1448 @@
+/*====================================================
+  공통 변수 (컬러, 폰트패밀리 등)
+====================================================*/
+:root {
+    --color-bg-light: #ffffff;
+    --color-border: #d0d0d0;
+    --color-text-light: #858585;
+    --color-text-medium: #525252;
+    --color-text-dark: #252525;
+    --color-highlight: #f4964a; /* 주황색 */
+    --color-accent: #f7b681; /* 노란색 */
+    --color-accent-dark: #db6a1f; /* 진한 주황 (태그 등) */
+    --color-success: #72d3aa; /* 초록색 */
+    --color-card-bg: #f9f9f9;
+    --color-divider: #e2e2e2;
+
+    --font-family-light: "Pretendard-Light", Helvetica, Arial, sans-serif;
+    --font-family-medium: "Pretendard-Medium", Helvetica, Arial, sans-serif;
+    --font-family-semibold: "Pretendard-SemiBold", Helvetica, Arial, sans-serif;
+    --font-family-bold: "Pretendard-Bold", Helvetica, Arial, sans-serif;
+    --font-family-regular: "Pretendard-Regular", Helvetica, Arial, sans-serif;
+}
+
+/*====================================================
+  0. 로딩 & 에러 컨테이너
+====================================================*/
+.mypage-loading-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.mypage-error-text,
+.mypage-loading-text {
+    font-family: var(--font-family-regular);
+    font-size: 18px;
+    color: #ff0000;
+}
+
+/*====================================================
+  1. 최상위 레이아웃: 마이페이지 컨테이너
+====================================================*/
+.mypage-container {
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+.mypage-content {
+    background-color: #ffffff;
+    position: relative;
+    width: 1920px; /* Figma 기준 고정 */
+    height: 1718px; /* 총 페이지 높이 */
+    transform-origin: top;
+    transform: scale(0.628);
+    margin: 0 auto;
+}
+
+/*====================================================
+  2. 프로필 & 태그 섹션
+====================================================*/
+.mypage-profile-section {
+    position: absolute;
+    top: 253px; /* Figma 상 좌표 */
+    left: 396px; /* Figma 상 좌표 */
+    width: 1140px;
+    height: 469px;
+}
+.mypage-tag-wrapper {
+    position: absolute;
+    top: 239px; /* Figma 상 좌표 */
+    left: 0;
+    width: 1140px;
+    height: 230px;
+}
+.mypage-tag-background {
+    width: 1128px;
+    height: 230px;
+    object-fit: cover;
+}
+/* 동적 태그 리스트 컨테이너 */
+.mypage-tag-list {
+    position: absolute;
+    top: 134px; /* Figma 상 좌표 */
+    left: 76px; /* 첫 번째 태그 시작 위치 */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+/* 개별 태그 Pill */
+.mypage-tag-pill {
+    color: #ffffff;
+    font-family: var(--font-family-semibold);
+    font-size: 15.6px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 17px;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+/* 프로필 닉네임 */
+.mypage-profile-name {
+    position: absolute;
+    top: 84px;
+    left: 320px; /* 살짝 오른쪽으로 보정 */
+    font-family: var(--font-family-semibold);
+    font-size: 24px;
+    font-weight: 1000;
+    color: var(--color-text-dark);
+    white-space: nowrap;
+}
+/* “닉네임 님의 동행 키워드” 레이블 */
+.mypage-profile-tag-label {
+    position: absolute;
+    top: 99px;
+    left: 77px;
+    font-family: var(--font-family-regular);
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--color-text-dark);
+    white-space: nowrap;
+}
+/* 닉네임 부분만 크게, 굵게 */
+.mypage-profile-nickname {
+    font-family: var(--font-family-bold);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-text-dark);
+}
+/* 나머지 “ 님의 동행 키워드” 텍스트 */
+.mypage-profile-tag-text {
+    font-family: var(--font-family-regular);
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--color-text-dark);
+    margin-left: 4px; /* 닉네임과 간격 조정 */
+}
+
+/*====================================================
+  3. 프로필 카드 배경 / 아바타 / 통계
+====================================================*/
+/* 흰색 카드 배경 */
+.mypage-profile-card-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1128px;
+    height: 322px;
+    background-color: var(--color-bg-light);
+    border: 1px solid var(--color-border);
+    border-radius: 35px;
+}
+/* 통계 카드 배경 */
+.mypage-stats-card-bg {
+    position: absolute;
+    top: 53px;
+    left: 749px;
+    width: 317px;
+    height: 100px;
+    background-color: var(--color-card-bg);
+    border-radius: 12px;
+}
+/* 프로필 아바타(원형) */
+.mypage-avatar {
+    position: absolute;
+    top: 60px;
+    left: 72px;
+    width: 206px;
+    height: 206px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+/* 동행 참여 인증 텍스트 */
+.mypage-participation-cert {
+    position: absolute;
+    top: 217px;
+    left: 887px;
+    font-family: var(--font-family-regular);
+    font-size: 22px;
+    font-weight: 400;
+    color: transparent; /* 내부 span에서 색 지정 */
+    white-space: nowrap;
+}
+.mypage-participation-text {
+    color: var(--color-text-dark);
+}
+.mypage-participation-highlight {
+    color: var(--color-accent-dark);
+    font-family: var(--font-family-bold);
+    font-weight: 700;
+}
+/* (최근 5개월 기준) */
+.mypage-participation-note {
+    position: absolute;
+    top: 243px;
+    left: 887px;
+    font-family: var(--font-family-medium);
+    font-size: 12px;
+    font-weight: 500;
+    color: #b6b6b6;
+    white-space: nowrap;
+}
+
+/* 동행 신뢰도 레이블 */
+.mypage-trust-label {
+    position: absolute;
+    top: 217px;
+    left: 313px;
+    font-family: var(--font-family-regular);
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--color-text-dark);
+    white-space: nowrap;
+}
+/* 신뢰도 바 배경 (노란색 바) */
+.mypage-trust-bar-bg {
+    position: absolute;
+    top: 217px;
+    left: 523px;
+    width: 73px;
+    height: 27px;
+    background-color: #fcefdd;
+    border-radius: 7px;
+}
+/* 신뢰도 바 전체 (회색) */
+.mypage-trust-bar-full {
+    position: absolute;
+    top: 258px;
+    left: 313px;
+    width: 435px;
+    height: 16px;
+    background-color: #f1f1f1;
+    border-radius: 8.24px;
+}
+/* 신뢰도 강조 바 */
+.mypage-trust-bar-accent {
+    position: absolute;
+    top: 258px;
+    left: 313px;
+    width: 129px; /* 중간 강조 영역 */
+    height: 16px;
+    background-color: #f4c14a;
+    border-radius: 8.24px;
+}
+/* 신뢰도 바 채워진 부분 (너비, 색상: inline style) */
+.mypage-trust-bar-filled {
+    position: absolute;
+    top: 258px;
+    left: 313px;
+    height: 16px;
+    border-radius: 8.24px;
+}
+/* 신뢰도 표시 점 */
+.mypage-trust-indicator {
+    position: absolute;
+    top: 258px;
+    width: 15px;
+    height: 16px;
+    background-color: var(--color-accent-dark);
+    border-radius: 8.24px;
+}
+/* 신뢰도 점수 텍스트 */
+.mypage-trust-score {
+    position: absolute;
+    top: 240px; /* 바 위로 조금 올라오게 */
+    font-family: var(--font-family-bold);
+    font-size: 18px;
+    font-weight: 700;
+    color: #f7974a;
+    white-space: nowrap;
+}
+
+/* 게시물/팔로워/팔로잉 통계 레이블 & 값 */
+.mypage-stat-label-posts {
+    position: absolute;
+    top: 72px;
+    left: 792px;
+    font-family: var(--font-family-regular);
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--color-text-dark);
+    white-space: nowrap;
+}
+.mypage-stat-value-posts {
+    position: absolute;
+    top: 102px;
+    left: 810px; /* 곧바로 아래에 숫자 위치 */
+    font-family: var(--font-family-medium);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--color-text-dark);
+    white-space: nowrap;
+}
+.mypage-stat-value-followers {
+    position: absolute;
+    top: 102px;
+    left: 908px;
+    font-family: var(--font-family-medium);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--color-text-dark);
+    white-space: nowrap;
+}
+.mypage-stat-value-following {
+    position: absolute;
+    top: 102px;
+    left: 1005px;
+    font-family: var(--font-family-medium);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--color-text-dark);
+    white-space: nowrap;
+}
+.mypage-stat-label-followers {
+    position: absolute;
+    top: 72px;
+    left: 893px;
+    font-family: var(--font-family-regular);
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--color-text-dark);
+    white-space: nowrap;
+}
+.mypage-stat-label-following {
+    position: absolute;
+    top: 72px;
+    left: 991px;
+    font-family: var(--font-family-regular);
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--color-text-dark);
+    white-space: nowrap;
+}
+/* 세로 구분선 */
+.mypage-divider-vertical-1,
+.mypage-divider-vertical-2 {
+    position: absolute;
+    width: 2px;
+    background-color: var(--color-divider);
+    height: 61px;
+}
+.mypage-divider-vertical-1 {
+    top: 72px;
+    left: 863px;
+}
+.mypage-divider-vertical-2 {
+    top: 72px;
+    left: 960px;
+}
+
+/*====================================================
+  4. 상단 우측 검색 아이콘 & 프로필 배지
+====================================================*/
+.mypage-search-icon {
+    position: absolute;
+    top: 0px;
+    left: 18px;
+    width: 36px;
+    height: 37px;
+    background-image: url("https://c.animaapp.com/3LplbCFc/img/clip-path-group.png");
+    background-size: 100% 100%;
+}
+.mypage-profile-badge {
+    position: absolute;
+    top: 75px;
+    left: 1470px;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+}
+
+/*====================================================
+  5. 탭 제목들
+  (“received-reviews” 탭은 제거되었습니다)
+====================================================*/
+/* 기본(비활성) 상태 */
+.mypage-tab-title-posts,
+.mypage-tab-title-participated,
+.mypage-tab-title-feed {
+    font-family: var(--font-family-regular);
+    font-size: 20px;
+    font-weight: 400;
+    color: #a1a1a1;
+    position: absolute;
+    top: 784px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+/* “동행 게시글” 위치 */
+.mypage-tab-title-posts {
+    left: 469px;
+    font-family: var(--font-family-medium);
+    font-size: 20px;
+    font-weight: 500;
+}
+/* “참가한 동행” 위치 */
+.mypage-tab-title-participated {
+    left: 738px;
+}
+/* “피드” 위치 */
+.mypage-tab-title-feed {
+    left: 979px;
+}
+/* 활성 탭(색상 + 밑줄 표시) */
+.mypage-tab-title-posts.active,
+.mypage-tab-title-participated.active,
+.mypage-tab-title-feed.active {
+    color: var(--color-highlight);
+    border-bottom: 3px solid var(--color-highlight);
+    padding-bottom: 4px;
+}
+
+/*====================================================
+  6. 사이트 로고 (상단 중앙)
+====================================================*/
+.mypage-site-logo {
+    position: absolute;
+    top: 75px;
+    left: 396px;
+    width: 209px;
+    height: 46px;
+    overflow: hidden;
+}
+.mypage-logo-text {
+    position: absolute;
+    top: 17px;
+    left: 81px;
+    width: 128px;
+    height: 21px;
+}
+.mypage-logo-icon-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 66px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.mypage-logo-icon-container {
+    position: relative;
+    width: 66px;
+    height: 46px;
+}
+.mypage-logo-icon-vector {
+    position: absolute;
+    top: 28px;
+    left: 32px;
+    width: 10px;
+    height: 18px;
+}
+.mypage-logo-icon-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 18px;
+}
+.mypage-logo-icon-main {
+    position: absolute;
+    top: 4px;
+    left: 7px;
+    width: 58px;
+    height: 42px;
+}
+.mypage-logo-icon-decor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 18px;
+    height: 18px;
+}
+
+/*====================================================
+  7. 관심 동행 섹션 (화면 왼쪽 상단)
+====================================================*/
+.mypage-interest-section {
+    position: absolute;
+    top: 825px;   /* “동행 후기”가 시작되는 지점과 동일 높이 */
+    left: 30px;   /* 프로필 영역 왼쪽 시작점 */
+    width: 360px; /* 카드 너비와 동일 */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.mypage-interest-heading {
+    font-family: var(--font-family-semibold);
+    position: absolute;
+    top: -50px;
+    left: 50px;
+    font-size: 20px;
+    font-weight: 1000;
+    color: var(--color-text-dark);
+}
+/* “차박 캠핑 모임과 불멍” 카드 (관심 동행 예시) */
+.mypage-interest-card {
+    position: relative;
+    width: 291px;
+    height: 135px;
+    left: 40px;
+    background-color: #FFF6ED;
+    box-shadow: 0px 4px 4px rgba(215, 215, 215, 0.25);
+    border: 1px solid var(--color-divider);
+    border-radius: 16px;
+}
+
+/* ===========================================
+   관심 동행 카드 내부: 콘텐츠(설명) 스타일
+   =========================================== */
+.mypage-interest-card .mypage-review-snippet-2 {
+    position: absolute;
+    /* 제목(.mypage-review-title-2)이 top:16px에 있으므로,
+       바로 아래에 배치할 수 있도록 top 값을 40px 정도로 설정 */
+    top: 40px;
+    left: 145px; /* 제목과 같은 왼쪽 간격 유지 */
+    font-family: var(--font-family-regular);
+    font-size: 12px;        /* 제목보다 작게 */
+    color: #606060;         /* 어두운 회색 계열 */
+    line-height: 1.4;       /* 적당한 줄간격 */
+    word-wrap: break-word;  /* 넘치는 텍스트 줄바꿈 */
+    max-width: 130px;       /* 카드 너비 대비 적당히 제한 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 빈 상태 메시지를 카드 중앙에 배치 */
+.mypage-interest-empty {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-family-regular);
+    font-size: 18px;
+    color: var(--color-text-light);
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* (관심 동행 카드 내부) 기존 리뷰 카드-2 스타일을 재활용 */
+.mypage-review-thumb-wrapper-2 {
+    position: absolute;
+    top: 12px;
+    left: 13px;
+    width: 114px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 14px;
+    overflow: hidden;
+}
+.mypage-review-thumb-img-2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 114px;
+    height: 110px;
+    object-fit: cover;
+}
+.mypage-review-thumb-overlay-2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 114px;
+    height: 110px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 14px;
+}
+.mypage-thumb-overlay-text-2 {
+    position: absolute;
+    top: 36px;
+    left: 36px;
+    font-family: var(--font-family-medium);
+    font-size: 18px;
+    font-weight: 500;
+    color: #ffffff;
+    text-align: center;
+    line-height: normal;
+}
+.mypage-review-title-2 {
+    position: absolute;
+    top: 16px;
+    left: 145px;
+    font-family: var(--font-family-semibold);
+    font-size: 14.6px;
+    font-weight: 600;
+    color: var(--color-text-dark);
+    line-height: normal;
+}
+.mypage-review-date-2 {
+    position: absolute;
+    top: 110px;
+    left: 140px;
+    font-family: var(--font-family-medium);
+    font-size: 9.7px;
+    font-weight: 500;
+    color: #b6b6b6;
+    white-space: nowrap;
+}
+
+/*====================================================
+  8. 받은 동행 후기 섹션 (화면 오른쪽 상단)
+====================================================*/
+/* “받은 동행 후기” 헤딩 */
+.mypage-review-list-wrapper {
+    position: absolute;
+    top: 825px;   /* 관심 동행과 동일 Y축 */
+    left: 1164px; /* 오른쪽 컬럼 */
+    width: 360px; /* 카드는 모두 360px 너비 */
+}
+/* 헤딩 텍스트 */
+.mypage-review-list-heading {
+    font-family: var(--font-family-semibold);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color-text-dark);
+    margin-bottom: 16px;
+}
+
+/* 리뷰 카드가 나열될 리스트 컨테이너 */
+.mypage-review-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px; /* 카드 간 세로 간격 */
+}
+
+/* 각 리뷰 카드 공통 스타일 */
+.mypage-received-review-card {
+    position: relative;
+    width: 360px;
+    height: 167px;
+    background-color: #f0f0f0;
+    box-shadow: 0px 4px 4px rgba(215, 215, 215, 0.25);
+    border: 1px solid var(--color-divider);
+    border-radius: 16px;
+}
+
+/* 썸네일 래퍼 (16px 좌측, 15px 상단) */
+.mypage-review-thumb-wrapper {
+    position: absolute;
+    top: 15px;
+    left: 16px;
+    width: 142px;
+    height: 136px;
+    border-radius: 14px;
+    overflow: hidden;
+}
+/* 실제 사진 이미지 */
+.mypage-review-thumb-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 142px;
+    height: 136px;
+    object-fit: cover;
+}
+/* 사진이 없을 때 보여줄 회색 박스 */
+.mypage-review-thumb-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 142px;
+    height: 136px;
+    background-color: #cccccc;
+    border-radius: 14px;
+}
+/* 사진 위에 반투명 오버레이 (흑 / 50%) */
+.mypage-review-thumb-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 142px;
+    height: 136px;
+    background-color: rgba(0, 0, 0, 0.50);
+    border-radius: 14px;
+}
+/* “종료된 동행” 텍스트 (썸네일 중앙) */
+.mypage-thumb-overlay-text {
+    position: absolute;
+    top: 45px;
+    left: 48px;
+    font-family: var(--font-family-medium);
+    font-size: 18px;
+    font-weight: 500;
+    color: #ffffff;
+    text-align: center;
+    line-height: normal;
+}
+
+/* 제목 텍스트 */
+.mypage-review-title {
+    position: absolute;
+    top: 20px;
+    left: 179px;
+    font-family: var(--font-family-medium);
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--color-text-dark);
+    word-wrap: break-word;
+}
+
+/* 댓글/내용 텍스트 */
+.mypage-review-snippet {
+    position: absolute;
+    top: 52px; /* 제목 바로 아래로 배치 */
+    left: 179px;
+    font-family: var(--font-family-regular);
+    font-size: 14px;
+    font-weight: 400;
+    color: #a1a1a1;
+    line-height: 1.4;
+    word-wrap: break-word;
+    max-width: 165px; /* 넘칠 경우 줄바꿈 */
+}
+
+/* 만난 날짜 (YY/MM/DD) */
+.mypage-review-date {
+    position: absolute;
+    bottom: 16px;
+    left: 170px; /* 카드 왼쪽 하단 */
+    font-family: var(--font-family-medium);
+    font-size: 12px;
+    font-weight: 500;
+    color: #b7b7b7;
+}
+
+/* 작성자 닉네임 (카드 오른쪽 하단) */
+.mypage-reviewer-nickname {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    font-family: var(--font-family-bold);
+    font-size: 12px;
+    font-weight: 700;
+    color: #696969;
+}
+
+/* 리뷰 데이터가 없을 때 보여줄 빈 카드 */
+.mypage-received-review-card-empty {
+    position: relative;
+    width: 360px;
+    height: 167px;
+    background-color: #f0f0f0;
+    box-shadow: 0px 4px 4px rgba(215, 215, 215, 0.25);
+    border: 1px solid var(--color-divider);
+    border-radius: 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-family-regular);
+    font-size: 18px;
+    color: var(--color-text-light);
+}
+
+/*====================================================
+  9. 동행 관리 (Travel Management)
+====================================================*/
+.mypage-travel-management-section {
+    position: absolute;
+    top: 825px;
+    left: 396px;
+    width: 744px;
+    height: 812px;
+    background-color: var(--color-bg-light);
+    border: 1px solid var(--color-divider);
+    border-radius: 17px;
+    box-shadow: 0px 4px 4px rgba(215, 215, 215, 0.25);
+}
+/* 제목 */
+.mypage-travel-management-title {
+    position: absolute;
+    top: 23px;
+    left: 611px;
+    font-family: var(--font-family-regular);
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--color-text-light);
+    text-decoration: underline;
+    white-space: nowrap;
+}
+/* 썸네일 (2×2 그리드) */
+.mypage-card-thumb-1,
+.mypage-card-thumb-2,
+.mypage-card-thumb-3,
+.mypage-card-thumb-4 {
+    position: absolute;
+    width: 308px;
+    height: 246px;
+    object-fit: cover;
+    border-radius: 16px;
+    cursor: pointer;
+}
+.mypage-card-thumb-1 {
+    top: 68px;
+    left: 54px;
+}
+.mypage-card-thumb-2 {
+    top: 447px;
+    left: 54px;
+}
+.mypage-card-thumb-3 {
+    top: 68px;
+    left: 388px;
+}
+.mypage-card-thumb-4 {
+    top: 447px;
+    left: 388px;
+}
+/* 제목 텍스트 */
+.mypage-card-title-1,
+.mypage-card-title-2,
+.mypage-card-title-3,
+.mypage-card-title-4 {
+    position: absolute;
+    font-family: var(--font-family-semibold);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color-text-dark);
+    white-space: nowrap;
+}
+.mypage-card-title-1 {
+    top: 319px;
+    left: 69px;
+}
+.mypage-card-title-2 {
+    top: 698px;
+    left: 69px;
+}
+.mypage-card-title-3 {
+    top: 319px;
+    left: 401px;
+}
+.mypage-card-title-4 {
+    top: 698px;
+    left: 401px;
+}
+/* 위치(동) 텍스트 */
+.mypage-card-location-1,
+.mypage-card-location-2,
+.mypage-card-location-3,
+.mypage-card-location-4 {
+    position: absolute;
+    font-family: var(--font-family-regular);
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--color-text-light);
+    white-space: nowrap;
+}
+.mypage-card-location-1 {
+    top: 367px;
+    left: 93px;
+}
+.mypage-card-location-2 {
+    top: 746px;
+    left: 93px;
+}
+.mypage-card-location-3 {
+    top: 367px;
+    left: 424px;
+}
+.mypage-card-location-4 {
+    top: 746px;
+    left: 424px;
+}
+/* 날짜 텍스트 */
+.mypage-card-date-1,
+.mypage-card-date-2,
+.mypage-card-date-3,
+.mypage-card-date-4 {
+    position: absolute;
+    font-family: var(--font-family-regular);
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--color-text-light);
+    white-space: nowrap;
+}
+.mypage-card-date-1 {
+    top: 367px;
+    left: 177px;
+}
+.mypage-card-date-2 {
+    top: 746px;
+    left: 177px;
+}
+.mypage-card-date-3 {
+    top: 367px;
+    left: 509px;
+}
+.mypage-card-date-4 {
+    top: 746px;
+    left: 509px;
+}
+/* 카드 상태 아이콘 */
+.mypage-card-status-icon-1,
+.mypage-card-status-icon-2,
+.mypage-card-status-icon-3,
+.mypage-card-status-icon-4 {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+}
+.mypage-card-status-icon-1 {
+    top: 367px;
+    left: 67px;
+}
+.mypage-card-status-icon-2 {
+    top: 746px;
+    left: 67px;
+}
+.mypage-card-status-icon-3 {
+    top: 367px;
+    left: 399px;
+}
+.mypage-card-status-icon-4 {
+    top: 746px;
+    left: 399px;
+}
+/* 카드 아이콘 (태그 등) */
+.mypage-card-icon-1,
+.mypage-card-icon-2,
+.mypage-card-icon-3,
+.mypage-card-icon-4 {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+}
+.mypage-card-icon-1 {
+    top: 368px;
+    left: 151px;
+}
+.mypage-card-icon-2 {
+    top: 746px;
+    left: 151px;
+}
+.mypage-card-icon-3 {
+    top: 368px;
+    left: 483px;
+}
+.mypage-card-icon-4 {
+    top: 746px;
+    left: 483px;
+}
+/* 구분선 */
+.mypage-card-divider-horizontal {
+    position: absolute;
+    top: 420px;
+    left: 65px;
+    width: 628px;
+    height: 2px;
+    background-color: var(--color-divider);
+}
+/* 화살표 */
+.mypage-card-arrow {
+    position: absolute;
+    top: 27px;
+    left: 679px;
+    width: 8px;
+    height: 16px;
+    object-fit: contain;
+}
+
+/*====================================================
+  10. “참가한 동행” 섹션 (빈 컨테이너)
+====================================================*/
+.mypage-participated-section {
+    position: absolute;
+    top: 825px;
+    left: 396px;
+    width: 744px;
+    height: 812px;
+    background-color: var(--color-bg-light);
+    border: 1px solid var(--color-divider);
+    border-radius: 17px;
+    box-shadow: 0px 4px 4px rgba(215, 215, 215, 0.25);
+}
+.mypage-participated-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-family-regular);
+    font-size: 18px;
+    color: var(--color-text-light);
+}
+
+/*====================================================
+  11. “피드” 섹션 (빈 컨테이너)
+====================================================*/
+.mypage-feed-section {
+    position: absolute;
+    top: 825px;
+    left: 396px;
+    width: 744px;
+    height: 812px;
+    background-color: var(--color-bg-light);
+    border: 1px solid var(--color-divider);
+    border-radius: 17px;
+    box-shadow: 0px 4px 4px rgba(215, 215, 215, 0.25);
+}
+.mypage-feed-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-family-regular);
+    font-size: 18px;
+    color: var(--color-text-light);
+}
+
+/*====================================================
+  12. 사이드바 (내비게이션 메뉴)
+====================================================*/
+.mypage-sidebar {
+    position: absolute;
+    top: 300px;
+    left: 88px;
+    width: 252px;
+    height: 1480px; /* 페이지 높이 맞춤 */
+    display: flex;
+    flex-direction: column;
+}
+/* 네비게이션 라벨 */
+.mypage-nav-home,
+.mypage-nav-travel-management,
+.mypage-nav-my-posts,
+.mypage-nav-home-duplicate,
+.mypage-nav-followers-following,
+.mypage-nav-liked-posts,
+.mypage-nav-reviews,
+.mypage-nav-settings {
+    font-size: 22px;
+    font-family: var(--font-family-medium);
+    font-weight: 500;
+    color: #8e8e8e;
+    white-space: nowrap;
+    position: relative;
+    margin-bottom: 24px;
+}
+/* 선택된 메뉴 스타일 예시 */
+.mypage-nav-home {
+    color: #b36a3a;
+    font-family: var(--font-family-bold);
+}
+.mypage-nav-travel-management {
+    font-weight: bold;
+    font-size: 26px;
+    color: #444444;
+    font-family: var(--font-family-semibold);
+}
+/* 구분선 */
+.mypage-sidebar-divider {
+    position: absolute;
+    top: 40px;
+    left: -20px;
+    width: 253px;
+    height: 2px;
+    background-color: var(--color-divider);
+}
+/* 프로필 관리 버튼 */
+.mypage-profile-manage-btn {
+    position: absolute;
+    top: -100px;
+    left: 1257px;
+    width: 140px;
+    height: 40px;
+    background-color: var(--color-card-bg);
+    border: 1px solid var(--color-divider);
+    border-radius: 6px;
+}
+.mypage-profile-manage-text {
+    position: absolute;
+    top: 6px;
+    left: 28px;
+    font-family: var(--font-family-regular);
+    font-size: 18px;
+    font-weight: 400;
+    color: #717171;
+}
+/* 알림 버튼 */
+.mypage-notification-btn {
+    position: absolute;
+    top: -215px;
+    left: 1275px;
+    width: 38px;
+    height: 38px;
+}
+.mypage-notification-icon {
+    position: absolute;
+    top: 1px;
+    left: 4px;
+    width: 30px;
+    height: 36px;
+}
+/* 메시지 버튼 */
+.mypage-message-btn {
+    position: absolute;
+    top: -215px;
+    left: 1325px;
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+}
+/* 채팅 버튼 */
+.mypage-chat-btn {
+    position: absolute;
+    top: 1303px;
+    left: 1695px;
+    width: 130px;
+    height: 130px;
+    background-color: var(--color-highlight);
+    border-radius: 65px;
+}
+.mypage-chat-icon {
+    position: absolute;
+    top: 42px;
+    left: 42px;
+    width: 46px;
+    height: 47px;
+    background-image: url("https://c.animaapp.com/3LplbCFc/img/clip-path-group-2.png");
+    background-size: 100% 100%;
+}
+.mypage-chat-badge {
+    position: absolute;
+    top: 6px;
+    left: 101px;
+    width: 25px;
+    height: 25px;
+    background-color: var(--color-success);
+    border-radius: 12px;
+}
+
+/*====================================================
+  13. 팔로워/팔로잉 패널 (Followers Pane)
+====================================================*/
+.mypage-followers-pane {
+    position: absolute;
+    top: 258px;
+    left: 1551px;
+    width: 329px;
+    height: 519px;
+    background-color: #f6f6f6;
+    border: 1px solid var(--color-divider);
+    border-radius: 17px;
+}
+/* 필터 버튼들 */
+.mypage-filter-active-highlight {
+    position: absolute;
+    top: 144px;
+    left: 232px;
+    width: 77px;
+    height: 28px;
+}
+.mypage-filter-pill {
+    position: relative;
+    width: 75px;
+    height: 28px;
+    border-radius: 19.65px;
+    background-color: #eaeaea;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.mypage-filter-follow {
+    background-color: #fa801e;
+}
+.mypage-filter-pill-text {
+    font-family: var(--font-family-semibold);
+    font-size: 12px;
+    font-weight: 600;
+    color: #aaaaaa;
+    line-height: normal;
+}
+
+/* 팔로워 신뢰도 배지 */
+.mypage-follower-trust-score-1,
+.mypage-follower-trust-score-2,
+.mypage-follower-trust-score-3,
+.mypage-follower-trust-score-4,
+.mypage-follower-trust-score-5 {
+    position: absolute;
+    width: 54px;
+    height: 20px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.mypage-follower-trust-score-1 {
+    top: 149px;
+    left: 165px;
+    background-color: #fde6c6;
+}
+.mypage-follower-trust-score-2 {
+    top: 226px;
+    left: 165px;
+    background-color: #d2ecb7;
+}
+.mypage-follower-trust-score-3 {
+    top: 303px;
+    left: 165px;
+    background-color: #d2dffc;
+}
+.mypage-follower-trust-score-4 {
+    top: 380px;
+    left: 165px;
+    background-color: #fde6c7;
+}
+.mypage-follower-trust-score-5 {
+    top: 457px;
+    left: 165px;
+    background-color: #fde6c7;
+}
+.mypage-follower-trust-value-1,
+.mypage-follower-trust-value-2,
+.mypage-follower-trust-value-3,
+.mypage-follower-trust-value-4,
+.mypage-follower-trust-value-5 {
+    font-family: var(--font-family-semibold);
+    font-size: 13.3px;
+    font-weight: 600;
+}
+.mypage-follower-trust-value-1 {
+    color: #f7974a;
+}
+.mypage-follower-trust-value-2 {
+    color: #89b373;
+}
+.mypage-follower-trust-value-3 {
+    color: #61ace1;
+}
+.mypage-follower-trust-value-4 {
+    color: #f7974a;
+}
+.mypage-follower-trust-value-5 {
+    color: #f7974a;
+}
+
+/* 팔로워 아바타 */
+.mypage-follower-avatar-1,
+.mypage-follower-avatar-2,
+.mypage-follower-avatar-3,
+.mypage-follower-avatar-4,
+.mypage-follower-avatar-5,
+.mypage-follower-avatar-6 {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.mypage-follower-avatar-1 {
+    top: 132px;
+    left: 27px;
+}
+.mypage-follower-avatar-2 {
+    top: 209px;
+    left: 27px;
+}
+.mypage-follower-avatar-3 {
+    top: 285px;
+    left: 27px;
+}
+.mypage-follower-avatar-4 {
+    top: 362px;
+    left: 27px;
+}
+.mypage-follower-avatar-5 {
+    top: 439px;
+    left: 27px;
+}
+.mypage-follower-avatar-6 {
+    top: 516px;
+    left: 27px;
+}
+
+/* 팔로워 이름 */
+.mypage-follower-name-1,
+.mypage-follower-name-2,
+.mypage-follower-name-3,
+.mypage-follower-name-4,
+.mypage-follower-name-5 {
+    position: absolute;
+    font-family: var(--font-family-medium);
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--color-text-dark);
+    white-space: nowrap;
+}
+.mypage-follower-name-1 {
+    top: 146px;
+    left: 103px;
+}
+.mypage-follower-name-2 {
+    top: 223px;
+    left: 103px;
+}
+.mypage-follower-name-3 {
+    top: 300px;
+    left: 103px;
+}
+.mypage-follower-name-4 {
+    top: 377px;
+    left: 103px;
+}
+.mypage-follower-name-5 {
+    top: 454px;
+    left: 103px;
+}
+
+/* 팔로우 버튼 (각 팔로워 옆) */
+.mypage-follow-btn-1,
+.mypage-follow-btn-2,
+.mypage-follow-btn-3,
+.mypage-follow-btn-4,
+.mypage-follow-btn-5 {
+    position: absolute;
+    width: 64px;
+    height: 28px;
+    background-color: var(--color-highlight);
+    color: #ffffff;
+    font-family: var(--font-family-semibold);
+    font-size: 12px;
+    font-weight: 600;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+}
+/* 각 버튼 위치는 이름 텍스트의 오른쪽에 붙도록 조정 */
+.mypage-follow-btn-1 {
+    top: 142px;
+    left: 200px;
+}
+.mypage-follow-btn-2 {
+    top: 219px;
+    left: 200px;
+}
+.mypage-follow-btn-3 {
+    top: 296px;
+    left: 200px;
+}
+.mypage-follow-btn-4 {
+    top: 373px;
+    left: 200px;
+}
+.mypage-follow-btn-5 {
+    top: 450px;
+    left: 200px;
+}
+
+/* 팔로워 타이틀 */
+.mypage-followers-title {
+    position: absolute;
+    top: 27px;
+    left: 44px;
+    font-family: var(--font-family-semibold);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color-text-dark);
+    white-space: nowrap;
+}
+
+/* 검색창 */
+.mypage-search-group {
+    position: absolute;
+    top: 67px;
+    left: 27px;
+    width: 280px;
+    height: 39px;
+}
+.mypage-search-input-wrapper {
+    position: relative;
+    width: 278px;
+    height: 39px;
+    background-color: var(--color-bg-light);
+    border-radius: 19.41px;
+    box-shadow: 0px 1px 1px rgba(172, 172, 172, 0.25);
+}
+.mypage-search-placeholder {
+    position: absolute;
+    top: 10px;
+    left: 52px;
+    font-family: var(--font-family-regular);
+    font-size: 16px;
+    font-weight: 400;
+    color: #aeaeae;
+    white-space: nowrap;
+}
+.mypage-search-icon-img {
+    position: absolute;
+    top: 8px;
+    left: 20px;
+    width: 22px;
+    height: 22px;
+}
+
+
+.mypage-follow-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+}
+
+.follower-entry {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-radius: 12px;
+    background-color: white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.follower-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.follower-info {
+    flex: 1;
+    margin-left: 16px;
+}
+
+.nickname {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.credibility {
+    font-size: 14px;
+    color: gray;
+}
+
+.follow-btn {
+    background-color: #ff6b00;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+}

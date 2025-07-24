@@ -1,0 +1,405 @@
+/*==============================================================================
+  0. 전체 컨테이너
+==============================================================================*/
+.terms-container {
+    position: relative;
+    width: 1920px;
+    height: 1679px;
+    background-color: #ffffff;
+    overflow: hidden;
+    font-family: "Pretendard", sans-serif;
+    transform-origin: top;
+    transform: scale(0.6725);
+    margin: 0 auto;
+}
+
+/*==============================================================================
+  1. 상단 “별표(*)” 및 “이용약관 동의” 제목
+==============================================================================*/
+.asterisk {
+    position: absolute;
+    top: 411.59px;
+    left: 562.13px;
+    color: #f4964a;
+    font-size: 22px;
+    font-weight: 600;
+    word-wrap: break-word;
+}
+
+.main-title {
+    position: absolute;
+    top: 411.59px;
+    left: 401.99px;
+    color: #444444;
+    font-size: 28px;
+    font-weight: 600;
+    word-wrap: break-word;
+}
+
+/*==============================================================================
+  2. 구분선 (Vector 10)
+==============================================================================*/
+.divider-line {
+    position: absolute;
+    top: 467.87px;
+    left: 396px;
+}
+
+/*==============================================================================
+  3. “전체 동의” 텍스트 + 배경 사각형 + 체크 아이콘
+==============================================================================*/
+/* 3-1) 텍스트 */
+.agree-all-text {
+    position: absolute;
+    top: 503.52px;
+    left: 481.90px;
+    color: #5e5e5e;
+    font-size: 22px;
+    font-weight: 500;
+    word-wrap: break-word;
+}
+
+/* 3-2) 사각형 채움 (Rectangle 18) */
+.agree-all-rect {
+    position: absolute;
+    top: 503.52px;
+    left: 441.12px;
+}
+
+/* 3-3) 체크 아이콘 (Vector 3) */
+.agree-all-icon {
+    position: absolute;
+    top: 510.05px;
+    left: 446.83px;
+}
+
+/*==============================================================================
+  4. 개별 약관 영역 (총 4개)
+==============================================================================*/
+/* 4-1) 이용약관 동의 (필수) */
+/*  사각형 (Rectangle 19) */
+.clause1-rect {
+    position: absolute;
+    top: 570.78px;
+    left: 481.90px;
+}
+.clause1-icon {
+    position: absolute;
+    top: 578.37px;
+    left: 488.54px;
+}
+/*  텍스트 */
+.clause1-text {
+    position: absolute;
+    top: 574.42px;
+    left: 529.27px;
+    color: #646464;
+    font-size: 20.92px;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+/*  “(필수)” 텍스트 */
+.clause1-required {
+    position: absolute;
+    top: 574.42px;
+    left: 661.02px;
+    color: #a1a1a1;
+    font-size: 20.92px;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+/*  “보기” 버튼 */
+.view1 {
+    position: absolute;
+    top: 574.42px;
+    left: 1387.13px;
+    color: #939393;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* 4-2) 개인정보 수집·이용 동의 (필수) */
+.clause2-rect {
+    position: absolute;
+    top: 619.01px;
+    left: 481.90px;
+}
+.clause2-icon {
+    position: absolute;
+    top: 626.59px;
+    left: 488.54px;
+}
+.clause2-text {
+    position: absolute;
+    top: 620.90px;
+    left: 529.27px;
+    color: #646464;
+    font-size: 20.92px;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+.clause2-required {
+    position: absolute;
+    top: 620.90px;
+    left: 744.71px;
+    color: #a1a1a1;
+    font-size: 20.92px;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+.view2 {
+    position: absolute;
+    top: 622.40px;
+    left: 1387.13px;
+    color: #939393;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* 4-3) 개인정보 수집·이용 동의 (선택) */
+.clause3-rect {
+    position: absolute;
+    top: 667.23px;
+    left: 481.90px;
+}
+.clause3-icon {
+    position: absolute;
+    top: 674.81px;
+    left: 488.54px;
+}
+.clause3-text {
+    position: absolute;
+    top: 670.95px;
+    left: 529.27px;
+    color: #646464;
+    font-size: 20.92px;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+.clause3-required {
+    position: absolute;
+    top: 670.95px;
+    left: 744.71px;
+    color: #a1a1a1;
+    font-size: 20.92px;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+.view3 {
+    position: absolute;
+    top: 670.38px;
+    left: 1387.13px;
+    color: #939393;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* 4-4) 본인은 만 14세 이상입니다. (필수) */
+.clause4-rect {
+    position: absolute;
+    top: 715.45px;
+    left: 481.90px;
+}
+.clause4-icon {
+    position: absolute;
+    top: 723.04px;
+    left: 488.54px;
+}
+.clause4-text {
+    position: absolute;
+    top: 719.18px;
+    left: 529.27px;
+    color: #646464;
+    font-size: 20.92px;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+.clause4-required {
+    position: absolute;
+    top: 719.18px;
+    left: 770.28px;
+    color: #a1a1a1;
+    font-size: 20.92px;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+.view4 {
+    position: absolute;
+    top: 718.36px;
+    left: 1387.13px;
+    color: #939393;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/*==============================================================================
+  5. 데코레이션 SVG 아이콘들
+==============================================================================*/
+/* Ellipse 2 */
+.decor-ellipse2 {
+    position: absolute;
+    top: 417.77px;
+    left: 356.23px;
+}
+
+/* Vector 11 */
+.decor-vector11 {
+    position: absolute;
+    top: 580.09px;
+    left: 1430.33px;
+}
+
+/* Vector 12 */
+.decor-vector12 {
+    position: absolute;
+    top: 626.87px;
+    left: 1430.33px;
+}
+
+/* Vector 13 */
+.decor-vector13 {
+    position: absolute;
+    top: 675.33px;
+    left: 1430.33px;
+}
+
+/* Vector 14 */
+.decor-vector14 {
+    position: absolute;
+    top: 723.31px;
+    left: 1430.33px;
+}
+
+/*==============================================================================
+  6. 진행 상태 표시(Progress Bar)
+  (Rectangle 24 / Rectangle 25 / Ellipse 3)
+==============================================================================*/
+/* 배경 바 (Rectangle 24) */
+.progress-bg {
+    position: absolute;
+    top: 311.12px;
+    left: 396px;
+    width: 1128px;
+    height: 27px;
+    background-color: #ffdfc5;
+    border-radius: 13.5px;
+}
+
+/* 채워진 바 (Rectangle 25) */
+.progress-filled {
+    position: absolute;
+    top: 311.20px;
+    left: 396px;
+    width: 393.88px;
+    height: 27px;
+    background-color: #f8b682;
+    border-radius: 13.5px;
+}
+
+/* 원형 표시 (Ellipse 3) */
+.progress-circle {
+    position: absolute;
+    top: 311.20px;
+    left: 763.06px;
+    width: 27px;
+    height: 28px;
+    background-color: #db6a1f;
+    border-radius: 50%;
+}
+
+/*==============================================================================
+  7. “다음으로” 버튼 (Rectangle 2 + 텍스트)
+==============================================================================*/
+.next-button {
+    position: absolute;
+    top: 1009.97px;
+    left: 531.28px;
+    width: 857.45px;
+    height: 93.39px;
+    background-color: #f4964a;
+    border: none;
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*==============================================================================
+  8. 상단 좌측 로고 아이콘들 (Vector, Vector, …)
+==============================================================================*/
+/* Vector  (맨 왼쪽 첫 번째) */
+.logo-vector1 {
+    position: absolute;
+    top: 203.27px;
+    left: 930.76px;
+}
+.logo-vector2 {
+    position: absolute;
+    top: 203.27px;
+    left: 963.70px;
+}
+.logo-vector3 {
+    position: absolute;
+    top: 203.27px;
+    left: 988.43px;
+}
+.logo-vector4 {
+    position: absolute;
+    top: 203.27px;
+    left: 1011.70px;
+}
+.logo-vector5 {
+    position: absolute;
+    top: 202.96px;
+    left: 1038.75px;
+}
+.logo-vector6 {
+    position: absolute;
+    top: 203.27px;
+    left: 1067.20px;
+}
+.logo-vector7 {
+    position: absolute;
+    top: 215.62px;
+    left: 869.10px;
+}
+.logo-vector8 {
+    position: absolute;
+    top: 215.62px;
+    left: 869.12px;
+}
+.logo-vector9 {
+    position: absolute;
+    top: 187.10px;
+    left: 875.20px;
+}
+.logo-vector10 {
+    position: absolute;
+    top: 187.09px;
+    left: 838.74px;
+}
+.logo-vector11 {
+    position: absolute;
+    top: 193.31px;
+    left: 869.14px;
+}
+.logo-vector12 {
+    position: absolute;
+    top: 182.35px;
+    left: 829.50px;
+}
+
+/*==============================================================================
+  추가: word-wrap 초기화 (필요 시)
+==============================================================================*/
+.terms-container div {
+    word-wrap: break-word;
+}

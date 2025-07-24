@@ -1,0 +1,883 @@
+/*====================================================
+  공통 변수 (컬러, 폰트패밀리 등)
+====================================================*/
+:root {
+    --color-bg-light: #f9f9f9;        /* 입력창 배경색 */
+    --color-border: #d5d5d5;          /* 테두리/구분선 색 */
+    --color-text-light: #858585;      /* 회색 텍스트 */
+    --color-text-medium: #525252;     /* 진회색 텍스트 */
+    --color-text-dark: #444444;       /* 어두운 텍스트 */
+    --color-highlight: #f4964a;       /* 강조색 (별표, 버튼 등) */
+    --color-accent: #f7b681;          /* 진행바 채워진 영역 */
+    --color-accent-dark: #db6a1f;     /* 진행바 인디케이터 */
+    --color-success: #72d3aa;         /* 성공 아이콘 배경 */
+    --color-btn-address: #bebebe;     /* 주소 찾기 버튼 배경 */
+    --color-btn-submit: #f4964a;      /* 다음으로 버튼 배경 */
+    --color-btn-submit-hover: #d67a35;/* 다음으로 버튼 호버 */
+
+    --font-family-light: "Pretendard-Light", Helvetica, Arial, sans-serif;
+    --font-family-medium: "Pretendard-Medium", Helvetica, Arial, sans-serif;
+    --font-family-semibold: "Pretendard-SemiBold", Helvetica, Arial, sans-serif;
+    --font-family-bold: "Pretendard-Bold", Helvetica, Arial, sans-serif;
+}
+
+/*====================================================
+  1. 최상위 컨테이너
+====================================================*/
+.register-container {
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.register-container .div {
+    background-color: #ffffff;
+    position: relative;
+    width: 1920px; /* Figma 기준 너비 고정 */
+    height: 2284px; /* Figma 기준 높이 고정 */
+    transform-origin: top;
+    transform: scale(0.6725);
+    margin: 0 auto;
+}
+
+/*====================================================
+  2. 진행바(Progress Bar)
+====================================================*/
+.overlap {
+    position: absolute;
+    top: 311px;    /* Figma 상 좌표 */
+    left: 396px;   /* Figma 상 좌표 */
+    width: 1128px;
+    height: 27px;
+    background-color: #ffdec4; /* 연한 배경 바 */
+    border-radius: 13.5px;
+}
+
+.rectangle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 761px;              /* Figma 상 채워진 길이 */
+    height: 27px;
+    background-color: #f7b681; /* 채워진 영역 색 */
+    border-radius: 13.5px;
+}
+
+.ellipse {
+    position: absolute;
+    top: 0;
+    left: 734px;               /* Figma 상 표시점 위치 */
+    width: 27px;
+    height: 27px;
+    background-color: #db6a1f; /* 표시점 색 */
+    border-radius: 50%;
+}
+
+/*====================================================
+  3. 입력 그룹 기본 스타일
+     - 모든 input에 공통으로 적용
+====================================================*/
+.input-field {
+    position: absolute;
+    top: 40px;                  /* 입력창 아래 여백 */
+    left: 0;
+    width: 100%;
+    height: 61px;               /* Figma 상 높이 */
+    padding-left: 30px;         /* placeholder 텍스트가 들어갈 여백 */
+    font-family: var(--font-family-light);
+    font-size: 20px;
+    color: var(--color-text-light);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    background-color: var(--color-bg-light);
+    box-sizing: border-box;
+    outline: none;
+}
+
+.input-field::placeholder {
+    color: var(--color-text-light);
+    opacity: 1;
+}
+
+.input-field:focus {
+    border-color: var(--color-highlight);
+}
+
+/*====================================================
+  3.1. 비밀번호 입력 그룹 (Password)
+====================================================*/
+.group {
+    position: absolute;
+    top: 776px;   /* Figma 상 좌표 */
+    left: 411px;  /* Figma 상 좌표 */
+    width: 594px; /* Figma 상 넓이 */
+    height: 102px; /* Figma 상 높이 */
+}
+
+.group .input-field {
+    /* input은 이 위치에 절대定位 */
+}
+
+.text-wrapper-2 {
+    position: absolute;
+    top: 0;
+    left: 6px;  /* Figma 상 좌표 */
+    color: var(--color-text-medium);
+    font-family: var(--font-family-medium);
+    font-size: 22px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.text-wrapper-3 {
+    position: absolute;
+    top: 0;
+    left: 87px; /* Figma 상 좌표 */
+    color: var(--color-highlight);
+    font-family: var(--font-family-semibold);
+    font-size: 22px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/*====================================================
+  3.2. 이름 입력 그룹 (Name)
+====================================================*/
+.group-2 {
+    position: absolute;
+    top: 1250px; /* Figma 상 좌표 (조정된 위치) */
+    left: 411px;  /* Figma 상 좌표 */
+    width: 594px; /* Figma 상 넓이 */
+    height: 102px;/* Figma 상 높이 */
+}
+
+.group-2 .input-field {
+    /* input 자체에 스타일 적용 */
+}
+
+.group-2 .text-wrapper-2 {
+    position: absolute;
+    top: 0;
+    left: 6px;
+    color: var(--color-text-medium);
+    font-family: var(--font-family-medium);
+    font-size: 22px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.group-2 .text-wrapper-4 {
+    position: absolute;
+    top: 0;
+    left: 100px; /* Figma 상 좌표 */
+    color: var(--color-highlight);
+    font-family: var(--font-family-semibold);
+    font-size: 22px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/*====================================================
+  3.3. 성별 선택 그룹 (Gender)
+====================================================*/
+.group-3 {
+    position: absolute;
+    top: 1371px; /* Figma 상 좌표 (조정된 위치) */
+    left: 411px;  /* Figma 상 좌표 */
+    width: 219px; /* Figma 상 넓이 */
+    height: 102px;/* Figma 상 높이 */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.gender-btn {
+    position: absolute;
+    top: 40px;
+    width: 100px;  /* Figma 상 버튼 넓이 */
+    height: 62px;  /* Figma 상 버튼 높이 */
+    background-color: var(--color-bg-light);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    font-family: var(--font-family-medium);
+    font-size: 20px;
+    color: var(--color-text-medium);
+    cursor: pointer;
+    outline: none;
+}
+
+/* “남자” 버튼은 left: 0, “여자” 버튼은 left: 111px(=0+100+11) */
+.gender-btn:nth-of-type(1) {
+    left: 0;
+}
+.gender-btn:nth-of-type(2) {
+    left: 111px;
+}
+
+/* 선택된 gender-btn 스타일 */
+.gender-btn.selected {
+    background-color: #ffb482; /* Figma 상 선택된 오렌지 */
+    color: #ffffff;
+    border-color: #db6a1f;
+}
+
+.group-3 .text-wrapper-2 {
+    position: absolute;
+    top: 0;
+    left: 6px;
+    color: var(--color-text-medium);
+    font-family: var(--font-family-medium);
+    font-size: 22px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.group-3 .text-wrapper-4 {
+    position: absolute;
+    top: 0;
+    left: 52px; /* Figma 상 좌표 (별표 위치) */
+    color: var(--color-highlight);
+    font-family: var(--font-family-semibold);
+    font-size: 22px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/*====================================================
+  3.4. 휴대폰 입력 그룹 (Phone)
+====================================================*/
+.group-4 {
+    position: absolute;
+    top: 1502px;  /* Figma 상 좌표 */
+    left: 411px;  /* Figma 상 좌표 */
+    width: 594px; /* Figma 상 넓이 */
+    height: 102px;/* Figma 상 높이 */
+}
+
+.group-4 .input-field {
+    /* input 자체에 스타일 적용 */
+}
+
+.group-4 .text-wrapper-2 {
+    position: absolute;
+    top: 0;
+    left: 6px;
+    color: var(--color-text-medium);
+    font-family: var(--font-family-medium);
+    font-size: 22px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.group-4 .text-wrapper-8 {
+    position: absolute;
+    top: 0;
+    left: 67px;
+    color: var(--color-highlight);
+    font-family: var(--font-family-semibold);
+    font-size: 22px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/*====================================================
+  3.5. 주소 입력 그룹 (Address)
+====================================================*/
+.group-5 {
+    position: absolute;
+    top: 1783px; /* Figma 상 좌표 */
+    left: 411px; /* Figma 상 좌표 */
+    width: 594px;/* Figma 상 넓이 */
+    height: 102px;/* Figma 상 높이 */
+}
+
+.group-5 .input-field {
+    /* input 자체에 스타일 적용 */
+}
+
+.group-5 .text-wrapper-2 {
+    position: absolute;
+    top: 0;
+    left: 6px;
+    color: var(--color-text-medium);
+    font-family: var(--font-family-medium);
+    font-size: 22px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.group-5 .text-wrapper-4 {
+    position: absolute;
+    top: 0;
+    left: 52px;
+    color: var(--color-highlight);
+    font-family: var(--font-family-semibold);
+    font-size: 22px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/*====================================================
+  3.6. 생년월일 입력 그룹 (Birthdate)
+====================================================*/
+.overlap-3 {
+    position: absolute;
+    top: 1636px; /* Figma 상 좌표 */
+    left: 411px; /* Figma 상 좌표 */
+    width: 596px;/* Figma 상 넓이 */
+    height: 102px;/* Figma 상 높이 */
+}
+
+.birthdate-wrapper {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    width: 596px;
+    height: 61px;
+}
+
+.birthdate-field {
+    position: absolute;
+    top: 0;
+    background-color: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    font-family: var(--font-family-light);
+    font-size: 20px;
+    color: var(--color-text-light);
+    text-align: center;
+    outline: none;
+    box-sizing: border-box;
+    height: 61px;
+}
+
+/* YYYY 입력창 */
+.birthdate-field:nth-of-type(1) {
+    left: 0;
+    width: 220px; /* YYYY 4자리 충분히 보이도록 */
+}
+
+/* MM 입력창 */
+.birthdate-field:nth-of-type(2) {
+    left: 220px; /* YYYY 너비(220px) + 분리 여백 */
+    width: 95px;
+}
+
+/* DD 입력창 */
+.birthdate-field:nth-of-type(3) {
+    left: 315px; /* YYYY(220) + MM(95) */
+    width: 95px;
+}
+
+.group-6 .text-wrapper-2 {
+    position: absolute;
+    top: 0;
+    left: 6px;    /* Figma 상 좌표 */
+    color: var(--color-text-medium);
+    font-family: var(--font-family-medium);
+    font-size: 22px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.vector {
+    position: absolute;
+    top: 57px;    /* Figma 상 좌표 */
+    left: 209px;  /* Figma 상 좌표 */
+    width: 2px;
+    height: 28px;
+}
+
+.img {
+    position: absolute;
+    top: 57px;    /* Figma 상 좌표 */
+    left: 380px;  /* Figma 상 좌표 */
+    width: 2px;
+    height: 28px;
+}
+
+/*====================================================
+  3.7. 비밀번호 재확인 입력 그룹 (Password Confirm)
+====================================================*/
+.group-7 {
+    position: absolute;
+    top: 1049px; /* Figma 상 좌표 */
+    left: 411px; /* Figma 상 좌표 */
+    width: 592px;/* Figma 상 넓이 */
+    height: 102px;/* Figma 상 높이 */
+}
+
+.group-7 .input-field {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    width: 100%;
+    height: 61px;
+    padding-left: 30px;
+    font-family: var(--font-family-light);
+    font-size: 20px;
+    color: var(--color-text-light);
+    background-color: var(--color-bg-light);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.group-7 .rule-icon {
+    position: absolute;
+    top: 55px;    /* 위치 약간 조정 */
+    right: 20px;  /* 위치 약간 조정 */
+    width: 25px;
+    height: 25px;
+}
+
+.group-7 .text-wrapper-2 {
+    position: absolute;
+    top: 0;
+    left: 6px;
+    color: var(--color-text-medium);
+    font-family: var(--font-family-medium);
+    font-size: 22px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/*====================================================
+  4. 섹션 헤더 (필수입력사항, *, 회원정보)
+====================================================*/
+.text-wrapper-12 {
+    position: absolute;
+    top: 428px;   /* 화면 위쪽에서 428px 지점에 고정 */
+    left: 1410px; /* 화면 왼쪽에서 1410px 지점에 고정 */
+    color: var(--color-text-medium);
+    font-family: var(--font-family-medium);
+    font-size: 18px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.text-wrapper-13 {
+    position: absolute;
+    top: 428px;   /* Figma 상 좌표 */
+    left: 1389px; /* Figma 상 좌표 */
+    color: var(--color-highlight);
+    font-family: var(--font-family-semibold);
+    font-size: 22px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.text-wrapper-14 {
+    position: absolute;
+    top: 411px;   /* Figma 상 좌표 */
+    left: 402px;  /* Figma 상 좌표 */
+    color: var(--color-text-dark);
+    font-family: var(--font-family-semibold);
+    font-size: 28px;
+    font-weight: 600;
+}
+
+/*====================================================
+  5. 가로 구분선 (Divider)
+====================================================*/
+.vector-2,
+.vector-3 {
+    position: absolute;
+    height: 2px;
+    background-color: var(--color-border);
+}
+
+.vector-2 {
+    top: 467px;   /* Figma 상 좌표 */
+    left: 396px;  /* Figma 상 좌표 */
+    width: 1128px;
+}
+
+.vector-3 {
+    top: 1197px;  /* Figma 상 좌표 (조정된 위치) */
+    left: 396px;  /* Figma 상 좌표 */
+    width: 1128px;
+}
+
+/*====================================================
+  6. 비밀번호 규칙 안내 (3개)
+====================================================*/
+.group-8,
+.group-9,
+.group-10 {
+    position: absolute;
+    left: 422px; /* 공통 Figma 상 좌표 */
+    height: 25px;
+}
+
+.group-8 {
+    top: 916px;   /* Figma 상 좌표 */
+    width: 290px; /* Figma 상 넓이 */
+}
+
+.group-9 {
+    top: 951px;   /* Figma 상 좌표 */
+    width: 272px; /* Figma 상 넓이 */
+}
+
+.group-10 {
+    top: 986px;   /* Figma 상 좌표 */
+    width: 271px; /* Figma 상 넓이 */
+}
+
+.p {
+    position: absolute;
+    top: -15px;     /* Figma 상 좌표 */
+    left: 41px;   /* Figma 상 좌표 */
+    color: var(--color-text-light);
+    font-family: var(--font-family-light);
+    font-size: 16px;
+    font-weight: 300;
+    white-space: nowrap;
+}
+/*====================================================
+  아이콘 박스 기본 스타일: 항상 1px 테두리를 갖도록 변경
+====================================================*/
+.icon-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 25px;
+    height: 25px;
+    background-color: var(--color-highlight);      /* 주황 배경 */
+    border: 1px solid var(--color-highlight);      /* 기본 테두리(투명하지 않고 주황) */
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;                        /* 테두리 포함해서 25x25가 되도록 */
+}
+
+/*====================================================
+  아이콘 박스 disabled 상태: 배경/테두리 색상만 덮어쓰기
+====================================================*/
+.icon-box.disabled {
+    background-color: #f3f3f3;   /* 회색 배경 */
+    border-color: #e8e8e8;       /* 회색 테두리 */
+}
+
+/*====================================================
+  아이콘(svg/png) 사이즈(크기) 조절
+====================================================*/
+.icon {
+    width: 16px;
+    height: 15px;
+}
+
+/*====================================================
+  7. 주소 찾기 버튼 (상단)
+====================================================*/
+.overlap-4 {
+    position: absolute;
+    top: 1823px; /* Figma 상 좌표 */
+    left: 1015px;/* Figma 상 좌표 */
+    width: 188px;/* Figma 상 넓이 */
+    height: 61px;/* Figma 상 높이 */
+    background-color: var(--color-btn-address);
+    border: 1px solid #a8a8a8;
+    border-radius: 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.text-wrapper-15 {
+    position: absolute;
+    top: 18px;   /* Figma 상 좌표 */
+    left: 56px;  /* Figma 상 좌표 */
+    color: #ffffff;
+    font-family: var(--font-family-semibold);
+    font-size: 20px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/*====================================================
+  8. 상태 성공 아이콘 (EllipseGreen)
+====================================================*/
+.ellipse-2 {
+    position: absolute;
+    top: 417px;   /* Figma 상 좌표 */
+    left: 356px;  /* Figma 상 좌표 */
+    width: 22px;  /* Figma 상 크기 */
+    height: 22px; /* Figma 상 크기 */
+    background-color: var(--color-success);
+    border-radius: 50%;
+}
+
+/*====================================================
+  9. 로고 섹션 (상단)
+====================================================*/
+.group-11 {
+    position: absolute;
+    top: 182px;  /* Figma 상 좌표 */
+    left: 829px; /* Figma 상 좌표 */
+    width: 261px;/* Figma 상 넓이 */
+    height: 55px;/* Figma 상 높이 */
+}
+
+.group-12 {
+    position: absolute;
+    top: 21px;   /* Figma 상 좌표 */
+    left: 101px; /* Figma 상 좌표 */
+    width: 160px;/* Figma 상 넓이 */
+    height: 25px;/* Figma 상 높이 */
+}
+
+.overlap-group-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 82px; /* Figma 상 넓이 */
+    height: 55px;/* Figma 상 높이 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.overlap-group-2 {
+    position: relative;
+    width: 82px;
+    height: 55px;
+}
+
+.vector-6 {
+    position: absolute;
+    width: 82px;
+    height: 55px;
+}
+
+/*====================================================
+  10. “다음으로” 버튼
+====================================================*/
+.overlap-wrapper {
+    position: absolute;
+    top: 2014px;  /* Figma 상 좌표 */
+    left: 531px;  /* Figma 상 좌표 */
+    width: 859px; /* Figma 상 넓이 */
+    height: 93px; /* Figma 상 높이 */
+    cursor: pointer;
+}
+
+.overlap-5 {
+    position: relative;
+    width: 857px; /* Figma 상 넓이 */
+    height: 93px; /* Figma 상 높이 */
+    background-color: var(--color-btn-submit);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.text-wrapper-16 {
+    color: #ffffff;
+    font-family: var(--font-family-bold);
+    font-size: 28px;
+    font-weight: 700;
+}
+
+/*====================================================
+  11. 이메일 입력 + OTP 그룹
+====================================================*/
+.group-14 {
+    position: absolute;
+    top: 546px;   /* Figma 상 좌표 */
+    left: 411px;  /* Figma 상 좌표 */
+    width: 594px; /* Figma 상 넓이 */
+    height: 102px;/* Figma 상 높이 */
+}
+
+.group-14 .input-field {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    width: 588px;    /* Figma 상 넓이 */
+    height: 61px;    /* Figma 상 높이 */
+    background-color: var(--color-bg-light);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding-left: 30px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.group-14 .text-wrapper-2 {
+    position: absolute;
+    top: 0;
+    left: 6px;
+    color: var(--color-text-medium);
+    font-family: var(--font-family-medium);
+    font-size: 22px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.group-14 .text-wrapper-18 {
+    position: absolute;
+    top: 0;
+    left: 66px; /* Figma 상 좌표 */
+    color: var(--color-highlight);
+    font-family: var(--font-family-semibold);
+    font-size: 22px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.overlap-6 {
+    position: absolute;
+    top: 659px;   /* 이메일(546px) + 이메일 높이(102px) + 여유(11px) */
+    left: 411px;  /* 이메일 입력창과 동일한 left */
+    width: 588px; /* 부모 `.group-14` width 594px – 여유 6px(좌우 padding 등) */
+    height: 61px; /* OTP 입력창 높이 (61px) */
+    /* 배경색, border 등은 여기서 굳이 지정하지 않아도 되지만
+       명확하게 “부모” 역할을 하기 위해 배경을 흰색으로 두셔도 무방합니다. */
+    background-color: transparent;
+    box-sizing: border-box;
+}
+/* ---------------------------------------------------
+   OTP 입력창 (인증번호 6자리)
+   - 기본 비활성화: 회색 배경
+   - 활성화 시 테두리/배경색 강조
+--------------------------------------------------- */
+.otp-input {
+    position: absolute;
+    width: 388px;  /* 남은 공간을 고려해 적절히 조정 */
+    height: 61px;
+    padding-left: 30px;
+    font-family: var(--font-family-light);
+    font-size: 20px;
+    color: var(--color-text-light);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    background-color: #f9f9f9; /* 비활성화 시 옅은 회색 배경 */
+    box-sizing: border-box;
+    outline: none;
+}
+
+.otp-input:disabled {
+    background-color: #f9f9f9;
+    color: #bababa;
+    cursor: not-allowed;
+}
+
+.otp-input:not(:disabled) {
+    background-color: #ffffff;
+    border-color: var(--color-highlight);
+    color: var(--color-text-dark);
+}
+
+/* ---------------------------------------------------
+   “인증번호 확인” 버튼 (.overlap-7)
+   - 기본: 회색 배경, 회색 글씨
+   - 활성화(active): 주황 배경, 흰 글씨
+--------------------------------------------------- */
+.overlap-7 {
+    position: absolute;
+    top: 0;
+    left: 404px; /* Figma 상 좌표 */
+    width: 184px;/* Figma 상 넓이 */
+    height: 61px;/* Figma 상 높이 */
+    background-color: #ebebeb;      /* 기본 회색 배경 */
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    box-sizing: border-box;
+    cursor: not-allowed;
+}
+
+.overlap-7 .text-wrapper-21 {
+    position: absolute;
+    top: 18px;   /* Figma 상 좌표 */
+    left: 36px;  /* Figma 상 좌표 */
+    color: #a2a2a2; /* 기본 회색 글씨 */
+    font-family: var(--font-family-medium);
+    font-size: 20px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* 활성화된 상태 */
+.overlap-7.active {
+    background-color: var(--color-btn-submit); /* 주황 배경 */
+    cursor: pointer;
+}
+
+.overlap-7.active .text-wrapper-21 {
+    color: #ffffff; /* 흰 글씨 */
+}
+
+/* ---------------------------------------------------
+   “인증번호 받기” 버튼 (.overlap-8)
+   - 기본: 주황 배경, 흰 글씨
+   - 타이머 동작 중(.same-btn): 회색 → 확인 버튼과 같은 스타일
+   - 비활성화(isRequestEnabled=false): 불투명 회색
+   - 인증 완료 후(otpVerified=true): 원래 주황으로 복원
+--------------------------------------------------- */
+.overlap-8 {
+    position: absolute;
+    top: 585px;   /* Figma 상 좌표 */
+    left: 1016px; /* Figma 상 좌표 */
+    width: 188px; /* Figma 상 넓이 */
+    height: 61px; /* Figma 상 높이 */
+    background-color: var(--color-btn-submit); /* 기본 주황 */
+    border-radius: 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.overlap-8 .text-wrapper-22 {
+    position: absolute;
+    top: 19px;   /* Figma 상 좌표 */
+    left: 39px;  /* Figma 상 좌표 */
+    color: #ffffff;
+    font-family: var(--font-family-semibold);
+    font-size: 20px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* 타이머 동작 중: “인증번호 확인” 버튼과 같은 느낌의 배경 → 회색 배경 + 회색 글씨 */
+.overlap-8.same-btn {
+    background-color: #ebebeb;      /* 확인 버튼 기본 스타일과 동일 */
+}
+
+.overlap-8.same-btn .text-wrapper-22 {
+    color: #a2a2a2; /* 회색 글씨 */
+}
+
+/* “인증번호 받기”가 비활성화 상태일 때 (OTP 요청 전이나, 타이머 끝났을 때) */
+.overlap-8[disabled],
+.overlap-8.same-btn[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ---------------------------------------------------
+   OTP 타이머 표시 (00:00)
+--------------------------------------------------- */
+.text-wrapper-20 {
+    position: absolute;
+    top: 17px;  /* Figma 상 좌표 */
+    left: 330px;/* Figma 상 좌표 */
+    color: #d4d4d4;
+    font-family: var(--font-family-medium);
+    font-size: 18px;
+    font-weight: 500;
+}
+
+/*====================================================
+  반응형 / 기타 보조 스타일
+====================================================*/
+@media (max-width: 768px) {
+    .text-wrapper-14 {
+        font-size: 24px;
+        left: 20px;
+        top: 20px;
+    }
+}

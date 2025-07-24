@@ -1,0 +1,204 @@
+/* src/styles/ChatRoom.css */
+
+/* 전체 채팅창 래퍼 */
+.chat-room {
+    position: relative;
+    height: calc(100vh - 116px);
+    background: #fff;
+    border: 1px solid #d0d0d0;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chat-room-header {
+    padding: 5%;
+    border-bottom: 1px solid #f0f0f0;
+    background: #fff;
+    text-align: center;
+}
+
+.chat-room-header .participant-name {
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 24px;
+    color: #000;
+}
+
+.chat-room-header .post-info {
+    display: flex;
+    font-family: "Pretendard-Regular", Helvetica;
+    font-weight: bold;
+    color: #000;
+    margin-top: 30px;
+    text-align: left;
+}
+
+.chat-room-header .post-image {
+    width: 65px;
+    height: 65px;
+    border-radius: 15px;
+    object-fit: cover;
+    background-color: #ddd;
+    cursor: pointer;
+}
+
+.chat-room-header .post-title {
+    font-family: "Pretendard-Regular", Helvetica;
+    font-weight: bold;
+    font-size: 22px;
+    color: #000;
+    margin-left: 15px;
+    margin-top: 0px;
+    cursor: pointer;
+}
+
+.chat-room-header .post-complete {
+    font-family: "Pretendard-Regular", Helvetica;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 10px;
+    text-decoration-line: underline;
+    margin-left: 15px;
+    color: #4e4e4e;
+    cursor: pointer;
+}
+
+
+/* 메시지 리스트 */
+.message-list {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* 메시지 + 시간 컨테이너 */
+.message-container {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+/* 내 메시지일 때 우측 정렬 */
+.message-container.mine {
+    justify-content: flex-end;
+}
+
+/* 말풍선 */
+.message {
+    max-width: 70%;
+    padding: 10px 20px;
+    border-radius: 18px;
+    background-color: #e4f5f4;
+    font-family: "Pretendard-Regular", Helvetica;
+    font-size: 18px;
+    color: #000;
+    word-break: break-word;
+}
+
+/* 내 메시지 배경색 */
+.message-container.mine .message {
+    background-color: #ffefc0;
+}
+
+/* 시간 표시 */
+.timestamp {
+    font-family: "Pretendard-Regular", Helvetica;
+    font-size: 12px;
+    color: #777;
+    white-space: nowrap;
+}
+
+/* 입력 영역 */
+.input-area {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    background-color: #ffab73;
+    border-radius: 0 0 15px 15px;
+    gap: 8px;
+}
+
+/* 추가 버튼 (+) */
+.btn-add {
+    width: 43px;
+    height: 43px;
+    background-color: #fff;
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+/* 텍스트 입력 */
+.input-area input {
+    flex: 1;
+    height: 49px;
+    padding: 0 16px;
+    border: none;
+    border-radius: 29.5px;
+    font-family: "Pretendard-Regular", Helvetica;
+    font-size: 18px;
+    outline: none;
+}
+
+/* 전송 버튼 (→) */
+.btn-send {
+    width: 43px;
+    height: 43px;
+    background-color: #fff;
+    border: none;
+    border-radius: 50%;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .chat-room-header .participant-name {
+        font-size: 15px;
+    }
+
+    .chat-room-header .post-title {
+        font-size: 15px;
+    }
+
+    .chat-room-header .post-image {
+        width: 60px;
+        height: 60px;
+    }
+
+    .message {
+        font-size: 15px;
+        padding: 10px;
+    }
+
+    .input-area {
+        flex-direction: row; /* 한 줄 정렬 */
+        flex-wrap: nowrap;
+        align-items: center;
+        padding: 12px;
+        gap: 8px;
+    }
+
+    .input-area input {
+        flex: 1;
+        min-width: 0;
+        height: 30px;
+        font-size: 16px;
+    }
+
+    .btn-send,
+    .btn-add {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+        border-radius: 50%;
+        padding: 0;
+        flex-shrink: 0;
+    }
+}

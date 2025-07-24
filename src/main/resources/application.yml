@@ -1,15 +1,10 @@
 spring:
-  datasource:
-    url: jdbc:h2:tcp://localhost/~/querydsl
-    username: sa
-    password:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:
-    hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        show_sql: true
-        format_sql: true
+
+  config:
+    import: classpath:application-secret.yml
+  profiles:
+    active: secret
+
+
   logging.level:
     org.hibernate.SQL: debug

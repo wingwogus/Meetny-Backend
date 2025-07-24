@@ -1,0 +1,44 @@
+.chat {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    padding: 0 20%;
+    background-color: #ffffff;
+}
+
+.chat-title {
+    font-family: "Pretendard-Medium", Helvetica;
+    font-size: 24px;
+    font-weight: 500;
+    color: #000000;
+    padding: 0 20%;
+}
+
+/* 채팅방 목록 (왼쪽) 래퍼 */
+.chat-room-list-wrapper {
+    flex: 1;
+    min-width: 280px;
+}
+
+/* 채팅창 (오른쪽) 래퍼 */
+.chat-room-wrapper {
+    flex: 2;
+}
+
+/* 모바일: 채팅방 리스트는 아바타만, 채팅창은 남은 공간 */
+@media screen and (max-width: 768px) {
+    .chat {
+        padding: 0 10%;
+        width: 100%;
+    }
+    .chat-room-list-wrapper {
+        flex: 0 0 60px;      /* 아바타 너비와 동일하게 고정 */
+        min-width: auto;
+    }
+    .chat-room-wrapper {
+        flex: 1;
+        max-width: 80%;
+        box-sizing: border-box;
+    }
+}

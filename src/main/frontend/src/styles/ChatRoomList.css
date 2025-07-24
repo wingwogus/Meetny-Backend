@@ -1,0 +1,114 @@
+/* src/styles/ChatRoomList.css */
+
+/* 채팅방 리스트 전체 컨테이너 */
+.chat-room-list {
+    height: calc(100vh - 116px); /* 상단 헤더(64px) 빼고 화면 높이만큼 */
+    background-color: #ffffff;
+    border: 1px solid #d0d0d0;
+    border-radius: 15px;
+    overflow-y: auto;
+    box-sizing: border-box;
+    margin: 0;                      /* 부모가 가운데 정렬할 때 조정 */
+    padding-top: 17px;
+}
+
+/* 각각의 방 아이템 */
+.room-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 5% 10%;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.room-item:hover {
+    background-color: #f6fcfe;
+}
+.room-item.selected {
+    background-color: #eaf7ff;
+}
+
+/* 왼쪽 프로필/아바타 */
+.room-avatar {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    object-fit: cover;
+    background-color: #ddd; /* 사진이 없을 때 대비 */
+}
+
+/* 중앙 텍스트 블록 */
+.room-info {
+    padding-top: 5px;
+    flex: 1;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0; /* 긴 텍스트 넘칠 때 ellipsis 적용을 위해 필요 */
+}
+.room-title {
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 20px;
+    color: #000;
+    white-space: nowrap;
+}
+.room-snippet {
+    margin-top: 6px;
+    font-family: "Pretendard-Regular", Helvetica;
+    font-size: 12px;
+    color: #949494;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+/* 우측 메타 */
+.room-meta {
+    padding-top: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex-shrink: 0;
+    margin-left: 12px;
+}
+.room-time {
+    font-family: "Pretendard-Regular", Helvetica;
+    font-size: 12px;
+    color: #949494;
+    white-space: nowrap;
+}
+.unread-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 26px;
+    height: 26px;
+    background-color: #f8882e;
+    color: #ffffff;
+    font-family: "Pretendard-Medium", Helvetica;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 50%;
+    padding: 0 6px;
+    box-sizing: border-box;
+    margin-top: 10px;
+}
+
+/* 모바일: 방 아이템에서 텍스트·메타 영역 숨기고 아바타만 중앙에 배치 */
+@media screen and (max-width: 768px) {
+    .room-item {
+        justify-content: center;
+        padding: 17px 0;               /* 좌우 패딩 제거 */
+    }
+    .room-avatar {
+        margin: 0 auto;                /* 아바타 중앙 정렬 */
+        width: 40px;
+        height: 40px;
+        border-radius: 15px;
+    }
+    .room-info,
+    .room-meta {
+        display: none;                 /* 텍스트, 시간, 뱃지 숨김 */
+    }
+}

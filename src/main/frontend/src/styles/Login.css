@@ -1,0 +1,295 @@
+.login-screen .mypage {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+
+.login-screen .mypage .div {
+    background-color: #ffffff;
+    height: 1080px;
+    position: relative;
+    width: 1920px;
+}
+
+.login-screen .mypage .overlap {
+    background-color: #fa801e;
+    border-radius: 9.45px;
+    height: 59px;
+    left: 682px;
+    position: absolute;
+    top: 586px;
+    width: 556px;
+}
+
+.login-screen .mypage .text-wrapper {
+    color: #ffffff;
+    font-family: "Pretendard-Bold", Helvetica;
+    font-size: 23.6px;
+    font-weight: 700;
+    left: 247px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 14px;
+    white-space: nowrap;
+}
+
+.login-screen .mypage .overlap-group {
+    background-color: #fff4ea;
+    border: 0.95px solid;
+    border-color: #fbd1af;
+    border-radius: 9.45px;
+    height: 59px;
+    left: 682px;
+    position: absolute;
+    top: 673px;
+    width: 556px;
+}
+
+.login-screen .mypage .text-wrapper-2 {
+    color: #f28a36;
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 23.6px;
+    font-weight: 600;
+    left: 236px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 13px;
+    white-space: nowrap;
+}
+
+.login-screen .mypage .group {
+    height: 96px;
+    left: 682px;
+    position: absolute;
+    top: 290px;
+    width: 560px;
+}
+
+.login-screen .mypage .div-wrapper {
+    background-color: #f9f9f9;
+    border: 0.95px solid;
+    border-color: #d5d5d5;
+    border-radius: 9.45px;
+    height: 58px;
+    left: 0;
+    position: absolute;
+    top: 38px;
+    width: 556px;
+}
+
+
+.login-screen .mypage .input-field {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0 28px;
+    border: none;
+    background: transparent;
+    outline: none;
+    box-sizing: border-box;
+    color: #858585;
+    font-family: "Pretendard-Light", Helvetica;
+    font-size: 18.9px;
+    font-weight: 300;
+    line-height: normal;
+}
+.login-screen .mypage .input-field::placeholder {
+    color: #858585;
+}
+
+.login-screen .mypage .text-wrapper-4 {
+    color: #525252;
+    font-family: "Pretendard-Medium", Helvetica;
+    font-size: 20.8px;
+    font-weight: 500;
+    left: 6px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 0;
+}
+
+.login-screen .mypage .text-wrapper-5 {
+    color: #444444;
+    font-family: "Pretendard-SemiBold", Helvetica;
+    font-size: 26.5px;
+    font-weight: 600;
+    left: 925px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 223px;
+}
+
+.login-screen .mypage .group-2 {
+    height: 96px;
+    left: 682px;
+    position: absolute;
+    top: 413px;
+    width: 560px;
+}
+
+.login-screen .mypage .text-wrapper-6 {
+    color: #f4964a;
+    font-family: "Pretendard-Regular", Helvetica;
+    font-size: 17px;
+    font-weight: 400;
+    left: 1030px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-decoration: underline;
+    top: 526px;
+    white-space: nowrap;
+}
+
+.login-screen .mypage .vector {
+    height: 20px;
+    left: 1118px;
+    position: absolute;
+    top: 529px;
+    width: 1px;
+}
+
+.login-screen .mypage .text-wrapper-7 {
+    color: #f4964a;
+    font-family: "Pretendard-Regular", Helvetica;
+    font-size: 17px;
+    font-weight: 400;
+    left: 1129px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-decoration: underline;
+    top: 526px;
+    white-space: nowrap;
+}
+
+.login-screen .mypage .register-container {
+    height: 65px;
+    left: 818px;
+    overflow: hidden;
+    position: absolute;
+    top: 791px;
+    width: 308px;
+}
+
+.login-screen .mypage .img {
+    height: 60px;
+    left: 0;
+    position: absolute;
+    top: 4px;
+    width: 60px;
+}
+
+.login-screen .mypage .group-3 {
+    height: 60px;
+    left: 83px;
+    position: absolute;
+    top: 4px;
+    width: 60px;
+}
+
+.login-screen .mypage .group-4 {
+    height: 65px;
+    left: 159px;
+    position: absolute;
+    top: 0;
+    width: 72px;
+}
+
+.login-screen .mypage .overlap-group-wrapper {
+    height: 72px;
+    left: 241px;
+    position: absolute;
+    top: -5px;
+    width: 72px;
+}
+
+.login-screen .mypage .clip-path-group-wrapper {
+    background-image: url(https://c.animaapp.com/6EfA1y0Z/img/vector.svg);
+    background-size: 100% 100%;
+    height: 65px;
+    left: 2px;
+    position: relative;
+    top: 5px;
+    width: 64px;
+}
+
+.login-screen .mypage .clip-path-group {
+    height: 27px;
+    left: 20px;
+    position: absolute;
+    top: 17px;
+    width: 27px;
+}
+
+.login-screen .mypage .logo {
+    height: 46px;
+    left: 396px;
+    overflow: hidden;
+    position: absolute;
+    top: 75px;
+    width: 209px;
+}
+
+.login-screen .mypage .group-5 {
+    height: 21px;
+    left: 81px;
+    position: absolute;
+    top: 17px;
+    width: 128px;
+}
+
+.login-screen .mypage .group-6 {
+    height: 46px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 66px;
+}
+
+.login-screen .mypage .overlap-group-2 {
+    height: 46px;
+    position: relative;
+}
+
+.login-screen .mypage .vector-2 {
+    height: 18px;
+    left: 32px;
+    position: absolute;
+    top: 28px;
+    width: 10px;
+}
+
+.login-screen .mypage .group-7 {
+    height: 42px;
+    left: 7px;
+    position: absolute;
+    top: 4px;
+    width: 58px;
+}
+
+.login-screen .mypage .vector-3 {
+    height: 18px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 18px;
+}
+
+
+
+.login-screen .mypage .vector-4 {
+    height: 2px;
+    left: 3px;
+    position: absolute;
+    top: 148px;
+    width: 1917px;
+}
