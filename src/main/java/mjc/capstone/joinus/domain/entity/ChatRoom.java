@@ -26,5 +26,6 @@ public class ChatRoom {
     private Member member;
 
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<Chat> chatList = new ArrayList<>();
 }

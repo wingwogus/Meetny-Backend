@@ -24,8 +24,8 @@ public class MyPageDto {
 
     private CredibilityResponseDto credibility;
 
-    private Long followerCount = 0L;
-    private Long followingCount = 0L;
+    private Long followerCount;
+    private Long followingCount;
 
     private List<PostResponseDto> posts;
 

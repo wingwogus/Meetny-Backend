@@ -41,21 +41,27 @@ public class Member {
     private Address address;
 
     @Column(nullable = false)
+    @Builder.Default
     private Double credibility = 45.0;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<MemberTag> memberTag;
+    @Builder.Default
+    private List<MemberTag> memberTag = new ArrayList<>();
 
     @OneToMany(mappedBy = "fromMember", fetch = FetchType.LAZY)
+    @Builder.Default
     private List<Follow> followings = new ArrayList<>();
 
     @OneToMany(mappedBy = "toMember", fetch = FetchType.LAZY)
+    @Builder.Default
     private List<Follow> followers = new ArrayList<>();
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+    @Builder.Default
     private List<Post> posts = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<PostLike> postLikes = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)

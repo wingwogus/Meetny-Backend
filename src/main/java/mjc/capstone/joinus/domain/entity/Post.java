@@ -31,7 +31,7 @@ public class Post extends BaseTimeEntity {
 
     private LocalDateTime meetingTime;
 
-    private int viewCount = 0;
+    private int viewCount;
 
     private PostStatus status;
 
@@ -43,6 +43,7 @@ public class Post extends BaseTimeEntity {
     private Tag tag;
 
     @OneToMany(mappedBy = "post")
+    @Builder.Default
     private List<PostLike> postLikes = new ArrayList<>();
 
     @OneToOne

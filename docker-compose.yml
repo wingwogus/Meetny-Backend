@@ -1,0 +1,27 @@
+services:
+  meetny-backend:
+    build: ./backend
+    container_name: meetny-backend
+    env_file:
+      - ./backend/.env
+    expose:
+      - "8081"
+    networks:
+      - npm-net
+    restart: unless-stopped
+
+#  meetny-frontend:
+#    build: ./frontend
+#    container_name: meetny-frontend
+#    ports:
+#      - "3000:3000"
+#    networks:
+#      - npm-net
+#   restart: unless-stopped
+
+volumes:
+  mysql-data:
+
+networks:
+  npm-net:
+    external: true
