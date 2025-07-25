@@ -31,6 +31,7 @@ public class ReviewPost {
     private Post post;
 
     @OneToMany(mappedBy = "reviewPost", cascade = CascadeType.ALL)
+    @Builder.Default
     private List<ReviewPostTag> mannerTags = new ArrayList<>();
 
 }

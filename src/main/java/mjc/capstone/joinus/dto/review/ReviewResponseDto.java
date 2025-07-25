@@ -34,6 +34,7 @@ public class ReviewResponseDto {
     @Schema(description = "만남 장소")
     private Address address;
     @Schema(description = "매너 태그 목록")
+    @Builder.Default
     private List<String> mannerTag = new ArrayList<>();
 
     public static ReviewResponseDto from(ReviewPost review){

@@ -62,7 +62,6 @@ public class PostServiceImpl implements PostService {
         postRepository.delete(post);
     }
 
-    @Transactional(readOnly = true)
     @Override
     public PostResponseDto getPostDetail(Post post, Long memberId) {
         if (memberId != null) {
