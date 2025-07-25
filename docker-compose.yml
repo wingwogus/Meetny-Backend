@@ -1,0 +1,66 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: meetny
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - npm-net
+    restart: unless-stopped
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    networks:
+      - npm-net
+    restart: unless-stopped
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "61613:61613"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - npm-net
+    restart: unless-stopped
+    command: >
+      sh -c "rabbitmq-plugins enable --offline rabbitmq_stomp rabbitmq_web_stomp &&
+             rabbitmq-server"
+
+  meetny-backend:
+    build: ./backend
+    container_name: meetny-backend
+    env_file:
+      - ./backend/.env
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - npm-net
+    restart: unless-stopped
+
+#  meetny-frontend:
+#    build: ./frontend
+#    container_name: meetny-frontend
+#    ports:
+#      - "3000:3000"
+#    networks:
+#      - npm-net
+#   restart: unless-stopped
+
+volumes:
+  mysql-data:
+
+networks:
+  npm-net:
+    external: true
