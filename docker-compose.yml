@@ -19,9 +19,6 @@ services:
 #      - npm-net
 #   restart: unless-stopped
 
-volumes:
-  mysql-data:
-
 networks:
   npm-net:
     external: true
