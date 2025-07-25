@@ -107,3 +107,6 @@ springdoc:
     enabled: true
     path: /swagger-ui.html
   override-with-generic-response: false
+
+server:
+  port: 8081
