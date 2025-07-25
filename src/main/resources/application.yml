@@ -9,7 +9,7 @@ spring:
     redis:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
-      database: ${REDID_DB}
+      database: ${REDIS_DB}
 
   rabbitmq:
     host: ${RABBITMQ_HOST}
