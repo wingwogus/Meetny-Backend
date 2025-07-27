@@ -26,6 +26,7 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
             cd /home/${{ secrets.SERVER_USER }}/apps/meetny/backend
+            docker-compose down
             docker-compose build
             docker-compose up -d
           EOF
