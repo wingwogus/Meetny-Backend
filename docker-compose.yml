@@ -10,15 +10,6 @@ services:
       - npm-net
     restart: unless-stopped
 
-  meetny-frontend:
-    build: ./frontend
-    container_name: meetny-frontend
-    expose:
-      - "3001"
-    networks:
-      - npm-net
-    restart: unless-stopped
-
 networks:
   npm-net:
     external: true
