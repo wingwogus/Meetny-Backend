@@ -1,9 +1,9 @@
 services:
   meetny-backend:
-    build: ./backend
+    build: .
     container_name: meetny-backend
     env_file:
-      - ./backend/.env
+      - .env
     expose:
       - "8081"
     networks:
