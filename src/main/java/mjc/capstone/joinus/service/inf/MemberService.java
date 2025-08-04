@@ -22,6 +22,8 @@ public interface MemberService {
 
     void logout(String email);
 
+    void withdraw(Long memberId);
+
     Member findMemberByNickname(String username);
 
     SimpleMemberInfoDto findMemberById(Long id);
