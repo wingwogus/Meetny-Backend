@@ -71,7 +71,7 @@ public class MemberController {
     }
 
     @PostMapping("/logout")
-    @Operation(summary = "로그아웃", description = "로그아웃 처리 및 저장된 RefreshToken 삭제")
+    @Operation(summary = "로그아웃", description = "로그아웃 처리 및 저장된 RefreshToken을 삭제합니다.")
     public ResponseEntity<ApiResponse<Void>> logout(@AuthenticationPrincipal UserDetails userDetails) {
         memberService.logout(userDetails.getUsername());
         return ResponseEntity.ok(ApiResponse.success("로그아웃 성공", null));
@@ -81,6 +81,14 @@ public class MemberController {
     @Operation(summary = "유저 간단 정보 조회", description = "id를 통해 유저의 간단한 정보(닉네임, 신뢰도, 이미지, 태그)를 조회합니다.")
     public ResponseEntity<ApiResponse<SimpleMemberInfoDto>> getSimpleMemberInfo(@PathVariable Long id) {
         return ResponseEntity.ok(ApiResponse.success("유저 정보 조회 성공", memberService.findMemberById(id)));
+    }
+
+    @PostMapping("/withdraw")
+    @Operation(summary = "회원 탈퇴", description = "현재 로그인 된 회원을 탈퇴시킵니다.")
+    public ResponseEntity<ApiResponse<Void>> withdrawMember(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        memberService.withdraw(userDetails.getMember().getId());
+
+        return ResponseEntity.ok(ApiResponse.success("회원 탈퇴 완료", null));
     }
 }
 

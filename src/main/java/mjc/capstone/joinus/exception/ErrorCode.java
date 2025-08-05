@@ -25,8 +25,8 @@ public enum ErrorCode {
     INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_ERROR"),
     NOT_MEMBER_FOUND(HttpStatus.NOT_FOUND, "NOT_MEMBER_FOUND"),
     NOT_VERIFIED_EMAIL(HttpStatus.FORBIDDEN, "NOT_VERIFIED_EMAIL"),
-    SELF_JOIN_NOT_ALLOWED(HttpStatus.FORBIDDEN, "SELF_JOIN_NOT_ALLOWED" );
-    ;
+    SELF_JOIN_NOT_ALLOWED(HttpStatus.FORBIDDEN, "SELF_JOIN_NOT_ALLOWED" ),
+    WITHDRAWN_MEMBER(HttpStatus.FORBIDDEN, "WITHDRAWN_MEMBER");
 
     private final HttpStatus status;
     private final String message;

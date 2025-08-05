@@ -88,7 +88,13 @@ public class MemberServiceImpl implements MemberService {
     public void signup(SignUpRequestDto request) {
         memberRepository.findByUsername(request.getUsername())
                 .ifPresent(a -> {
+                    // 탈퇴 아이디라면
+                    if (a.isDeleted()) {
+                        throw new WithdrawnMemberException();
+                    }
+
                     throw new IllegalArgumentException("이미 존재하는 아이디입니다.");});
+
         String isSuccess = redisService.getValues(VERIFIED_EMAIL_PREFIX + request.getUsername())
                 .orElseThrow(() -> new NotVerifiedEmailException("인증되지 않은 이메일입니다."));
 
@@ -171,7 +177,6 @@ public class MemberServiceImpl implements MemberService {
         redisService.setValues(VERIFIED_EMAIL_PREFIX + email, "true");
     }
 
-    @Transactional
     @Override
     public void logout(String email) {
         Optional<String> refreshToken = redisService.getValues("RT:" + email);
@@ -180,6 +185,18 @@ public class MemberServiceImpl implements MemberService {
         }
 
         redisService.deleteValues("RT:" + email);
+    }
+
+    @Override
+    public void withdraw(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(NotFoundMemberException::new);
+
+        if (member.isDeleted()) {
+            throw new WithdrawnMemberException();
+        }
+
+        member.withdraw();
     }
 
     @Override
