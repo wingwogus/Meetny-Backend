@@ -44,6 +44,9 @@ public class Member {
     @Builder.Default
     private Double credibility = 45.0;
 
+    @Builder.Default
+    private boolean isDeleted = false;
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
     @Builder.Default
     private List<MemberTag> memberTag = new ArrayList<>();
@@ -75,5 +78,9 @@ public class Member {
             this.memberTag.add(memberTag);
             memberTag.setMember(this); // 양방향 설정
         }
+    }
+
+    public void withdraw() {
+        this.isDeleted = true;
     }
 }
